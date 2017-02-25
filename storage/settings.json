@@ -1,0 +1,1 @@
+{"remember_me":"0","notifications_signup_email":"0","forgot_password":"1","login_reset_token_lifetime":"1000","throttle_enabled":true,"throttle_attempts":3,"throttle_lockout_time":2,"reg_enabled":"1","reg_email_confirmation":"1","2fa":{"enabled":true},"app_name":"ContactManager","registration":{"captcha":{"enabled":false}},"tos":"1"}
