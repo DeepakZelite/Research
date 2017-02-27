@@ -331,6 +331,7 @@ return [
 		'create_project' => 'Create Project',
 		'project_created' => 'Project has been created successfully',
 		'project_updated' => 'Project has been updated successfully',
+		'search_for_projects' => "Search for projects",
 		
     'months' => [
         'January' => 'January',

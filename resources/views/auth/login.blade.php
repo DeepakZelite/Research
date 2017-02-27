@@ -28,9 +28,9 @@
             <label for="password" class="sr-only">@lang('app.password')</label>
             <i class="fa fa-lock"></i>
             <input type="password" name="password" id="password" class="form-control" placeholder="@lang('app.password')">
-            @if (settings('forgot_password'))
-                <a href="<?= url('password/remind') ?>" class="forgot">@lang('app.i_forgot_my_password')</a>
-            @endif
+<!--             @if (settings('forgot_password')) -->
+                <!-- <a href="<?= url('password/remind') ?>" class="forgot">@lang('app.i_forgot_my_password')</a> -->
+<!--             @endif -->
         </div>
         <div class="checkbox">
 

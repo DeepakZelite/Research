@@ -37,7 +37,7 @@
          -->
         <div class="col-md-3">
             <div class="input-group custom-search-form">
-                <input type="text" class="form-control" name="search" value="{{ Input::get('search') }}" placeholder="@lang('app.search_for_users')">
+                <input type="text" class="form-control" name="search" value="{{ Input::get('search') }}" placeholder="@lang('app.search_for_projects')">
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="submit" id="search-users-btn">
                         <span class="glyphicon glyphicon-search"></span>

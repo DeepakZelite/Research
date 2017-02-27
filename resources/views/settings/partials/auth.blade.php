@@ -12,7 +12,7 @@
                       title="@lang('app.should_remember_me_be_displayed')"></span>
             </label>
             <br>
-            <input type="hidden" name="remember_me" value="0">
+            <input type="hidden" name="remember_me" value="1">
             {!! Form::checkbox('remember_me', 1, settings('remember_me'), ['class' => 'switch']) !!}
         </div>
 
