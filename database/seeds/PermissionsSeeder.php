@@ -70,6 +70,12 @@ class PermissionsSeeder extends Seeder
         		'removable' => false
         ]);
         $permissions[] = Permission::create([
+        		'name' => 'vendors.manage',
+        		'display_name' => 'Manage Vendors',
+        		'description' => 'Manage Vendors',
+        		'removable' => false
+        ]);
+        $permissions[] = Permission::create([
         		'name' => 'batches.manage',
         		'display_name' => 'Manage batches',
         		'description' => 'Manage batches',

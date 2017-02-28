@@ -78,9 +78,17 @@ $factory->define(Country::class, function (Faker\Generator $faker) {
     ];
 });
 
-	$factory->define(Project::class, function (Faker\Generator $faker) {
+$factory->define(Project::class, function (Faker\Generator $faker) {
 		return [
 				'name' => $faker->name,
 				'name' => $faker->description
 		];
-	});
+});
+
+$factory->define(Vendor::class, function (Faker\Generator $faker) {
+		return [
+				'name' => $faker->name,
+				'name' => $faker->description
+		];
+});
+	

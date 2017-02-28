@@ -15,7 +15,11 @@ return [
     'auth_and_registration' => 'Auth & Registration',
     'notifications' => 'Notifications',
     'action' => 'Action',
-
+	'manage_user' => 'Manage User',
+	'manage_vendor' => 'Vendor profile',
+	'user_management' => 'User Management',
+	'vendors' => 'Vendors',
+		
     // Activity Log Section
     'activity_log' => 'Activity Log',
     'activity_log_sm' => 'activity log',
@@ -332,6 +336,20 @@ return [
 		'project_created' => 'Project has been created successfully',
 		'project_updated' => 'Project has been updated successfully',
 		'search_for_projects' => "Search for projects",
+		
+	'list_of_vendors' => 'List of vendors',
+		'add_vendor' => 'Add vendor',
+		'search_for_vendors' => 'Search for vendors',
+		'create_new_vendor' => 'Create new vendor',
+		'vendor_details' => 'Vendor details',
+		'vendor_details_big' => 'Vendor details',
+		'vendor_name' => 'Vendor Name',
+		'create_vendor' => 'Create vendor',
+		'vendor_created' => 'Vendor has been created successfully',
+		'vendor_updated' => 'Vendor has been updated successfully',
+		'edit_vendor' => 'Edit vendor',
+		'edit_vendor_details' => 'Edit vendor details',
+		'update_vendor' => 'Update vendor',
 		
     'months' => [
         'January' => 'January',

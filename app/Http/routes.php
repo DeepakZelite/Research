@@ -412,4 +412,39 @@ Route::delete('project/{project}/delete', [
 ]);
 
 
+/**
+ * Manage Vendors
+ */
+
+Route::get('vendors', [
+		'as' => 'vendor.list',
+		'uses' => 'VendorsController@index'
+]);
+
+Route::get('vendors/create', [
+		'as' => 'vendor.create',
+		'uses' => 'VendorsController@create'
+]);
+
+Route::post('vendors/store', [
+		'as' => 'vendor.store',
+		'uses' => 'VendorsController@store'
+]);
+
+Route::get('vendors/{vendor}/edit', [
+		'as' => 'vendor.edit',
+		'uses' => 'VendorsController@edit'
+]);
+
+Route::put('vendors/{vendor}/update', [
+		'as' => 'vendor.update',
+		'uses' => 'VendorsController@update'
+]);
+
+Route::delete('vendors/{vendor}/delete', [
+		'as' => 'vendor.delete',
+		'uses' => 'VendorsController@delete'
+]);
+
+
 
