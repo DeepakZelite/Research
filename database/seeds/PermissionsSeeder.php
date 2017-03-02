@@ -81,6 +81,7 @@ class PermissionsSeeder extends Seeder
         		'description' => 'Manage batches',
         		'removable' => false
         ]);
+        
 
         $adminRole->attachPermissions($permissions);
     }

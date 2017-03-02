@@ -91,4 +91,11 @@ $factory->define(Vendor::class, function (Faker\Generator $faker) {
 				'name' => $faker->description
 		];
 });
+
+	$factory->define(Batch::class, function (Faker\Generator $faker) {
+		return [
+				'name' => $faker->name,
+				'name' => $faker->description
+		];
+	});
 	

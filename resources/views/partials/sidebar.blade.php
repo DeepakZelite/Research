@@ -114,7 +114,16 @@
                     </a>
                 </li>
             @endpermission
+
+            @permission('batches.manage')
+                <li class="{{ Request::is('batch*') ? 'active open' : ''  }}">
+                    <a href="{{ route('batch.list') }}" class="{{ Request::is('batch*') ? 'active' : ''  }}">
+                        <i class="fa fa-users fa-fw"></i> @lang('app.batches')
+                    </a>
+                </li>
+            @endpermission
             
+
             @permission(['settings.general', 'settings.auth', 'settings.notifications'])
             <li class="{{ Request::is('settings*') ? 'active open' : ''  }}">
                 <a href="#">
@@ -125,5 +134,14 @@
              
         </ul>
     </div>
+    
+                        @permission('permissions.manage') 
+                            <li>
+                                <a href="{{ route('permission.index') }}"
+                                   class="{{ Request::is('permission*') ? 'active' : ''  }}">@lang('app.permissions')</a>
+                            </li>
+                        @endpermission
+    
+    
     <!-- /.sidebar-collapse -->
 </div>

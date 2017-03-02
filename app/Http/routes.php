@@ -447,4 +447,37 @@ Route::delete('vendors/{vendor}/delete', [
 ]);
 
 
+/**
+ * Manage Batches
+ */
+
+Route::get('batch', [
+		'as' => 'batch.list',
+		'uses' => 'BatchesController@index'
+]);
+
+Route::get('batch/create', [
+		'as' => 'batch.create',
+		'uses' => 'BatchesController@create'
+]);
+
+Route::post('batch/store', [
+		'as' => 'batch.store',
+		'uses' => 'BatchesController@store'
+]);
+
+Route::get('batch/{batch}/edit', [
+		'as' => 'batch.edit',
+		'uses' => 'BatchesController@edit'
+]);
+
+Route::put('batch/{batch}/update', [
+		'as' => 'batch.update',
+		'uses' => 'BatchesController@update'
+]);
+
+Route::delete('batch/{batch}/delete', [
+		'as' => 'batch.delete',
+		'uses' => 'BatchesController@delete'
+]);
 

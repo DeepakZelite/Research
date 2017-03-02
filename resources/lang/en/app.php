@@ -350,6 +350,23 @@ return [
 		'edit_vendor' => 'Edit vendor',
 		'edit_vendor_details' => 'Edit vendor details',
 		'update_vendor' => 'Update vendor',
+
+		// Batches
+		'batches' => 'Batches',
+		'Company' => 'Compnay',
+		'list_of_batches' => 'List of batches',
+		'add_batch' => 'Add batch',
+		'edit_batch' => 'Edit batch',
+		'batch_details_big' => 'Batch Details',
+		'update_batch' => 'Update Batch',
+		'edit_batch_details' => 'Edit batch details',
+		'create_new_batch' => 'Create New Batch',
+		'batch_details' => 'Batch Details',
+		'batch_name' => 'Batch Name',
+		'create_batch' => 'Create Batch',
+		'batch_created' => 'Batch has been created successfully',
+		'batch_updated' => 'Batch has been updated successfully',
+		'search_for_batches' => "Search for batches",
 		
     'months' => [
         'January' => 'January',
