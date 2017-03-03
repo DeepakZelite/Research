@@ -33,6 +33,11 @@
         <div class="panel panel-default">
             <div class="panel-heading">@lang('app.batch_details_big')</div>
             <div class="panel-body">
+            	<div class="form-group">
+                    <label for="project_id">@lang('app.project')</label>
+                    {!! Form::select('project_id', $projects, $edit ? $batch->project_id : '',
+                        ['class' => 'form-control', 'id' => 'project_id']) !!}
+                </div>
                 <div class="form-group">
                     <label for="name">@lang('app.name')</label>
                     <input type="text" class="form-control" id="name"

@@ -84,6 +84,14 @@ class EloquentProject implements ProjectRepository
     {
         return Project::count();
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function lists($column = 'name', $key = 'id')
+    {
+    	return Project::lists($column, $key);
+    }
 
     /**
      * {@inheritdoc}
