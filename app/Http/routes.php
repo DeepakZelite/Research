@@ -48,16 +48,16 @@ if (settings('2fa.enabled')) {
 /**
  * Social Login
  */
-Route::get('auth/{provider}/login', [
-    'as' => 'social.login',
-    'uses' => 'Auth\SocialAuthController@redirectToProvider',
-    'middleware' => 'social.login'
-]);
+//Route::get('auth/{provider}/login', [
+//    'as' => 'social.login',
+//    'uses' => 'Auth\SocialAuthController@redirectToProvider',
+//   'middleware' => 'social.login'
+//]);
 
-Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProviderCallback');
+//Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProviderCallback');
 
-Route::get('auth/twitter/email', 'Auth\SocialAuthController@getTwitterEmail');
-Route::post('auth/twitter/email', 'Auth\SocialAuthController@postTwitterEmail');
+//Route::get('auth/twitter/email', 'Auth\SocialAuthController@getTwitterEmail');
+//Route::post('auth/twitter/email', 'Auth\SocialAuthController@postTwitterEmail');
 
 /**
  * Other
