@@ -50,7 +50,6 @@ class EloquentBatch implements BatchRepository
             });
         }
 
-        $result = $query->paginate($perPage);
         $result = $query
         ->leftjoin('projects', 'projects.id', '=', 'batches.project_id')
         ->leftjoin('vendors', 'vendors.id', '=', 'batches.vendor_id')
