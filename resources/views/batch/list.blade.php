@@ -58,6 +58,8 @@
         <thead>
         	<th>@lang('app.name')</th>
             <th>@lang('app.description')</th>
+            <th>@lang('app.project')</th>
+            <th>@lang('app.vendor')</th>
             <th>&nbsp;</th>
         </thead>
         <tbody>
@@ -65,7 +67,9 @@
                 @foreach ($batches as $batch)
                     <tr>
                         <td>{{ $batch->name }}</td>
-                         bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb                                                     <td>{{ $batch->description }}</td>
+                        <td>{{ $batch->description }}</td>
+                        <td>{{ $batch->project_name }}</td>
+                         <td>{{ $batch->vendor_name }}</td>
                          <td class="text-center">
                             <a href="{{ route('batch.edit', $batch->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_batch')" data-toggle="tooltip" data-placement="top">
