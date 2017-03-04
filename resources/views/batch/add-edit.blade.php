@@ -39,6 +39,11 @@
                         ['class' => 'form-control', 'id' => 'project_id']) !!}
                 </div>
                 <div class="form-group">
+                    <label for="vendor_id">@lang('app.vendor')</label>
+                    {!! Form::select('vendor_id', $vendors, $edit ? $batch->vendor_id : '',
+                        ['class' => 'form-control', 'id' => 'vendor_id']) !!}
+                </div>
+                <div class="form-group">
                     <label for="name">@lang('app.name')</label>
                     <input type="text" class="form-control" id="name"
                            name="name" placeholder="@lang('app.batch_name')" value="{{ $edit ? $batch->name : old('name') }}">

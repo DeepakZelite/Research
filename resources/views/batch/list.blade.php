@@ -56,7 +56,7 @@
 <div class="table-responsive top-border-table" id="users-table-wrapper">
     <table class="table">
         <thead>
-            <th>@lang('app.name')</th>
+        	<th>@lang('app.name')</th>
             <th>@lang('app.description')</th>
             <th>&nbsp;</th>
         </thead>
@@ -65,7 +65,7 @@
                 @foreach ($batches as $batch)
                     <tr>
                         <td>{{ $batch->name }}</td>
-                        <td>{{ $batch->description }}</td>
+                         bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb                                                     <td>{{ $batch->description }}</td>
                          <td class="text-center">
                             <a href="{{ route('batch.edit', $batch->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_batch')" data-toggle="tooltip" data-placement="top">

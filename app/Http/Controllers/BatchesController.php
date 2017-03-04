@@ -13,6 +13,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Vanguard\Repositories\Project\ProjectRepository;
+use Vanguard\Repositories\Vendor\VendorRepository;
 
 /**
  * Class BatchesController - Controls all the operations for batch entity
@@ -57,11 +58,12 @@ class BatchesController extends Controller
 	 * @param RoleRepository $roleRepository
 	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
 	 */
-	public function create(ProjectRepository $projectRepository)
+	public function create(ProjectRepository $projectRepository, VendorRepository $vendorRepository)
 	{
 		$projects = $projectRepository->lists();
+		$vendors = $vendorRepository->lists();
 		$edit = false;
-		return view('batch.add-edit', compact('edit', 'projects'));
+		return view('batch.add-edit', compact('edit', 'projects', 'vendors'));
 	}
 
 	/**
@@ -85,11 +87,13 @@ class BatchesController extends Controller
 	 * @param Batch $batch
 	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
 	 */
-	public function edit(Batch $batch, ProjectRepository $projectRepository)
+	public function edit(Batch $batch, ProjectRepository $projectRepository, VendorRepository $vendorRepository)
 	{
 		$projects = $projectRepository->lists();
+		$vendors = $vendorRepository->lists();
+		
 		$edit = true;
-		return view('batch.add-edit', compact('edit', 'batch', 'projects'));
+		return view('batch.add-edit', compact('edit', 'batch', 'projects', 'vendors'));
 	}
 
 	/**

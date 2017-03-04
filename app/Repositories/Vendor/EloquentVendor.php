@@ -24,6 +24,14 @@ class EloquentVendor implements VendorRepository
     /**
      * {@inheritdoc}
      */
+    public function lists($column = 'name', $key = 'id')
+    {
+    	return Vendor::lists($column, $key);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
     public function findByName($name)
     {
         return Vendor::where('name', $name)->first();
