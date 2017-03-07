@@ -16,6 +16,11 @@ class UpdateProfileDetailsRequest extends Request
     {
         return [
             'birthday' => 'date',
+        		'username' => 'unique:users,username',
+        		'password' => 'required|min:6|confirmed',
+        		'birthday' => 'date',
+        		'role' => 'required|exists:roles,id',
+        		'phone'=>'digits:10'
         ];
     }
 }

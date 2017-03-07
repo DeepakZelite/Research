@@ -14,6 +14,19 @@ $('#birthday').datetimepicker({
     format: 'YYYY-MM-DD'
 });
 
+$('#Start_Date').datetimepicker({
+    viewMode: 'years',
+    format: 'YYYY-MM-DD'
+});
+$('#Expected_date').datetimepicker({
+    viewMode: 'years',
+    format: 'YYYY-MM-DD'
+});
+$('#Target_Date').datetimepicker({
+    viewMode: 'years',
+    format: 'YYYY-MM-DD'
+});
+
 var vHeight = 202,
     image = null,
     croppie = null;

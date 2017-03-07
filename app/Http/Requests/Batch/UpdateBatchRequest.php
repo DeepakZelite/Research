@@ -15,7 +15,8 @@ class UpdateBatchRequest extends Request
     {
     	$batch = $this->route('batch');
     	return [
-    			'name' => 'unique:batches,name,' . $batch->id
+    			'name' => 'unique:batches,name,' . $batch->id,
+    			'Target_Date'=>'required|date',
     	];
     }
 }

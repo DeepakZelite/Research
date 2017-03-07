@@ -48,13 +48,18 @@ class EloquentVendor implements VendorRepository
     /**
      * {@inheritdoc}
      */
-    public function paginate($perPage, $search = null)
+    public function paginate($perPage, $search = null, $status = null)
     {
         $query = Vendor::query();
-
+        
+        if ($status) {
+        	$query->where('status', $status);
+        }
+        
         if ($search) {
             $query->where(function ($q) use($search) {
                 $q->where('name', "like", "%{$search}%");
+                $q->orwhere('contactPerson', "like", "%{$search}%");
             });
         }
 
