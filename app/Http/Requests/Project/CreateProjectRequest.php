@@ -15,7 +15,12 @@ class CreateProjectRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'unique:projects,name'
+            	'name' => 'required|unique:projects,name',
+        		'code'=>'required|regex:/^[\w-]*$/|unique:projects,code',
+        		'Start_Date' => 'required|date',
+        		'Expected_date' => 'required|date',
+        		'No_Companies'=>'required|digits_between:1,4',
+        		'Expected_staff'=>'required|digits_between:1,4',
                ];
     }
 }

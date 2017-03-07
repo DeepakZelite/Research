@@ -39,10 +39,53 @@
                            name="name" placeholder="@lang('app.project_name')" value="{{ $edit ? $project->name : old('name') }}">
                 </div>
                  <div class="form-group">
-                    <label for="description">@lang('app.description')</label>
-                    <input type="text" class="form-control" id="description"
-                           name="description" placeholder="@lang('app.description')" value="{{ $edit ? $project->description : old('description') }}">
+                    <label for="code">@lang('app.code')</label>
+                    <input type="text" class="form-control" id="code"
+                           name="code" placeholder="@lang('app.code')" value="{{ $edit ? $project->code : old('code') }}">
                 </div>
+                <div class="form-group">
+                    <label for="No_Companies">@lang('app.number_of_companies')</label>
+                    <input type="text" class="form-control" id="No_Companies"
+                           name="No_Companies" placeholder="@lang('Number of Companies')" value="{{ $edit ? $project->No_Companies : old('No_Companies') }}">
+                </div>
+                <div class="form-group">
+                    <label for="staff">@lang('app.expected_staff')</label>
+                    <input type="text" class="form-control" id="Expected_staff"
+                           name="Expected_staff" placeholder="@lang('Expected Staff')" value="{{ $edit ? $project->Expected_Staff : old('Expected_Staff') }}">
+                </div>
+                <div class="form-group">
+                    <label for="startdate">@lang('app.start_date')</label>
+                    <div class="form-group">
+							<div class='input-group date'>
+								<input type='text' name="Start_Date" id='Start_Date' value="{{ $edit ? $project->Start_Date : '' }}" class="form-control" />
+								<span class="input-group-addon" style="cursor: default;">
+                                <span class="glyphicon glyphicon-calendar"></span>
+								</span>
+							</div>
+					</div>
+                </div>
+               	<div class="form-group">
+                    <label for="expecteddate">@lang('app.expected_date')</label>
+                    <div class="form-group">
+							<div class='input-group date'>
+								<input type='text' name="Expected_date" id='Expected_date' value="{{ $edit ? $project->Expected_date : '' }}" class="form-control" />
+								<span class="input-group-addon" style="cursor: default;">
+                                <span class="glyphicon glyphicon-calendar"></span>
+								</span>
+							</div>
+						</div>
+                </div>
+                <div class="form-group">
+				  <label class="control-label" for="upload file">@lang('app.task_brief')</label>
+ 					<div class="input-group">
+				    	<input type='text' name="upload" id='upload' placeholder="@lang('app.task_brief')" class="form-control" />
+				    	<span class="input-group-btn">
+				    	<button class="btn btn-success" type="button">@lang('app.upload_task_brief')</button>
+    					</span>
+  					</div>
+				</div>
+                
+                
                 <!-- <div class="form-group">
                     <label for="description">@lang('app.description')</label>
                     <textarea name="description" id="description" class="form-control">{{ $edit ? $project->description : old('description') }}</textarea>
@@ -63,11 +106,18 @@
 </div>
 
 @stop
-
+@section('styles')
+    {!! HTML::style('assets/css/bootstrap-datetimepicker.min.css') !!}
+@stop
 @section('scripts')
     @if ($edit)
         {!! JsValidator::formRequest('Vanguard\Http\Requests\Project\UpdateProjectRequest', '#project-form') !!}
     @else
         {!! JsValidator::formRequest('Vanguard\Http\Requests\Project\CreateProjectRequest', '#project-form') !!}
     @endif
+    {!! HTML::script('assets/js/moment.min.js') !!}
+    {!! HTML::script('assets/js/bootstrap-datetimepicker.min.js') !!}
+    {!! HTML::script('assets/js/as/profile.js') !!}
 @stop
+
+

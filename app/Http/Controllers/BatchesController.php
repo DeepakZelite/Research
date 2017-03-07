@@ -45,7 +45,7 @@ class BatchesController extends Controller
 	 */
 	public function index()
 	{
-		$perPage = 2;
+		$perPage = 5;
 		$batches = $this->batches->paginate($perPage, Input::get('search'));
 		$statuses = ['' => trans('app.all')] + UserStatus::lists(); // Check-Deepak
 		return view('batch.list', compact('batches', 'statuses')); // Check-Deepak
@@ -91,7 +91,6 @@ class BatchesController extends Controller
 	{
 		$projects = $projectRepository->lists();
 		$vendors = $vendorRepository->lists();
-		
 		$edit = true;
 		return view('batch.add-edit', compact('edit', 'batch', 'projects', 'vendors'));
 	}
