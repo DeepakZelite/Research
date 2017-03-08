@@ -13,9 +13,12 @@ class Project extends Model
      */
     protected $table = 'projects';
 
+
     protected $casts = [
         'removable' => 'boolean'
     ];
 
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'code','No_Companies','Expected_Staff','Start_Date','Expected_date'];
+  
+
 }

@@ -43,7 +43,7 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        $perPage = 2;
+        $perPage = 5;
         $projects = $this->projects->paginate($perPage, Input::get('search'));
         $statuses = ['' => trans('app.all')] + UserStatus::lists(); // Check-Deepak
         return view('project.list', compact('projects', 'statuses')); // Check-Deepak

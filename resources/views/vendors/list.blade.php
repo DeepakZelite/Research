@@ -31,10 +31,10 @@
     </div>
     <div class="col-md-5"></div>
     <form method="GET" action="" accept-charset="UTF-8" id="vendors-form">
- <!--        <div class="col-md-2">
+ <!--      <div class="col-md-2">
             {!! Form::select('status', $statuses, Input::get('status'), ['id' => 'status', 'class' => 'form-control']) !!}
         </div>
-         -->
+--> 
         <div class="col-md-3">
             <div class="input-group custom-search-form">
                 <input type="text" class="form-control" name="search" value="{{ Input::get('search') }}" placeholder="@lang('app.search_for_vendors')">
@@ -57,7 +57,12 @@
     <table class="table">
         <thead>
             <th>@lang('app.name')</th>
-            <th>@lang('app.description')</th>
+            <th>@lang('app.location')</th>
+            <th>@lang('app.contact_person')</th>
+            <th>@lang('app.email')</th>
+            <th>@lang('app.phone')</th>
+            <th>@lang('app.mobile')</th>
+            <th>@lang('app.status')</th>
             <th>&nbsp;</th>
         </thead>
         <tbody>
@@ -65,7 +70,14 @@
                 @foreach ($vendors as $vendor)
                     <tr>
                         <td>{{ $vendor->name }}</td>
-                        <td>{{ $vendor->description }}</td>
+                        <td>{{ $vendor->location }}</td>
+                        <td>{{ $vendor->contactPerson }}</td>
+                        <td>{{ $vendor->email }}</td>
+                        <td>{{ $vendor->phone }}</td>
+                        <td>{{ $vendor->mobile }}</td>
+                        <td>
+                            <span class="label label-{{ $vendor->present()->labelClass }}">{{ trans("app.{$vendor->status}") }}</span>
+                        </td>
                          <td class="text-center">
                             <a href="{{ route('vendor.edit', $vendor->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_vendor')" data-toggle="tooltip" data-placement="top">

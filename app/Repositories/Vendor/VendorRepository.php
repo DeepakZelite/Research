@@ -14,7 +14,7 @@ interface VendorRepository
      * @param null $status
      * @return mixed
      */
-    public function paginate($perPage, $search = null);
+    public function paginate($perPage, $search = null, $status = null);
 
     /**
      * Lists all system roles into $key => $column value pairs.

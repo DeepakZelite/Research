@@ -73,11 +73,11 @@ class UserPresenter extends Presenter
                 break;
 
             case UserStatus::BANNED:
-                $class = 'danger';
+                $class = 'warning';
                 break;
 
             default:
-                $class = 'warning';
+                $class = 'danger';
         }
 
         return $class;

@@ -37,12 +37,44 @@
                     <label for="name">@lang('app.name')</label>
                     <input type="text" class="form-control" id="name"
                            name="name" placeholder="@lang('app.vendor_name')" value="{{ $edit ? $vendor->name : old('name') }}">
+                </div>              
+                <div class="form-group">
+                    <label for="vendorCode">@lang('app.vendor_code')</label>
+                    <input type="text" class="form-control" id="vendor_code"
+                           name="vendor_code" placeholder="@lang('app.vendor_code')" value="{{ $edit ? $vendor->vendor_code : old('vendor_code') }}">
                 </div>
-                 <div class="form-group">
-                    <label for="description">@lang('app.description')</label>
-                    <input type="text" class="form-control" id="description"
-                           name="description" placeholder="@lang('app.description')" value="{{ $edit ? $vendor->description : old('description') }}">
+                
+                <div class="form-group">
+                    <label for="location">@lang('app.location')</label>
+                    <input type="text" class="form-control" id="location"
+                           name="location" placeholder="@lang('Location of Vendor')" value="{{ $edit ? $vendor->location : old('location') }}">
                 </div>
+                <div class="form-group">
+                    <label for="contactPerson">@lang('app.contact_person')</label>
+                    <input type="text" class="form-control" id="contactPerson"
+                           name="contactPerson" placeholder="@lang('Contact Person Name')" value="{{ $edit ? $vendor->contactPerson : old('contactPerson') }}">
+                </div>
+                <div class="form-group">
+            		<label for="email">@lang('app.email')</label>
+            		<input type="email" class="form-control" id="email"
+ 	                  name="email" placeholder="@lang('app.email')" value="{{ $edit ? $vendor->email : '' }}">
+		        </div>
+                <div class="form-group">
+                    <label for="phone">@lang('app.phone')</label>
+                    <input type="date" class="form-control" id="phone"
+                           name="phone" placeholder="@lang('phone Number')" value="{{ $edit ? $vendor->phone : old('phone') }}">
+                </div>
+                <div class="form-group">
+                    <label for="mobile">@lang('app.mobile')</label>
+                    <input type="date" class="form-control" id="mobile"
+                           name="mobile" placeholder="@lang('Mobile Number')" value="{{ $edit ? $vendor->mobile : old('mobile') }}">
+                </div>
+                <div class="form-group">
+                    <label for="status">@lang('app.status')</label>
+                    {!! Form::select('status', $statuses, $edit ? $vendor->status : '',
+                        ['class' => 'form-control', 'id' => 'status']) !!}
+                </div> 
+                 
                 <!-- <div class="form-group">
                     <label for="description">@lang('app.description')</label>
                     <textarea name="description" id="description" class="form-control">{{ $edit ? $vendor->description : old('description') }}</textarea>

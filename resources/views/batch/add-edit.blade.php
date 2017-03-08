@@ -34,12 +34,12 @@
             <div class="panel-heading">@lang('app.batch_details_big')</div>
             <div class="panel-body">
             	<div class="form-group">
-                    <label for="project_id">@lang('app.project')</label>
+                    <label for="project_id">@lang('app.project_name')</label>
                     {!! Form::select('project_id', $projects, $edit ? $batch->project_id : '',
                         ['class' => 'form-control', 'id' => 'project_id']) !!}
                 </div>
                 <div class="form-group">
-                    <label for="vendor_id">@lang('app.vendor')</label>
+                    <label for="vendor_id">@lang('app.vendor_name')</label>
                     {!! Form::select('vendor_id', $vendors, $edit ? $batch->vendor_id : '',
                         ['class' => 'form-control', 'id' => 'vendor_id']) !!}
                 </div>
@@ -48,11 +48,31 @@
                     <input type="text" class="form-control" id="name"
                            name="name" placeholder="@lang('app.batch_name')" value="{{ $edit ? $batch->name : old('name') }}">
                 </div>
+		      <div class="form-group">
+                    <label for="startdate">@lang('app.target_date')</label>
+                    <div class="form-group">
+							<div class='input-group date'>
+								<input type='text' name="Target_Date" id='Target_Date' value="{{ $edit ? $batch->Target_Date : '' }}" class="form-control" />
+								<span class="input-group-addon" style="cursor: default;">
+                                <span class="glyphicon glyphicon-calendar"></span>
+								</span>
+							</div>
+					</div>
+                </div>
                  <div class="form-group">
                     <label for="description">@lang('app.description')</label>
                     <input type="text" class="form-control" id="description"
                            name="description" placeholder="@lang('app.description')" value="{{ $edit ? $batch->description : old('description') }}">
                 </div>
+                 <div class="form-group">
+				  <label class="control-label" for="upload file">@lang('app.upload')</label>
+ 					<div class="input-group">
+				    	<input type='text' name="upload" id='upload' placeholder="@lang('app.select')" class="form-control" />
+				    	<span class="input-group-btn">
+				    	<button class="btn btn-success" type="button">@lang('app.upload')</button>
+    					</span>
+  					</div>
+				</div>
                 <!-- <div class="form-group">
                     <label for="description">@lang('app.description')</label>
                     <textarea name="description" id="description" class="form-control">{{ $edit ? $batch->description : old('description') }}</textarea>
@@ -73,11 +93,16 @@
 </div>
 
 @stop
-
+@section('styles')
+    {!! HTML::style('assets/css/bootstrap-datetimepicker.min.css') !!}
+@stop
 @section('scripts')
     @if ($edit)
         {!! JsValidator::formRequest('Vanguard\Http\Requests\Batch\UpdateBatchRequest', '#batch-form') !!}
     @else
         {!! JsValidator::formRequest('Vanguard\Http\Requests\Batch\CreateBatchRequest', '#batch-form') !!}
     @endif
+    {!! HTML::script('assets/js/moment.min.js') !!}
+    {!! HTML::script('assets/js/bootstrap-datetimepicker.min.js') !!}
+    {!! HTML::script('assets/js/as/profile.js') !!}
 @stop

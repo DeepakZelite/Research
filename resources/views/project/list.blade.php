@@ -56,16 +56,24 @@
 <div class="table-responsive top-border-table" id="users-table-wrapper">
     <table class="table">
         <thead>
+        	<th>@lang('app.code')</th>
             <th>@lang('app.name')</th>
-            <th>@lang('app.description')</th>
+            <th>@lang('app.number_of_companies')</th>
+            <th>@lang('app.expected_staff')</th>
+            <th>@lang('app.start_date')</th>
+            <th>@lang('app.expected_date')</th>
             <th>&nbsp;</th>
         </thead>
         <tbody>
             @if (count($projects))
                 @foreach ($projects as $project)
                     <tr>
+                    	<td>{{ $project->code }}</td>
                         <td>{{ $project->name }}</td>
-                        <td>{{ $project->description }}</td>
+                        <td>{{ $project->No_Companies }}</td>
+                        <td>{{ $project->Expected_Staff }}</td>
+                        <td>{{ $project->Start_Date }}</td> 
+                        <td>{{ $project->Expected_date }}</td>                       
                          <td class="text-center">
                             <a href="{{ route('project.edit', $project->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_project')" data-toggle="tooltip" data-placement="top">
