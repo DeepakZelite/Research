@@ -20,7 +20,7 @@ class UpdateProjectRequest extends Request
     			'Start_Date' => 'required|date',
     			'Expected_date' => 'required|date',
     			'No_Companies'=>'required|digits_between:1,4',
-    			'Expected_staff'=>'required|digits_between:1,4',
+    			'Expected_Staff'=>'required|digits_between:1,4',
     	];
     }
 }

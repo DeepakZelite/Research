@@ -50,8 +50,8 @@
                 </div>
                 <div class="form-group">
                     <label for="staff">@lang('app.expected_staff')</label>
-                    <input type="text" class="form-control" id="Expected_staff"
-                           name="Expected_staff" placeholder="@lang('Expected Staff')" value="{{ $edit ? $project->Expected_Staff : old('Expected_Staff') }}">
+                    <input type="text" class="form-control" id="Expected_Staff"
+                           name="Expected_Staff" placeholder="@lang('Expected Staff')" value="{{ $edit ? $project->Expected_Staff : old('Expected_Staff') }}">
                 </div>
                 <div class="form-group">
                     <label for="startdate">@lang('app.start_date')</label>
