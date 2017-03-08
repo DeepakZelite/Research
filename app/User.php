@@ -41,7 +41,7 @@ class User extends Model implements AuthenticatableContract,
      */
     protected $fillable = [
         'name', 'email', 'password', 'username', 'first_name', 'last_name', 'phone', 'avatar',
-        'address', 'country_id', 'birthday', 'last_login', 'confirmation_token', 'status',
+        'address','vendor_id', 'country_id', 'birthday', 'last_login', 'confirmation_token', 'status',
         'group_id', 'remember_token'
     ];
 
@@ -90,6 +90,14 @@ class User extends Model implements AuthenticatableContract,
         return $this->status == UserStatus::BANNED;
     }
 
+    
+    public function isInActive()
+    {
+    	return $this->status == UserStatus::INACTIVE;
+    }
+
+    
+    
     public function socialNetworks()
     {
         return $this->hasOne(UserSocialNetworks::class, 'user_id');

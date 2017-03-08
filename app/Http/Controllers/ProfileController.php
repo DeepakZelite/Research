@@ -15,6 +15,7 @@ use Vanguard\Repositories\Country\CountryRepository;
 use Vanguard\Repositories\Role\RoleRepository;
 use Vanguard\Repositories\Session\SessionRepository;
 use Vanguard\Repositories\User\UserRepository;
+use Vanguard\Repositories\Vendor\VendorRepository;
 use Vanguard\Services\Upload\UserAvatarManager;
 use Vanguard\Support\Enum\UserStatus;
 use Vanguard\User;
@@ -57,18 +58,19 @@ class ProfileController extends Controller
      * @param CountryRepository $countryRepository
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(RoleRepository $rolesRepo, CountryRepository $countryRepository)
+    public function index(RoleRepository $rolesRepo, CountryRepository $countryRepository,VendorRepository $vendorRepository)
     {
         $user = $this->theUser;
         $edit = true;
         $roles = $rolesRepo->lists();
         $socials = $user->socialNetworks;
         $countries = $countryRepository->lists()->toArray();
+        $vendors=$vendorRepository->lists();
         $socialLogins = $this->users->getUserSocialLogins($this->theUser->id);
         $statuses = UserStatus::lists();
 
         return view('user/profile',
-            compact('user', 'edit', 'roles', 'countries', 'socialLogins', 'socials', 'statuses'));
+            compact('user', 'edit', 'roles', 'countries', 'socialLogins', 'socials', 'statuses','vendors'));
     }
 
     /**

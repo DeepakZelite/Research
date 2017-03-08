@@ -15,7 +15,13 @@ class UpdateVendorRequest extends Request
     {
     	$vendor = $this->route('vendor');
     	return [
-    			'name' => 'unique:vendors,name,' . $vendor->id
+    			'name' => 'required|unique:vendors,name,' . $vendor->id,
+    			'vendor_code'=>'required|regex:/^[\w-]*$/|unique:vendors,vendor_code',
+    			'location'=>'required',
+    			'contactPerson'=>'required',
+    			'phone'=>'required|digits:10',
+    			'email'=>'required|email',
+    			'mobile'=>'digits:10'
     	];
     }
 }

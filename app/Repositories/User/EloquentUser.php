@@ -86,20 +86,24 @@ class EloquentUser implements UserRepository
         $query = User::query();
 
         if ($status) {
-            $query->where('status', $status);
+            $query->where('users.status', $status);
         }
 
         if ($search) {
             $query->where(function ($q) use($search) {
-                $q->where('username', "like", "%{$search}%");
-                $q->orWhere('email', 'like', "%{$search}%");
-                $q->orWhere('first_name', 'like', "%{$search}%");
-                $q->orWhere('last_name', 'like', "%{$search}%");
+                $q->where('users.username', "like", "%{$search}%");
+                $q->orWhere('users.email', 'like', "%{$search}%");
+                $q->orWhere('users.first_name', 'like', "%{$search}%");
+                $q->orWhere('users.last_name', 'like', "%{$search}%");
             });
         }
 
-        $result = $query->paginate($perPage);
+        //$result = $query->paginate($perPage);
 
+        $result = $query
+        ->leftjoin('vendors', 'vendors.id', '=', 'users.vendor_id')
+        ->select('users.*', 'vendors.name as vendor_name')
+        ->paginate($perPage);
         if ($search) {
             $result->appends(['search' => $search]);
         }

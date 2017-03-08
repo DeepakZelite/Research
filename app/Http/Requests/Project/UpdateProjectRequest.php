@@ -15,7 +15,12 @@ class UpdateProjectRequest extends Request
     {
     	$project = $this->route('project');
     	return [
-    			'name' => 'unique:projects,name,' . $project->id
+    			'name' => 'required|unique:projects,name,' . $project->id,
+    			'code'=>'required|regex:/^[\w-]*$/',
+    			'Start_Date' => 'required|date',
+    			'Expected_date' => 'required|date',
+    			'No_Companies'=>'required|digits_between:1,4',
+    			'Expected_staff'=>'required|digits_between:1,4',
     	];
     }
 }
