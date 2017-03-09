@@ -21,6 +21,11 @@ use Vanguard\Repositories\Vendor\VendorRepository;
 use Vanguard\Repositories\Vendor\EloquentVendor;
 use Vanguard\Repositories\Batch\BatchRepository;
 use Vanguard\Repositories\Batch\EloquentBatch;
+use Vanguard\Repositories\SubBatch\SubBatchRepository;
+use Vanguard\Repositories\SubBatch\EloquentSubBatch;
+use Vanguard\Repositories\Company\CompanyRepository;
+use Vanguard\Repositories\Company\EloquentCompany;
+
 
 use Illuminate\Support\ServiceProvider;
 
@@ -52,6 +57,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ProjectRepository::class, EloquentProject::class);
         $this->app->singleton(VendorRepository::class, EloquentVendor::class);
         $this->app->singleton(BatchRepository::class, EloquentBatch::class);
+        $this->app->singleton(SubBatchRepository::class, EloquentSubBatch::class);
+        $this->app->singleton(CompanyRepository::class, EloquentCompany::class);
         
         if ($this->app->environment('local')) {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);

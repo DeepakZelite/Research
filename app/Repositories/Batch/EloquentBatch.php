@@ -109,5 +109,22 @@ class EloquentBatch implements BatchRepository
             ->limit($count)
             ->get();
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function lists($column = 'name', $key = 'id')
+    {
+    	return Batch::lists($column, $key);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getVendorBatches($vendorId)
+    {
+    	return Batch::where('vendor_id', $vendorId)->lists('name', 'id');
+    }
+    
 
 }

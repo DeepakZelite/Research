@@ -61,12 +61,12 @@
 		        </div>
                 <div class="form-group">
                     <label for="phone">@lang('app.phone')</label>
-                    <input type="date" class="form-control" id="phone"
+                    <input type="phone" class="form-control" id="phone"
                            name="phone" placeholder="@lang('phone Number')" value="{{ $edit ? $vendor->phone : old('phone') }}">
                 </div>
                 <div class="form-group">
                     <label for="mobile">@lang('app.mobile')</label>
-                    <input type="date" class="form-control" id="mobile"
+                    <input type="mobile" class="form-control" id="mobile"
                            name="mobile" placeholder="@lang('Mobile Number')" value="{{ $edit ? $vendor->mobile : old('mobile') }}">
                 </div>
                 <div class="form-group">

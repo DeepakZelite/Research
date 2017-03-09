@@ -88,7 +88,7 @@ class SettingsController extends Controller
     /**
      * Enable registration captcha.
      *
-     * @return mixed
+     * @return  mixed
      */
     public function enableCaptcha()
     {

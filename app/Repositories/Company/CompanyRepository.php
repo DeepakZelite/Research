@@ -1,10 +1,10 @@
 <?php
 
-namespace Vanguard\Repositories\Batch;
+namespace Vanguard\Repositories\Company;
 
-use Vanguard\Batch;
+use Vanguard\Company;
 
-interface BatchRepository
+interface CompanyRepository
 {
     /**
      * Paginate registered users.
@@ -16,6 +16,16 @@ interface BatchRepository
      */
     public function paginate($perPage, $search = null);
 
+    /**
+     * Lists all system roles into $key => $column value pairs.
+     *
+     * @param string $column
+     * @param string $key
+     * @return mixed
+     */
+    public function lists($column = 'name', $key = 'id');
+    
+    
     /**
      * Find user by its id.
      *
@@ -65,11 +75,25 @@ interface BatchRepository
     public function count();
 
     /**
+     * No of unassigned companies.
+     *
+     * @return mixed
+     */
+    public function getUnAssignedCount($batchId);
+    
+    /**
+     * No of total no of companies in batch.
+     *
+     * @return mixed
+     */
+    public function getTotalCompanyCount($batchId);
+    
+    /**
      * Number of users registered during current month.
      *
      * @return mixed
      */
-    public function newBatchesCount();
+    public function newCompanysCount();
 
      /**
      * Get latest {$count} users from database.
@@ -78,22 +102,5 @@ interface BatchRepository
      * @return mixed
      */
     public function latest($count = 20);
- 
-    /**
-     * Lists all system roles into $key => $column value pairs.
-     *
-     * @param string $column
-     * @param string $key
-     * @return mixed
-     */
-    public function lists($column = 'name', $key = 'id');
- 
-    /**
-     * Lists all system roles into $key => $column value pairs.
-     *
-     * @param string $column
-     * @param string $key
-     * @return mixed
-     */
-    public function getVendorBatches($vendorId);
+    
 }

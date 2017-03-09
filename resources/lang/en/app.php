@@ -387,6 +387,18 @@ return [
 		'upload'=>'Upload File',
 		'select'=>'Select File',
 		
+		// Batch Allocation
+		'no_of_records' => 'Enter no of records',
+		'assign' => 'Assign',
+		'no_of_companies' => 'No of companies',
+		'unassigned_companies' => 'Unassigned companies',
+		'subBatches' => 'Work Allocation',
+		'list_of_subBatches' => '',
+		'sub_batch_name' => 'Sub Batch Name',
+		'assigned_user' => 'Assigned User',
+		'companies' => 'Companies',
+		'search' => 'search',
+		
     'months' => [
         'January' => 'January',
         'February' => 'February',

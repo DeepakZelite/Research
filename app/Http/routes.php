@@ -481,3 +481,42 @@ Route::delete('batch/{batch}/delete', [
 		'uses' => 'BatchesController@delete'
 ]);
 
+/**
+ * Manage SubBatches
+ */
+
+Route::get('subBatch', [
+		'as' => 'subBatch.list',
+		'uses' => 'SubBatchesController@index'
+]);
+
+Route::get('subBatch/getCompanyCount', [
+		'as' => 'subBatch.getCompanyCount',
+		'uses' => 'SubBatchesController@getCompanyCount'
+]);
+
+Route::get('subBatch/create', [
+		'as' => 'subBatch.create',
+		'uses' => 'SubBatchesController@create'
+]);
+
+Route::post('subBatch/store', [
+		'as' => 'subBatch.store',
+		'uses' => 'SubBatchesController@store'
+]);
+
+Route::get('subBatch/{subBatch}/edit', [
+		'as' => 'subBatch.edit',
+		'uses' => 'SubBatchesController@edit'
+]);
+
+Route::put('subBatch/{subBatch}/update', [
+		'as' => 'subBatch.update',
+		'uses' => 'SubBatchesController@update'
+]);
+
+Route::delete('subBatch/{subBatch}/delete', [
+		'as' => 'subBatch.delete',
+		'uses' => 'SubBatchesController@delete'
+]);
+
