@@ -297,6 +297,7 @@ return [
     'Active' => 'Active',
     'Banned' => 'Banned',
     'Unconfirmed' => 'Unconfirmed',
+	'In-Active'=>'In-Active',
 
     'user_created' => 'User created successfully.',
     'user_updated' => 'User updated successfully.',
@@ -306,6 +307,7 @@ return [
     '2fa_not_enabled_user' => 'Two-Factor Authentication is not enabled for this user.',
     'you_have_to_accept_tos' => 'You have to accept Terms of Service.',
     'permission_already_exists' => 'Permission with this name already exists!',
+	'select_vendor'=>'Select Vendor',
 
     //Emails
     'hi' => 'Hi',
@@ -336,6 +338,14 @@ return [
 		'project_created' => 'Project has been created successfully',
 		'project_updated' => 'Project has been updated successfully',
 		'search_for_projects' => "Search for projects",
+		'number_of_companies' => "No. of Companies",
+		'expected_staff' => "Expected Staff",
+		'start_date' => "Start Date",
+		'expected_date' => "Expected Date",
+		'task_brief'=>'Task Brief',
+		'upload_task_brief'=>"Upload Task Brief File",
+		'code'=>'Project Code',
+		
 		
 	'list_of_vendors' => 'List of vendors',
 		'add_vendor' => 'Add vendor',
@@ -350,6 +360,10 @@ return [
 		'edit_vendor' => 'Edit vendor',
 		'edit_vendor_details' => 'Edit vendor details',
 		'update_vendor' => 'Update vendor',
+		'location'=>'Location',
+		'contact_person'=>'Contact Person',
+		'mobile'=>'Mobile Number',
+		'vendor_code'=>'Vendor Code',
 
 		// Batches
 		'batches' => 'Batches',
@@ -367,6 +381,11 @@ return [
 		'batch_created' => 'Batch has been created successfully',
 		'batch_updated' => 'Batch has been updated successfully',
 		'search_for_batches' => "Search for batches",
+		'project_name' =>"Project Name",
+		'vendor_name'=>"Vendor Name",
+		'target_date'=>'Target Date',
+		'upload'=>'Upload File',
+		'select'=>'Select File',
 		
     'months' => [
         'January' => 'January',

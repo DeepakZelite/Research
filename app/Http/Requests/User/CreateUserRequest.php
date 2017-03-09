@@ -19,7 +19,8 @@ class CreateUserRequest extends Request
             'username' => 'unique:users,username',
             'password' => 'required|min:6|confirmed',
             'birthday' => 'date',
-            'role' => 'required|exists:roles,id'
+            'role' => 'required|exists:roles,id',
+        	'phone'=>'digits:10'
         ];
     }
 }

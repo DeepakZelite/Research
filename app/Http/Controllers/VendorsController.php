@@ -13,6 +13,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
+
 /**
  * Class VendorsController - Controls all the operations for vendor entity
  * @package Vanguard\Http\Controllers
@@ -43,9 +44,9 @@ class VendorsController extends Controller
      */
     public function index()
     {
-        $perPage = 2;
-        $vendors = $this->vendors->paginate($perPage, Input::get('search'));
-        $statuses = ['' => trans('app.all')] + UserStatus::lists(); // Check-Deepak
+        $perPage = 5;
+        $vendors = $this->vendors->paginate($perPage, Input::get('search'), Input::get('status'));
+        $statuses = ['' => trans('app.all')] + UserStatus::lists1(); // Check-Deepak
         return view('vendors.list', compact('vendors', 'statuses')); // Check-Deepak
     }
 
@@ -58,8 +59,9 @@ class VendorsController extends Controller
      */
     public function create()
     {
+    	$statuses = UserStatus::lists1();
     	$edit = false;
-        return view('vendors.add-edit', compact('edit'));
+        return view('vendors.add-edit', compact('edit','statuses'));
     }
 
     /**
@@ -85,8 +87,9 @@ class VendorsController extends Controller
      */
     public function edit(Vendor $vendor)
     {
+    	$statuses = UserStatus::lists1();
         $edit = true;
-        return view('vendors.add-edit', compact('edit', 'vendor'));
+        return view('vendors.add-edit', compact('edit', 'vendor','statuses'));
     }
 
     /**

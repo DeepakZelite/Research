@@ -17,6 +17,7 @@ use Vanguard\Repositories\Country\CountryRepository;
 use Vanguard\Repositories\Role\RoleRepository;
 use Vanguard\Repositories\Session\SessionRepository;
 use Vanguard\Repositories\User\UserRepository;
+use Vanguard\Repositories\Vendor\VendorRepository;
 use Vanguard\Services\Upload\UserAvatarManager;
 use Vanguard\Support\Enum\UserStatus;
 use Vanguard\User;
@@ -55,10 +56,10 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $perPage = 20;
+        $perPage = 5;
 
         $users = $this->users->paginate($perPage, Input::get('search'), Input::get('status'));
-        $statuses = ['' => trans('app.all')] + UserStatus::lists();
+        $statuses = ['' => trans('app.all')] + UserStatus::lists1();
 
         return view('user.list', compact('users', 'statuses'));
     }
@@ -86,13 +87,14 @@ class UsersController extends Controller
      * @param RoleRepository $roleRepository
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create(CountryRepository $countryRepository, RoleRepository $roleRepository)
+    public function create(CountryRepository $countryRepository, RoleRepository $roleRepository, VendorRepository $vendorRepository)
     {
         $countries = $countryRepository->lists();
         $roles = $roleRepository->lists();
-        $statuses = UserStatus::lists();
+        $vendors=$vendorRepository->lists();
+        $statuses = UserStatus::lists1();
 
-        return view('user.add', compact('countries', 'roles', 'statuses'));
+        return view('user.add', compact('countries', 'roles', 'statuses','vendors'));
     }
 
     /**
@@ -129,17 +131,18 @@ class UsersController extends Controller
      * @param RoleRepository $roleRepository
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(User $user, CountryRepository $countryRepository, RoleRepository $roleRepository)
+    public function edit(User $user, CountryRepository $countryRepository, RoleRepository $roleRepository, VendorRepository $vendorRepository)
     {
         $edit = true;
         $countries = $countryRepository->lists();
         $socials = $user->socialNetworks;
         $roles = $roleRepository->lists();
-        $statuses = UserStatus::lists();
+        $vendors=$vendorRepository->lists();
+        $statuses = UserStatus::lists1();
         $socialLogins = $this->users->getUserSocialLogins($user->id);
 
         return view('user.edit',
-            compact('edit', 'user', 'countries', 'socials', 'socialLogins', 'roles', 'statuses'));
+            compact('edit', 'user', 'countries', 'socials', 'socialLogins', 'roles', 'statuses','vendors'));
     }
 
     /**
@@ -177,7 +180,7 @@ class UsersController extends Controller
     {
         return $user->status != $request->status && $request->status == UserStatus::BANNED;
     }
-
+	
     /**
      * Update user's avatar from uploaded image.
      *

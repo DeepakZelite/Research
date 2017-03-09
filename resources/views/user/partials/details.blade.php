@@ -13,6 +13,14 @@
                     {!! Form::select('status', $statuses, $edit ? $user->status : '',
                         ['class' => 'form-control', 'id' => 'status', $profile ? 'disabled' : '']) !!}
                 </div>
+                
+                <div class="form-group">
+                    <label for="vendor_id">@lang('app.select_vendor')</label>
+                    {!! Form::select('vendor_id', $vendors, $edit ? $user->vendor_id : '',
+                        ['class' => 'form-control', 'id' => 'vendor_id',$profile ? 'disabled' : '']) !!}
+                </div>
+                
+       
                 <div class="form-group">
                     <label for="first_name">@lang('app.first_name')</label>
                     <input type="text" class="form-control" id="first_name"
@@ -23,6 +31,7 @@
                     <input type="text" class="form-control" id="last_name"
                            name="last_name" placeholder="@lang('app.last_name')" value="{{ $edit ? $user->last_name : '' }}">
                 </div>
+                
             </div>
 
             <div class="col-md-6">
