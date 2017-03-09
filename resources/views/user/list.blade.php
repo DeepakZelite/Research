@@ -59,7 +59,7 @@
             <th>@lang('app.full_name')</th>
             <th>@lang('app.vendor_name')</th>
             <th>@lang('app.email')</th>
-            <th>@lang('app.registration_date')</th>
+          <!--   <th>@lang('app.registration_date')</th> -->
             <th>@lang('app.status')</th>
             <th class="text-center">@lang('app.action')</th>
         </thead>
@@ -71,7 +71,7 @@
                         <td>{{ $user->first_name . ' ' . $user->last_name }}</td>
                         <td>{{$user->vendor_name}}</td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->created_at->format('Y-m-d') }}</td>
+                   <!--      <td>{{ $user->created_at->format('Y-m-d') }}</td> -->
                         <td>
                             <span class="label label-{{ $user->present()->labelClass }}">{{ trans("app.{$user->status}") }}</span>
                         </td>

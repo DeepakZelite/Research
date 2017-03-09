@@ -167,4 +167,23 @@ interface UserRepository
      * @return mixed
      */
     public function findByConfirmationToken($token);
+    
+    /**
+     * Lists all system roles into $key => $column value pairs.
+     *
+     * @param string $column
+     * @param string $key
+     * @return mixed
+     */
+    public function lists($column = 'name', $key = 'id');
+    
+    /**
+     * Lists all system roles into $key => $column value pairs.
+     *
+     * @param string $column
+     * @param string $key
+     * @return mixed
+     */
+    public function getVendorUsers($vendorId);
+    
 }

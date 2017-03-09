@@ -271,4 +271,21 @@ class EloquentUser implements UserRepository
             ->where('role_id', $fromRoleId)
             ->update(['role_id' => $toRoleId]);
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function lists($column = 'username', $key = 'id')
+    {
+    	return User::lists($column, $key);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getVendorUsers($vendorId)
+    {
+    	return User::where('vendor_id', $vendorId)->lists('username', 'id');
+    }
+    
 }

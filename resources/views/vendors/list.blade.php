@@ -58,10 +58,10 @@
         <thead>
             <th>@lang('app.name')</th>
             <th>@lang('app.location')</th>
-            <th>@lang('app.contact_person')</th>
+        <!--    <th>@lang('app.contact_person')</th>
             <th>@lang('app.email')</th>
             <th>@lang('app.phone')</th>
-            <th>@lang('app.mobile')</th>
+            <th>@lang('app.mobile')</th>-->
             <th>@lang('app.status')</th>
             <th>&nbsp;</th>
         </thead>
@@ -71,10 +71,10 @@
                     <tr>
                         <td>{{ $vendor->name }}</td>
                         <td>{{ $vendor->location }}</td>
-                        <td>{{ $vendor->contactPerson }}</td>
+                     <!--    <td>{{ $vendor->contactPerson }}</td>
                         <td>{{ $vendor->email }}</td>
                         <td>{{ $vendor->phone }}</td>
-                        <td>{{ $vendor->mobile }}</td>
+                        <td>{{ $vendor->mobile }}</td> -->
                         <td>
                             <span class="label label-{{ $vendor->present()->labelClass }}">{{ trans("app.{$vendor->status}") }}</span>
                         </td>

@@ -123,6 +123,14 @@
                 </li>
             @endpermission
             
+            @permission('batch.allocation')
+                <li class="{{ Request::is('subBatch*') ? 'active open' : ''  }}">
+                    <a href="{{ route('subBatch.list') }}" class="{{ Request::is('subBatch*') ? 'active' : ''  }}">
+                        <i class="fa fa-users fa-fw"></i> @lang('app.subBatches')
+                    </a>
+                </li>
+            @endpermission
+            
 
             @permission(['settings.general', 'settings.auth', 'settings.notifications'])
             <li class="{{ Request::is('settings*') ? 'active open' : ''  }}">

@@ -59,11 +59,11 @@
 							</div>
 					</div>
                 </div>
-                 <div class="form-group">
+               <!--   <div class="form-group">
                     <label for="description">@lang('app.description')</label>
                     <input type="text" class="form-control" id="description"
                            name="description" placeholder="@lang('app.description')" value="{{ $edit ? $batch->description : old('description') }}">
-                </div>
+                </div> -->
                  <div class="form-group">
 				  <label class="control-label" for="upload file">@lang('app.upload')</label>
  					<div class="input-group">
