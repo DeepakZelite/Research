@@ -23,9 +23,9 @@
 @include('partials.messages')
 
 @if ($edit)
-    {!! Form::open(['route' => ['project.update', $project->id], 'method' => 'PUT', 'id' => 'project-form']) !!}
+    {!! Form::open(['route' => ['project.update', $project->id], 'method' => 'PUT','files' => true, 'id' => 'project-form']) !!}
 @else
-    {!! Form::open(['route' => 'project.store', 'id' => 'project-form']) !!}
+    {!! Form::open(['route' => 'project.store', 'id' => 'project-form','files'=>true ]) !!}
 @endif
 
 <div class="row">
@@ -78,14 +78,14 @@
                 <div class="form-group">
 				  <label class="control-label" for="upload file">@lang('app.task_brief')</label>
  					<div class="input-group">
-				    	<input type='text' name="upload" id='upload' placeholder="@lang('app.task_brief')" class="form-control" />
+				    	<input type='text' name="upload" id='upload' value="choose file" class="form-control" />
 				    	<span class="input-group-btn">
-				    	<button class="btn btn-success" type="button">@lang('app.upload_task_brief')</button>
+				    	<input type="file" accept=".pdf" class="file" id="attachement" name="attachement" style="display: none;" onchange="fileSelected(this)"/>
+				    	<button class="btn btn-success" type="button" id="btnAttachment" onclick="openAttachment()">@lang('app.upload_task_brief')</button>
     					</span>
   					</div>
 				</div>
-                
-                
+
                 <!-- <div class="form-group">
                     <label for="description">@lang('app.description')</label>
                     <textarea name="description" id="description" class="form-control">{{ $edit ? $project->description : old('description') }}</textarea>
@@ -110,14 +110,22 @@
     {!! HTML::style('assets/css/bootstrap-datetimepicker.min.css') !!}
 @stop
 @section('scripts')
+    <script>
+	function openAttachment() {
+	  document.getElementById('attachement').click();
+	}
+
+	function fileSelected(input){
+	  document.getElementById('upload').value =input.files[0].name
+	}
+    </script>
+    {!! HTML::script('assets/js/moment.min.js') !!}
+    {!! HTML::script('assets/js/bootstrap-datetimepicker.min.js') !!}
+    {!! HTML::script('assets/js/as/profile.js') !!}
     @if ($edit)
         {!! JsValidator::formRequest('Vanguard\Http\Requests\Project\UpdateProjectRequest', '#project-form') !!}
     @else
         {!! JsValidator::formRequest('Vanguard\Http\Requests\Project\CreateProjectRequest', '#project-form') !!}
     @endif
-    {!! HTML::script('assets/js/moment.min.js') !!}
-    {!! HTML::script('assets/js/bootstrap-datetimepicker.min.js') !!}
-    {!! HTML::script('assets/js/as/profile.js') !!}
 @stop
-
 

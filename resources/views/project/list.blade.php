@@ -60,8 +60,8 @@
             <th>@lang('app.name')</th>
             <th>@lang('app.number_of_companies')</th>
             <th>@lang('app.expected_staff')</th>
-          <!--   <th>@lang('app.start_date')</th>
-            <th>@lang('app.expected_date')</th> -->
+            <th>@lang('app.task_brief')</th>
+           <!-- <th>@lang('app.expected_date')</th> -->
             <th>&nbsp;</th>
         </thead>
         <tbody>
@@ -72,8 +72,12 @@
                         <td>{{ $project->name }}</td>
                         <td>{{ $project->No_Companies }}</td>
                         <td>{{ $project->Expected_Staff }}</td>
-                       <!--  <td>{{ $project->Start_Date }}</td> 
-                        <td>{{ $project->Expected_date }}</td>  -->                      
+                         <td><a href="{{ URL::to('project/download',$project->brief_file) }}" class="btn btn-primary btn-circle"
+                               title="@lang('app.download')" data-toggle="tooltip" data-placement="top">
+                                <i class="glyphicons glyphicons-info-sign"></i>
+                            </a>
+                         </td> 
+                       <!-- <td>{{ $project->Expected_date }}</td>  -->                      
                          <td class="text-center">
                             <a href="{{ route('project.edit', $project->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_project')" data-toggle="tooltip" data-placement="top">

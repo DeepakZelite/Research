@@ -11,6 +11,7 @@ use Vanguard\Support\Enum\UserStatus;
 use Vanguard\Project;
 use Auth;
 use Illuminate\Http\Request;
+use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
 
 /**
@@ -72,6 +73,13 @@ class ProjectsController extends Controller
     {
         $data = $request->all();
         $project = $this->projects->create($data);
+        	$file = Input::file('attachement');
+        	$destinationPath = public_path() .'/upload/';
+        	$filename =$request->name.''.rand(1,20) .'.'. $file->getClientOriginalExtension();
+        	$file->move($destinationPath, $filename);
+        	$projects=Project::find($project->id);
+        	$projects->brief_file=$filename;
+        	$projects->save();
         return redirect()->route('project.list')
             ->withSuccess(trans('app.project_created'));
     }
@@ -97,8 +105,16 @@ class ProjectsController extends Controller
      */
     public function update(Project $project, UpdateProjectRequest $request)
     {
-    	$this->projects->update($project->id, $request->all());
-    	return redirect()->route('project.list')
-    		->withSuccess(trans('app.project_updated'));
+    	
+    		$file = Input::file('attachement');
+    		$destinationPath = public_path() .'/upload/';
+    		$filename =$request->name.''.rand(1,20) .'.'. $file->getClientOriginalExtension();
+    		$file->move($destinationPath, $filename);
+    		$this->projects->update($project->id, $request->all());
+    		$projects=Project::find($project->id);
+    		$projects->brief_file=$filename;
+    		$projects->save();
+    		return redirect()->route('project.list')
+    			->withSuccess(trans('app.project_updated'));
     }
   }

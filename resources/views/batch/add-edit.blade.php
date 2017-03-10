@@ -23,9 +23,9 @@
 @include('partials.messages')
 
 @if ($edit)
-    {!! Form::open(['route' => ['batch.update', $batch->id], 'method' => 'PUT', 'id' => 'batch-form']) !!}
+    {!! Form::open(['route' => ['batch.update', $batch->id], 'method' => 'PUT','files' => true, 'id' => 'batch-form']) !!}
 @else
-    {!! Form::open(['route' => 'batch.store', 'id' => 'batch-form']) !!}
+    {!! Form::open(['route' => 'batch.store','files' => true, 'id' => 'batch-form']) !!}
 @endif
 
 <div class="row">
@@ -67,9 +67,10 @@
                  <div class="form-group">
 				  <label class="control-label" for="upload file">@lang('app.upload')</label>
  					<div class="input-group">
-				    	<input type='text' name="upload" id='upload' placeholder="@lang('app.select')" class="form-control" />
+				    	<input type='text' name="upload" id='upload' value="choose file" class="form-control" />
 				    	<span class="input-group-btn">
-				    	<button class="btn btn-success" type="button">@lang('app.upload')</button>
+				    	<input type="file" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="file" id="attachement" name="attachement" style="display: none;" onchange="fileSelected(this)"/>
+				    	<button class="btn btn-success" type="button" id="btnAttachment" onclick="openAttachment()">@lang('app.upload')</button>
     					</span>
   					</div>
 				</div>
@@ -97,6 +98,15 @@
     {!! HTML::style('assets/css/bootstrap-datetimepicker.min.css') !!}
 @stop
 @section('scripts')
+    <script>
+	function openAttachment() {
+	  document.getElementById('attachement').click();
+	}
+
+	function fileSelected(input){
+	  document.getElementById('upload').value =input.files[0].name
+	}
+    </script>
     @if ($edit)
         {!! JsValidator::formRequest('Vanguard\Http\Requests\Batch\UpdateBatchRequest', '#batch-form') !!}
     @else
