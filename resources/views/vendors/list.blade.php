@@ -29,7 +29,7 @@
             @lang('app.add_vendor')
         </a>
     </div>
-    <div class="col-md-5"></div>
+    <div class="col-md-7"></div>
     <form method="GET" action="" accept-charset="UTF-8" id="vendors-form">
  <!--      <div class="col-md-2">
             {!! Form::select('status', $statuses, Input::get('status'), ['id' => 'status', 'class' => 'form-control']) !!}
@@ -63,7 +63,7 @@
             <th>@lang('app.phone')</th>
             <th>@lang('app.mobile')</th>-->
             <th>@lang('app.status')</th>
-            <th>&nbsp;</th>
+            <th class="text-center">@lang('app.action')</th>
         </thead>
         <tbody>
             @if (count($vendors))

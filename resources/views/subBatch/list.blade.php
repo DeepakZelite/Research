@@ -26,6 +26,7 @@
     <div class="col-md-12">
     <!-- <form method="GET" action="" accept-charset="UTF-8" id="assign-form"> -->
     	{!! Form::open(['route' => 'subBatch.store', 'id' => 'assign-form']) !!}
+         
          <div class="col-md-3">
             {!! Form::select('batch_id', $batches, Input::get('batch'), ['class' => 'form-control', 'id' => 'batch_id']) !!}
         </div>

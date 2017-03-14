@@ -58,8 +58,8 @@
             <th>@lang('app.username')</th>
             <th>@lang('app.full_name')</th>
             <th>@lang('app.vendor_name')</th>
-            <th>@lang('app.email')</th>
-          <!--   <th>@lang('app.registration_date')</th> -->
+          <!--  <th>@lang('app.email')</th>
+             <th>@lang('app.registration_date')</th> -->
             <th>@lang('app.status')</th>
             <th class="text-center">@lang('app.action')</th>
         </thead>
@@ -70,8 +70,8 @@
                         <td>{{ $user->username ?: trans('app.n_a') }}</td>
                         <td>{{ $user->first_name . ' ' . $user->last_name }}</td>
                         <td>{{$user->vendor_name}}</td>
-                        <td>{{ $user->email }}</td>
-                   <!--      <td>{{ $user->created_at->format('Y-m-d') }}</td> -->
+                   <!--     <td>{{ $user->email }}</td>
+                         <td>{{ $user->created_at->format('Y-m-d') }}</td> -->
                         <td>
                             <span class="label label-{{ $user->present()->labelClass }}">{{ trans("app.{$user->status}") }}</span>
                         </td>
@@ -91,7 +91,7 @@
                                     data-toggle="tooltip" data-placement="top">
                                 <i class="glyphicon glyphicon-edit"></i>
                             </a>
-                            <a href="{{ route('user.delete', $user->id) }}" class="btn btn-danger btn-circle" title="@lang('app.delete_user')"
+                         <!--    <a href="{{ route('user.delete', $user->id) }}" class="btn btn-danger btn-circle" title="@lang('app.delete_user')"
                                     data-toggle="tooltip"
                                     data-placement="top"
                                     data-method="DELETE"
@@ -99,7 +99,7 @@
                                     data-confirm-text="@lang('app.are_you_sure_delete_user')"
                                     data-confirm-delete="@lang('app.yes_delete_him')'">
                                 <i class="glyphicon glyphicon-trash"></i>
-                            </a>
+                            </a> -->
                         </td>
                     </tr>
                 @endforeach

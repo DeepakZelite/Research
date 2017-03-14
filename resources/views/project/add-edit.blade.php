@@ -33,28 +33,28 @@
         <div class="panel panel-default">
             <div class="panel-heading">@lang('app.project_details_big')</div>
             <div class="panel-body">
-                <div class="form-group">
+              <!--   <div class="form-group">
                     <label for="name">@lang('app.name')</label>
                     <input type="text" class="form-control" id="name"
                            name="name" placeholder="@lang('app.project_name')" value="{{ $edit ? $project->name : old('name') }}">
-                </div>
+                </div> -->
                  <div class="form-group">
-                    <label for="code">@lang('app.code')</label>
+                    <label for="code">@lang('app.code')<i style="color:red;">*</i></label>
                     <input type="text" class="form-control" id="code"
-                           name="code" placeholder="@lang('app.code')" value="{{ $edit ? $project->code : old('code') }}">
+                           name="code" placeholder="@lang('app.code')" value="{{ $edit ? $project->code : old('code') }}" @if($edit) readonly="readonly" @endif>
                 </div>
                 <div class="form-group">
-                    <label for="No_Companies">@lang('app.number_of_companies')</label>
+                    <label for="No_Companies">@lang('app.number_of_companies')<i style="color:red;">*</i></label>
                     <input type="text" class="form-control" id="No_Companies"
                            name="No_Companies" placeholder="@lang('Number of Companies')" value="{{ $edit ? $project->No_Companies : old('No_Companies') }}">
                 </div>
                 <div class="form-group">
-                    <label for="staff">@lang('app.expected_staff')</label>
+                    <label for="staff">@lang('app.expected_staff')<i style="color:red;">*</i></label>
                     <input type="text" class="form-control" id="Expected_Staff"
                            name="Expected_Staff" placeholder="@lang('Expected Staff')" value="{{ $edit ? $project->Expected_Staff : old('Expected_Staff') }}">
                 </div>
                 <div class="form-group">
-                    <label for="startdate">@lang('app.start_date')</label>
+                    <label for="startdate">@lang('app.start_date')<i style="color:red;">*</i></label>
                     <div class="form-group">
 							<div class='input-group date'>
 								<input type='text' name="Start_Date" id='Start_Date' value="{{ $edit ? $project->Start_Date : '' }}" class="form-control" />
@@ -65,7 +65,7 @@
 					</div>
                 </div>
                	<div class="form-group">
-                    <label for="expecteddate">@lang('app.expected_date')</label>
+                    <label for="expecteddate">@lang('app.expected_date')<i style="color:red;">*</i></label>
                     <div class="form-group">
 							<div class='input-group date'>
 								<input type='text' name="Expected_date" id='Expected_date' value="{{ $edit ? $project->Expected_date : '' }}" class="form-control" />
@@ -76,7 +76,7 @@
 						</div>
                 </div>
                 <div class="form-group">
-				  <label class="control-label" for="upload file">@lang('app.task_brief')</label>
+				  <label class="control-label" for="upload file">@lang('app.task_brief')<i style="color:red;">*</i></label>
  					<div class="input-group">
 				    	<input type='text' name="upload" id='upload' value="choose file" class="form-control" />
 				    	<span class="input-group-btn">

@@ -33,34 +33,43 @@
         <div class="panel panel-default">
             <div class="panel-heading">@lang('app.vendor_details_big')</div>
             <div class="panel-body">
+                <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name">@lang('app.name')</label>
+                    <label for="name">@lang('app.name')<i style="color:red;">*</i></label>
                     <input type="text" class="form-control" id="name"
                            name="name" placeholder="@lang('app.vendor_name')" value="{{ $edit ? $vendor->name : old('name') }}">
                 </div>              
                 <div class="form-group">
-                    <label for="vendorCode">@lang('app.vendor_code')</label>
-                    <input type="text" class="form-control" id="vendor_code"
-                           name="vendor_code" placeholder="@lang('app.vendor_code')" value="{{ $edit ? $vendor->vendor_code : old('vendor_code') }}">
+                    <label for="vendorCode">@lang('app.vendor_code')<i style="color:red;">*</i></label>
+                    @if($edit)
+                    	<input type="text" class="form-control" id="vendor_code"
+                           name="vendor_code" placeholder="@lang('app.vendor_code')" readonly="readonly" value="{{ $edit ? $vendor->vendor_code : old('vendor_code') }}">
+                    @else
+                    	<input type="text" class="form-control" id="vendor_code"
+                           name="vendor_code" placeholder="@lang('app.vendor_code')" value="{{ $edit ? $vendor->vendor_code : old('vendor_code') }}">                      
+                    @endif
                 </div>
                 
                 <div class="form-group">
-                    <label for="location">@lang('app.location')</label>
+                    <label for="location">@lang('app.location')<i style="color:red;">*</i></label>
                     <input type="text" class="form-control" id="location"
                            name="location" placeholder="@lang('Location of Vendor')" value="{{ $edit ? $vendor->location : old('location') }}">
                 </div>
+                
                 <div class="form-group">
-                    <label for="contactPerson">@lang('app.contact_person')</label>
+                    <label for="contactPerson">@lang('app.contact_person')<i style="color:red;">*</i></label>
                     <input type="text" class="form-control" id="contactPerson"
                            name="contactPerson" placeholder="@lang('Contact Person Name')" value="{{ $edit ? $vendor->contactPerson : old('contactPerson') }}">
                 </div>
+                </div>
+                <div class="col-md-6">
                 <div class="form-group">
-            		<label for="email">@lang('app.email')</label>
+            		<label for="email">@lang('app.email')<i style="color:red;">*</i></label>
             		<input type="email" class="form-control" id="email"
  	                  name="email" placeholder="@lang('app.email')" value="{{ $edit ? $vendor->email : '' }}">
 		        </div>
                 <div class="form-group">
-                    <label for="phone">@lang('app.phone')</label>
+                    <label for="phone">@lang('app.phone')<i style="color:red;">*</i></label>
                     <input type="phone" class="form-control" id="phone"
                            name="phone" placeholder="@lang('phone Number')" value="{{ $edit ? $vendor->phone : old('phone') }}">
                 </div>
@@ -70,10 +79,11 @@
                            name="mobile" placeholder="@lang('Mobile Number')" value="{{ $edit ? $vendor->mobile : old('mobile') }}">
                 </div>
                 <div class="form-group">
-                    <label for="status">@lang('app.status')</label>
+                    <label for="status">@lang('app.status')<i style="color:red;">*</i></label>
                     {!! Form::select('status', $statuses, $edit ? $vendor->status : '',
                         ['class' => 'form-control', 'id' => 'status']) !!}
                 </div> 
+                </div>
                  
                 <!-- <div class="form-group">
                     <label for="description">@lang('app.description')</label>

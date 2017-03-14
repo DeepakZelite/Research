@@ -75,7 +75,7 @@ class ProjectsController extends Controller
         $project = $this->projects->create($data);
         	$file = Input::file('attachement');
         	$destinationPath = public_path() .'/upload/';
-        	$filename =$request->name.''.rand(1,20) .'.'. $file->getClientOriginalExtension();
+        	$filename =$request->code.''.rand(1,20) .'.'. $file->getClientOriginalExtension();
         	$file->move($destinationPath, $filename);
         	$projects=Project::find($project->id);
         	$projects->brief_file=$filename;
@@ -108,7 +108,7 @@ class ProjectsController extends Controller
     	
     		$file = Input::file('attachement');
     		$destinationPath = public_path() .'/upload/';
-    		$filename =$request->name.''.rand(1,20) .'.'. $file->getClientOriginalExtension();
+    		$filename =$request->code.''.'('.rand(1,20).').'. $file->getClientOriginalExtension();
     		$file->move($destinationPath, $filename);
     		$this->projects->update($project->id, $request->all());
     		$projects=Project::find($project->id);

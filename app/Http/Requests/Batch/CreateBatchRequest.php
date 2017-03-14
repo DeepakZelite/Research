@@ -15,9 +15,9 @@ class CreateBatchRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required|unique:vendors,name',
-        	'Target_Date'=>'required|date',
-        	//'upload'=>'required'
+            	'name' => 'required|unique:batches,name',
+        		'Target_Date'=>'required|date',
+        		'attachement'=>'required|file',
                ];
     }
 }
