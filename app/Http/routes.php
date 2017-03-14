@@ -401,6 +401,24 @@ Route::get('project/{project}/edit', [
 		'uses' => 'ProjectsController@edit'
 ]);
 
+Route::get('project/download/{filename}', function($filename)
+{
+	// Check if file exists in app/storage/file folder
+	$file_path = public_path() .'/upload/'. $filename;
+	if (file_exists($file_path))
+	{
+		// Send Download
+		return Response::download($file_path, $filename, [
+				'Content-Length: '. filesize($file_path)
+		]);
+	}
+	else
+	{
+		// Error
+		exit('Requested file does not exist on our server!');
+	}
+});
+
 Route::put('project/{project}/update', [
 		'as' => 'project.update',
 		'uses' => 'ProjectsController@update'
@@ -479,5 +497,44 @@ Route::put('batch/{batch}/update', [
 Route::delete('batch/{batch}/delete', [
 		'as' => 'batch.delete',
 		'uses' => 'BatchesController@delete'
+]);
+
+/**
+ * Manage SubBatches
+ */
+
+Route::get('subBatch', [
+		'as' => 'subBatch.list',
+		'uses' => 'SubBatchesController@index'
+]);
+
+Route::get('subBatch/getCompanyCount', [
+		'as' => 'subBatch.getCompanyCount',
+		'uses' => 'SubBatchesController@getCompanyCount'
+]);
+
+Route::get('subBatch/create', [
+		'as' => 'subBatch.create',
+		'uses' => 'SubBatchesController@create'
+]);
+
+Route::post('subBatch/store', [
+		'as' => 'subBatch.store',
+		'uses' => 'SubBatchesController@store'
+]);
+
+Route::get('subBatch/{subBatch}/edit', [
+		'as' => 'subBatch.edit',
+		'uses' => 'SubBatchesController@edit'
+]);
+
+Route::put('subBatch/{subBatch}/update', [
+		'as' => 'subBatch.update',
+		'uses' => 'SubBatchesController@update'
+]);
+
+Route::delete('subBatch/{subBatch}/delete', [
+		'as' => 'subBatch.delete',
+		'uses' => 'SubBatchesController@delete'
 ]);
 

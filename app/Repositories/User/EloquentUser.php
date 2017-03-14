@@ -92,7 +92,7 @@ class EloquentUser implements UserRepository
         if ($search) {
             $query->where(function ($q) use($search) {
                 $q->where('users.username', "like", "%{$search}%");
-                $q->orWhere('users.email', 'like', "%{$search}%");
+                $q->orWhere('vendors.name', 'like', "%{$search}%");
                 $q->orWhere('users.first_name', 'like', "%{$search}%");
                 $q->orWhere('users.last_name', 'like', "%{$search}%");
             });
@@ -271,4 +271,21 @@ class EloquentUser implements UserRepository
             ->where('role_id', $fromRoleId)
             ->update(['role_id' => $toRoleId]);
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function lists($column = 'username', $key = 'id')
+    {
+    	return User::lists($column, $key);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getVendorUsers($vendorId)
+    {
+    	return User::where('vendor_id', $vendorId)->lists('username', 'id');
+    }
+    
 }

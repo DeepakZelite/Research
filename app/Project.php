@@ -18,7 +18,7 @@ class Project extends Model
         'removable' => 'boolean'
     ];
 
-    protected $fillable = ['name', 'code','No_Companies','Expected_Staff','Start_Date','Expected_date'];
-  
+    protected $fillable = ['name', 'code','No_Companies','Expected_Staff','brief_file','Start_Date','Expected_date'];
+//  	protected $fillable = ['brief_file'];
 
 }

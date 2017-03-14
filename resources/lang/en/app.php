@@ -345,7 +345,8 @@ return [
 		'task_brief'=>'Task Brief',
 		'upload_task_brief'=>"Upload Task Brief File",
 		'code'=>'Project Code',
-		
+		'task_brief'=>'Task Brief',
+		'download'=>'Download',
 		
 	'list_of_vendors' => 'List of vendors',
 		'add_vendor' => 'Add vendor',
@@ -386,6 +387,18 @@ return [
 		'target_date'=>'Target Date',
 		'upload'=>'Upload File',
 		'select'=>'Select File',
+		
+		// Batch Allocation
+		'no_of_records' => 'Enter no of records',
+		'assign' => 'Assign',
+		'no_of_companies' => 'No of companies',
+		'unassigned_companies' => 'Unassigned companies',
+		'subBatches' => 'Work Allocation',
+		'list_of_subBatches' => '',
+		'sub_batch_name' => 'Sub Batch Name',
+		'assigned_user' => 'Assigned User',
+		'companies' => 'Companies',
+		'search' => 'search',
 		
     'months' => [
         'January' => 'January',

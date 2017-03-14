@@ -29,7 +29,7 @@
             @lang('app.add_vendor')
         </a>
     </div>
-    <div class="col-md-5"></div>
+    <div class="col-md-7"></div>
     <form method="GET" action="" accept-charset="UTF-8" id="vendors-form">
  <!--      <div class="col-md-2">
             {!! Form::select('status', $statuses, Input::get('status'), ['id' => 'status', 'class' => 'form-control']) !!}
@@ -58,12 +58,12 @@
         <thead>
             <th>@lang('app.name')</th>
             <th>@lang('app.location')</th>
-            <th>@lang('app.contact_person')</th>
+        <!--    <th>@lang('app.contact_person')</th>
             <th>@lang('app.email')</th>
             <th>@lang('app.phone')</th>
-            <th>@lang('app.mobile')</th>
+            <th>@lang('app.mobile')</th>-->
             <th>@lang('app.status')</th>
-            <th>&nbsp;</th>
+            <th class="text-center">@lang('app.action')</th>
         </thead>
         <tbody>
             @if (count($vendors))
@@ -71,10 +71,10 @@
                     <tr>
                         <td>{{ $vendor->name }}</td>
                         <td>{{ $vendor->location }}</td>
-                        <td>{{ $vendor->contactPerson }}</td>
+                     <!--    <td>{{ $vendor->contactPerson }}</td>
                         <td>{{ $vendor->email }}</td>
                         <td>{{ $vendor->phone }}</td>
-                        <td>{{ $vendor->mobile }}</td>
+                        <td>{{ $vendor->mobile }}</td> -->
                         <td>
                             <span class="label label-{{ $vendor->present()->labelClass }}">{{ trans("app.{$vendor->status}") }}</span>
                         </td>

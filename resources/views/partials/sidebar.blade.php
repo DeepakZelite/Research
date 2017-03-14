@@ -22,16 +22,17 @@
                         <span class="fa arrow"></span>
                     </a>
                     <ul class="nav nav-second-level collapse">
+                             <li>
+                                <a href="{{ route('vendor.list') }}" class="{{ Request::is('vendors*') ? 'active' : ''  }}">
+                                    @lang('app.manage_vendor')
+                                </a>
+                            </li>
                             <li>
                                 <a href="{{ route('user.list') }}" class="{{ Request::is('user*') ? 'active' : ''  }}">
                                     @lang('app.manage_user')
                                 </a>
                             </li>
-                               <li>
-                                <a href="{{ route('vendor.list') }}" class="{{ Request::is('vendors*') ? 'active' : ''  }}">
-                                    @lang('app.manage_vendor')
-                                </a>
-                            </li>
+                              
                     </ul>
                     
                    
@@ -119,6 +120,14 @@
                 <li class="{{ Request::is('batch*') ? 'active open' : ''  }}">
                     <a href="{{ route('batch.list') }}" class="{{ Request::is('batch*') ? 'active' : ''  }}">
                         <i class="fa fa-users fa-fw"></i> @lang('app.batches')
+                    </a>
+                </li>
+            @endpermission
+            
+            @permission('batch.allocation')
+                <li class="{{ Request::is('subBatch*') ? 'active open' : ''  }}">
+                    <a href="{{ route('subBatch.list') }}" class="{{ Request::is('subBatch*') ? 'active' : ''  }}">
+                        <i class="fa fa-users fa-fw"></i> @lang('app.subBatches')
                     </a>
                 </li>
             @endpermission

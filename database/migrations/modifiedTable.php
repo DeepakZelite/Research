@@ -56,6 +56,35 @@ CREATE TABLE  `student`.`vendors` (
   UNIQUE KEY `vendors_name_unique` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE `sub_batches` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `project_id` int(10) unsigned DEFAULT NULL,
+  `vendor_id` int(10) unsigned NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(10) DEFAULT NULL,
+  `status` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `removable` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `batch_id` int(10) DEFAULT NULL,
+  `company_count` int(10) DEFAULT NULL,
+  `seq_no` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `companies` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `batch_id` int(10) unsigned DEFAULT NULL,
+  `sub_batch_id` int(10) unsigned DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` date DEFAULT NULL,
+  `status` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `removable` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 
 DROP TABLE IF EXISTS `student`.`users`;

@@ -81,6 +81,12 @@ class PermissionsSeeder extends Seeder
         		'description' => 'Manage batches',
         		'removable' => false
         ]);
+        $permissions[] = Permission::create([
+        		'name' => 'subBatches.manage',
+        		'display_name' => 'Manage subBatches',
+        		'description' => 'Manage subBatches',
+        		'removable' => false
+        ]);
         
 
         $adminRole->attachPermissions($permissions);

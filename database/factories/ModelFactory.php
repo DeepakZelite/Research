@@ -98,4 +98,17 @@ $factory->define(Vendor::class, function (Faker\Generator $faker) {
 				'name' => $faker->description
 		];
 	});
+
+$factory->define(SubBatch::class, function (Faker\Generator $faker) {
+		return [
+				'name' => $faker->name,
+				'name' => $faker->description
+		];
+	});
+
+	$factory->define(Company::class, function (Faker\Generator $faker) {
+		return [
+				'name' => $faker->name
+		];
+	});
 	

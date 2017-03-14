@@ -46,7 +46,9 @@ class EloquentProject implements ProjectRepository
 
         if ($search) {
             $query->where(function ($q) use($search) {
-                $q->where('name', "like", "%{$search}%");
+                $q->where('code', "like", "%{$search}%");
+                $q->orwhere('No_Companies', "like", "%{$search}%");
+                $q->orwhere('Expected_staff', "like", "%{$search}%");
             });
         }
 
@@ -88,7 +90,7 @@ class EloquentProject implements ProjectRepository
     /**
      * {@inheritdoc}
      */
-    public function lists($column = 'name', $key = 'id')
+    public function lists($column = 'code', $key = 'id')
     {
     	return Project::lists($column, $key);
     }

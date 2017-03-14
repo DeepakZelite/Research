@@ -29,7 +29,7 @@
             @lang('app.add_project')
         </a>
     </div>
-    <div class="col-md-5"></div>
+    <div class="col-md-7"></div>
     <form method="GET" action="" accept-charset="UTF-8" id="projects-form">
  <!--        <div class="col-md-2">
             {!! Form::select('status', $statuses, Input::get('status'), ['id' => 'status', 'class' => 'form-control']) !!}
@@ -57,23 +57,27 @@
     <table class="table">
         <thead>
         	<th>@lang('app.code')</th>
-            <th>@lang('app.name')</th>
+           <!--  <th>@lang('app.name')</th> -->
             <th>@lang('app.number_of_companies')</th>
             <th>@lang('app.expected_staff')</th>
-            <th>@lang('app.start_date')</th>
-            <th>@lang('app.expected_date')</th>
-            <th>&nbsp;</th>
+           <!-- <th>@lang('app.task_brief')</th>
+            <th>@lang('app.expected_date')</th> -->
+            <th class="text-center">@lang('app.action')</th>
         </thead>
         <tbody>
             @if (count($projects))
                 @foreach ($projects as $project)
                     <tr>
                     	<td>{{ $project->code }}</td>
-                        <td>{{ $project->name }}</td>
+                     <!--    <td>{{ $project->name }}</td> -->
                         <td>{{ $project->No_Companies }}</td>
                         <td>{{ $project->Expected_Staff }}</td>
-                        <td>{{ $project->Start_Date }}</td> 
-                        <td>{{ $project->Expected_date }}</td>                       
+                      <!--   <td><a href="{{ URL::to('project/download',$project->brief_file) }}" class="btn btn-primary btn-circle"
+                               title="@lang('app.download')" data-toggle="tooltip" data-placement="top">
+                                <i class="glyphicons glyphicons-info-sign"></i>
+                            </a>
+                         </td> 
+                        <td>{{ $project->Expected_date }}</td>  -->                      
                          <td class="text-center">
                             <a href="{{ route('project.edit', $project->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_project')" data-toggle="tooltip" data-placement="top">
