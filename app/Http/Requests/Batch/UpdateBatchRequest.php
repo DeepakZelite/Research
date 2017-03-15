@@ -17,6 +17,7 @@ class UpdateBatchRequest extends Request
     	return [
     			'name' => 'unique:batches,name,' . $batch->id,
     			'Target_Date'=>'required|date',
+    			'attachement'=>'required|file',
     	];
     }
 }

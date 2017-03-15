@@ -23,9 +23,9 @@
 @include('partials.messages')
 
 @if ($edit)
-    {!! Form::open(['route' => ['batch.update', $batch->id], 'method' => 'PUT', 'id' => 'batch-form']) !!}
+    {!! Form::open(['route' => ['batch.update', $batch->id], 'method' => 'PUT','files' => true, 'id' => 'batch-form']) !!}
 @else
-    {!! Form::open(['route' => 'batch.store', 'id' => 'batch-form']) !!}
+    {!! Form::open(['route' => 'batch.store','files' => true, 'id' => 'batch-form']) !!}
 @endif
 
 <div class="row">
@@ -34,22 +34,22 @@
             <div class="panel-heading">@lang('app.batch_details_big')</div>
             <div class="panel-body">
             	<div class="form-group">
-                    <label for="project_id">@lang('app.project_name')</label>
+                    <label for="project_id">@lang('app.project_name')<i style="color:red;">*</i></label>
                     {!! Form::select('project_id', $projects, $edit ? $batch->project_id : '',
                         ['class' => 'form-control', 'id' => 'project_id']) !!}
                 </div>
                 <div class="form-group">
-                    <label for="vendor_id">@lang('app.vendor_name')</label>
+                    <label for="vendor_id">@lang('app.vendor_name')<i style="color:red;">*</i></label>
                     {!! Form::select('vendor_id', $vendors, $edit ? $batch->vendor_id : '',
                         ['class' => 'form-control', 'id' => 'vendor_id']) !!}
                 </div>
                 <div class="form-group">
-                    <label for="name">@lang('app.name')</label>
+                    <label for="name">@lang('app.name')<i style="color:red;">*</i></label>
                     <input type="text" class="form-control" id="name"
-                           name="name" placeholder="@lang('app.batch_name')" value="{{ $edit ? $batch->name : old('name') }}">
+                           name="name" placeholder="@lang('app.batch_name')" value="{{ $edit ? $batch->name : old('name') }}" @if($edit) readonly="readonly" @endif>
                 </div>
 		      <div class="form-group">
-                    <label for="startdate">@lang('app.target_date')</label>
+                    <label for="startdate">@lang('app.target_date')<i style="color:red;">*</i></label>
                     <div class="form-group">
 							<div class='input-group date'>
 								<input type='text' name="Target_Date" id='Target_Date' value="{{ $edit ? $batch->Target_Date : '' }}" class="form-control" />
@@ -59,17 +59,18 @@
 							</div>
 					</div>
                 </div>
-                 <div class="form-group">
+               <!--   <div class="form-group">
                     <label for="description">@lang('app.description')</label>
                     <input type="text" class="form-control" id="description"
                            name="description" placeholder="@lang('app.description')" value="{{ $edit ? $batch->description : old('description') }}">
-                </div>
+                </div> -->
                  <div class="form-group">
-				  <label class="control-label" for="upload file">@lang('app.upload')</label>
+				  <label class="control-label" for="upload file">@lang('app.upload')<i style="color:red;">*</i></label>
  					<div class="input-group">
-				    	<input type='text' name="upload" id='upload' placeholder="@lang('app.select')" class="form-control" />
+				    	<input type='text' name="upload" id='upload'  placeholder="@lang('select file')"  value="" class="form-control" />
 				    	<span class="input-group-btn">
-				    	<button class="btn btn-success" type="button">@lang('app.upload')</button>
+				    	<input type="file" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="file" id="attachement" name="attachement" style="display: none;" onchange="fileSelected(this)"/>
+				    	<button class="btn btn-success" type="button" id="btnAttachment" onclick="openAttachment()">@lang('app.upload')</button>
     					</span>
   					</div>
 				</div>
@@ -97,6 +98,15 @@
     {!! HTML::style('assets/css/bootstrap-datetimepicker.min.css') !!}
 @stop
 @section('scripts')
+    <script>
+	function openAttachment() {
+	  document.getElementById('attachement').click();
+	}
+
+	function fileSelected(input){
+	  document.getElementById('upload').value =input.files[0].name
+	}
+    </script>
     @if ($edit)
         {!! JsValidator::formRequest('Vanguard\Http\Requests\Batch\UpdateBatchRequest', '#batch-form') !!}
     @else

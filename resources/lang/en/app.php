@@ -345,7 +345,8 @@ return [
 		'task_brief'=>'Task Brief',
 		'upload_task_brief'=>"Upload Task Brief File",
 		'code'=>'Project Code',
-		
+		'task_brief'=>'Task Brief',
+		'download'=>'Download',
 		
 	'list_of_vendors' => 'List of vendors',
 		'add_vendor' => 'Add vendor',

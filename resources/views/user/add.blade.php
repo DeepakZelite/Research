@@ -24,7 +24,7 @@
 
 {!! Form::open(['route' => 'user.store', 'files' => true, 'id' => 'user-form']) !!}
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-6">
             @include('user.partials.details', ['edit' => false, 'profile' => false])
         </div>
         <div class="col-md-4">

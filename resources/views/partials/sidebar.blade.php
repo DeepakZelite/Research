@@ -22,16 +22,17 @@
                         <span class="fa arrow"></span>
                     </a>
                     <ul class="nav nav-second-level collapse">
+                             <li>
+                                <a href="{{ route('vendor.list') }}" class="{{ Request::is('vendors*') ? 'active' : ''  }}">
+                                    @lang('app.manage_vendor')
+                                </a>
+                            </li>
                             <li>
                                 <a href="{{ route('user.list') }}" class="{{ Request::is('user*') ? 'active' : ''  }}">
                                     @lang('app.manage_user')
                                 </a>
                             </li>
-                               <li>
-                                <a href="{{ route('vendor.list') }}" class="{{ Request::is('vendors*') ? 'active' : ''  }}">
-                                    @lang('app.manage_vendor')
-                                </a>
-                            </li>
+                              
                     </ul>
                     
                    

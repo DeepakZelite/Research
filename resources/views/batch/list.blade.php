@@ -29,7 +29,7 @@
             @lang('app.add_batch')
         </a>
     </div>
-    <div class="col-md-5"></div>
+    <div class="col-md-7"></div>
     <form method="GET" action="" accept-charset="UTF-8" id="batches-form">
  <!--        <div class="col-md-2">
             {!! Form::select('status', $statuses, Input::get('status'), ['id' => 'status', 'class' => 'form-control']) !!}
@@ -57,21 +57,21 @@
     <table class="table">
         <thead>
         	<th>@lang('app.name')</th>
-            <th>@lang('app.project_name')</th>
+            <th>@lang('app.code')</th>
             <th>@lang('app.vendor_name')</th>
-            <th>@lang('app.target_date')</th>
-            <th>@lang('app.description')</th>
-            <th>&nbsp;</th>
+            <th>@lang('app.number_of_companies')</th>
+           <!--  <th>@lang('app.description')</th> -->
+            <th class="text-center">@lang('app.action')</th>
         </thead>
         <tbody>
             @if (count($batches))
                 @foreach ($batches as $batch)
                     <tr>
                         <td>{{ $batch->name }}</td>
-                         <td>{{ $batch->project_name }}</td>
+                         <td>{{ $batch->project_code }}</td>
                          <td>{{ $batch->vendor_name }}</td>
-                         <td>{{ $batch->Target_Date }}</td>
-                         <td>{{ $batch->description }}</td>
+                         <td>{{ $batch->No_Companies }}</td>
+                      <!--    <td>{{ $batch->description }}</td> -->
                          <td class="text-center">
                             <a href="{{ route('batch.edit', $batch->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_batch')" data-toggle="tooltip" data-placement="top">
