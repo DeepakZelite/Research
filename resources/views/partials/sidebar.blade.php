@@ -131,15 +131,13 @@
                 </li>
             @endpermission
             
-
-            @permission(['settings.general', 'settings.auth', 'settings.notifications'])
-            <li class="{{ Request::is('settings*') ? 'active open' : ''  }}">
-                <a href="#">
-                    <i class="fa fa-gear fa-fw"></i> @lang('app.Company')
-                </a>
-            </li>
+            @permission('companys.manage')
+                <li class="{{ Request::is('companys*') ? 'active open' : ''  }}">
+                    <a href="{{ route('company.list') }}" class="{{ Request::is('company*') ? 'active' : ''  }}">
+                        <i class="fa fa-users fa-fw"></i> @lang('app.companys')
+                    </a>
+                </li>
             @endpermission
-             
         </ul>
     </div>
     
