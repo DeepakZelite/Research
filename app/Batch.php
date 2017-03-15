@@ -17,14 +17,14 @@ class Batch extends Model
         'removable' => 'boolean'
     ];
 
-<<<<<<< HEAD
-    protected $fillable = ['id', 'name', 'description', 'project_id', 'vendor_id','Target_Date'];
-=======
 
-    protected $fillable = ['name', 'project_id', 'vendor_id','Target_Date'];
+    protected $fillable = ['id', 'name', 'project_id', 'vendor_id','Target_Date'];
 
-   // protected $fillable = ['id', 'name', 'description', 'project_id', 'vendor_id','Target_Date'];
 
->>>>>>> refs/remotes/origin/master
+    //protected $fillable = ['name', 'project_id', 'vendor_id','Target_Date'];
+
+ 
+
+
      
 }

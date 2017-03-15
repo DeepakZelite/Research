@@ -26,19 +26,18 @@
     <div class="col-md-12">
     <!-- <form method="GET" action="" accept-charset="UTF-8" id="assign-form"> -->
     	{!! Form::open(['route' => 'subBatch.store', 'id' => 'assign-form']) !!}
-<<<<<<< HEAD
+       
          <div class="col-md-3">
             {!! Form::select('batch_id', $batches, '', ['class' => 'form-control', 'id' => 'batch_id']) !!}
-=======
+
 
          
-         <div class="col-md-3">
+ <!--        <div class="col-md-3">
             {!! Form::select('batch_id', $batches, Input::get('batch'), ['class' => 'form-control', 'id' => 'batch_id']) !!}
-<!--
+
          <div class="col-md-3">
             {!! Form::select('batch_id', $batches, '', ['class' => 'form-control', 'id' => 'batch_id']) !!}
 -->
->>>>>>> refs/remotes/origin/master
         </div>
         <div class="col-md-3">
              	{!! Form::select('user_id', $users, Input::get('user'), ['class' => 'form-control', 'id' => 'user_id']) !!}
