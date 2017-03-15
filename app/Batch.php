@@ -17,6 +17,6 @@ class Batch extends Model
         'removable' => 'boolean'
     ];
 
-    protected $fillable = ['name', 'description', 'project_id', 'vendor_id','Target_Date'];
+    protected $fillable = ['id', 'name', 'description', 'project_id', 'vendor_id','Target_Date'];
      
 }
