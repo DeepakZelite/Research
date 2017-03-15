@@ -69,7 +69,11 @@
  	                  name="email" placeholder="@lang('app.email')" value="{{ $edit ? $vendor->email : '' }}">
 		        </div>
                 <div class="form-group">
+
                     <label for="phone">@lang('app.phone')<i style="color:red;">*</i></label>
+
+                   <!-- <label for="phone">@lang('app.phone')</label>-->
+
                     <input type="phone" class="form-control" id="phone"
                            name="phone" placeholder="@lang('phone Number')" value="{{ $edit ? $vendor->phone : old('phone') }}">
                 </div>

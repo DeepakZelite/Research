@@ -126,6 +126,4 @@ class EloquentBatch implements BatchRepository
     	return Batch::where('vendor_id', $vendorId)->lists('name', 'id');
     	
     }
-    
-
 }
