@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Vanguard\Repositories\Project\ProjectRepository;
 use Vanguard\Repositories\Vendor\VendorRepository;
+use Vanguard\Support\Enum\SubBatchStatus;
 use DB;
 use App\Upload;
 use Excel;
@@ -79,7 +80,7 @@ class BatchesController extends Controller
 	 */
 	public function store(CreateBatchRequest $request)
 	{
-		$data = $request->all();
+		$data = $request->all()+ ['status' => SubBatchStatus::INPROCESS];
 		$batch = $this->batches->create($data);
 		
 		if($request->hasFile('attachement')){
@@ -129,7 +130,7 @@ class BatchesController extends Controller
 	 */
 	public function update(Batch $batch, UpdateBatchRequest $request)
 	{
-		$this->batches->update($batch->id, $request->all());
+		$this->batches->update($batch->id, $request->all()+ ['status' => SubBatchStatus::INPROCESS]);
 		if($request->hasFile('attachement')){
 			$path = $request->file('attachement')->getRealPath();
 			$data1 = Excel::load($path, function($reader) {

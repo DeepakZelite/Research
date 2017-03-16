@@ -47,8 +47,6 @@ class EloquentBatch implements BatchRepository
         if ($search) {
             $query->where(function ($q) use($search) {
                 $q->where('batches.name', "like", "%{$search}%");
-                $q->orwhere('projects.code', "like", "%{$search}%");
-                $q->orwhere('vendors.name', "like", "%{$search}%");
             });
         }
 
@@ -57,7 +55,7 @@ class EloquentBatch implements BatchRepository
         $result = $query
         ->leftjoin('projects', 'projects.id', '=', 'batches.project_id')
         ->leftjoin('vendors', 'vendors.id', '=', 'batches.vendor_id')
-        ->select('batches.*', 'projects.code as project_code','projects.No_Companies as No_Companies' ,'vendors.name as vendor_name')
+        ->select('batches.*', 'projects.code as project_code', 'vendors.name as vendor_name','projects.No_Companies as No_Companies')
         ->paginate($perPage);
 
         if ($search) {
@@ -126,7 +124,6 @@ class EloquentBatch implements BatchRepository
     public function getVendorBatches($vendorId)
     {
     	return Batch::where('vendor_id', $vendorId)->lists('name', 'id');
+    	
     }
-    
-
 }

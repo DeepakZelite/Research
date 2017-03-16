@@ -67,6 +67,7 @@ class SubBatchesController extends Controller
 		$users = $userRepository->getVendorUsers($vendorId);
 		$users->prepend('Select User', '0');
 
+
 		return view('subBatch.list', compact('subBatches', 'statuses', 'batches', 'users'));
 	}
 
