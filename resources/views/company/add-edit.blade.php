@@ -52,13 +52,57 @@
     </div>
     @if ($edit)
     <div class="col-md-2">
-        <button type="button" class="btn btn-primary btn-block">
+        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">
             <i class="fa fa-save"></i>
             {{ trans('app.add_contact') }}
         </button>
     </div>
     @endif
 </div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">@lang('app.contact_details_big')</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="name">@lang('app.name')</label>
+                    <input type="text" class="form-control" id="name"
+                           name="name" placeholder="@lang('app.company_name')" value="{{ $edit ? $company->name : old('name') }}">
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+
+<div class="row">
+    <div class="col-md-3">
+        <button type="button" class="btn btn-primary btn-block">
+            <i class="fa fa-save"></i>
+            {{ $edit ? trans('app.save') : trans('app.save') }}
+        </button>
+    </div>
+</div>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 
 @stop
 @section('styles')
