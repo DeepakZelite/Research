@@ -537,8 +537,6 @@ Route::delete('subBatch/{subBatch}/delete', [
 		'as' => 'subBatch.delete',
 		'uses' => 'SubBatchesController@delete'
 ]);
-
-
 /**
  * Manage Companys
  */
