@@ -60,7 +60,7 @@
             <th>@lang('app.code')</th>
             <th>@lang('app.vendor_name')</th>
             <th>@lang('app.number_of_companies')</th>
-           <!--  <th>@lang('app.description')</th> -->
+            <th>@lang('app.status')</th>
             <th class="text-center">@lang('app.action')</th>
         </thead>
         <tbody>
@@ -71,7 +71,7 @@
                          <td>{{ $batch->project_code }}</td>
                          <td>{{ $batch->vendor_name }}</td>
                          <td>{{ $batch->No_Companies }}</td>
-                      <!--    <td>{{ $batch->description }}</td> -->
+                         <td>{{ $batch->status}}</td>
                          <td class="text-center">
                             <a href="{{ route('batch.edit', $batch->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_batch')" data-toggle="tooltip" data-placement="top">

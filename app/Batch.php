@@ -18,7 +18,7 @@ class Batch extends Model
     ];
 
 
-    protected $fillable = ['id', 'name', 'project_id', 'vendor_id','Target_Date'];
+    protected $fillable = ['id', 'name', 'project_id', 'vendor_id','Target_Date','status'];
 
 
     //protected $fillable = ['name', 'project_id', 'vendor_id','Target_Date'];
