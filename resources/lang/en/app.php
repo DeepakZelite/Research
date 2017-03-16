@@ -400,6 +400,24 @@ return [
 		'companies' => 'Companies',
 		'search' => 'search',
 		
+		// Companies
+		'companys' => 'Company',
+		'Company' => 'Company',
+		'list_of_companys' => 'List of companies',
+		'add_company' => 'Add company',
+		'edit_company' => 'Edit company',
+		'company_details_big' => 'Company Details',
+		'update_company' => 'Update Company',
+		'edit_company_details' => 'Edit company details',
+		'create_new_company' => 'Create New Company',
+		'company_details' => 'Company Details',
+		'company_name' => 'Company Name',
+		'create_company' => 'Create Company',
+		'company_created' => 'Company has been created successfully',
+		'company_updated' => 'Company has been updated successfully',
+		'search_for_companys' => "Search for companies",
+		'add_contact' => "Add contact",
+		
     'months' => [
         'January' => 'January',
         'February' => 'February',

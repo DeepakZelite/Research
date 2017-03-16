@@ -538,3 +538,37 @@ Route::delete('subBatch/{subBatch}/delete', [
 		'uses' => 'SubBatchesController@delete'
 ]);
 
+
+/**
+ * Manage Companys
+ */
+
+Route::get('companys', [
+		'as' => 'company.list',
+		'uses' => 'CompanysController@index'
+]);
+
+Route::get('companys/create', [
+		'as' => 'company.create',
+		'uses' => 'CompanysController@create'
+]);
+
+Route::post('companys/store', [
+		'as' => 'company.store',
+		'uses' => 'CompanysController@store'
+]);
+
+Route::get('companys/{company}/edit', [
+		'as' => 'company.edit',
+		'uses' => 'CompanysController@edit'
+]);
+
+Route::put('companys/{company}/update', [
+		'as' => 'company.update',
+		'uses' => 'CompanysController@update'
+]);
+
+Route::delete('companys/{company}/delete', [
+		'as' => 'company.delete',
+		'uses' => 'CompanysController@delete'
+]);
