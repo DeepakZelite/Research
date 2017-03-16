@@ -108,7 +108,10 @@ $factory->define(SubBatch::class, function (Faker\Generator $faker) {
 
 	$factory->define(Company::class, function (Faker\Generator $faker) {
 		return [
-				'name' => $faker->name
+				'name' => $faker->name,
+				'phone' => $faker->phone,
+				'mobile' => $faker->mobile,
+				'email' => $faker->email
 		];
 	});
 	

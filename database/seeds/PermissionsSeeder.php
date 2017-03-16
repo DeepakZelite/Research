@@ -88,6 +88,13 @@ class PermissionsSeeder extends Seeder
         		'removable' => false
         ]);
         
+        $permissions[] = Permission::create([
+        		'name' => 'companys.manage',
+        		'display_name' => 'Manage companys',
+        		'description' => 'Manage companys',
+        		'removable' => false
+        ]);
+        
 
         $adminRole->attachPermissions($permissions);
     }
