@@ -73,7 +73,7 @@
                          <td>{{ $batch->No_Companies }}</td>
                          <td>{{ $batch->status}}</td>
                          <td class="text-center">
-                            <a href="{{ route('batch.edit', $batch->id) }}" class="btn btn-primary btn-circle"
+                           <a href="{{ route('batch.edit', $batch->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_batch')" data-toggle="tooltip" data-placement="top">
                                 <i class="glyphicon glyphicon-edit"></i>
                             </a>

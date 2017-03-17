@@ -155,5 +155,6 @@
         });
         
     </script>
+        {!! JsValidator::formRequest('Vanguard\Http\Requests\SubBatch\CreateSubBatchRequest', '#sub_batches-form') !!}
 @stop
 

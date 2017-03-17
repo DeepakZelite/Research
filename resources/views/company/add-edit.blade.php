@@ -29,7 +29,7 @@
 @endif
 
 <div class="row">
-    <div class="col-lg-6 col-md-12 col-sm-12">
+    <!-- <div class="col-lg-6 col-md-12 col-sm-12">
         <div class="panel panel-default">
             <div class="panel-heading">@lang('app.company_details_big')</div>
             <div class="panel-body">
@@ -40,7 +40,303 @@
                 </div>
               </div>
             </div>
+        </div>-->
+        
+        
+        <div class="row">
+    <div class="col-lg-3 col-md-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">@lang('app.company_details_big')</div>
+            <div class="panel-body">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="name">@lang('app.name')</label>
+                    <input type="text" class="form-control" id="name"
+                           name="name" placeholder="@lang('app.company_name')" value="{{ $edit ? $company->name : old('name') }}">
+                </div>
+                <div class="form-group">
+                    <label for="name">@lang('app.company_id')</label>
+                    <input type="text" class="form-control" id="company_id"
+                           name="company_id" placeholder="@lang('app.company_id')" value="">
+                </div>              
+                <div class="form-group">
+                    <label for="vendorCode">@lang('app.parent_company')</label>
+                    <input type="text" class="form-control" id="parent_company"
+                           name="parent_company" placeholder="@lang('app.parent_company')"  value="">
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">@lang('app.Company_name')</label>
+                    <input type="text" class="form-control" id="Company_name"
+                           name="Company_name" placeholder="@lang('app.Company_name')" value="">
+                </div>
+                
+                <div class="form-group">
+                    <label for="contactPerson">@lang('app.address1')</label>
+                    <input type="text" class="form-control" id="address1"
+                           name="address1" placeholder="@lang('app.address1')" value="">
+                </div>
+                <div class="form-group">
+                    <label for="contactPerson">@lang('app.address2')</label>
+                    <input type="text" class="form-control" id="address2"
+                           name="address2" placeholder="@lang('app.address2')" value="">
+                </div>
+                <div class="form-group">
+                    <label for="name">@lang('app.city')</label>
+                    <input type="text" class="form-control" id="city"
+                           name="city" placeholder="@lang('app.city')" value="">
+                </div> 
+                </div>
+              </div>
+           </div>
         </div>
+ <!-- ------------------------------------------------------------------------------------------------------------ -->
+     <div class="col-lg-3 col-md-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">@lang('app.company_details_big')</div>
+            <div class="panel-body">           
+                <div class="col-md-12">
+                <div class="form-group">
+            		<label for="email">@lang('app.state')</label>
+            		<input type="text" class="form-control" id="state"
+ 	                  name="state" placeholder="@lang('app.state')" value="">
+		        </div>
+                <div class="form-group">
+
+                    <label for="phone">@lang('app.phone')</label>
+
+                   <!-- <label for="phone">@lang('app.phone')</label>-->
+
+                    <input type="phone" class="form-control" id="phone"
+                           name="phone" placeholder="@lang('phone Number')" value="">
+                </div>
+                <div class="form-group">
+                    <label for="mobile">@lang('app.mobile')</label>
+                    <input type="mobile" class="form-control" id="mobile"
+                           name="mobile" placeholder="@lang('Mobile Number')" value="">
+                </div>
+                <div class="form-group">
+            		<label for="email">@lang('app.email')</label>
+            		<input type="email" class="form-control" id="email"
+ 	                  name="email" placeholder="@lang('app.email')" value="">
+		        </div>
+                <div class="form-group">
+
+                    <label for="phone">@lang('app.phone')</label>
+
+                   <!-- <label for="phone">@lang('app.phone')</label>-->
+
+                    <input type="phone" class="form-control" id="phone"
+                           name="phone" placeholder="@lang('phone Number')" value="">
+                </div>
+                <div class="form-group">
+                    <label for="mobile">@lang('app.mobile')</label>
+                    <input type="mobile" class="form-control" id="mobile"
+                           name="mobile" placeholder="@lang('Mobile Number')" value="">
+                </div>
+                <div class="form-group">
+                    <label for="name">@lang('app.name')</label>
+                    <input type="text" class="form-control" id="name"
+                           name="name" placeholder="@lang('app.vendor_name')" value="">
+                </div> 
+                </div>
+              </div>
+           </div>
+        </div>
+   <!-- ------------------------------------------------------------------------------------------------------------ -->              
+     <div class="col-lg-3 col-md-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">@lang('app.company_details_big')</div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                <div class="form-group">
+                    <label for="name">@lang('app.name')</label>
+                    <input type="text" class="form-control" id="name"
+                           name="name" placeholder="@lang('app.company_name')" value="{{ $edit ? $company->name : old('name') }}">
+                </div>
+                <div class="form-group">
+                    <label for="name">@lang('app.name')</label>
+                    <input type="text" class="form-control" id="name"
+                           name="name" placeholder="@lang('app.vendor_name')" value="">
+                </div>              
+                <div class="form-group">
+                    <label for="vendorCode">@lang('app.vendor_code')</label>
+                    <input type="text" class="form-control" id="vendor_code"
+                           name="vendor_code" placeholder="@lang('app.vendor_code')"  value="">
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">@lang('app.location')</label>
+                    <input type="text" class="form-control" id="location"
+                           name="location" placeholder="@lang('Location of Vendor')" value="">
+                </div>
+                
+                <div class="form-group">
+                    <label for="contactPerson">@lang('app.contact_person')</label>
+                    <input type="text" class="form-control" id="contactPerson"
+                           name="contactPerson" placeholder="@lang('Contact Person Name')" value="">
+                </div>
+                <div class="form-group">
+                    <label for="contactPerson">@lang('app.contact_person')</label>
+                    <input type="text" class="form-control" id="contactPerson"
+                           name="contactPerson" placeholder="@lang('Contact Person Name')" value="">
+                </div>
+                <div class="form-group">
+                    <label for="name">@lang('app.name')</label>
+                    <input type="text" class="form-control" id="name"
+                           name="name" placeholder="@lang('app.vendor_name')" value="">
+                </div> 
+                </div>
+             </div>
+           </div>
+        </div>
+ <!-- ------------------------------------------------------------------------------------------------------------ -->
+      <div class="col-lg-3 col-md-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">@lang('app.company_details_big')</div>
+            <div class="panel-body">
+               <div class="col-md-12">
+                <div class="form-group">
+            		<label for="email">@lang('app.email')</label>
+            		<input type="email" class="form-control" id="email"
+ 	                  name="email" placeholder="@lang('app.email')" value="">
+		        </div>
+                <div class="form-group">
+
+                    <label for="phone">@lang('app.phone')</label>
+
+                   <!-- <label for="phone">@lang('app.phone')</label>-->
+
+                    <input type="phone" class="form-control" id="phone"
+                           name="phone" placeholder="@lang('phone Number')" value="">
+                </div>
+                <div class="form-group">
+                    <label for="mobile">@lang('app.mobile')</label>
+                    <input type="mobile" class="form-control" id="mobile"
+                           name="mobile" placeholder="@lang('Mobile Number')" value="">
+                </div>
+                <div class="form-group">
+            		<label for="email">@lang('app.email')</label>
+            		<input type="email" class="form-control" id="email"
+ 	                  name="email" placeholder="@lang('app.email')" value="">
+		        </div>
+                <div class="form-group">
+
+                    <label for="phone">@lang('app.phone')</label>
+
+                   <!-- <label for="phone">@lang('app.phone')</label>-->
+
+                    <input type="phone" class="form-control" id="phone"
+                           name="phone" placeholder="@lang('phone Number')" value="">
+                </div>
+                <div class="form-group">
+                    <label for="mobile">@lang('app.mobile')</label>
+                    <input type="mobile" class="form-control" id="mobile"
+                           name="mobile" placeholder="@lang('Mobile Number')" value="">
+                </div>
+                <div class="form-group">
+                    <label for="name">@lang('app.name')</label>
+                    <input type="text" class="form-control" id="name"
+                           name="name" placeholder="@lang('app.vendor_name')" value="">
+                </div> 
+                </div>
+             </div>
+           </div>
+        </div>
+ <!-- ------------------------------------------------------------------------------------------------------------                            
+                <div class="col-md-2">
+                <div class="form-group">
+                    <label for="name">@lang('app.name')</label>
+                    <input type="text" class="form-control" id="name"
+                           name="name" placeholder="@lang('app.company_name')" value="{{ $edit ? $company->name : old('name') }}">
+                </div>
+                <div class="form-group">
+                    <label for="name">@lang('app.name')</label>
+                    <input type="text" class="form-control" id="name"
+                           name="name" placeholder="@lang('app.vendor_name')" value="">
+                </div>              
+                <div class="form-group">
+                    <label for="vendorCode">@lang('app.vendor_code')</label>
+                    <input type="text" class="form-control" id="vendor_code"
+                           name="vendor_code" placeholder="@lang('app.vendor_code')"  value="">
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">@lang('app.location')</label>
+                    <input type="text" class="form-control" id="location"
+                           name="location" placeholder="@lang('Location of Vendor')" value="">
+                </div>
+                
+                <div class="form-group">
+                    <label for="contactPerson">@lang('app.contact_person')</label>
+                    <input type="text" class="form-control" id="contactPerson"
+                           name="contactPerson" placeholder="@lang('Contact Person Name')" value="">
+                </div>
+                <div class="form-group">
+                    <label for="contactPerson">@lang('app.contact_person')</label>
+                    <input type="text" class="form-control" id="contactPerson"
+                           name="contactPerson" placeholder="@lang('Contact Person Name')" value="">
+                </div>
+                <div class="form-group">
+                    <label for="name">@lang('app.name')</label>
+                    <input type="text" class="form-control" id="name"
+                           name="name" placeholder="@lang('app.vendor_name')" value="">
+                </div> 
+                </div>
+ <!-- ------------------------------------------------------------------------------------------------------------                
+                <div class="col-md-2">
+                <div class="form-group">
+            		<label for="email">@lang('app.email')</label>
+            		<input type="email" class="form-control" id="email"
+ 	                  name="email" placeholder="@lang('app.email')" value="">
+		        </div>
+                <div class="form-group">
+
+                    <label for="phone">@lang('app.phone')</label>
+
+                   <!-- <label for="phone">@lang('app.phone')</label>
+
+                    <input type="phone" class="form-control" id="phone"
+                           name="phone" placeholder="@lang('phone Number')" value="">
+                </div>
+                <div class="form-group">
+                    <label for="mobile">@lang('app.mobile')</label>
+                    <input type="mobile" class="form-control" id="mobile"
+                           name="mobile" placeholder="@lang('Mobile Number')" value="">
+                </div>
+                <div class="form-group">
+            		<label for="email">@lang('app.email')</label>
+            		<input type="email" class="form-control" id="email"
+ 	                  name="email" placeholder="@lang('app.email')" value="">
+		        </div>
+                <div class="form-group">
+
+                    <label for="phone">@lang('app.phone')</label>
+
+                   <!-- <label for="phone">@lang('app.phone')</label>
+
+                    <input type="phone" class="form-control" id="phone"
+                           name="phone" placeholder="@lang('phone Number')" value="">
+                </div>
+                <div class="form-group">
+                    <label for="mobile">@lang('app.mobile')</label>
+                    <input type="mobile" class="form-control" id="mobile"
+                           name="mobile" placeholder="@lang('Mobile Number')" value="">
+                </div>
+                <div class="form-group">
+                    <label for="name">@lang('app.name')</label>
+                    <input type="text" class="form-control" id="name"
+                           name="name" placeholder="@lang('app.vendor_name')" value="">
+                </div> 
+                </div>
+                
+                
+              </div>
+            </div>
+        </div>-->
+    </div>
+        
+        
     </div>
 
 <div class="row">

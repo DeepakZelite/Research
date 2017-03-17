@@ -91,7 +91,9 @@ class UsersController extends Controller
     {
         $countries = $countryRepository->lists();
         $roles = $roleRepository->lists();
+        $roles->prepend('select role','0');
         $vendors=$vendorRepository->lists();
+        $vendors->prepend('select vendor','0');
         $statuses = UserStatus::lists1();
 
         return view('user.add', compact('countries', 'roles', 'statuses','vendors'));
