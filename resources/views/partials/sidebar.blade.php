@@ -131,8 +131,7 @@
                     </a>
                 </li>
             @endpermission
-            
-
+           
             @permission('companys.manage')
                 <li class="{{ Request::is('companys*') ? 'active open' : ''  }}">
                     <a href="{{ route('company.list') }}" class="{{ Request::is('company*') ? 'active' : ''  }}">
@@ -140,7 +139,6 @@
                     </a>
                 </li>
             @endpermission
-             
         </ul>
     </div>
     
