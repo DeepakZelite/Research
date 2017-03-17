@@ -67,7 +67,9 @@ class BatchesController extends Controller
 	public function create(ProjectRepository $projectRepository, VendorRepository $vendorRepository)
 	{
 		$projects = $projectRepository->lists();
+		$projects->prepend('Select project', '0');
 		$vendors = $vendorRepository->lists();
+		$vendors->prepend('select vendors','0');
 		$edit = false;
 		return view('batch.add-edit', compact('edit', 'projects', 'vendors'));
 	}
@@ -89,13 +91,13 @@ class BatchesController extends Controller
 			})->get();
 			if(!empty($data1) && $data1->count()){
 				foreach ($data1 as $key => $value) {
-					$insert[] = ['item_id'=>$batch->id,'company_instructions' => $value->company_instructions, 'company_id' => $value->company_id,'parent_company' => $value->parent_company, 'company_name' => $value->company_name,'address1' => $value->address1, 'address2' => $value->address2,'city' => $value->city, 'state' => $value->state,'zipcode' => $value->zipcode, 'country' => $value->country,'international_code' => $value->international_code, 'switchboardnumber' => $value->switchboardnumber,'branchNumber' => $value->branch_number, 'addresscode' => $value->addresscode,'website' => $value->website, 'comapny_email' => $value->comapny_email,
+					$insert[] = ['batch_id'=>$batch->id,'company_instructions' => $value->company_instructions, 'company_id' => $value->company_id,'parent_company' => $value->parent_company, 'company_name' => $value->company_name,'address1' => $value->address1, 'address2' => $value->address2,'city' => $value->city, 'state' => $value->state,'zipcode' => $value->zipcode, 'country' => $value->country,'international_code' => $value->international_code, 'switchboardnumber' => $value->switchboardnumber,'branchNumber' => $value->branch_number, 'addresscode' => $value->addresscode,'website' => $value->website, 'comapny_email' => $value->comapny_email,
 							'products_services' => $value->products_services, 'industry_classfication' => $value->industry_classfication,'employee_size' => $value->employee_size, 'physician_size' => $value->physician_size,'annual_revenue' => $value->annual_revenue, 'number_of_beds' => $value->number_of_beds,'foundation_year' => $value->foundation_year, 'company_remark' => $value->company_remark,'additional_info1' => $value->additional_info1, 'additional_info2' => $value->additional_info2,'additional_info3' => $value->additional_info3, 'additional_info4' => $value->additional_info4,'staff_id' => $value->staff_id, 'salutation' => $value->salutation,'firstname' => $value->firstname,
 							'middlename' => $value->middlename,'lastname' => $value->lastname,'job_title' => $value->job_title,'specification' => $value->specification,'qualification' => $value->qualification,'staff_source' => $value->staff_source,'staff_email1' => $value->staff_email1,'staff_email2' => $value->staff_email2,'direct_emailsource' => $value->direct_emailsource,'direct_phoneno' => $value->direct_phoneno,'deparment_number'=>$value->deparment_number, 'shift_timing' => $value->shift_timing,'paternership' => $value->paternership,'email_type' => $value->email_type,'age' => $value->age,'working_tenure' => $value->working_tenure,
 							'staff_remarks' => $value->staff_remarks,'contact_info1' => $value->contact_info1,'contact_info2' => $value->contact_info2,'contact_info3' => $value->contact_info3,'contact_info4' => $value->contact_info4];
 				}
 				if(!empty($insert)){
-					DB::table('uploads')->insert($insert);
+					DB::table('companies')->insert($insert);
 					//dd('Insert Record successfully.');
 				}
 			}
@@ -137,13 +139,13 @@ class BatchesController extends Controller
 			})->get();
 			if(!empty($data1) && $data1->count()){
 				foreach ($data1 as $key => $value) {
-					$insert[] = ['item_id'=>$batch->id,'company_instructions' => $value->company_instructions, 'company_id' => $value->company_id,'parent_company' => $value->parent_company, 'company_name' => $value->company_name,'address1' => $value->address1, 'address2' => $value->address2,'city' => $value->city, 'state' => $value->state,'zipcode' => $value->zipcode, 'country' => $value->country,'international_code' => $value->international_code, 'switchboardnumber' => $value->switchboardnumber,'branchNumber' => $value->branch_number, 'addresscode' => $value->addresscode,'website' => $value->website, 'comapny_email' => $value->comapny_email,
+					$insert[] = ['batch_id'=>$batch->id,'company_instructions' => $value->company_instructions, 'company_id' => $value->company_id,'parent_company' => $value->parent_company, 'company_name' => $value->company_name,'address1' => $value->address1, 'address2' => $value->address2,'city' => $value->city, 'state' => $value->state,'zipcode' => $value->zipcode, 'country' => $value->country,'international_code' => $value->international_code, 'switchboardnumber' => $value->switchboardnumber,'branchNumber' => $value->branch_number, 'addresscode' => $value->addresscode,'website' => $value->website, 'comapny_email' => $value->comapny_email,
 							'products_services' => $value->products_services, 'industry_classfication' => $value->industry_classfication,'employee_size' => $value->employee_size, 'physician_size' => $value->physician_size,'annual_revenue' => $value->annual_revenue, 'number_of_beds' => $value->number_of_beds,'foundation_year' => $value->foundation_year, 'company_remark' => $value->company_remark,'additional_info1' => $value->additional_info1, 'additional_info2' => $value->additional_info2,'additional_info3' => $value->additional_info3, 'additional_info4' => $value->additional_info4,'staff_id' => $value->staff_id, 'salutation' => $value->salutation,'firstname' => $value->firstname,
 							'middlename' => $value->middlename,'lastname' => $value->lastname,'job_title' => $value->job_title,'specification' => $value->specification,'qualification' => $value->qualification,'staff_source' => $value->staff_source,'staff_email1' => $value->staff_email1,'staff_email2' => $value->staff_email2,'direct_emailsource' => $value->direct_emailsource,'direct_phoneno' => $value->direct_phoneno,'deparment_number'=>$value->deparment_number, 'shift_timing' => $value->shift_timing,'paternership' => $value->paternership,'email_type' => $value->email_type,'age' => $value->age,'working_tenure' => $value->working_tenure,
 							'staff_remarks' => $value->staff_remarks,'contact_info1' => $value->contact_info1,'contact_info2' => $value->contact_info2,'contact_info3' => $value->contact_info3,'contact_info4' => $value->contact_info4];
 				}
 				if(!empty($insert)){
-					DB::table('uploads')->insert($insert);
+					DB::table('companies')->insert($insert);
 					//dd('Insert Record successfully.');
 				}
 			}
