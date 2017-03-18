@@ -78,7 +78,7 @@
                 {!! Form::close() !!}
             </div>
         </div>
-        <div class="row">
+       <!--  <div class="row">
             <div class="col-md-8">
                 @if (settings('2fa.enabled'))
                     <?php $route = Authy::isEnabled($user) ? 'disable' : 'enable'; ?>
@@ -88,7 +88,7 @@
                     {!! Form::close() !!}
                 @endif
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 

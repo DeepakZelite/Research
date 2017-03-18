@@ -17,8 +17,8 @@ class UpdateLoginDetailsRequest extends Request
         $user = $this->getUserForUpdate();
 
         return [
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'username' => 'unique:users,username,' . $user->id,
+            'email' => 'email|unique:users,email,' . $user->id,
+            'username' => 'required|unique:users,username,' . $user->id,
             'password' => 'min:6|confirmed'
         ];
     }

@@ -92,7 +92,7 @@ class EloquentUser implements UserRepository
         if ($search) {
             $query->where(function ($q) use($search) {
                 $q->where('users.username', "like", "%{$search}%");
-                $q->orWhere('users.email', 'like', "%{$search}%");
+                $q->orWhere('vendors.name', 'like', "%{$search}%");
                 $q->orWhere('users.first_name', 'like', "%{$search}%");
                 $q->orWhere('users.last_name', 'like', "%{$search}%");
             });

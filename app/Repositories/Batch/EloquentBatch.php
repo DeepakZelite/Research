@@ -55,7 +55,7 @@ class EloquentBatch implements BatchRepository
         $result = $query
         ->leftjoin('projects', 'projects.id', '=', 'batches.project_id')
         ->leftjoin('vendors', 'vendors.id', '=', 'batches.vendor_id')
-        ->select('batches.*', 'projects.name as project_name', 'vendors.name as vendor_name')
+        ->select('batches.*', 'projects.code as project_code', 'vendors.name as vendor_name','projects.No_Companies as No_Companies')
         ->paginate($perPage);
 
         if ($search) {
@@ -126,6 +126,4 @@ class EloquentBatch implements BatchRepository
     	return Batch::where('vendor_id', $vendorId)->lists('name', 'id');
     	
     }
-    
-
 }
