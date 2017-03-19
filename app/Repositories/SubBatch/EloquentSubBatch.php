@@ -37,37 +37,78 @@ class EloquentSubBatch implements SubBatchRepository
         return SubBatch::create($data);
     }
 
+//     /**
+//      * {@inheritdoc}
+//      */
+//     public function paginate($perPage, $search = null)
+//     {
+//         $query = SubBatch::query();
+
+//         if ($search) {
+//             $query->where(function ($q) use($search) {
+//                 $q->where('subBatches.name', "like", "%{$search}%")
+//                 ->orderBy('created_at', 'desc');
+//             });
+//         }
+
+
+//         $result = $query
+//         ->leftjoin('batches', 'batches.id', '=', 'sub_batches.batch_id')
+//         ->leftjoin('users', 'users.id', '=', 'sub_batches.user_id')
+//         ->select('sub_batches.*' ,'batches.name as batch_name', 'users.username', 'sub_batches.seq_no as sub_batch_name')
+//         ->paginate($perPage);
+        
+        
+//         $result = $query->orderBy('created_at', 'desc')->paginate($perPage);
+
+//         if ($search) {
+//             $result->appends(['search' => $search]);
+//         }
+
+//         return $result;
+//     }
+
     /**
      * {@inheritdoc}
      */
-    public function paginate($perPage, $search = null)
+    public function paginate($perPage, $search = null, $userId = null, $status = null)
     {
-        $query = SubBatch::query();
+    	$query = SubBatch::query();
+    
+    	if ($search) {
+    		$query->where(function ($q) use($search) {
+    			$q->where('subBatches.name', "like", "%{$search}%");
+    		});
+    	}
+    	
+    	if ($userId) {
+    		$query->where(function ($q) use($userId) {
+    			$q->where('sub_Batches.user_id', "=", "{$userId}");
+    		});
+    	}
+    	
+    	if ($status) {
+    		$query->where(function ($q) use($status) {
+    			$q->where('sub_Batches.status', "=", "{$status}");
+    		});
+    	}
+    
+    	$result = $query
+    	->leftjoin('batches', 'batches.id', '=', 'sub_batches.batch_id')
+    	->leftjoin('users', 'users.id', '=', 'sub_batches.user_id')
+    	->select('sub_batches.*' ,'batches.name as batch_name', 'users.username', 'sub_batches.seq_no as sub_batch_name')
+    	->paginate($perPage);
 
-        if ($search) {
-            $query->where(function ($q) use($search) {
-                $q->where('subBatches.name', "like", "%{$search}%")
-                ->orderBy('created_at', 'desc');
-            });
-        }
-
-
-        $result = $query
-        ->leftjoin('batches', 'batches.id', '=', 'sub_batches.batch_id')
-        ->leftjoin('users', 'users.id', '=', 'sub_batches.user_id')
-        ->select('sub_batches.*' ,'batches.name as batch_name', 'users.username', 'sub_batches.seq_no as sub_batch_name')
-        ->paginate($perPage);
-        
-        
-        $result = $query->orderBy('created_at', 'desc')->paginate($perPage);
-
-        if ($search) {
-            $result->appends(['search' => $search]);
-        }
-
-        return $result;
+    	$result = $query->orderBy('created_at', 'desc')->paginate($perPage);
+    	   
+    	if ($search) {
+    		$result->appends(['search' => $search]);
+    		$result->appends(['userId' => $userId]);
+    	}
+    
+    	return $result;
     }
-
+    
     /**
      * {@inheritdoc}
      */

@@ -1,13 +1,13 @@
 <?php
 
-namespace Vanguard\Repositories\Company;
+namespace Vanguard\Repositories\Contact;
 
-use Vanguard\Company;
+use Vanguard\Contact;
 
-interface CompanyRepository
+interface ContactRepository
 {
     /**
-     * Paginate registered users.
+     * Paginate registered contacts.
      *
      * @param $perPage
      * @param null $search
@@ -75,25 +75,11 @@ interface CompanyRepository
     public function count();
 
     /**
-     * No of unassigned companies.
-     *
-     * @return mixed
-     */
-    public function getUnAssignedCount($batchId);
-    
-    /**
-     * No of total no of companies in batch.
-     *
-     * @return mixed
-     */
-    public function getTotalCompanyCount($batchId);
-    
-    /**
      * Number of users registered during current month.
      *
      * @return mixed
      */
-    public function newCompanysCount();
+    public function newContactsCount();
 
      /**
      * Get latest {$count} users from database.
@@ -102,12 +88,5 @@ interface CompanyRepository
      * @return mixed
      */
     public function latest($count = 20);
-    
-    /**
-     * Get the latest or last saved company record.
-     *
-     * @return mixed
-     */
-    public function getCompanyRecord($subBatchId, $userId);
     
 }

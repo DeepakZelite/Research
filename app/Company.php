@@ -18,6 +18,6 @@ class Company extends Model
         'removable' => 'boolean'
     ];
 
-    protected $fillable = ['name', 'phone', 'mobile', 'email', 'sub_batch_id','batch_id','user_id'];
+    protected $fillable = ['name', 'website', 'phone', 'mobile', 'email', 'sub_batch_id','batch_id','user_id', 'id'];
   
 }

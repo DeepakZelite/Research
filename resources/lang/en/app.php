@@ -435,8 +435,21 @@ return [
 		'company_updated' => 'Company has been updated successfully',
 		'search_for_companys' => "Search for companies",
 		'add_contact' => "Add contact",
+		'dataCapture' => "Data Capture",
+		'start' => "Start",
+		'submit' => "Submit",
+		'staff_details_big' => "Staff Details",
+		'middle_name' => 'Middle Name',
+		'isd_code' => ' ISD Code',
+		'alternate_phone' => 'Alternate Phone',
+		'designation' => 'Designation',
+		'staff_note' => 'Staff Note',
+		'area_code' => 'Area Code',
+		'batch_submitted' => 'Batch has been submitted successfully.',
+		'contact_created' => 'Staff has been added successfully.',
+		'company_updated' => 'Company has been updated successfully.',
 		
-    'months' => [
+		'months' => [
         'January' => 'January',
         'February' => 'February',
         'March' => 'March',

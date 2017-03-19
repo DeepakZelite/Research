@@ -570,3 +570,29 @@ Route::delete('companys/{company}/delete', [
 		'as' => 'company.delete',
 		'uses' => 'CompanysController@delete'
 ]);
+
+Route::get('dataCapture', [
+		'as' => 'dataCapture.list',
+		'uses' => 'DataCaptureController@index'
+]);
+
+Route::get('dataCapture/{subBatchId}/capture', [
+		'as' => 'dataCapture.capture',
+		'uses' => 'DataCaptureController@capture'
+]);
+
+Route::put('dataCapture/{company}/storeCompany', [
+		'as' => 'dataCapture.storeCompany',
+		'uses' => 'DataCaptureController@storeCompany'
+]);
+
+Route::post('dataCapture/{company}/storeStaff', [
+		'as' => 'dataCapture.storeStaff',
+		'uses' => 'DataCaptureController@storeStaff'
+]);
+
+Route::get('dataCapture/{company}/submitCompany', [
+		'as' => 'dataCapture.submitCompany',
+		'uses' => 'DataCaptureController@submitCompany'
+]);
+

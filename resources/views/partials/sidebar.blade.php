@@ -133,12 +133,14 @@
             @endpermission
            
             @permission('companys.manage')
-                <li class="{{ Request::is('companys*') ? 'active open' : ''  }}">
-                    <a href="{{ route('company.list') }}" class="{{ Request::is('company*') ? 'active' : ''  }}">
-                        <i class="fa fa-users fa-fw"></i> @lang('app.companys')
+                <li class="{{ Request::is('dataCapture*') ? 'active open' : ''  }}">
+                    <a href="{{ route('dataCapture.list') }}" class="{{ Request::is('dataCapture*') ? 'active' : ''  }}">
+                        <i class="fa fa-users fa-fw"></i> @lang('app.dataCapture')
                     </a>
                 </li>
             @endpermission
+            
+            
         </ul>
     </div>
     
