@@ -9,7 +9,7 @@
         <div class="form-group">
             <label for="username">@lang('app.username')<i style="color:red;">*</i></label>
             <input type="text" class="form-control" id="username" placeholder="(@lang('app.username'))"
-                   name="username" value="{{ $edit ? $user->username : '' }}"@if ($edit) disabled class="form-control" @endif>
+                   name="username" value="{{ $edit ? $user->username : '' }}"@if ($edit) class="form-control" @endif>
         </div>
         <div class="form-group">
             <label for="password">{{ $edit ? trans("app.new_password") : trans('app.password') }}<i style="color:red;">*</i></label>
@@ -28,4 +28,5 @@
             </button>
         @endif
     </div>
+    
 </div>

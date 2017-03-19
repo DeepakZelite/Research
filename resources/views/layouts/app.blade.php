@@ -54,14 +54,14 @@
                                     @lang('app.my_profile')
                                 </a>
                             </li>
-                            @if (config('session.driver') == 'database')
-                                <li>
-                                    <a href="{{ route('profile.sessions') }}">
-                                        <i class="fa fa-list"></i>
-                                        @lang('app.active_sessions')
-                                    </a>
-                                </li>
-                            @endif
+<!--                             @if (config('session.driver') == 'database') -->
+<!--                                 <li> -->
+<!--                                     <a href="{{ route('profile.sessions') }}"> -->
+<!--                                         <i class="fa fa-list"></i> -->
+<!--                                         @lang('app.active_sessions') -->
+<!--                                     </a> -->
+<!--                                 </li> -->
+<!--                             @endif -->
                             <li>
                                 <a href="{{ route('auth.logout') }}">
                                     <i class="fa fa-sign-out"></i>
