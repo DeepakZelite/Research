@@ -90,6 +90,11 @@
             </div>
         </div> -->
     </div>
+        <div class="col-md-2">
+        <a href="{{ route('user.list') }}" class="btn btn-primary btn-block" id="cancel">
+            @lang('app.cancel')
+        </a>
+    </div>
 </div>
 
 @stop

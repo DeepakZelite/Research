@@ -91,6 +91,11 @@
             {{ $edit ? trans('app.update_batch') : trans('app.create_batch') }}
         </button>
     </div>
+    <div class="col-md-2">
+        <a href="{{ route('batch.list') }}" class="btn btn-primary btn-block" id="cancel">
+            @lang('app.cancel')
+        </a>
+    </div>
 </div>
 
 @stop

@@ -102,6 +102,7 @@ class EloquentUser implements UserRepository
 
         $result = $query
         ->leftjoin('vendors', 'vendors.id', '=', 'users.vendor_id')
+        ->where('users.username', '!=', 'admin')
         ->select('users.*', 'vendors.name as vendor_name')
         ->paginate($perPage);
         if ($search) {

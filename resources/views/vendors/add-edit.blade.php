@@ -84,8 +84,13 @@
                 </div>
                 <div class="form-group">
                     <label for="status">@lang('app.status')<i style="color:red;">*</i></label>
-                    {!! Form::select('status', $statuses, $edit ? $vendor->status : '',
-                        ['class' => 'form-control', 'id' => 'status']) !!}
+                    @if($edit)
+                    	{!! Form::select('status', $statuses, $edit ? $vendor->status : '',
+                        	['class' => 'form-control', 'id' => 'status']) !!}
+                     @else
+                     	{!! Form::select('status', $statuses, $edit ? $vendor->status : '',
+                        	['class' => 'form-control','disabled' => 'disabled' ,'id' => 'status']) !!}                    	
+                    @endif
                 </div> 
                 </div>
                  
@@ -105,6 +110,11 @@
             <i class="fa fa-save"></i>
             {{ $edit ? trans('app.update_vendor') : trans('app.create_vendor') }}
         </button>
+    </div>
+    <div class="col-md-2">
+        <a href="{{ route('vendor.list') }}" class="btn btn-primary btn-block" id="cancel">
+            @lang('app.cancel')
+        </a>
     </div>
 </div>
 

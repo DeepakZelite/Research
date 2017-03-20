@@ -15,15 +15,12 @@ $('#birthday').datetimepicker({
 });
 
 $('#Start_Date').datetimepicker({
-    viewMode: 'years',
     format: 'YYYY-MM-DD'
 });
 $('#Expected_date').datetimepicker({
-    viewMode: 'years',
     format: 'YYYY-MM-DD'
 });
 $('#Target_Date').datetimepicker({
-    viewMode: 'years',
     format: 'YYYY-MM-DD'
 });
 

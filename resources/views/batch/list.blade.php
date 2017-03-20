@@ -73,10 +73,26 @@
                          <td>{{ $batch->No_Companies }}</td>
                          <td>{{ $batch->status}}</td>
                          <td class="text-center">
-                           <a href="{{ route('batch.edit', $batch->id) }}" class="btn btn-primary btn-circle"
+                          @if($batch->status =="Assigned")
+                           <a href="{{ route('batch.delete', $batch->id) }}" class="btn btn-danger btn-circle" title="@lang('app.delete_batch')"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    data-method="DELETE"
+                                    data-confirm-title="@lang('app.please_confirm')'"
+                                    data-confirm-text="@lang('app.are_you_sure_delete_batch')"
+                                    data-confirm-delete="@lang('app.yes_delete_him')'">
+                                <i class="glyphicon glyphicon-trash"></i></a>
+                           <!-- <a href="{{ route('batch.edit', $batch->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_batch')" data-toggle="tooltip" data-placement="top">
                                 <i class="glyphicon glyphicon-edit"></i>
-                            </a>
+                            </a> -->
+                          @endif
+                          @if($batch->status=="Complete")
+                          		<a href="#" class="btn btn-primary btn-circle"
+                               		title="@lang('app.download')" data-toggle="tooltip" data-placement="top">
+                                	<i class="glyphicon glyphicon-download"></i>
+                            	</a>
+                          @endif
           				</td>
                      </tr>
                 @endforeach

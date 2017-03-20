@@ -88,6 +88,11 @@
             </div>
         </div> -->
     </div>
+        <div class="col-md-2">
+        <a href="{{ route('dashboard') }}" class="btn btn-primary btn-block" id="cancel">
+            @lang('app.cancel')
+        </a>
+    </div>
 </div>
 
 @stop

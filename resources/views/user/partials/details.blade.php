@@ -27,8 +27,13 @@
                 </div>
                 <div class="form-group">
                     <label for="status">@lang('app.status')<i style="color:red;">*</i></label>
-                    {!! Form::select('status', $statuses, $edit ? $user->status : '',
-                        ['class' => 'form-control', 'id' => 'status', $profile ? 'disabled' : '']) !!}
+                    @if($edit)
+                    	{!! Form::select('status', $statuses, $edit ? $user->status : '',
+                        	['class' => 'form-control', 'id' => 'status', $profile ? 'disabled' : '']) !!}
+                    @else
+                    	{!! Form::select('status', $statuses, $edit ? $user->status : '',
+                        	['class' => 'form-control','disabled' => 'disabled', 'id' => 'status', $profile ? 'disabled' : '']) !!}
+                    @endif                    	
                 </div>
             </div>
 <!-- 
