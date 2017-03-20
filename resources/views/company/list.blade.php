@@ -29,7 +29,7 @@
             @lang('app.add_company')
         </a>
     </div>
-    <div class="col-md-5"></div>
+    <div class="col-md-7"></div>
     <form method="GET" action="" accept-charset="UTF-8" id="companys-form">
         <div class="col-md-3">
             <div class="input-group custom-search-form">
@@ -59,7 +59,7 @@
             @if (count($companys))
                 @foreach ($companys as $company)
                     <tr>
-                        <td>{{ $company->name }}</td>
+                        <td>{{ $company->company_name }}</td>
                          <td class="text-center">
                             <a href="{{ route('company.edit', $company->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_company')" data-toggle="tooltip" data-placement="top">

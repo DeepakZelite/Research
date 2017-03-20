@@ -103,6 +103,11 @@
             {{ $edit ? trans('app.update_project') : trans('app.create_project') }}
         </button>
     </div>
+    <div class="col-md-2">
+        <a href="{{ route('project.list') }}" class="btn btn-primary btn-block" id="cancel">
+            @lang('app.cancel')
+        </a>
+    </div>
 </div>
 
 @stop

@@ -95,8 +95,7 @@ class SubBatchesController extends Controller
 	public function store(CreateSubBatchRequest $request)
 	{
 		$newSeqNo = $this->subBatches->getMaxSeqNo($request->input('batch_id'))+1;
-		$data = $request->all() + ['status' => SubBatchStatus::ASSIGNED]
-			+ ['seq_no' => $newSeqNo];
+		$data = $request->all() + ['status' => SubBatchStatus::ASSIGNED] + ['seq_no' => $newSeqNo] ;;
 		$subBatch = $this->subBatches->create($data);
 		return redirect()->route('subBatch.list')
 		->withSuccess(trans('app.sub_batch_created'));
@@ -132,7 +131,7 @@ class SubBatchesController extends Controller
 	}
 	
 	public function getCompanyCount(Request $request, CompanyRepository $companyRepository) {
-		$batchId = $request->input('batchId');
+		$batchId = $request->input('batch_id');
 		if ($batchId == "") {
 			$batchId = 0;
 		}

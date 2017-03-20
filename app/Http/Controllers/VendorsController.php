@@ -72,7 +72,8 @@ class VendorsController extends Controller
      */
     public function store(CreateVendorRequest $request)
     {
-        $data = $request->all();
+        $data = $request->all() + ['status' => UserStatus::ACTIVE];
+        return $data;
         $vendor = $this->vendors->create($data);
         return redirect()->route('vendor.list')
             ->withSuccess(trans('app.vendor_created'));

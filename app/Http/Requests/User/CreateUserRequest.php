@@ -15,11 +15,14 @@ class CreateUserRequest extends Request
     public function rules()
     {
         return [
-            'email' => 'email|unique:users,email',
+            'email' => 'email',
             'username' => 'required|unique:users,username',
             'password' => 'required|min:6|confirmed',
+        	'first_name'=> 'required',
+        	'last_name'=>'required',
             'birthday' => 'date',
             'role' => 'required|exists:roles,id',
+        	'vendor_id'=>'required|exists:vendors,id',
         	'phone'=>'digits:10'
         ];
     }
