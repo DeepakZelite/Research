@@ -78,6 +78,7 @@ CREATE TABLE `companies` (
   `batch_id` int(10) unsigned DEFAULT NULL,
   `sub_batch_id` int(10) unsigned DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `website` varchar(45) DEFAULT NULL,
   `user_id` date DEFAULT NULL,
   `status` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `removable` tinyint(1) NOT NULL DEFAULT '1',
@@ -116,5 +117,26 @@ CREATE TABLE  `student`.`users` (
   KEY `users_country_id_foreign` (`country_id`),
   CONSTRAINT `users_country_id_foreign` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
- * 
+ 
  */
+
+
+// CREATE TABLE `contacts` (
+// 		`id` int(11) NOT NULL AUTO_INCREMENT,
+// 		`first_name` varchar(45) DEFAULT NULL,
+// 		`middle_name` varchar(45) DEFAULT NULL,
+// 		`last_name` varchar(45) DEFAULT NULL,
+// 		`designation` varchar(45) DEFAULT NULL,
+// 		`area_code` varchar(45) DEFAULT NULL,
+// 		`isd_code` varchar(45) DEFAULT NULL,
+// 		`phone` varchar(45) DEFAULT NULL,
+// 		`alternate_phone` varchar(45) DEFAULT NULL,
+// 		`email` varchar(45) DEFAULT NULL,
+// 		`staff_note` varchar(255) DEFAULT NULL,
+// 		`created_at` datetime DEFAULT NULL,
+// 		`updated_at` datetime DEFAULT NULL,
+// 		`company_id` int(11) DEFAULT NULL,
+// 		`user_id` int(11) DEFAULT NULL,
+// 		PRIMARY KEY (`id`)
+// 		) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+

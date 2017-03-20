@@ -115,3 +115,20 @@ $factory->define(SubBatch::class, function (Faker\Generator $faker) {
 		];
 	});
 	
+		$factory->define(Contact::class, function (Faker\Generator $faker) {
+			return [
+					'first_name' => $faker->firstName,
+					'middel_name' => $faker->middleName,
+					'last_name' => $faker->lastName,
+					'isd_code' => $faker->isdCode,
+					'area_code' => $faker->areaCode,
+					'phone' => $faker->phone,
+					'alternate_phone' => $faker->alternatePhone,
+					'email' => $faker->email,
+					'designation' => $faker->designation,
+					'staff_note' => $faker->staffNote,
+					'company_id' => $faker->companyId,
+					'user_id' => $faker->userId
+			];
+		});
+	

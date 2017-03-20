@@ -40,7 +40,7 @@ class EloquentBatch implements BatchRepository
     /**
      * {@inheritdoc}
      */
-    public function paginate($perPage, $search = null)
+    public function paginate($perPage, $search = null, $vendorId = null)
     {
         $query = Batch::query();
 
@@ -53,12 +53,13 @@ class EloquentBatch implements BatchRepository
             });
         }
 
-       // $result = $query->paginate($perPage);
-
-        $result = $query
+        $query = $query
         ->leftjoin('projects', 'projects.id', '=', 'batches.project_id')
-        ->leftjoin('vendors', 'vendors.id', '=', 'batches.vendor_id')
-        ->select('batches.*', 'projects.code as project_code', 'vendors.name as vendor_name','projects.No_Companies as No_Companies')
+        ->leftjoin('vendors', 'vendors.id', '=', 'batches.vendor_id');
+        if ($vendorId) {
+        	$query = $query->where('vendors.id', '=', $vendorId);
+        }
+        $result = $query->select('batches.*', 'projects.code as project_code', 'vendors.name as vendor_name','projects.No_Companies as No_Companies')
         ->paginate($perPage);
 
         if ($search) {

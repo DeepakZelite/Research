@@ -31,7 +31,8 @@ class BatchesController extends Controller
 	 * @var BatchRepository
 	 */
 	private $batches;
-
+	private $theUser;
+	
 	/**
 	 * BatchesController constructor.
 	 * @param BatchRepository $users
@@ -42,6 +43,7 @@ class BatchesController extends Controller
 		$this->middleware('session.database', ['only' => ['sessions', 'invalidateSession']]);
 		$this->middleware('permission:batches.manage');
 		$this->batches = $batches;
+		$this->theUser = Auth::user();
 	}
 
 	/**
@@ -52,9 +54,16 @@ class BatchesController extends Controller
 	public function index()
 	{
 		$perPage = 5;
-		$batches = $this->batches->paginate($perPage, Input::get('search'));
-		$statuses = ['' => trans('app.all')] + UserStatus::lists(); // Check-Deepak
-		return view('batch.list', compact('batches', 'statuses')); // Check-Deepak
+		if ($this->theUser->username == 'admin') {
+			$batches = $this->batches->paginate($perPage, Input::get('search'));
+		} 
+		else {
+			$batches = $this->batches->paginate($perPage, Input::get('search'), $this->theUser->vendor_id);
+		}
+		$statuses = ['' => trans('app.all')] + UserStatus::lists(); 
+		return view('batch.list', compact('batches', 'statuses')); 
+		
+		
 	}
 
 	/**

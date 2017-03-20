@@ -23,7 +23,7 @@
                     </a>
                     <ul class="nav nav-second-level collapse">
                              <li>
-                                <a href="{{ route('vendor.list') }}" class="{{ Request::is('vendors*') ? 'active' : ''  }}">
+                                <a href="{{ route('vendor.list') }}" class="{{ Request::is('user*') ? 'active' : ''  }}">
                                     @lang('app.manage_vendor')
                                 </a>
                             </li>
@@ -62,12 +62,12 @@
                                  </a>
                              </li>
                          @endpermission
-                         @permission('permissions.manage')
-                             <li>
-                                 <a href="{{ route('permission.index') }}"
-                                    class="{{ Request::is('permission*') ? 'active' : ''  }}">@lang('app.permissions')</a>
-                             </li>
-                         @endpermission
+<!--                          @permission('permissions.manage') -->
+<!--                              <li> -->
+<!--                                  <a href="{{ route('permission.index') }}" -->
+<!--                                     class="{{ Request::is('permission*') ? 'active' : ''  }}">@lang('app.permissions')</a> -->
+<!--                              </li> -->
+<!--                          @endpermission -->
                      </ul>
                  </li>
              @endpermission
@@ -133,12 +133,14 @@
             @endpermission
            
             @permission('companys.manage')
-                <li class="{{ Request::is('companys*') ? 'active open' : ''  }}">
-                    <a href="{{ route('company.list') }}" class="{{ Request::is('company*') ? 'active' : ''  }}">
-                        <i class="fa fa-users fa-fw"></i> @lang('app.companys')
+                <li class="{{ Request::is('dataCapture*') ? 'active open' : ''  }}">
+                    <a href="{{ route('dataCapture.list') }}" class="{{ Request::is('dataCapture*') ? 'active' : ''  }}">
+                        <i class="fa fa-users fa-fw"></i> @lang('app.dataCapture')
                     </a>
                 </li>
             @endpermission
+            
+            
         </ul>
     </div>
     

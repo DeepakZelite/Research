@@ -1,21 +1,31 @@
 <?php
 
-namespace Vanguard\Repositories\Batch;
+namespace Vanguard\Repositories\Contact;
 
-use Vanguard\Batch;
+use Vanguard\Contact;
 
-interface BatchRepository
+interface ContactRepository
 {
     /**
-     * Paginate registered users.
+     * Paginate registered contacts.
      *
      * @param $perPage
      * @param null $search
      * @param null $status
      * @return mixed
      */
-    public function paginate($perPage, $search = null, $vendorId = null);
+    public function paginate($perPage, $search = null);
 
+    /**
+     * Lists all system roles into $key => $column value pairs.
+     *
+     * @param string $column
+     * @param string $key
+     * @return mixed
+     */
+    public function lists($column = 'name', $key = 'id');
+    
+    
     /**
      * Find user by its id.
      *
@@ -69,7 +79,7 @@ interface BatchRepository
      *
      * @return mixed
      */
-    public function newBatchesCount();
+    public function newContactsCount();
 
      /**
      * Get latest {$count} users from database.
@@ -78,22 +88,5 @@ interface BatchRepository
      * @return mixed
      */
     public function latest($count = 20);
- 
-    /**
-     * Lists all system roles into $key => $column value pairs.
-     *
-     * @param string $column
-     * @param string $key
-     * @return mixed
-     */
-    public function lists($column = 'name', $key = 'id');
- 
-    /**
-     * Lists all system roles into $key => $column value pairs.
-     *
-     * @param string $column
-     * @param string $key
-     * @return mixed
-     */
-    public function getVendorBatches($vendorId);
+    
 }

@@ -31,32 +31,32 @@
             </div>
         </a>
     </div>
-    @if (config('session.driver') == 'database')
-        <div class="col-md-3">
-            <a href="{{ route('profile.sessions') }}" class="panel-link">
-                <div class="panel panel-default dashboard-panel">
-                    <div class="panel-body">
-                        <div class="icon">
-                            <i class="fa fa-list"></i>
-                        </div>
-                        <p class="lead">@lang('app.my_sessions')</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-    @endif
-    <div class="col-md-3">
-        <a href="{{ route('profile.activity') }}" class="panel-link">
-            <div class="panel panel-default dashboard-panel">
-                <div class="panel-body">
-                    <div class="icon">
-                        <i class="fa fa-list-alt"></i>
-                    </div>
-                    <p class="lead">@lang('app.activity_log')</p>
-                </div>
-            </div>
-        </a>
-    </div>
+<!--     @if (config('session.driver') == 'database') -->
+<!--         <div class="col-md-3"> -->
+<!--             <a href="{{ route('profile.sessions') }}" class="panel-link"> -->
+<!--                 <div class="panel panel-default dashboard-panel"> -->
+<!--                     <div class="panel-body"> -->
+<!--                         <div class="icon"> -->
+<!--                             <i class="fa fa-list"></i> -->
+<!--                         </div> -->
+<!--                         <p class="lead">@lang('app.my_sessions')</p> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--             </a> -->
+<!--         </div> -->
+<!--     @endif -->
+<!--     <div class="col-md-3"> -->
+<!--         <a href="{{ route('profile.activity') }}" class="panel-link"> -->
+<!--             <div class="panel panel-default dashboard-panel"> -->
+<!--                 <div class="panel-body"> -->
+<!--                     <div class="icon"> -->
+<!--                         <i class="fa fa-list-alt"></i> -->
+<!--                     </div> -->
+<!--                     <p class="lead">@lang('app.activity_log')</p> -->
+<!--                 </div> -->
+<!--             </div> -->
+<!--         </a> -->
+<!--     </div> -->
     <div class="col-md-3">
         <a href="{{ route('auth.logout') }}" class="panel-link">
             <div class="panel panel-default dashboard-panel">
@@ -71,18 +71,18 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">@lang('app.activity') (@lang('app.last_two_weeks')</div>
-            <div class="panel-body">
-                <div>
-                    <canvas id="myChart" height="400"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- <div class="row"> -->
+<!--     <div class="col-md-12"> -->
+<!--         <div class="panel panel-default"> -->
+<!--             <div class="panel-heading">@lang('app.activity') (@lang('app.last_two_weeks')</div> -->
+<!--             <div class="panel-body"> -->
+<!--                 <div> -->
+<!--                     <canvas id="myChart" height="400"></canvas> -->
+<!--                 </div> -->
+<!--             </div> -->
+<!--         </div> -->
+<!--     </div> -->
+<!-- </div> -->
 
 @stop
 
