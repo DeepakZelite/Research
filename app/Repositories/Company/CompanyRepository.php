@@ -103,4 +103,11 @@ interface CompanyRepository
      */
     public function latest($count = 20);
     
+    /**
+     * Get the latest or last saved company record.
+     *
+     * @return mixed
+     */
+    public function getCompanyRecord($subBatchId, $userId);
+    
 }

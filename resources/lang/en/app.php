@@ -471,7 +471,7 @@ return [
 		'staff_id'=>'Staff ID',
 		'salutation'=>'Salutation',
 		'firstname'=>'First Name',
-		'middlename'=>'Middle Name',
+		//'middlename'=>'Middle Name',
 		'lastname'=>'Last Name',
 		'job_title'=>'Job Title',
 		'specification'=>'Specialization / Job Function',
@@ -492,8 +492,23 @@ return [
 		'contact_info2'=>'Contact Additional Info 2',
 		'contact_info3'=>'Contact. Additional Info 3',
 		'contact_info4'=>'Contact. Additional Info 4',
+
+		'dataCapture' => "Data Capture",
+		'start' => "Start",
+		'submit' => "Submit",
+		'staff_details_big' => "Staff Details",
+		'middle_name' => 'Middle Name',
+		'isd_code' => ' ISD Code',
+		'alternate_phone' => 'Alternate Phone',
+		'designation' => 'Designation',
+		'staff_note' => 'Staff Note',
+		'area_code' => 'Area Code',
+		'batch_submitted' => 'Batch has been submitted successfully.',
+		'contact_created' => 'Staff has been added successfully.',
+		'company_updated' => 'Company has been updated successfully.',
+
 		
-    'months' => [
+		'months' => [
         'January' => 'January',
         'February' => 'February',
         'March' => 'March',

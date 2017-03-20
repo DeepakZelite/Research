@@ -79,16 +79,16 @@
             </div>
         </div>
        <!--  <div class="row">
-            <div class="col-md-8">
-                @if (settings('2fa.enabled'))
+<!--             <div class="col-md-8"> -->
+<!--                 @if (settings('2fa.enabled')) -->
                     <?php $route = Authy::isEnabled($user) ? 'disable' : 'enable'; ?>
 
-                    {!! Form::open(['route' => ["user.two-factor.{$route}", $user->id], 'id' => 'two-factor-form']) !!}
-                        @include('user.partials.two-factor')
-                    {!! Form::close() !!}
-                @endif
-            </div>
-        </div> -->
+<!--                     {!! Form::open(['route' => ["user.two-factor.{$route}", $user->id], 'id' => 'two-factor-form']) !!} -->
+<!--                         @include('user.partials.two-factor') -->
+<!--                     {!! Form::close() !!} -->
+<!--                 @endif -->
+<!--             </div> -->
+<!--         </div> -->
     </div>
         <div class="col-md-2">
         <a href="{{ route('user.list') }}" class="btn btn-primary btn-block" id="cancel">

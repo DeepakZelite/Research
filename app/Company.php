@@ -20,5 +20,7 @@ class Company extends Model
     protected $fillable = ['batch_id','company_instructions','company_id','parent_company','company_name','address1','address2','city','zipcode','country','international_code','switchboardnumber','branchNumber','addresscode','website','comapny_email','products_services',
     		'industry_classfication','employee_size','physician_size','annual_revenue','number_of_beds','foundation_year','company_remark','additional_info1','additional_info2','additional_info3','additional_info4'];
     //protected $fillable = ['name', 'phone', 'mobile', 'email', 'sub_batch_id','batch_id','user_id'];
+
+    //protected $fillable = ['name', 'website', 'phone', 'mobile', 'email', 'sub_batch_id','batch_id','user_id', 'id']
   
 }

@@ -146,5 +146,25 @@ class EloquentCompany implements CompanyRepository
             ->limit($count)
             ->get();
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getCompanyRecord($subBatchId, $userId)
+    {
+    	$query = Company::query();
+    	if ($subBatchId != 0) {
+    		$query->where(function ($q) use($subBatchId, $userId) {
+    			$q->where('companies.sub_batch_id', "=", "{$subBatchId}")
+    			->where('companies.user_id', "=", "{$userId}")
+    			->where('companies.status', "=", "Assigned")
+    			->orderBy('id', 'ASC');
+    		});
+    	} else {
+    		return 0;
+    	}
+    	$result = $query->limit(1)->get();
+    	return $result;
+    }
 
 }
