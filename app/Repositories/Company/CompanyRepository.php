@@ -110,4 +110,11 @@ interface CompanyRepository
      */
     public function getCompanyRecord($subBatchId, $userId);
     
+    /**
+     * Get the un-assigned companies for batch.
+     *
+     * @return mixed
+     */
+    public function getCompaniesForBatch($batchId, $limit);
+    
 }

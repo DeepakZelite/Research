@@ -18,6 +18,7 @@ use Vanguard\Repositories\User\UserRepository;
 use Vanguard\Repositories\Company\CompanyRepository;
 use Vanguard\Http\Requests\SubBatch\CreateSubBatchRequest;
 use Vanguard\Support\Enum\SubBatchStatus;
+use Vanguard\Company;
 
 /**
  * Class SubSubBatchesController - Controls all the operations for SubBatch entity
@@ -33,17 +34,19 @@ class SubBatchesController extends Controller
 	private $users;
 	protected $theUser;
 	private $batchId;
+	private $companyRepository;
 	/**
 	 * SubSubBatchesController constructor.
 	 * @param SubBatchRepository $users
 	 */
-	public function __construct(SubBatchRepository $subBatches)
+	public function __construct(SubBatchRepository $subBatches,CompanyRepository $companyRepository)
 	{
 		$this->middleware('auth');
 		$this->middleware('session.database', ['only' => ['sessions', 'invalidateSession']]);
 		$this->middleware('permission:batch.allocation');
 		$this->subBatches = $subBatches;
 		$this->theUser = Auth::user();
+		$this->companyRepository = $companyRepository;
 	}
 
 	/**
@@ -98,6 +101,18 @@ class SubBatchesController extends Controller
 		$data = $request->all() + ['status' => SubBatchStatus::ASSIGNED]
 			+ ['seq_no' => $newSeqNo];
 		$subBatch = $this->subBatches->create($data);
+		
+		// Assign the companies to selected user
+		$companies = $this->companyRepository->getCompaniesForBatch($request->input('batch_id'), $request->input('company_count'));
+		if (count($companies)) {
+			foreach ($companies as $company) {
+				$company->status = "Assigned";
+				$company->user_id = $request->input('user_id');
+				$company->sub_batch_id = $subBatch->id;
+				$company->update();
+			}
+		}
+		
 		return redirect()->route('subBatch.list')
 		->withSuccess(trans('app.sub_batch_created'));
 		 
