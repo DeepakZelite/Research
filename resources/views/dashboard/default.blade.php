@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
-            @lang('app.welcome') <?= Auth::user()->username ?: Auth::user()->first_name ?>!
+            @lang('app.welcome') <?= Auth::user()->first_name ?: Auth::user()->last_name ?>!
             <div class="pull-right">
                 <ol class="breadcrumb">
                     <li><a href="{{ route('dashboard') }}">@lang('app.home')</a></li>

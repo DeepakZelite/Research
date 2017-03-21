@@ -16,5 +16,4 @@ class SubBatchStatus
             self::COMPLETE => trans('app.' . self::UNCONFIRMED)
         ];
     }
-  
 }

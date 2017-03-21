@@ -46,7 +46,7 @@ class EloquentCompany implements CompanyRepository
 
         if ($search) {
             $query->where(function ($q) use($search) {
-                $q->where('name', "like", "%{$search}%");
+                $q->where('company_name', "like", "%{$search}%");
             });
         }
 

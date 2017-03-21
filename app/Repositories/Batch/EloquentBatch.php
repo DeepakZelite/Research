@@ -47,6 +47,9 @@ class EloquentBatch implements BatchRepository
         if ($search) {
             $query->where(function ($q) use($search) {
                 $q->where('batches.name', "like", "%{$search}%");
+                $q->orwhere('projects.code',"like","%{$search}%");
+                $q->orwhere('vendors.name',"like","%{$search}%");
+                $q->orwhere('projects.No_Companies',"like","%{$search}%");
             });
         }
 

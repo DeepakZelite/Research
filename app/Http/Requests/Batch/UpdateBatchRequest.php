@@ -18,6 +18,8 @@ class UpdateBatchRequest extends Request
     			'name' => 'unique:batches,name,' . $batch->id,
     			'Target_Date'=>'required|date',
     			'attachement'=>'required|file',
+    			'project_id'=>'required|exists:projects,id',
+    			'vendor_id'=>'required|exists:vendors,id',
     	];
     }
 }

@@ -70,7 +70,7 @@
 				    	<input type='text' name="upload" id='upload'  placeholder="@lang('select file')"  value="" class="form-control" />
 				    	<span class="input-group-btn">
 				    	<input type="file" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="file" id="attachement" name="attachement" style="display: none;" onchange="fileSelected(this)"/>
-				    	<button class="btn btn-success" type="button" id="btnAttachment" onclick="openAttachment()">@lang('app.upload')</button>
+				    	<button class="btn btn-success" type="button"  id="btnAttachment" onclick="openAttachment()">@lang('app.upload')</button>
     					</span>
   					</div>
 				</div>
@@ -90,6 +90,11 @@
             <i class="fa fa-save"></i>
             {{ $edit ? trans('app.update_batch') : trans('app.create_batch') }}
         </button>
+    </div>
+    <div class="col-md-2">
+        <a href="{{ route('batch.list') }}" class="btn btn-primary btn-block" id="cancel">
+            @lang('app.cancel')
+        </a>
     </div>
 </div>
 

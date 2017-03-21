@@ -16,19 +16,24 @@
                         ['class' => 'form-control', 'id' => 'vendor_id',$profile ? 'disabled' : '']) !!}
                 </div>
                 <div class="form-group">
-                    <label for="first_name">@lang('app.first_name')</label>
+                    <label for="first_name">@lang('app.first_name')<i style="color:red;">*</i></label>
                     <input type="text" class="form-control" id="first_name"
                            name="first_name" placeholder="@lang('app.first_name')" value="{{ $edit ? $user->first_name : '' }}">
                 </div>
                 <div class="form-group">
-                    <label for="last_name">@lang('app.last_name')</label>
+                    <label for="last_name">@lang('app.last_name')<i style="color:red;">*</i></label>
                     <input type="text" class="form-control" id="last_name"
                            name="last_name" placeholder="@lang('app.last_name')" value="{{ $edit ? $user->last_name : '' }}">
                 </div>
                 <div class="form-group">
                     <label for="status">@lang('app.status')<i style="color:red;">*</i></label>
-                    {!! Form::select('status', $statuses, $edit ? $user->status : '',
-                        ['class' => 'form-control', 'id' => 'status', $profile ? 'disabled' : '']) !!}
+                    @if($edit)
+                    	{!! Form::select('status', $statuses, $edit ? $user->status : '',
+                        	['class' => 'form-control', 'id' => 'status', $profile ? 'disabled' : '']) !!}
+                    @else
+                    	{!! Form::select('status', $statuses, $edit ? $user->status : '',
+                        	['class' => 'form-control','disabled' => 'disabled', 'id' => 'status', $profile ? 'disabled' : '']) !!}
+                    @endif                    	
                 </div>
             </div>
 <!-- 

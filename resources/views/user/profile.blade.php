@@ -76,6 +76,24 @@
                 {!! Form::close() !!}
             </div>
         </div>
+
+      <!--   <div class="row">
+            <div class="col-md-8">
+                @if (settings('2fa.enabled'))
+                    <?//php $route = Authy::isEnabled($user) ? 'disable' : 'enable'; ?>
+
+                    {!! Form::open(['route' => "profile.two-factor.{$route}", 'id' => 'two-factor-form']) !!}
+                        @include('user.partials.two-factor')
+                    {!! Form::close() !!}
+                @endif
+            </div>
+        </div> -->
+    </div>
+        <div class="col-md-2">
+        <a href="{{ route('dashboard') }}" class="btn btn-primary btn-block" id="cancel">
+            @lang('app.cancel')
+        </a>
+
 <!--         <div class="row"> -->
 <!--             <div class="col-md-8"> -->
 <!--                 @if (settings('2fa.enabled')) -->
@@ -104,7 +122,7 @@
     {!! HTML::script('assets/js/as/btn.js') !!}
     {!! HTML::script('assets/js/as/profile.js') !!}
     {!! JsValidator::formRequest('Vanguard\Http\Requests\User\UpdateDetailsRequest', '#details-form') !!}
-    {!! JsValidator::formRequest('Vanguard\Http\Requests\User\UpdateProfileLoginDetailsRequest', '#login-details-form') !!}
+	{!! JsValidator::formRequest('Vanguard\Http\Requests\User\UpdateProfileLoginDetailsRequest', '#login-details-form') !!}
 
     @if (config('auth.2fa.enabled'))
         {!! JsValidator::formRequest('Vanguard\Http\Requests\User\EnableTwoFactorRequest', '#two-factor-form') !!}

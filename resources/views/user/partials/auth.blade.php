@@ -2,14 +2,19 @@
     <div class="panel-heading">@lang('app.login_details')</div>
     <div class="panel-body">
         <div class="form-group">
-            <label for="email">@lang('app.email')</label>
+            <label for="email">@lang('app.email')<i style="color:red;">*</i></label>
             <input type="email" class="form-control" id="email"
-                   name="email" placeholder="@lang('app.optional')" value="{{ $edit ? $user->email : '' }}">
+                   name="email" placeholder="@lang('app.email')" value="{{ $edit ? $user->email : '' }}">
         </div>
         <div class="form-group">
             <label for="username">@lang('app.username')<i style="color:red;">*</i></label>
-            <input type="text" class="form-control" id="username" placeholder="(@lang('app.username'))"
+
+            <input type="text" class="form-control" id="username" placeholder="@lang('app.username')"
+                   name="username" value="{{ $edit ? $user->username : '' }}"@if ($edit) readonly="readonly" @endif>
+
+          <!--  <input type="text" class="form-control" id="username" placeholder="(@lang('app.username'))"
                    name="username" value="{{ $edit ? $user->username : '' }}"@if ($edit) class="form-control" @endif>
+            -->
         </div>
         <div class="form-group">
             <label for="password">{{ $edit ? trans("app.new_password") : trans('app.password') }}<i style="color:red;">*</i></label>
