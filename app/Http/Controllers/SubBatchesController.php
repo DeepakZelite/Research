@@ -112,6 +112,7 @@ class SubBatchesController extends Controller
 				$company->update();
 			}
 		}
+
 		$batch=batch::find($request->input('batch_id'));
 		$batch->status=SubBatchStatus::INPROCESS;
 		$batch->update();
