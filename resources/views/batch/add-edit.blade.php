@@ -69,7 +69,7 @@
  					<div class="input-group">
 				    	<input type='text' name="upload" id='upload'  placeholder="@lang('select file')"  value="" class="form-control" />
 				    	<span class="input-group-btn">
-				    	<input type="file" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="file" id="attachement" name="attachement" style="display: none;" onchange="fileSelected(this)"/>
+				    	<input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="file" id="attachement" name="attachement" style="display: none;" onchange="fileSelected(this)"/>
 				    	<button class="btn btn-success" type="button"  id="btnAttachment" onclick="openAttachment()">@lang('app.upload')</button>
     					</span>
   					</div>

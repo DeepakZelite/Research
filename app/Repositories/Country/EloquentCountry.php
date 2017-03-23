@@ -13,4 +13,12 @@ class EloquentCountry implements CountryRepository
     {
         return Country::orderBy('name')->lists($column, $key);
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function lists1($column = 'calling_code', $key = 'id')
+    {
+    	return Country::orderBy('calling_code')->lists($column, $key);
+    }
 }

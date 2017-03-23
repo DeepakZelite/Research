@@ -35,6 +35,7 @@ class SubBatchesController extends Controller
 	protected $theUser;
 	private $batchId;
 	private $companyRepository;
+	private $batchRepository;
 	/**
 	 * SubSubBatchesController constructor.
 	 * @param SubBatchRepository $users
@@ -61,7 +62,6 @@ class SubBatchesController extends Controller
 		$statuses = ['' => trans('app.all')] + UserStatus::lists();
 		$vendorId = $this->theUser->vendor_id;
 		$batches = $batchRepository->getVendorBatches($vendorId);
-
 	//	$batches->prepend('Select Batch');
 	//	$users = $userRepository->getVendorUsers($vendorId);
 	//	$users->prepend('Select User');
@@ -95,13 +95,14 @@ class SubBatchesController extends Controller
 	 * @param CreateSubBatchRequest $request
 	 * @return mixed
 	 */
-	public function store(CreateSubBatchRequest $request)
+	public function store(CreateSubBatchRequest $request,Batch $batch,CompanyRepository $companyRepository)
 	{
+		$batchId = $request->input('batch_id');
+		if($companyRepository->getUnAssignedCount($batchId)>= $request->company_count)
+		{
 		$newSeqNo = $this->subBatches->getMaxSeqNo($request->input('batch_id'))+1;
 		$data = $request->all() + ['status' => SubBatchStatus::ASSIGNED] + ['seq_no' => $newSeqNo] ;;
 		$subBatch = $this->subBatches->create($data);
-		
-		// Assign the companies to selected user
 		$companies = $this->companyRepository->getCompaniesForBatch($request->input('batch_id'), $request->input('company_count'));
 		if (count($companies)) {
 			foreach ($companies as $company) {
@@ -111,10 +112,18 @@ class SubBatchesController extends Controller
 				$company->update();
 			}
 		}
-		
+
+		$batch=batch::find($request->input('batch_id'));
+		$batch->status=SubBatchStatus::INPROCESS;
+		$batch->update();
 		return redirect()->route('subBatch.list')
 		->withSuccess(trans('app.sub_batch_created'));
-		 
+		}
+		else 
+		{
+			return redirect()->route('subBatch.list')
+			->withErrors(trans('app.sub_batch_not_created'));
+		}
 	}
 
 	/**
@@ -146,7 +155,7 @@ class SubBatchesController extends Controller
 	}
 	
 	public function getCompanyCount(Request $request, CompanyRepository $companyRepository) {
-		$batchId = $request->input('batch_id');
+		$batchId = $request->input('batchId');
 		if ($batchId == "") {
 			$batchId = 0;
 		}
@@ -154,7 +163,29 @@ class SubBatchesController extends Controller
 		if ($userId == "") {
 			$userId = 0;
 		}
-		return $companyRepository->getTotalCompanyCount($batchId) . ',' . $companyRepository->getUnAssignedCount($batchId);
-				
+		return $companyRepository->getTotalCompanyCount($batchId) . ',' . $companyRepository->getUnAssignedCount($batchId);		
+	}
+	
+	public function delete(SubBatch $subBatch,CompanyRepository $companyRepository)
+	{
+		$subBatch1=SubBatch::find($subBatch->id);
+		$companies = $this->companyRepository->getCompaniesForSubBatchDelete($subBatch1->id);
+		if (count($companies)) {
+			foreach ($companies as $company) {
+				$company->status = "UnAssigned";
+				$company->user_id = "";
+				$company->sub_batch_id = "";
+				$company->update();
+			}
+		}
+		if($companyRepository->getTotalCompanyCount($subBatch1->batch_id) == $companyRepository->getUnAssignedCount($subBatch1->batch_id))
+		{
+			$batch=batch::find($subBatch1->batch_id);
+			$batch->status=SubBatchStatus::ASSIGNED;
+			$batch->update();
+		}
+		$this->subBatches->delete($subBatch->id);
+		return redirect()->route('subBatch.list')
+		->withSuccess(trans('app.sub_batch_deleted'));
 	}
 }

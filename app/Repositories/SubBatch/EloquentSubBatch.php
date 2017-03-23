@@ -77,7 +77,8 @@ class EloquentSubBatch implements SubBatchRepository
     
     	if ($search) {
     		$query->where(function ($q) use($search) {
-    			$q->where('subBatches.name', "like", "%{$search}%");
+    			$q->where('batches.name', "like", "%{$search}%");
+    			$q->orwhere('users.username',"like","%{$search}%");
     		});
     	}
     	

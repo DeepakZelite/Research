@@ -7,3 +7,5 @@ Homestead.json
 .env
 .idea
 /documentation
+
+composer.json
