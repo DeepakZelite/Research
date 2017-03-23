@@ -833,6 +833,7 @@
                 "illuminate/http": "~5.0",
                 "illuminate/support": "~5.0",
                 "league/oauth1-client": "~1.0",
+                "maatwebsite/excel": "~2.1.0",
                 "php": ">=5.4.0"
             },
             "require-dev": {
@@ -887,7 +888,8 @@
                 "illuminate/session": "5.2.*",
                 "illuminate/support": "5.2.*",
                 "illuminate/view": "5.2.*",
-                "php": ">=5.5.9"
+                "php": ">=5.5.9",
+                "maatwebsite/excel": "~2.1.0"
             },
             "require-dev": {
                 "illuminate/database": "5.2.*",

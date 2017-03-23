@@ -62,12 +62,12 @@
                                  </a>
                              </li>
                          @endpermission
-<!--                          @permission('permissions.manage') -->
-<!--                              <li> -->
-<!--                                  <a href="{{ route('permission.index') }}" -->
-<!--                                     class="{{ Request::is('permission*') ? 'active' : ''  }}">@lang('app.permissions')</a> -->
-<!--                              </li> -->
-<!--                          @endpermission -->
+<!--                           @permission('permissions.manage') 
+                              <li> 
+                                  <a href="{{ route('permission.index') }}" 
+                                     class="{{ Request::is('permission*') ? 'active' : ''  }}">@lang('app.permissions')</a> 
+                              </li> 
+                          @endpermission  -->
                      </ul>
                  </li>
              @endpermission

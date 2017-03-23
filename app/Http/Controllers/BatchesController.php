@@ -16,8 +16,8 @@ use Vanguard\Repositories\Project\ProjectRepository;
 use Vanguard\Repositories\Vendor\VendorRepository;
 use Vanguard\Support\Enum\SubBatchStatus;
 use DB;
-use App\Upload;
 use Excel;
+use App\Upload;
 use App\Http\Requests;
 
 
@@ -100,7 +100,7 @@ class BatchesController extends Controller
 			})->get();
 			if(!empty($data1) && $data1->count()){
 				foreach ($data1 as $key => $value) {
-					$insert[] = ['batch_id'=>$batch->id,'status' => 'un-assigned','company_instructions' => $value->company_instructions, 'company_id' => $value->company_id,'parent_company' => $value->parent_company, 'company_name' => $value->company_name,'address1' => $value->address1, 'address2' => $value->address2,'city' => $value->city, 'state' => $value->state,'zipcode' => $value->zipcode, 'country' => $value->country,'international_code' => $value->international_code, 'switchboardnumber' => $value->switchboardnumber,'branchNumber' => $value->branch_number, 'addresscode' => $value->addresscode,'website' => $value->website, 'comapny_email' => $value->comapny_email,
+					$insert[] = ['batch_id'=>$batch->id,'status' => 'UnAssigned','company_instructions' => $value->company_instructions, 'company_id' => $value->company_id,'parent_company' => $value->parent_company, 'company_name' => $value->company_name,'address1' => $value->address1, 'address2' => $value->address2,'city' => $value->city, 'state' => $value->state,'zipcode' => $value->zipcode, 'country' => $value->country,'international_code' => $value->international_code, 'switchboardnumber' => $value->switchboardnumber,'branchNumber' => $value->branch_number, 'addresscode' => $value->addresscode,'website' => $value->website, 'company_email' => $value->company_email,
 							'products_services' => $value->products_services, 'industry_classfication' => $value->industry_classfication,'employee_size' => $value->employee_size, 'physician_size' => $value->physician_size,'annual_revenue' => $value->annual_revenue, 'number_of_beds' => $value->number_of_beds,'foundation_year' => $value->foundation_year, 'company_remark' => $value->company_remark,'additional_info1' => $value->additional_info1, 'additional_info2' => $value->additional_info2,'additional_info3' => $value->additional_info3, 'additional_info4' => $value->additional_info4];
 				}
 				if(!empty($insert)){
@@ -164,6 +164,6 @@ class BatchesController extends Controller
 	{
 		$this->batches->delete($batch->id);
 		return redirect()->route('batch.list')
-		->withSuccess(trans('app.user_deleted'));
+		->withSuccess(trans('app.batch_deleted'));
 	}
 }

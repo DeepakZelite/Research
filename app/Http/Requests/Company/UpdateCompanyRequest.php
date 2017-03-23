@@ -15,10 +15,10 @@ class UpdateCompanyRequest extends Request
     {
     	$company = $this->route('company');
     	return [
-//     			'name' => 'required|unique:name',
-//     			'phone'=>'required|digits:10',
-//     			'email'=>'required|email',
-//     			'mobile'=>'digits:10'
+     			//'company_name' => 'required|unique:companies,company_name,' . $company->id,
+     			//'phone'=>'required|digits:10',
+     			//'email'=>'required|email',
+     			//'mobile'=>'digits:10'
     	];
     }
 }

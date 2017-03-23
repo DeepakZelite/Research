@@ -16,6 +16,12 @@ use Vanguard\Repositories\Contact\ContactRepository;
 use Vanguard\Repositories\SubBatch\SubBatchRepository;
 use Vanguard\Repositories\User\UserRepository;
 use Vanguard\SubBatch;
+use Vanguard\Batch;
+use Vanguard\Http\Requests\Contact\UpdateContactRequest;
+use Vanguard\Repositories\Country\CountryRepository;
+use Vanguard\Support\Enum\SubBatchStatus;
+use Vanguard\Employee;
+use Vanguard\Repositories\Employee\EmployeeRepository;
 
 /**
  * Class DataCaptureController - Controls all the operations for Company and Staff entity
@@ -28,6 +34,7 @@ class DataCaptureController extends Controller
 	private $batchId;
 	private $companyRepository;
 	private $contactRepository;
+	private $batchRepository;
 	
 	/**
 	 * Constructs the data capture screen requisites
@@ -67,7 +74,9 @@ class DataCaptureController extends Controller
 	 * @param UpdateCompanyRequest $request
 	 * @return on the same screen with success message.
 	 */
-	public function storeCompany(Company $company, UpdateCompanyRequest $request) {
+	public function storeCompany(Company $company, UpdateCompanyRequest $request) 
+	{
+		//return $company->id;
 		$this->companyRepository->update($company->id, $request->all());
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.company_updated'));
 	}
@@ -79,9 +88,8 @@ class DataCaptureController extends Controller
 	 * @param CreateContactRequest $request
 	 * @return on the same screen with newly added contact on the screen being the first record
 	 */
-	public function storeStaff(Company $company, CreateContactRequest $request) {
-		
-		$data = $request->all();
+	public function storeStaff(Company $company, CreateContactRequest $request) 
+	{
 		$data = $request->all() + ['company_id' => $company->id]
 		+ ['user_id' => $this->theUser->id];
 		$contact = $this->contactRepository->create($data);
@@ -96,17 +104,19 @@ class DataCaptureController extends Controller
 	 * @param CompanyRepository $companyRepository
 	 * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory|unknown
 	 */
-	public function capture($subBatchId, Company $company, CompanyRepository $companyRepository)
+	public function capture($subBatchId, Company $company, CompanyRepository $companyRepository,CountryRepository $countryRepository)
 	{
 		// Get the first or last saved company record from the sub batch.
 		$edit = "true";
 		$perPage = 100;
+		$countries = $countryRepository->lists();
+		$countries1=$countryRepository->lists1();
 		$companies = $companyRepository->getCompanyRecord($subBatchId, $this->theUser->id);
 		if (sizeof($companies) > 0) {
 			// open the company-staff capture screen for this company
 			$company = $companies[0];
 			$contacts = $this->contactRepository->paginate($perPage, Input::get('search'), $company->id); // remove this and add staffs
-			return view('Company.company-data', compact('subBatchId', 'edit', 'company', 'contacts'));
+			return view('Company.company-data', compact('countries','countries1','subBatchId', 'edit', 'company', 'contacts'));
 		} else {
 			// All the company records are submitted in this sub batch.
 			// Set the status of sub-batch to Submitted and redirect to sub-batch list
@@ -122,12 +132,30 @@ class DataCaptureController extends Controller
 	 * @param Company $company
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
-	public function submitCompany(Company $company) {
-		
+	public function submitCompany(Company $company,CompanyRepository $companyRepository) 
+	{
 		$comp=Company::find($company->id);
 		$comp->status="Submitted";
 		$comp->save();
+		if($companyRepository->getTotalCompanyCount($comp->batch_id)==$companyRepository->getSubmittedCompanyCount($comp->batch_id))
+		{
+			$batch=batch::find($comp->batch_id);
+			$batch->status=SubBatchStatus::COMPLETE;
+			$batch->update();
+		}
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id);
 	}	
+	
+	
+	/////////////
+	
+	public function updateStaff(Contact $contact, UpdateContactRequestest $request) 
+	{
+		$data = $request->all();
+		$data = $request->all() + ['company_id' => $company->id]
+		+ ['user_id' => $this->theUser->id];
+		$contact = $this->contactRepository->update($contact->id,$data);
+		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.contact_created'));
+	}
 	
 }

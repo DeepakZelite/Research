@@ -167,6 +167,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
         anlutro\LaravelSettings\ServiceProvider::class,
+    	Maatwebsite\Excel\ExcelServiceProvider::class,
     	
         /*
          * Application Service Providers...
@@ -236,7 +237,7 @@ return [
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
         'Settings' => anlutro\LaravelSettings\Facade::class,
         'Authy' => Vanguard\Services\Auth\TwoFactor\Facade::class,
-    	
+    	'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

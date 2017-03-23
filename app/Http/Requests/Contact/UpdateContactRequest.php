@@ -13,9 +13,9 @@ class UpdateContactRequest extends Request
      */
     public function rules()
     {
-    	$project = $this->route('project');
+    	$company = $this->route('company');
     	return [
-    			
+    			'first_name' => 'required|unique:companies,first_name,'.$company->id,
     	];
     }
 }
