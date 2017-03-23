@@ -33,7 +33,7 @@ interface CompanyRepository
      * @return null|User
      */
     public function find($id);
-
+	//public function findByBatch($batch_id);
     /**
      * Find user by email.
      *
@@ -59,6 +59,7 @@ interface CompanyRepository
      */
     public function update($id, array $data);
 
+    //public function update($batch_id,array $data);
     /**
      * Delete user with provided id.
      *
@@ -110,4 +111,23 @@ interface CompanyRepository
      */
     public function getCompanyRecord($subBatchId, $userId);
     
+    /**
+     * Get the un-assigned companies for batch.
+     *
+     * @return mixed
+     */
+    public function getCompaniesForBatch($batchId, $limit);
+    
+    
+    /**
+     * Get the un-assigned companies for batch.
+     *
+     * @return mixed
+     */
+    public function getCompaniesForSubBatchDelete($batchId);
+    
+    
+    
+    
+    public function getSubmittedCompanyCount($batchId);
 }

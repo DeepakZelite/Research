@@ -390,6 +390,7 @@ return [
 		'are_you_sure_delete_Batch'=>'are you sure delete Batch',
 		'delete_batch'=>'delete batch',
 		'download'=>'Download',
+		'batch_deleted'=>'Batch Deleted Successfully',
 		
 		// Batch Allocation
 		'no_of_records' => 'Enter no of records',
@@ -402,6 +403,10 @@ return [
 		'assigned_user' => 'Assigned User',
 		'companies' => 'Companies',
 		'search' => 'search',
+		'delete_subBatch'=>'Delete subBatch',
+		'sub_batch_deleted'=>'Sub Batch Deleted Successfully',
+		'sub_batch_not_created'=>'No of Companies should be less that unassigned Companies',
+		'sub_batch_created'=>'Sub-Batch Successfully Created',
 
 		// Companies
 		'companys' => 'Company',
@@ -419,7 +424,7 @@ return [
 		'company_created' => 'Company has been created successfully',
 		'company_updated' => 'Company has been updated successfully',
 		'search_for_companys' => "Search for companies",
-		'add_contact' => "Add contact",
+		'add_contact' => "Add Contact",
 		
 		// Companies
 		'companys' => 'Company',
@@ -442,7 +447,7 @@ return [
 		
 		'company_instructions'=>'Company Instructions',
 		'company_id'=>'Comapny ID',
-		'parent_company'=>'Parent Company',
+		'child_company'=>'Child Company',
 		'Company_name'=>'Company Name',
 		'address1'=>'Address line1',
 		'address2'=>'Address line2',
@@ -455,7 +460,7 @@ return [
 		'branchNumber'=>'Branch Number',
 		'addresscode'=>'Address Source',
 		'website'=>'Website',
-		'comapny_email'=>'Company Email',
+		'company_email'=>'Company Email',
 		'products_services'=>'Products & Services',
 		'industry_classfication'=>'Industry Classification',
 		'employee_size'=>'Employee Size',
@@ -474,12 +479,12 @@ return [
 		//'middlename'=>'Middle Name',
 		'lastname'=>'Last Name',
 		'job_title'=>'Job Title',
-		'specification'=>'Specialization / Job Function',
+		'specialization'=>'specialization / Job Function',
 		'qualification'=>'Qualification',
 		'staff_source'=>'Staff Source',
-		'staff_email1'=>'Staff Email',
+		'staff_email'=>'Staff Email',
 		'staff_email2'=>'Alternate Staff Email',
-		'direct_emailsource'=>'Direct Email Source',
+		'email_source'=>'Direct Email Source',
 		'direct_phoneno'=>'Direct Phone Number',
 		'deparment_number'=>'Department Phone Number',
 		'shift_timing'=>'Shift Timings',
@@ -490,8 +495,10 @@ return [
 		'staff_remarks'=>'Staff Remarks',
 		'contact_info1'=>'Contact Additional Info 1',
 		'contact_info2'=>'Contact Additional Info 2',
-		'contact_info3'=>'Contact. Additional Info 3',
-		'contact_info4'=>'Contact. Additional Info 4',
+		'contact_info3'=>'Contact Additional Info 3',
+		'contact_info4'=>'Contact Additional Info 4',
+		'additional-info'=>'Additional Info',
+		'staff_info'=>'Staff Info',
 
 		'dataCapture' => "Data Capture",
 		'start' => "Start",

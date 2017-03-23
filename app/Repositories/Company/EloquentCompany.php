@@ -20,7 +20,10 @@ class EloquentCompany implements CompanyRepository
     {
         return Company::find($id);
     }
-
+	/*public function findByBatch($batch_id)
+	{
+		return Company::find($batch_id);
+	}
     /**
      * {@inheritdoc}
      */
@@ -66,7 +69,10 @@ class EloquentCompany implements CompanyRepository
     {
         return $this->find($id)->update($data);
     }
-    
+    /* public function update($batch_id,array $data)
+     {
+     	return $this->find($batch_id->update($data));
+     }
     /**
      * {@inheritdoc}
      */
@@ -94,7 +100,8 @@ class EloquentCompany implements CompanyRepository
     	if ($batchId != 0) {
     		$query->where(function ($q) use($batchId) {
     			$q->where('companies.batch_id', "=", "{$batchId}")
-    				->whereNull('sub_batch_id');
+    				->whereNull('sub_batch_id')
+    				->orwhere('sub_batch_id',"=","0");
     		});
     	} else {
     		return 0;
@@ -167,4 +174,60 @@ class EloquentCompany implements CompanyRepository
     	return $result;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getCompaniesForBatch($batchId, $limit)
+    {
+    	$query = Company::query();
+    	if ($batchId != 0) {
+    		$query->where(function ($q) use($batchId) {
+    			$q->where('companies.batch_id', "=", "{$batchId}")
+    			->where('companies.status', "=", "UnAssigned")
+    			->orderBy('id', 'ASC');
+    		});
+    	} else {
+    		return 0;
+    	}
+    	$result = $query->limit($limit)->get();
+    	return $result;
+    }
+    
+    
+    /**
+     * {@inheritdoc}
+     * /
+     */
+    public function getCompaniesForSubBatchDelete($batchId)
+    {
+    	$query = Company::query();
+    	if ($batchId != 0) {
+    		$query->where(function ($q) use($batchId) {
+    			$q->where('companies.sub_batch_id', "=", "{$batchId}")
+    			->orderBy('id', 'ASC');
+    		});
+    	} else {
+    		return 0;
+    	}
+    	$result = $query->get();
+    	return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSubmittedCompanyCount($batchId)
+    {
+    	$query = Company::query();
+    	if ($batchId != 0) {
+    		$query->where(function ($q) use($batchId) {
+    			$q->where('companies.batch_id', "=", "{$batchId}");
+    			$q->where('companies.status',"=","Submitted");
+    		});
+    	} else {
+    		return 0;
+    	}
+    	$result = $query->count();
+    	return $result;
+    }
 }

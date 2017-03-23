@@ -80,7 +80,7 @@
       <!--   <div class="row">
             <div class="col-md-8">
                 @if (settings('2fa.enabled'))
-                    <?//php $route = Authy::isEnabled($user) ? 'disable' : 'enable'; ?>
+                    <?php $route = Authy::isEnabled($user) ? 'disable' : 'enable'; ?>
 
                     {!! Form::open(['route' => "profile.two-factor.{$route}", 'id' => 'two-factor-form']) !!}
                         @include('user.partials.two-factor')
