@@ -3,7 +3,6 @@
 @section('page-title', trans('app.subBatches'))
 
 @section('content')
-
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
@@ -111,10 +110,20 @@
                          <td>{{ $subBatch->company_count }}</td>
                          <td>{{ $subBatch->status }}</td>
                          <td class="text-center">
-                            <a href="{{ route('batch.edit', $subBatch->id) }}" class="btn btn-primary btn-circle"
+                            @if($subBatch->status =="Assigned")
+                           <a href="{{ route('subBatch.delete', $subBatch->id) }}" class="btn btn-danger btn-circle" title="@lang('app.delete_subBatch')"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    data-method="DELETE"
+                                    data-confirm-title="@lang('app.please_confirm')'"
+                                    data-confirm-text="@lang('app.are_you_sure_delete_batch')"
+                                    data-confirm-delete="@lang('app.yes_delete_him')'">
+                                <i class="glyphicon glyphicon-trash"></i></a>
+                          @endif
+                          <!--  <a href="{{ route('batch.edit', $subBatch->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_batch')" data-toggle="tooltip" data-placement="top">
                                 <i class="glyphicon glyphicon-edit"></i>
-                            </a>
+                            </a>-->
           				</td>
                      </tr>
                 @endforeach
@@ -128,23 +137,30 @@
 
     {!! $subBatches->render() !!}
 </div>
-
 @stop
 
 @section('scripts')
+  <!--   {!! HTML::script('assets/js/jquery-2.1.4.min.js') !!}
+    {!! HTML::script('assets/js/bootstrap.min.js') !!}
+    {!! HTML::script('assets/js/metisMenu.min.js') !!}
+    {!! HTML::script('assets/js/sweetalert.min.js') !!}
+    {!! HTML::script('assets/js/delete.handler.js') !!}
+    {!! HTML::script('assets/plugins/js-cookie/js.cookie.js') !!}
+    {!! HTML::script('assets/js/count.js') !!}
+    <script type="text/javascript">-->
     <script>
         $("#status").change(function () {
             $("#sub_batches-form").submit();
         });
-
         $("#batch_id").change(function() {
 			//alert("OnChanged");
              var batchId = $( this ).val();
+             //alert(" "+batchId)
              var userId = $("#user_id").val();
-			//alert(selectedValue);           
+			//alert(" "+userId);           
             $.ajax({
                 method: "GET",
-                url: "http://localhost:88/vguard/public/subBatch/getCompanyCount",
+                url: "http://localhost:88/Research/public/subBatch/getCompanyCount",
                 data: {batchId:batchId, userId:userId}
             })
             .done(function(data) {
@@ -153,7 +169,7 @@
 				$("#unAssignedCompanies").val("Unassigned companies = " + array[1]);
             });
         });
-        
+
     </script>
         {!! JsValidator::formRequest('Vanguard\Http\Requests\SubBatch\CreateSubBatchRequest', '#sub_batches-form') !!}
 @stop

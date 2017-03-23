@@ -591,8 +591,13 @@ Route::post('dataCapture/{company}/storeStaff', [
 		'uses' => 'DataCaptureController@storeStaff'
 ]);
 
+
 Route::get('dataCapture/{company}/submitCompany', [
 		'as' => 'dataCapture.submitCompany',
 		'uses' => 'DataCaptureController@submitCompany'
 ]);
 
+Route::post('dataCapture/{company}/updateStaff', [
+		'as' => 'dataCapture.updateStaff',
+		'uses' => 'DataCaptureController@updateStaff'
+]);
