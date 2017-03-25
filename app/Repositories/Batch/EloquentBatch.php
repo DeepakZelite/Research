@@ -40,10 +40,14 @@ class EloquentBatch implements BatchRepository
     /**
      * {@inheritdoc}
      */
-    public function paginate($perPage, $search = null, $vendorId = null)
+    public function paginate($perPage, $search = null, $vendorId = null, $status = null)
     {
         $query = Batch::query();
 
+        if ($status) {
+        	$query->where('status', $status);
+        }
+        
         if ($search) {
             $query->where(function ($q) use($search) {
                 $q->where('batches.name', "like", "%{$search}%");

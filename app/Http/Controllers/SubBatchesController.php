@@ -36,6 +36,7 @@ class SubBatchesController extends Controller
 	private $batchId;
 	private $companyRepository;
 	private $batchRepository;
+	private $projectRepository;
 	/**
 	 * SubSubBatchesController constructor.
 	 * @param SubBatchRepository $users
@@ -55,11 +56,11 @@ class SubBatchesController extends Controller
 	 *
 	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
 	 */
-	public function index(BatchRepository $batchRepository, UserRepository $userRepository)
+	public function index(BatchRepository $batchRepository, UserRepository $userRepository,ProjectRepository $projectRepository)
 	{
 		$perPage = 5;
-		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'));
-		$statuses = ['' => trans('app.all')] + UserStatus::lists();
+		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'),Input::get('status'));
+		$statuses = ['' => trans('app.all')] + SubBatchStatus::lists();
 		$vendorId = $this->theUser->vendor_id;
 		$batches = $batchRepository->getVendorBatches($vendorId);
 	//	$batches->prepend('Select Batch');
@@ -69,7 +70,7 @@ class SubBatchesController extends Controller
 		$batches->prepend('Select Batch', '0');
 		$users = $userRepository->getVendorUsers($vendorId);
 		$users->prepend('Select User', '0');
-
+		
 
 		return view('subBatch.list', compact('subBatches', 'statuses', 'batches', 'users'));
 	}
@@ -98,25 +99,25 @@ class SubBatchesController extends Controller
 	public function store(CreateSubBatchRequest $request,Batch $batch,CompanyRepository $companyRepository)
 	{
 		$batchId = $request->input('batch_id');
+		$batch=batch::find($request->input('batch_id'));
 		if($companyRepository->getUnAssignedCount($batchId)>= $request->company_count)
 		{
-		$newSeqNo = $this->subBatches->getMaxSeqNo($request->input('batch_id'))+1;
-		$data = $request->all() + ['status' => SubBatchStatus::ASSIGNED] + ['seq_no' => $newSeqNo] ;;
-		$subBatch = $this->subBatches->create($data);
-		$companies = $this->companyRepository->getCompaniesForBatch($request->input('batch_id'), $request->input('company_count'));
-		if (count($companies)) {
-			foreach ($companies as $company) {
-				$company->status = "Assigned";
-				$company->user_id = $request->input('user_id');
-				$company->sub_batch_id = $subBatch->id;
-				$company->update();
+			$newSeqNo = $this->subBatches->getMaxSeqNo($request->input('batch_id'))+1;
+			$data = $request->all() + ['status' => SubBatchStatus::ASSIGNED] + ['seq_no' => $newSeqNo] +['project_id' => "$batch->project_id"];
+			$subBatch = $this->subBatches->create($data);
+			$companies = $this->companyRepository->getCompaniesForBatch($request->input('batch_id'), $request->input('company_count'));
+			if (count($companies)) {
+				foreach ($companies as $company) {
+					$company->status = "Assigned";
+					$company->user_id = $request->input('user_id');
+					$company->sub_batch_id = $subBatch->id;
+					$company->update();
+				}
 			}
-		}
-		$batch=batch::find($request->input('batch_id'));
-		$batch->status=SubBatchStatus::INPROCESS;
-		$batch->update();
-		return redirect()->route('subBatch.list')
-		->withSuccess(trans('app.sub_batch_created'));
+			$batch->status=SubBatchStatus::INPROCESS;
+			$batch->update();
+				return redirect()->route('subBatch.list')
+				->withSuccess(trans('app.sub_batch_created'));
 		}
 		else 
 		{
