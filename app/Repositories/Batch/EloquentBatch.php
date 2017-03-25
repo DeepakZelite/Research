@@ -4,6 +4,7 @@ namespace Vanguard\Repositories\Batch;
 
 use Vanguard\Batch;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class EloquentBatch implements BatchRepository
 {
@@ -43,11 +44,7 @@ class EloquentBatch implements BatchRepository
     public function paginate($perPage, $search = null, $vendorId = null, $status = null)
     {
         $query = Batch::query();
-
-        if ($status) {
-        	$query->where('status', $status);
-        }
-        
+        Log::info("Status value in Model:" . $status);
         if ($search) {
             $query->where(function ($q) use($search) {
                 $q->where('batches.name', "like", "%{$search}%");
@@ -60,8 +57,14 @@ class EloquentBatch implements BatchRepository
         $query = $query
         ->leftjoin('projects', 'projects.id', '=', 'batches.project_id')
         ->leftjoin('vendors', 'vendors.id', '=', 'batches.vendor_id');
+        
         if ($vendorId) {
         	$query = $query->where('vendors.id', '=', $vendorId);
+        }
+        
+        
+        if ($status) {
+        	$query = $query->where('batches.status', '=', $status);
         }
         $result = $query->select('batches.*', 'projects.code as project_code', 'vendors.name as vendor_name','projects.No_Companies as No_Companies')
         ->paginate($perPage);

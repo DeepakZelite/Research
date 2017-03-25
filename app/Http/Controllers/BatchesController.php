@@ -19,6 +19,7 @@ use DB;
 use Excel;
 use App\Upload;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Log;
 
 
 /**
@@ -55,13 +56,13 @@ class BatchesController extends Controller
 	{
 		$perPage = 5;
 		if ($this->theUser->username == 'admin') {
-			$batches = $this->batches->paginate($perPage, Input::get('search'),Input::get('status'));
+			$batches = $this->batches->paginate($perPage, Input::get('search'), null , Input::get('status'));
 		} 
 		else {
 			$batches = $this->batches->paginate($perPage, Input::get('search'), $this->theUser->vendor_id,Input::get('status'));
 		}
+		
 		$statuses = ['' => trans('app.all')] + SubBatchStatus::lists();
-		//return $statuses;
 		return view('batch.list', compact('batches', 'statuses')); 
 		
 	}
