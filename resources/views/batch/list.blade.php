@@ -29,12 +29,11 @@
             @lang('app.add_batch')
         </a>
     </div>
-    <div class="col-md-7"></div>
+    <div class="col-md-5"></div>
     <form method="GET" action="" accept-charset="UTF-8" id="batches-form">
- <!--        <div class="col-md-2">
-            {!! Form::select('status', $statuses, Input::get('status'), ['id' => 'status', 'class' => 'form-control']) !!}
-        </div>
-         -->
+        <div class="col-md-2">
+               {!! Form::select('status', $statuses, Input::get('status'), ['id' => 'status', 'class' => 'form-control']) !!}
+        </div> 
         <div class="col-md-3">
             <div class="input-group custom-search-form">
                 <input type="text" class="form-control" name="search" value="{{ Input::get('search') }}" placeholder="@lang('app.search_for_batches')">
@@ -112,7 +111,7 @@
 @section('scripts')
     <script>
         $("#status").change(function () {
-            $("#users-form").submit();
+            $("#batches-form").submit();
         });
     </script>
 @stop

@@ -17,8 +17,8 @@ class EloquentCountry implements CountryRepository
     /**
      * {@inheritdoc}
      */
-    public function lists1($column = 'calling_code', $key = 'id')
+    public function lists1($column='calling_code')
     {
-    	return Country::orderBy('calling_code')->lists($column, $key);
+    	return Country::distinct()->orderBy('calling_code')->lists($column); //distinct()->get(['calling_code']);
     }
 }

@@ -67,6 +67,23 @@ class DataCaptureController extends Controller
 		return view('subBatch.datacapturelist', compact('subBatches'));
 	}
 	
+	
+	/**
+	 * Displays form for creating a new batch.
+	 *
+	 * @param CountryRepository $countryRepository
+	 * @param RoleRepository $roleRepository
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 */
+/*	public function create(Company $company, CompanyRepository $companyRepository,CountryRepository $countryRepository)
+	{
+		// Get the first or last saved company record from the sub batch.
+		$perPage = 2;
+		$countries = $countryRepository->lists();
+		$countries1=$countryRepository->lists1();// remove this and add staffs
+		$edit=false;
+		return view('Company.company-data', compact('countries','countries1', 'edit'));
+	}*/
 	/**
 	 * Performs the company save action clicked on Save button click
 	 * 
@@ -76,7 +93,7 @@ class DataCaptureController extends Controller
 	 */
 	public function storeCompany(Company $company, UpdateCompanyRequest $request) 
 	{
-		//return $company->id;
+		return $request->all();
 		$this->companyRepository->update($company->id, $request->all());
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.company_updated'));
 	}
@@ -107,10 +124,12 @@ class DataCaptureController extends Controller
 	public function capture($subBatchId, Company $company, CompanyRepository $companyRepository,CountryRepository $countryRepository)
 	{
 		// Get the first or last saved company record from the sub batch.
-		$edit = "true";
-		$perPage = 100;
+		$edit = true;
+		$perPage = 2;
 		$countries = $countryRepository->lists();
 		$countries1=$countryRepository->lists1();
+		//$employees=$employeeRepository->lists();
+		//return $employees;
 		$companies = $companyRepository->getCompanyRecord($subBatchId, $this->theUser->id);
 		if (sizeof($companies) > 0) {
 			// open the company-staff capture screen for this company
@@ -158,4 +177,10 @@ class DataCaptureController extends Controller
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.contact_created'));
 	}
 	
+	
+	public function getcountryCode(Request $request, CountryRepository $countryRepository)
+	{
+		$countryid = $request->input('batchId');
+		return $countryid;
+	}
 }

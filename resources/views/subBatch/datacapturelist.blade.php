@@ -33,7 +33,7 @@
                         <span class="glyphicon glyphicon-search"></span>
                     </button>
                     @if (Input::has('search') && Input::get('search') != '')
-                        <a href="{{ route('subBatch.list') }}" class="btn btn-danger" type="button" >
+                        <a href="{{ route('dataCapture.list') }}" class="btn btn-danger" type="button" >
                             <span class="glyphicon glyphicon-remove"></span>
                         </a>
                     @endif
