@@ -15,7 +15,10 @@ class CreateContactRequest extends Request
     public function rules()
     {
         return [
-            	//'first_name' => 'required|unique:projects,name',
+            	'first_name' => 'required|unique:contacts,first_name',
+            	'staff_email'=>'email',
+            	'phone'=>'digits:10',
+        		'job_title'=>'required'
                ];
     }
 }

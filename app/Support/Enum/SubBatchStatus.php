@@ -11,9 +11,9 @@ class SubBatchStatus
     public static function lists()
     {
         return [
-            self::ASSIGNED => trans('app.'.self::ACTIVE),
-            self::INPROCESS => trans('app.'. self::BANNED),
-            self::COMPLETE => trans('app.' . self::UNCONFIRMED)
+            self::ASSIGNED => trans('app.'.self::ASSIGNED),
+            self::INPROCESS => trans('app.'. self::INPROCESS),
+            self::COMPLETE => trans('app.' . self::COMPLETE)
         ];
     }
 }

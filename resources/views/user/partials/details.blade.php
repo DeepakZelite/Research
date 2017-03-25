@@ -66,12 +66,26 @@
             </div>
  -->
             @if ($edit)
-                <div class="col-md-12">
+            	<div class="col-md-8"></div>
+                <div class="col-md-2">
                     <button type="submit" class="btn btn-primary" id="update-details-btn">
                         <i class="fa fa-refresh"></i>
                         @lang('app.update_details')
                     </button>
                 </div>
+                @if($profile)
+                	<div class="col-md-2">
+        				<a href="{{ route('dashboard') }}" class="btn btn-primary" id="cancel">
+            				@lang('app.cancel')
+        				</a>
+    				</div>
+                @else
+                <div class="col-md-2">
+        			<a href="{{ route('user.list') }}" class="btn btn-primary" id="cancel">
+            			@lang('app.cancel')
+        			</a>
+    			</div>
+    			@endif
             @endif
         </div>
     </div>

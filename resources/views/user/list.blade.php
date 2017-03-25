@@ -32,7 +32,7 @@
     <div class="col-md-5"></div>
     <form method="GET" action="" accept-charset="UTF-8" id="users-form">
         <div class="col-md-2">
-            {!! Form::select('status', $statuses, Input::get('status'), ['id' => 'status', 'class' => 'form-control']) !!}
+             {!! Form::select('status', $statuses, Input::get('status'), ['id' => 'status', 'class' => 'form-control']) !!}
         </div>
         <div class="col-md-3">
             <div class="input-group custom-search-form">

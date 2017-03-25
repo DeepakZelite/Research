@@ -65,12 +65,12 @@
     </div>
 </div><!-- Second Assign Row  -->
 <div class="row tab-search">
-    <div class="col-md-9"></div>
+    <div class="col-md-7"></div>
     <form method="GET" action="" accept-charset="UTF-8" id="sub-batches-form">
- <!--        <div class="col-md-2">
+        <div class="col-md-2">
             {!! Form::select('status', $statuses, Input::get('status'), ['id' => 'status', 'class' => 'form-control']) !!}
         </div>
-         -->
+         
         <div class="col-md-3">
             <div class="input-group custom-search-form">
                 <input type="text" class="form-control" name="search" value="{{ Input::get('search') }}" placeholder="@lang('app.search')">
@@ -96,8 +96,9 @@
             <th>@lang('app.sub_batch_name')</th>
             <th>@lang('app.assigned_user')</th>
             <th>@lang('app.companies')</th>
+            <th class="text-center">@lang('app.task_brief')</th>
             <th>@lang('app.status')</th>
-            <th>&nbsp;</th>
+            <th class="text-center">&nbsp;@lang('app.action')</th>
         </thead>
         <tbody>
             @if (count($subBatches))
@@ -108,6 +109,10 @@
                          <td>{{ $subBatch->batch_name }}-{{ $subBatch->sub_batch_name }}</td>
                          <td>{{ $subBatch->username }}</td>
                          <td>{{ $subBatch->company_count }}</td>
+                         <td class="text-center"><a href="#" class="btn btn-primary btn-circle"
+                               title="@lang('app.download')" data-toggle="tooltip" data-placement="top">
+                                <i class="fa fa-info-circle"></i>
+                            </a></td>
                          <td>{{ $subBatch->status }}</td>
                          <td class="text-center">
                             @if($subBatch->status =="Assigned")
@@ -150,7 +155,8 @@
     <script type="text/javascript">-->
     <script>
         $("#status").change(function () {
-            $("#sub_batches-form").submit();
+            //alert("status changes");
+            $("#sub-batches-form").submit();
         });
         $("#batch_id").change(function() {
 			//alert("OnChanged");

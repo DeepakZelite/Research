@@ -20,5 +20,5 @@ interface CountryRepository
      * @param string $key
      * @return mixed
      */
-    public function lists1($column = 'calling_code', $key = 'id');
+    public function lists1($column='calling_code');
 }
