@@ -11,7 +11,33 @@
 @else
     {!! Form::open(['route' => 'dataCapture.storeCompany', 'id' => 'company-form']) !!}
 @endif
+<div>
+<br/>
+<div class="row">
+<div class="col-lg-12 col-md-8 col-sm-6">
+<div class="col-md-7">
+</div>
+	<div class="col-md-2 col-sm-6">
+        <a href="#"  class="btn btn-info" id="duplicate_check">
+            @lang('app.duplicate_check')
+        </a> 
+    </div>
 
+    <div class="col-md-2 col-sm-6">
+        <a href="#"  class="btn btn-success" id="add_child_record">
+            <i class="glyphicon glyphicon-plus"></i>
+            @lang('app.add_child_record')
+        </a> 
+    </div>
+
+    <div class="col-md-1">
+        <a href="#"  class="btn btn-primary" id="task_brief">
+            <i class="glyphicon glyphicon-info"></i>
+            @lang('app.task_brief')
+        </a> 
+    </div>
+ </div>
+</div>
 <br/>
 <div class="row">
     <!--First Section-->
@@ -24,12 +50,12 @@
                 <div class="form-group col-lg-2">
                     <label for="company_name">@lang('app.company_name')<i style="color:red;">*</i></label>
                     <input type="text" class="form-control" id="company_name"
-                           name="company_name" placeholder="@lang('app.company_name')" value="{{ $edit ? $company->company_name : old('company_name') }}">
+                           name="company_name" placeholder="@lang('app.company_name')" readonly="readonly" value="{{ $edit ? $company->company_name : old('company_name') }}">
                 </div>
                 <div class="form-group col-lg-2">
                    <label for="name">@lang('app.child_company')</label>
                    <input type="text" class="form-control" id="parent_company" 
-                            name="parent_company" placeholder="@lang('app.child_company')" value="{{ $edit ? $company->parent_company : old('parent_company') }}"> 
+                            name="parent_company" placeholder="@lang('app.child_company')" readonly="readonly" value="{{ $edit ? $company->parent_company : old('parent_company') }}"> 
                 </div>
                 <div class="form-group col-lg-2">
                    <label for="name">@lang('app.company_instructions')</label>
@@ -64,13 +90,13 @@
                </div> 
                <div class="form-group col-lg-2">
                     <label for="address">@lang('app.country')<i style="color:red;">*</i></label>
-                    {!! Form::select('country', $countries,'', ['class' => 'form-control']) !!}
+                    {!! Form::select('country', $countries,'', ['class' => 'form-control','id'=>'country']) !!}
                 </div>
                 <div class="form-group col-lg-2">
                     <label for="name">@lang('app.switchboardnumber')</label>
                     <div class="row">
                     <div class="col-md-5">
-                	{!! Form::select('country', $countries1,'', ['class' => 'form-control']) !!}</div>
+                	{!! Form::select('isd_code', $countries1,'', ['class' => 'form-control','calling_code'=>'isd_code']) !!}</div>
                 	<div class="col-md-7">
                      <input type="text" class="form-control" id="switchboardnumber" 
                             name="switchboardnumber" placeholder="@lang('app.switchboardnumber')" value="{{ $edit ? $company->switchboardnumber : old('switchboardnumber') }}"></div>
@@ -131,13 +157,13 @@
 <div class="col-md-9">
 </div>
     <div class="col-md-2">
-        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal1">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">
             <i class="glyphicon glyphicon-plus"></i>
             {{ trans('app.additional-info') }}
         </button>
     </div>
     <div class="col-md-1">
-        <button type="submit" class="btn btn-primary btn-block">
+        <button type="submit" class="btn btn-primary">
             <i class="fa fa-save"></i>
             {{ $edit ? trans('app.save') : trans('app.save') }}
         </button>
@@ -146,11 +172,11 @@
 {{ Form::close() }}
 <hr style="width: 100%; color: black; height: 1px; background-color:black;"/>
 <div class="row">
-<div class="col-md-10">
+<div class="col-md-11">
 </div>
     @if ($edit)
-    <div class="col-md-2">
-        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">
+    <div class="col-md-1">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
             <i class="glyphicon glyphicon-plus"></i>
             {{ trans('app.add_contact') }}
         </button>
@@ -158,6 +184,7 @@
     @endif
 </div>
 <br/>
+@if($edit)
 <div class="row">
 <div class="table-responsive top-border-table" id="users-table-wrapper">
     <table class="table">
@@ -165,7 +192,7 @@
         	<th>@lang('app.first_name')</th>
             <th>@lang('app.last_name')</th>
             <th>@lang('app.email')</th>
-            <th>@lang('app.designation')</th>
+            <th>@lang('app.job_title')</th>
             <th>@lang('app.action')</th>
         </thead>
         <tbody>
@@ -175,7 +202,7 @@
                          <td>{{ $contact->first_name }}</td>
                          <td>{{ $contact->last_name }}</td>
                          <td>{{ $contact->email }}</td>
-                         <td>{{ $contact->designation }}</td>
+                         <td>{{ $contact->job_title }}</td>
                          <td class="text-left">
                              <a href="#" class="btn btn-primary btn-circle" data-toggle="modal" data-target="#myModal"
                                 title="@lang('app.edit_batch')" data-toggle="tooltip" data-placement="top"> 
@@ -194,10 +221,8 @@
 
      {!! $contacts->render() !!} 
 </div>
-
-
 </div>
-
+@endif
 
 <div class="row">
 <div class="col-md-11">
@@ -304,17 +329,27 @@
                            name="direct_phoneno" placeholder="@lang('app.direct_phoneno')" value="">
                 </div>
                 <div class="form-group col-lg-4">
-                    <label for="email_source">@lang('app.email_source')</label>
-                    <input type="text" class="form-control" id="email_source"
-                           name="email_source" placeholder="@lang('app.email_source')" value="">
-                </div>
-    		</div>
-    		<div id="additional_info" class="tab-pane fade">
-     			<div class="form-group col-lg-4">
                     <label for="qualification">@lang('app.qualification')</label>
                     <input type="text" class="form-control" id="qualification"
                            name="qualification" placeholder="@lang('app.qualification')" value="">
                 </div>
+                <div class="form-group col-lg-4">
+                    <label for="email_source">@lang('app.email_source')</label>
+                    <input type="text" class="form-control" id="email_source"
+                           name="email_source" placeholder="@lang('app.email_source')" value="">
+                </div>
+                <div class="form-group col-lg-4">
+                	<label for="Staff_Disposition">@lang('app.staff_disposition')</label>
+                	<select class="form-control" id="staff_disposition" name="staff_disposition">
+                		 <option value="Verified">Verified</option>
+						  <option value="Not Verified">Not Verified</option>
+						  <option value="Acquired">Acquired</option>
+						  <option value="Left and Gone Away">Left and Gone Away</option>
+						  <option value="Retired">Retired</option>
+                	</select>
+                </div>
+    		</div>
+    		<div id="additional_info" class="tab-pane fade">
                 <div class="form-group col-lg-4">
                     <label for="deparment_number">@lang('app.deparment_number')</label>
                     <input type="text" class="form-control" id="deparment_number"
@@ -392,14 +427,14 @@
     </div>
 
 <div class="row">
-<div class="col-md-8"></div>
-    <div class="col-md-2">
-        <button type="submit" class="btn btn-primary btn-block">
+<div class="col-md-9"></div>
+    <div class="col-md-1">
+        <button type="submit" class="btn btn-primary">
             <i class="fa fa-save"></i>
             {{ $edit ? trans('app.save') : trans('app.save') }}
         </button>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-1">
         <button type="button" class="btn btn-default" data-dismiss="modal">
             <i class=""></i>
             {{ $edit ? trans('app.cancel') : trans('app.cancel') }}
@@ -486,13 +521,13 @@
 <div class="row">
 <div class="col-md-7"></div>
     <div class="col-md-2">
-        <button type="submit" class="btn btn-primary btn-block">
+        <button type="submit" class="btn btn-primary">
             <i class="fa fa-save"></i>
             {{ $edit ? trans('app.save') : trans('app.save') }}
         </button>
     </div>
     <div class="col-md-2">
-        <button type="button" class="btn btn-default btn-block" data-dismiss="modal">
+        <button type="button" class="btn btn-default" data-dismiss="modal">
             <i class=""></i>
             {{ $edit ? trans('app.cancel') : trans('app.cancel') }}
         </button>
@@ -503,18 +538,33 @@
 
   </div>
 </div>
-
+</div>
 @stop
 
 
 @section('scripts')
     <script>
+    
 hideMenu();
 function hideMenu() {
 	as.toggleSidebar()
 }
 $('#myModal').on('shown.bs.modal', function() {
 	  $('#firstName').focus();
+	})
+	
+	$("#country").change(function() {
+			//alert("OnChanged");
+             var batchId = $( this ).val();
+             //alert(" "+batchId);
+             $.ajax({
+                 method: "GET",
+                 url: "http://localhost:88/vguard/public/dataCapture/getcountryCode",
+             })
+	});
+	$('#add_child_record').click(function(){
+    $('#company_name').attr('readonly',false);
+    $('#parent_company').attr('readonly',false);
 	})
 
     </script>
@@ -538,5 +588,3 @@ $('#myModal').on('shown.bs.modal', function() {
     {!! HTML::script('assets/js/bootstrap-datetimepicker.min.js') !!}
     {!! HTML::script('assets/js/as/profile.js') !!}
 @stop
-
-

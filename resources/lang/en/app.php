@@ -129,7 +129,7 @@ return [
     'create_role' => 'Create Role',
     'available_system_roles' => 'available system roles',
     'add_role' => 'Add Role',
-    'users_with_this_role' => '# of users with this role',
+    'users_with_this_role' => 'No of users with this role',
     'edit_role' => 'Edit Role',
     'delete_role' => 'Delete Role',
     'are_you_sure_delete_role' => 'Are you sure that you want to delete this role?',
@@ -298,6 +298,9 @@ return [
     'Banned' => 'Banned',
     'Unconfirmed' => 'Unconfirmed',
 	'In-Active'=>'In-Active',
+	'Assigned'=>'Assigned',
+	'In-Process'=>'In-Process',
+	'Complete'=>'Complete',
 
     'user_created' => 'User created successfully.',
     'user_updated' => 'User updated successfully.',
@@ -425,6 +428,9 @@ return [
 		'company_updated' => 'Company has been updated successfully',
 		'search_for_companys' => "Search for companies",
 		'add_contact' => "Add Contact",
+		'add_child_record'=>'Add Child Record',
+		'duplicate_check'=>'Duplicate Check',
+		'staff_disposition'=>'Staff Disposition',
 		
 		// Companies
 		'companys' => 'Company',

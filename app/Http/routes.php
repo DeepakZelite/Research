@@ -601,3 +601,9 @@ Route::post('dataCapture/{company}/updateStaff', [
 		'as' => 'dataCapture.updateStaff',
 		'uses' => 'DataCaptureController@updateStaff'
 ]);
+
+/*Route::get('dataCapture/create', [
+		'as' => 'dataCapture.create',
+		'uses' => 'DataCaptureController@create'
+]);
+*/
