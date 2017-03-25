@@ -114,10 +114,11 @@ class SubBatchesController extends Controller
 					$company->update();
 				}
 			}
-			$batch->status=SubBatchStatus::INPROCESS;
-			$batch->update();
-				return redirect()->route('subBatch.list')
-				->withSuccess(trans('app.sub_batch_created'));
+		$batch=batch::find($request->input('batch_id'));
+		$batch->status=SubBatchStatus::INPROCESS;
+		$batch->update();
+		return redirect()->route('subBatch.list')
+		->withSuccess(trans('app.sub_batch_created'));
 		}
 		else 
 		{
