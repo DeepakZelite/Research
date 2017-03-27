@@ -573,7 +573,7 @@ Route::delete('companys/{company}/delete', [
 
 Route::get('dataCapture', [
 		'as' => 'dataCapture.list',
-		'uses' => 'DataCaptureController@index'
+		'uses' => 'DataCaptureController@subBatchList'
 ]);
 
 Route::get('dataCapture/{subBatchId}/capture', [
@@ -581,12 +581,17 @@ Route::get('dataCapture/{subBatchId}/capture', [
 		'uses' => 'DataCaptureController@capture'
 ]);
 
+Route::put('dataCapture/{company}/updateCompany', [
+		'as' => 'dataCapture.updateCompany',
+		'uses' => 'DataCaptureController@updateCompany'
+]);
+
 Route::put('dataCapture/{company}/storeCompany', [
 		'as' => 'dataCapture.storeCompany',
 		'uses' => 'DataCaptureController@storeCompany'
 ]);
 
-Route::post('dataCapture/{company}/storeStaff', [
+Route::put('dataCapture/{company}/storeStaff', [
 		'as' => 'dataCapture.storeStaff',
 		'uses' => 'DataCaptureController@storeStaff'
 ]);
@@ -597,13 +602,22 @@ Route::get('dataCapture/{company}/submitCompany', [
 		'uses' => 'DataCaptureController@submitCompany'
 ]);
 
-Route::post('dataCapture/{company}/updateStaff', [
+Route::post('dataCapture/{contact}/updateStaff', [
 		'as' => 'dataCapture.updateStaff',
 		'uses' => 'DataCaptureController@updateStaff'
 ]);
 
-/*Route::get('dataCapture/create', [
+Route::get('dataCapture/create', [
 		'as' => 'dataCapture.create',
 		'uses' => 'DataCaptureController@create'
 ]);
-*/
+
+Route::get('dataCapture/{contactId}/getContact', [
+		'as' => 'dataCapture.getContact',
+		'uses' => 'DataCaptureController@getContact'
+]);
+
+Route::get('dataCapture/{companyId}/createContact', [
+		'as' => 'dataCapture.createContact',
+		'uses' => 'DataCaptureController@createContact'
+]);

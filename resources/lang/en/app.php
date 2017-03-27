@@ -519,7 +519,7 @@ return [
 		'batch_submitted' => 'Batch has been submitted successfully.',
 		'contact_created' => 'Staff has been added successfully.',
 		'company_updated' => 'Company has been updated successfully.',
-
+		'add_child_company_details_big' => 'Add Child Company',
 		
 		'months' => [
         'January' => 'January',
