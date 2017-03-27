@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Vanguard\Repositories\Project\ProjectRepository;
 use Vanguard\Repositories\Vendor\VendorRepository;
+use Vanguard\Repositories\Company\CompanyRepository;
 use Vanguard\Support\Enum\SubBatchStatus;
 use DB;
 use Excel;
@@ -159,6 +160,19 @@ class BatchesController extends Controller
 		
 		return redirect()->route('batch.list')
 		->withSuccess(trans('app.batch_updated'));
+	}
+	
+	public function download(Batch $batch, CompanyRepository $companyRepository)
+	{	
+		$data = $companyRepository->getTotalCompany($batch->id); //get('$batch->id')->toArray();
+		//return $data;
+		return Excel::create('myfile', function($excel) use ($data) {
+			$excel->sheet('mySheet', function($sheet) use ($data)
+			{
+				$sheet->fromArray($data);
+			});
+		})->download('xlsx');
+		//return $data;
 	}
 	
 	public function delete(Batch $batch)

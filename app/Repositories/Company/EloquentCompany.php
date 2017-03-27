@@ -173,7 +173,7 @@ class EloquentCompany implements CompanyRepository
     	$result = $query->limit(1)->get();
     	return $result;
     }
-
+    
     /**
      * {@inheritdoc}
      */
@@ -228,6 +228,28 @@ class EloquentCompany implements CompanyRepository
     		return 0;
     	}
     	$result = $query->count();
+    	return $result;
+    }
+    
+    public function getTotalCompany($batchId)
+    {
+    	$query = Company::query();
+    	$result = $query
+    	->leftjoin('contacts', 'companies.id', '=', 'contacts.company_id')
+    	->select('companies.*','contacts.*');
+    
+    	if ($batchId != 0) {
+    
+    
+    		$query->where(function ($q) use($batchId) {
+    			$q->where('companies.batch_id', "=", "{$batchId}");
+    
+    		});
+    	} else {
+    		return 0;
+    	}
+    
+    	$result = $query->get();
     	return $result;
     }
 }

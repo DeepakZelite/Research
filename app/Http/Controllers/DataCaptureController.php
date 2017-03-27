@@ -14,6 +14,7 @@ use Vanguard\Repositories\Batch\BatchRepository;
 use Vanguard\Repositories\Company\CompanyRepository;
 use Vanguard\Repositories\Contact\ContactRepository;
 use Vanguard\Repositories\SubBatch\SubBatchRepository;
+use Vanguard\Repositories\Project\ProjectRepository;
 use Vanguard\Repositories\User\UserRepository;
 use Vanguard\SubBatch;
 use Vanguard\Batch;
@@ -22,6 +23,7 @@ use Vanguard\Repositories\Country\CountryRepository;
 use Vanguard\Support\Enum\SubBatchStatus;
 use Vanguard\Employee;
 use Vanguard\Repositories\Employee\EmployeeRepository;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class DataCaptureController - Controls all the operations for Company and Staff entity
@@ -58,32 +60,35 @@ class DataCaptureController extends Controller
 	 *
 	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
 	 */
-	public function index(BatchRepository $batchRepository, UserRepository $userRepository)
+	public function subBatchList(BatchRepository $batchRepository, UserRepository $userRepository)
 	{
 		$perPage = 5;
 		// Un-Comment to see only assigned subbatches in the data capture menu
 		//$subBatches = $this->subBatches->paginate($perPage, Input::get('search'), $this->theUser->id, 'Assigned');
-		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'), $this->theUser->id);
-		return view('subBatch.datacapturelist', compact('subBatches'));
+		$statuses = ['' => trans('app.all')] + SubBatchStatus::lists1();
+		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'), $this->theUser->id,Input::get('status'));
+		return view('subBatch.datacapturelist', compact('subBatches','statuses'));
 	}
 	
 	
 	/**
-	 * Displays form for creating a new batch.
+	 * Displays company capture screen
 	 *
 	 * @param CountryRepository $countryRepository
 	 * @param RoleRepository $roleRepository
 	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
 	 */
-/*	public function create(Company $company, CompanyRepository $companyRepository,CountryRepository $countryRepository)
+	public function create(Company $company, CompanyRepository $companyRepository, CountryRepository $countryRepository)
 	{
+		Log::info("Creating a new Company form with editCompany:" . $editCompany);
 		// Get the first or last saved company record from the sub batch.
-		$perPage = 2;
+		$perPage = 2; // No of contacts to show on the screen
 		$countries = $countryRepository->lists();
-		$countries1=$countryRepository->lists1();// remove this and add staffs
-		$edit=false;
-		return view('Company.company-data', compact('countries','countries1', 'edit'));
-	}*/
+		$countriesISDCodes = $countryRepository->lists();
+		$editContact = false;
+		return view('Company.company-data', compact('countries', '$countriesISDCodes', 'editContact'));
+	}
+	
 	/**
 	 * Performs the company save action clicked on Save button click
 	 * 
@@ -91,9 +96,8 @@ class DataCaptureController extends Controller
 	 * @param UpdateCompanyRequest $request
 	 * @return on the same screen with success message.
 	 */
-	public function storeCompany(Company $company, UpdateCompanyRequest $request) 
+	public function updateCompany(Company $company, UpdateCompanyRequest $request) 
 	{
-		return $request->all();
 		$this->companyRepository->update($company->id, $request->all());
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.company_updated'));
 	}
@@ -107,8 +111,11 @@ class DataCaptureController extends Controller
 	 */
 	public function storeStaff(Company $company, CreateContactRequest $request) 
 	{
+		
 		$data = $request->all() + ['company_id' => $company->id]
 		+ ['user_id' => $this->theUser->id];
+		Log::info($data);
+		
 		$contact = $this->contactRepository->create($data);
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.contact_created'));
 	}
@@ -121,21 +128,22 @@ class DataCaptureController extends Controller
 	 * @param CompanyRepository $companyRepository
 	 * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory|unknown
 	 */
-	public function capture($subBatchId, Company $company, CompanyRepository $companyRepository,CountryRepository $countryRepository)
+	public function capture($subBatchId, Company $company, CompanyRepository $companyRepository,CountryRepository $countryRepository,ProjectRepository $projectRepository)
 	{
 		// Get the first or last saved company record from the sub batch.
-		$edit = true;
+		$editCompany = true;
 		$perPage = 2;
 		$countries = $countryRepository->lists();
-		$countries1=$countryRepository->lists1();
-		//$employees=$employeeRepository->lists();
-		//return $employees;
+		$countriesISDCodes = $countryRepository->lists1();
+		$subBatch=SubBatch::find($subBatchId);
+		$projects=$projectRepository->find($subBatch->project_id);
 		$companies = $companyRepository->getCompanyRecord($subBatchId, $this->theUser->id);
 		if (sizeof($companies) > 0) {
 			// open the company-staff capture screen for this company
 			$company = $companies[0];
-			$contacts = $this->contactRepository->paginate($perPage, Input::get('search'), $company->id); // remove this and add staffs
-			return view('Company.company-data', compact('countries','countries1','subBatchId', 'edit', 'company', 'contacts'));
+			$editContact = false;
+			$contacts = $this->contactRepository->paginate($perPage, Input::get('search'), $company->id);
+			return view('Company.company-data', compact('countries','countriesISDCodes','subBatchId', 'editCompany', 'company', 'contacts', 'editContact','projects'));
 		} else {
 			// All the company records are submitted in this sub batch.
 			// Set the status of sub-batch to Submitted and redirect to sub-batch list
@@ -156,6 +164,10 @@ class DataCaptureController extends Controller
 		$comp=Company::find($company->id);
 		$comp->status="Submitted";
 		$comp->save();
+		
+		$subBatch=SubBatch::find($comp->sub_batch_id);
+		$subBatch->status="In-Process";
+		$subBatch->save();
 		if($companyRepository->getTotalCompanyCount($comp->batch_id)==$companyRepository->getSubmittedCompanyCount($comp->batch_id))
 		{
 			$batch=batch::find($comp->batch_id);
@@ -163,17 +175,29 @@ class DataCaptureController extends Controller
 			$batch->update();
 		}
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id);
-	}	
+	}
+	
+	/**
+	 * Set the Front end view to create a new child company.
+	 */
+	public function createChildCompany() 
+	{
+		$editCompany = false; 	
+	}
 	
 	
 	/////////////
 	
-	public function updateStaff(Contact $contact, UpdateContactRequestest $request) 
+	public function updateStaff(Contact $contact, UpdateContactRequest $request) 
 	{
-		$data = $request->all();
-		$data = $request->all() + ['company_id' => $company->id]
-		+ ['user_id' => $this->theUser->id];
-		$contact = $this->contactRepository->update($contact->id,$data);
+		Log::info("Contact:::::" . $contact);
+		//$data = $request->all();
+ 		$data = $request->all() + ['company_id' => $contact->company_id]
+ 		+ ['user_id' => $this->theUser->id];
+ 		//Log::info($this->contactRepository);
+ 		$updatedContact = $this->contactRepository->update($contact->id,$data);
+		
+ 		$company = Company::find($contact->company_id);
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.contact_created'));
 	}
 	
@@ -182,5 +206,22 @@ class DataCaptureController extends Controller
 	{
 		$countryid = $request->input('batchId');
 		return $countryid;
+	}
+	
+	public function getContact(Contact $contactId)
+	{
+		Log::info("Deepak:" + $contactId->id);
+		$contact=Contact::find($contactId->id);
+		Log::info($contact);
+		$editContact = true;
+		return view('company.partials.contact-edit', compact('editContact', 'contact'));
+	}
+	
+	public function createContact(Company $companyId)
+	{
+		Log::info("Comp ID:" + $companyId->id);
+		$company=Company::find($companyId->id);
+		$editContact = false;
+		return view('company.partials.contact-edit', compact('editContact', 'company'));
 	}
 }

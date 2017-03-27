@@ -23,8 +23,12 @@
 @include('partials.messages')
 
 <div class="row tab-search">
-    <div class="col-md-9"></div>
+    <div class="col-md-7"></div>
     <form method="GET" action="" accept-charset="UTF-8" id="sub-batches-form">
+    <div class="col-md-2">
+                {!! Form::select('status', $statuses, Input::get('status'), ['id' => 'status', 'class' => 'form-control']) !!}   
+        </div> 
+        
         <div class="col-md-3">
             <div class="input-group custom-search-form">
                 <input type="text" class="form-control" name="search" value="{{ Input::get('search') }}" placeholder="@lang('app.search')">
@@ -84,7 +88,7 @@
 @section('scripts')
     <script>
         $("#status").change(function () {
-            $("#sub_batches-form").submit();
+            $("#sub-batches-form").submit();
         });
 
         $("#batch_id").change(function() {

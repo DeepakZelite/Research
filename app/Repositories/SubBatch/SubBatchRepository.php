@@ -12,6 +12,7 @@ interface SubBatchRepository
 	 * @param $perPage
 	 * @param null $search
 	 * @param null $status
+	 * @param null $vendorId
 	 * @return mixed
 	 */
 	public function paginate($perPage, $search = null, $userId = null, $status = null);
