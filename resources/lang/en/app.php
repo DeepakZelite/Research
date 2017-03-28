@@ -301,6 +301,7 @@ return [
 	'Assigned'=>'Assigned',
 	'In-Process'=>'In-Process',
 	'Complete'=>'Complete',
+	'Submitted'=>'Submitted',
 
     'user_created' => 'User created successfully.',
     'user_updated' => 'User updated successfully.',
@@ -368,6 +369,7 @@ return [
 		'contact_person'=>'Contact Person',
 		'mobile'=>'Mobile Number',
 		'vendor_code'=>'Vendor Code',
+		
 
 		// Batches
 		'batches' => 'Batches',

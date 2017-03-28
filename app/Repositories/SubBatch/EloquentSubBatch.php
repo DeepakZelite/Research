@@ -71,7 +71,7 @@ class EloquentSubBatch implements SubBatchRepository
     /**
      * {@inheritdoc}
      */
-    public function paginate($perPage, $search = null, $userId = null, $status = null)
+    public function paginate($perPage, $search = null, $userId = null, $status = null,$vendorId = null)
     {
     	$query = SubBatch::query();
     
@@ -89,6 +89,12 @@ class EloquentSubBatch implements SubBatchRepository
     		});
     	}
     	
+    	if ($vendorId) {
+    		$query->where(function ($q) use($vendorId) {
+    			$q->where('sub_Batches.vendor_id', "=", "{$vendorId}");
+    		});
+    	}
+    	
     	if ($status) {
     		$query->where(function ($q) use($status) {
     			$q->where('sub_Batches.status', "=", "{$status}");
@@ -98,7 +104,8 @@ class EloquentSubBatch implements SubBatchRepository
     	$result = $query
     	->leftjoin('batches', 'batches.id', '=', 'sub_batches.batch_id')
     	->leftjoin('users', 'users.id', '=', 'sub_batches.user_id')
-    	->select('sub_batches.*' ,'batches.name as batch_name', 'users.username', 'sub_batches.seq_no as sub_batch_name')
+    	->leftjoin('projects','projects.id','=','sub_batches.project_id')
+    	->select('sub_batches.*','projects.brief_file as brief_file' ,'batches.name as batch_name', 'users.username', 'sub_batches.seq_no as sub_batch_name')
     	->paginate($perPage);
 
     	$result = $query->orderBy('created_at', 'desc')->paginate($perPage);

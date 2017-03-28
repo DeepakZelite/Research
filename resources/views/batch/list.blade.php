@@ -55,8 +55,8 @@
 <div class="table-responsive top-border-table" id="users-table-wrapper">
     <table class="table">
         <thead>
-        	<th>@lang('app.name')</th>
-            <th>@lang('app.code')</th>
+        	<th>@lang('app.name')<i class="fa fa-fw fa-sort"></i></th>
+            <th>@lang('app.code')<i class="fa fa-fw fa-sort"></i></th>
             <th>@lang('app.vendor_name')</th>
             <th>@lang('app.number_of_companies')</th>
             <th>@lang('app.status')</th>
@@ -87,7 +87,7 @@
                             </a> -->
                           @endif
                           @if($batch->status=="Complete")
-                          		<a href="#" class="btn btn-primary btn-circle"
+                          		<a href="{{ route('batch.download',$batch->id) }}" class="btn btn-primary btn-circle"
                                		title="@lang('app.download')" data-toggle="tooltip" data-placement="top">
                                 	<i class="glyphicon glyphicon-download"></i>
                             	</a>

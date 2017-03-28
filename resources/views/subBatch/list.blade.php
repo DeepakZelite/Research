@@ -109,7 +109,7 @@
                          <td>{{ $subBatch->batch_name }}-{{ $subBatch->sub_batch_name }}</td>
                          <td>{{ $subBatch->username }}</td>
                          <td>{{ $subBatch->company_count }}</td>
-                         <td class="text-center"><a href="#" class="btn btn-primary btn-circle"
+                         <td class="text-center"><a href="{{ URL::to('project/download',$subBatch->brief_file) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.download')" data-toggle="tooltip" data-placement="top">
                                 <i class="fa fa-info-circle"></i>
                             </a></td>

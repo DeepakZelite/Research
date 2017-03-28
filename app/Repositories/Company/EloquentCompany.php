@@ -192,25 +192,6 @@ class EloquentCompany implements CompanyRepository
     	$result = $query->limit($limit)->get();
     	return $result;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCompaniesForBatch($batchId, $limit)
-    {
-    	$query = Company::query();
-    	if ($batchId != 0) {
-    		$query->where(function ($q) use($batchId) {
-    			$q->where('companies.batch_id', "=", "{$batchId}")
-    			->where('companies.status', "=", "UnAssigned")
-    			->orderBy('id', 'ASC');
-    		});
-    	} else {
-    		return 0;
-    	}
-    	$result = $query->limit($limit)->get();
-    	return $result;
-    }
     
     
     /**
@@ -247,6 +228,28 @@ class EloquentCompany implements CompanyRepository
     		return 0;
     	}
     	$result = $query->count();
+    	return $result;
+    }
+    
+    public function getTotalCompany($batchId)
+    {
+    	$query = Company::query();
+    	$result = $query
+    	->leftjoin('contacts', 'companies.id', '=', 'contacts.company_id')
+    	->select('companies.*','contacts.*');
+    
+    	if ($batchId != 0) {
+    
+    
+    		$query->where(function ($q) use($batchId) {
+    			$q->where('companies.batch_id', "=", "{$batchId}");
+    
+    		});
+    	} else {
+    		return 0;
+    	}
+    
+    	$result = $query->get();
     	return $result;
     }
 }
