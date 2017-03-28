@@ -15,14 +15,7 @@ class CreateCompanyRequest extends Request
     public function rules()
     {
         return [
-            	'company_name' => 'required|unique:name',
-        		'address1'=>'required',
-        		'city'=>'required',
-        		'state'=>'required',
-        		'zipcode'=>'required',
-        		'country'=>'required|exists:countries,id'
-        		//'email'=>'required|email',
-        		//'mobile'=>'digits:10'
+            	
                ];
     }
 }

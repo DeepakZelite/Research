@@ -1,3 +1,4 @@
+@include('partials.messages')
 
 @if ($editCompany) 
 	{!! Form::open(['route' => ['dataCapture.updateCompany', $company->id], 'method' => 'PUT', 'id' => 'company-form']) !!} 
@@ -15,14 +16,13 @@
 					<label for="company_name">@lang('app.company_name')<i
 						style="color: red;">*</i></label> <input type="text"
 						class="form-control" id="company_name" name="company_name"
-						placeholder="@lang('app.company_name')" readonly="readonly"
+						placeholder="@lang('app.company_name')"
 						value="{{ $editCompany ? $company->company_name : old('company_name') }}">
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="name">@lang('app.child_company')</label> <input
 						type="text" class="form-control" id="parent_company"
 						name="parent_company" placeholder="@lang('app.child_company')"
-						readonly="readonly"
 						value="{{ $editCompany ? $company->parent_company : old('parent_company') }}">
 				</div>
 				<div class="form-group col-lg-2">
@@ -157,5 +157,18 @@
 		</button>
 	</div>
 </div>
-
 {{ Form::close() }}
+
+
+@if ($editCompany) 
+	{!! JsValidator::formRequest('Vanguard\Http\Requests\Company\UpdateCompanyRequest', '#company-form') !!} 
+@else 
+	{!! JsValidator::formRequest('Vanguard\Http\Requests\Company\CreateCompanyRequest', '#company-form') !!} 
+@endif
+
+{!! HTML::script('assets/js/moment.min.js') !!} 
+{!! HTML::script('assets/js/bootstrap-datetimepicker.min.js') !!}
+{!! HTML::script('assets/js/as/profile.js') !!} 
+
+@parent
+
