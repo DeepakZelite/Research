@@ -20,9 +20,8 @@ use Vanguard\SubBatch;
 use Vanguard\Batch;
 use Vanguard\Http\Requests\Contact\UpdateContactRequest;
 use Vanguard\Repositories\Country\CountryRepository;
+use Vanguard\Repositories\Code\CodeRepository;
 use Vanguard\Support\Enum\SubBatchStatus;
-use Vanguard\Employee;
-use Vanguard\Repositories\Employee\EmployeeRepository;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -128,13 +127,15 @@ class DataCaptureController extends Controller
 	 * @param CompanyRepository $companyRepository
 	 * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory|unknown
 	 */
-	public function capture($subBatchId, Company $company, CompanyRepository $companyRepository,CountryRepository $countryRepository,ProjectRepository $projectRepository)
+	public function capture($subBatchId, Company $company, CompanyRepository $companyRepository,CountryRepository $countryRepository,ProjectRepository $projectRepository,CodeRepository $codeRepository)
 	{
 		// Get the first or last saved company record from the sub batch.
 		$editCompany = true;
 		$perPage = 2;
 		$countries = $countryRepository->lists();
 		$countriesISDCodes = $countryRepository->lists1();
+		$codes=$codeRepository->lists();
+		$codes1=$codeRepository->lists1();
 		$subBatch=SubBatch::find($subBatchId);
 		$projects=$projectRepository->find($subBatch->project_id);
 		$companies = $companyRepository->getCompanyRecord($subBatchId, $this->theUser->id);
@@ -143,7 +144,7 @@ class DataCaptureController extends Controller
 			$company = $companies[0];
 			$editContact = false;
 			$contacts = $this->contactRepository->paginate($perPage, Input::get('search'), $company->id);
-			return view('Company.company-data', compact('countries','countriesISDCodes','subBatchId', 'editCompany', 'company', 'contacts', 'editContact','projects'));
+			return view('Company.company-data', compact('countries','countriesISDCodes','codes','codes1','subBatchId', 'editCompany', 'company', 'contacts', 'editContact','projects'));
 		} else {
 			// All the company records are submitted in this sub batch.
 			// Set the status of sub-batch to Submitted and redirect to sub-batch list

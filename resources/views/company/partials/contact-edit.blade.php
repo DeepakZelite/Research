@@ -217,6 +217,7 @@ function hideMenu() {
 	as.toggleSidebar()
 }
 function editContact(id) {
+	alert("edit");
     $.ajax({
         method: "GET",
         url: "http://localhost:88/Research/public/dataCapture/" + id + "/getContact",
@@ -226,8 +227,8 @@ function editContact(id) {
             }
     })	
 }
-
 function addContact(companyId) {
+	alert("add");
     $.ajax({
         method: "GET",
         url: "http://localhost:88/Research/public/dataCapture/" + companyId + "/createContact",
@@ -238,13 +239,7 @@ function addContact(companyId) {
             }
     })	
 }
-function isNumberKey(evt)
-{
-		var charCode = (evt.which) ? evt.which : event.keyCode
-		if (charCode > 31 && (charCode < 48 || charCode > 57))
-  	return false;
-		return true;
-}
+
 $('#myModal').on('shown.bs.modal', function() {
 	  $('#firstName').focus();
 	});
@@ -262,7 +257,13 @@ $('#myModal').on('shown.bs.modal', function() {
 
 	});
 
-
+  function isNumberKey(evt)
+  {
+  		var charCode = (evt.which) ? evt.which : event.keyCode
+  		if (charCode > 31 && (charCode < 48 || charCode > 57))
+    	return false;
+  		return true;
+  }
 </script>
     @if ($editContact)
         {!! JsValidator::formRequest('Vanguard\Http\Requests\Contact\UpdateContactRequest', '#staff-form') !!}

@@ -107,17 +107,17 @@
 						value="{{ $editCompany ? $company->addresscode : old('addresscode') }}">
 				</div>
 				<div class="form-group col-lg-2">
-					<label for="employee_size">@lang('app.employee_size')</label> <input
-						type="text" class="form-control" id="employee_size" maxlength="5" onkeypress="return isNumberKey(event)"
+					<label for="employee_size">@lang('app.employee_size')</label> 
+					{!! Form::select('code', $codes,'', ['class' =>'form-control','id'=>'code']) !!}
+				<!-- 	<input type="text" class="form-control" id="employee_size" maxlength="5" onkeypress="return isNumberKey(event)"
 						name="employee_size" placeholder="@lang('app.employee_size')"
-						value="{{ $editCompany ? $company->employee_size : old('employee_size') }}">
+						value="{{ $editCompany ? $company->employee_size : old('employee_size') }}"> -->
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="industry_classfication">@lang('app.industry_classfication')</label>
-					<input type="text" class="form-control" id="industry_classfication"
-						name="industry_classfication"
-						placeholder="@lang('app.industry_classfication')"
-						value="{{ $editCompany ? $company->industry_classfication : old('industry_classfication') }}">
+					{!! Form::select('code1', $codes1,'', ['class' =>'form-control','id'=>'code1']) !!}
+				<!-- 	<input type="text" class="form-control" id="industry_classfication" name="industry_classfication"
+						placeholder="@lang('app.industry_classfication')" value="{{ $editCompany ? $company->industry_classfication : old('industry_classfication') }}"> -->
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="physician_size">@lang('app.physician_size')</label> <input
@@ -276,13 +276,7 @@ hideMenu();
 function hideMenu() {
 	as.toggleSidebar()
 }
-function isNumberKey(evt)
-{
-		var charCode = (evt.which) ? evt.which : event.keyCode
-		if (charCode > 31 && (charCode < 48 || charCode > 57))
-  	return false;
-		return true;
-}
+
 $('#myModal').on('shown.bs.modal', function() {
 	  $('#firstName').focus();
 	});
@@ -299,6 +293,14 @@ $('#myModal').on('shown.bs.modal', function() {
     $('#parent_company').attr('readonly',false);
 
 	});
+
+	function isNumberKey(evt)
+	{
+			var charCode = (evt.which) ? evt.which : event.keyCode
+			if (charCode > 31 && (charCode < 48 || charCode > 57))
+	  	return false;
+			return true;
+	}
     </script>
 @stop
 

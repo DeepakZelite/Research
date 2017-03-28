@@ -71,7 +71,7 @@ class EloquentSubBatch implements SubBatchRepository
     /**
      * {@inheritdoc}
      */
-    public function paginate($perPage, $search = null, $userId = null, $status = null)
+    public function paginate($perPage, $search = null, $userId = null, $status = null,$vendorId = null)
     {
     	$query = SubBatch::query();
     
@@ -89,11 +89,11 @@ class EloquentSubBatch implements SubBatchRepository
     		});
     	}
     	
-    	/*if ($vendorId) {
-    		$query->where(function ($q) use($userId) {
+    	if ($vendorId) {
+    		$query->where(function ($q) use($vendorId) {
     			$q->where('sub_Batches.vendor_id', "=", "{$vendorId}");
     		});
-    	}*/
+    	}
     	
     	if ($status) {
     		$query->where(function ($q) use($status) {

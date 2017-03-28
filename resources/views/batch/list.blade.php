@@ -55,8 +55,8 @@
 <div class="table-responsive top-border-table" id="users-table-wrapper">
     <table class="table">
         <thead>
-        	<th>@lang('app.name')</th>
-            <th>@lang('app.code')</th>
+        	<th>@lang('app.name')<i class="fa fa-fw fa-sort"></i></th>
+            <th>@lang('app.code')<i class="fa fa-fw fa-sort"></i></th>
             <th>@lang('app.vendor_name')</th>
             <th>@lang('app.number_of_companies')</th>
             <th>@lang('app.status')</th>

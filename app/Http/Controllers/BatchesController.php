@@ -166,10 +166,64 @@ class BatchesController extends Controller
 	{	
 		$data = $companyRepository->getTotalCompany($batch->id); //get('$batch->id')->toArray();
 		//return $data;
-		return Excel::create('myfile', function($excel) use ($data) {
-			$excel->sheet('mySheet', function($sheet) use ($data)
+		return Excel::create('Report', function($excel) use ($data) {
+			$excel->sheet('companies', function($sheet) use ($data)
 			{
 				$sheet->fromArray($data);
+				/* $companies= [];
+				 foreach ($data as $key => $value) {
+				 $company['Company Id']= $value['company_id'];
+				 $company['Company Name']= $value['company_name'];
+				 $company['Child Company']= $value['child_company'];
+				 $company['Address Line1']= $value['address1'];
+				 $company['Address Line2']= $value['address2'];
+				 $company['City']= $value['city'];
+				 $company['State']= $value['state'];
+				 $company['Zipcode']=$value['zipcode'];
+				 $company['Country']=$value['country'];
+				 $company['InterNational Code']=$value['international_code'];
+				 $company['SwitchBoard Number']=$value['switchboardnumber'];
+				 $company['Branch Number']=$value['branchNumber'];
+				 $company['Address Code']=$value['addresscode'];
+				 $company['Website']=$value['website'];
+				 $company['Company Email']=$value['company_email'];
+				 $company['Products & Services']=$value['products_services'];
+				 $company['Industry Classification']=$value['industry_classfication'];
+				 $company['Employee Size']=$value['employee_size'];
+				 $company['Annual Revenue']=$value['annual_revenue'];
+				 $company['Number Of Beds']=$value['number_of_beds'];
+				 $company['Foundation Year']=$value['foundation_year'];
+				 $company['Company Remark']=$value['company_remark'];
+				 $company['Additional Info1']=$value['additional_info1'];
+				 $company['Additional Info2']=$value['additional_info2'];
+				 $company['Additional Info3']=$value['additional_info3'];
+				 $company['Additional Info4']=$value['additional_info4'];
+
+				 $company['First Name']=$value['first_name'];
+				 $company['Middle Name']=$value['middle_name'];
+				 $company['Last Name']=$value['last_name'];
+				 $company['Job Title']=$value['job_title'];
+				 $company['Specialization']=$value['specialization'];
+				 $company['Staff Soure']=$value['staff_source'];
+				 $company['Staff Email']=$value['staff_email'];
+				 $company['Direct PhoneNo']=$value['direct_phoneno'];
+				 $company['Email Source']=$value['email_source'];
+				 $company['Qualification']=$value['qualification'];
+				 $company['Staff Disposition']=$value['staff_disposition'];
+				 $company['Department Number']=$value['deparment_number'];
+				 $company['Alternate Phone']=$value['alternate_phone'];
+				 $company['Alternate Email']=$value['alternate_email'];
+				 $company['Email Type']=$value['email_type'];
+				 $company['Shift Timing']=$value['shift_timing'];
+				 $company['Working Tenure']=$value['working_tenure'];
+				 $company['Paternership']=$value['paternership'];
+				 $company['Age']=$value['age'];
+				 $company['Staff Remarks']=$value['staff_remarks'];
+				 $company['Last Name']=$value['staff_remarks'];
+				 
+				 $companies[] = $company;
+				 }
+				 $sheet->fromArray($companies);*/
 			});
 		})->download('xlsx');
 		//return $data;

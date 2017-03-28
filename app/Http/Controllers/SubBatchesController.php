@@ -12,7 +12,6 @@ use Vanguard\Repositories\Country\CountryRepository;
 use Vanguard\Repositories\Project\ProjectRepository;
 use Vanguard\Repositories\Role\RoleRepository;
 use Vanguard\Repositories\Vendor\VendorRepository;
-use Vanguard\Support\Enum\UserStatus;
 use Vanguard\Repositories\Batch\BatchRepository;
 use Vanguard\Repositories\User\UserRepository;
 use Vanguard\Repositories\Company\CompanyRepository;
@@ -59,7 +58,7 @@ class SubBatchesController extends Controller
 	public function index(BatchRepository $batchRepository, UserRepository $userRepository,ProjectRepository $projectRepository)
 	{
 		$perPage = 5;
-		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'),null,Input::get('status'));
+		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'),null,Input::get('status'),$this->theUser->id);
 		$statuses = ['' => trans('app.all')] + SubBatchStatus::lists1();
 		$vendorId = $this->theUser->vendor_id;
 		$batches = $batchRepository->getVendorBatches($vendorId);
