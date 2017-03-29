@@ -22,6 +22,7 @@ use Vanguard\Http\Requests\Contact\UpdateContactRequest;
 use Vanguard\Repositories\Country\CountryRepository;
 use Vanguard\Repositories\Code\CodeRepository;
 use Vanguard\Support\Enum\SubBatchStatus;
+use Vanguard\Http\Requests\Company\CreateCompanyRequest;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -110,7 +111,7 @@ class DataCaptureController extends Controller
 	 */
 	public function storeStaff(Company $company, CreateContactRequest $request) 
 	{
-		
+		return "heello";
 		$data = $request->all() + ['company_id' => $company->id]
 		+ ['user_id' => $this->theUser->id];
 		Log::info($data);
@@ -224,5 +225,20 @@ class DataCaptureController extends Controller
 		$company=Company::find($companyId->id);
 		$editContact = false;
 		return view('company.partials.contact-edit', compact('editContact', 'company'));
+	}
+	
+	public function addCompany(Company $companyId, CreateCompanyRequest $request)
+	{
+		$data =['parent_id' => $companyId->id] +
+		['user_id' => $this->theUser->id] +
+		['batch_id' => $companyId->batch_id] +
+		['sub_batch_id' => $companyId->sub_batch_id] +
+		['status' => 'Assigned'] +
+		['company_name' => $request->new_company_name] +
+		['parent_company' => $companyId->company_name] +
+		['company_instructions' => $companyId->company_instructions];
+		$newCompany = $this->companyRepository->create($data);
+		return redirect()->route('dataCapture.capture', $companyId->sub_batch_id)->withSuccess(trans('app.Added_Child_Company.'));
+			
 	}
 }

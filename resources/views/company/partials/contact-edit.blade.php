@@ -216,58 +216,13 @@ hideMenu();
 function hideMenu() {
 	as.toggleSidebar()
 }
-function editContact(id) {
-	alert("edit");
-    $.ajax({
-        method: "GET",
-        url: "http://localhost:88/Research/public/dataCapture/" + id + "/getContact",
-        success: function(data){
-            $data = $(data); 
-            $('#editContact').fadeOut().html($data).fadeIn();
-            }
-    })	
-}
-function addContact(companyId) {
-	alert("add");
-    $.ajax({
-        method: "GET",
-        url: "http://localhost:88/Research/public/dataCapture/" + companyId + "/createContact",
-        success: function(data){
-            $data = $(data); 
-            //$('#editContact').fadeOut().html($data).fadeIn();
-            $('#editContact').html($data).fadeIn();
-            }
-    })	
-}
-
-$('#myModal').on('shown.bs.modal', function() {
-	  $('#firstName').focus();
-	});
-	
-	$("#country").change(function() {
-			 var batchId = $( this ).val();
-           $.ajax({
-               method: "GET",
-               url: "http://localhost:88/Research/public/dataCapture/getcountryCode",
-           })
-	});
-  $('#add_child_record').click(function(){
-  $('#company_name').attr('readonly',false);
-  $('#parent_company').attr('readonly',false);
-
-	});
-
-  function isNumberKey(evt)
-  {
+function isNumberKey(evt)
+{
+	alert("hiii");
   		var charCode = (evt.which) ? evt.which : event.keyCode
   		if (charCode > 31 && (charCode < 48 || charCode > 57))
     	return false;
   		return true;
-  }
+}
 </script>
-    @if ($editContact)
-        {!! JsValidator::formRequest('Vanguard\Http\Requests\Contact\UpdateContactRequest', '#staff-form') !!}
-    @else
-        {!! JsValidator::formRequest('Vanguard\Http\Requests\Contact\CreateContactRequest', '#staff-form') !!}
-    @endif
 @stop

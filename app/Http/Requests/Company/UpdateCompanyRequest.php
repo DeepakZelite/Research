@@ -13,9 +13,9 @@ class UpdateCompanyRequest extends Request
      */
     public function rules()
     {
-    	$company = $this->route('company');
+    	//$company = $this->route('company');
     	return [
-     			//'company_name' => 'required,company_name,' . $company->id,
+     			/*'company_name' => 'required,company_name,' . $company->id,
     			'address1'=>'required',
     			'city'=>'required',
     			'state'=>'required',
@@ -23,7 +23,7 @@ class UpdateCompanyRequest extends Request
     			'country'=>'required|exists:countries,id'
      			//'phone'=>'required|digits:10',
      			//'email'=>'required|email',
-     			//'mobile'=>'digits:10'
+     			//'mobile'=>'digits:10'*/
     	];
     }
 }
