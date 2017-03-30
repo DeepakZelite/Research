@@ -20,12 +20,9 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">@lang('app.company_details_big')
 			<div class="pull-right" style="margin-top: -7px;">
-				<!-- <button type="button" class="btn btn-default">
+				<button type="button" class="btn btn-default">
       			<span class="glyphicon glyphicon-download"></span> Task Brief
-    			</button> -->
-    			<a href="{{ URL::to('project/download',$projects->brief_file) }}" class="btn btn-default" id="task_brief"> <i
-				class="glyphicon glyphicon-download"></i> @lang('app.task_brief')
-				</a>
+    			</button>
 			</div>
 			<div class="pull-right" style="margin-top: -7px; margin-right:2px;">
 				<button type="button" class="btn btn-default" id="add_child_record" data-toggle="modal"
@@ -45,7 +42,7 @@
 					<label for="company_name">@lang('app.company_name')<i
 						style="color: red;">*</i></label> <input type="text"
 						class="form-control" id="company_name" name="company_name"
-						placeholder="@lang('app.company_name')" 
+     				placeholder="@lang('app.company_name')"
 						value="{{ $editCompany ? $company->company_name : old('company_name') }}">
 				</div>
 				<div class="form-group col-lg-2">
@@ -152,6 +149,7 @@
 					<label for="physician_size">@lang('app.physician_size')</label> <input
 						type="text" class="form-control" id="physician_size" onkeypress="return isNumberKey(event)"
 						name="physician_size" placeholder="@lang('app.physician_size')" maxlength="5"
+
 						value="{{ $editCompany ? $company->physician_size : old('physician_size') }}">
 				</div>
 			</div>
@@ -498,6 +496,35 @@ function isNumberKey(evt)
   			return false;
 		return true;
 }
+
+$('#myModal').on('shown.bs.modal', function() {
+$('#firstName').focus();
+});
+
+function editContact(id) {
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:88/vguard/public/dataCapture/" + id + "/getContact",
+        success: function(data){
+            $data = $(data); 
+            $('#editContact').fadeOut().html($data).fadeIn();
+            }
+    })	
+}
+
+function addContact(companyId) {
+
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:88/vguard/public/dataCapture/" + companyId + "/createContact",
+        success: function(data){
+            $data = $(data); 
+            //$('#editContact').fadeOut().html($data).fadeIn();
+            $('#editContact').html($data).fadeIn();
+            }
+    })	
+}
+
 $('#myModal').on('shown.bs.modal', function() {
 	$('#first_name').focus();
 
@@ -535,7 +562,7 @@ $('#myModal').on('shown.bs.modal', function() {
 			 var batchId = $( this ).val();
            $.ajax({
                method: "GET",
-               url: "http://localhost:88/Research/public/dataCapture/getcountryCode",
+               url: "http://localhost:88/vguard/public/dataCapture/getcountryCode",
            })
 	});
   $('#add_child_record').click(function(){
