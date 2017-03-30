@@ -171,6 +171,7 @@ class EloquentCompany implements CompanyRepository
     		return 0;
     	}
     	$result = $query->orderBy('companies.updated_at', 'desc')->limit(1)->get();
+    	//$result = $query->orderBy('companies.parent_id', 'desc')->limit(1)->get();
     	return $result;
     }
     

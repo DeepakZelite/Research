@@ -22,7 +22,7 @@ class CreateUserRequest extends Request
         	'last_name'=>'required',
             'birthday' => 'date',
             'role' => 'required|exists:roles,id',
-        	'vendor_id'=>'required|exists:vendors,id',
+        	//'vendor_id'=>'required|exists:vendors,id',
         	'phone'=>'digits:10'
         ];
     }

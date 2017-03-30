@@ -109,8 +109,9 @@ class UsersController extends Controller
     {
         // When user is created by administrator, we will set his
         // status to Active by default.
-        $data = $request->all() + ['status' => UserStatus::ACTIVE];
-
+        
+    	$data = $request->all() + ['status' => UserStatus::ACTIVE]+['vendor_id'=>'0'];
+    	//return $data;
         // Username should be updated only if it is provided.
         // So, if it is an empty string, then we just leave it as it is.
         if (trim($data['username']) == '') {
