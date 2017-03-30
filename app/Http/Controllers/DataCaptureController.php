@@ -118,6 +118,7 @@ class DataCaptureController extends Controller
 		$subBatch=SubBatch::find($subBatchId);
 		$projects=$projectRepository->find($subBatch->project_id);
 		$companies = $companyRepository->getCompanyRecord($subBatchId, $this->theUser->id);
+		//return $companies;
 		if (sizeof($companies) > 0) {
 			// open the company-staff capture screen for this company
 			$company = $companies[0];
