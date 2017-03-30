@@ -15,13 +15,16 @@ $('#birthday').datetimepicker({
 });
 
 $('#Start_Date').datetimepicker({
-    format: 'YYYY-MM-DD'
+    format: 'YYYY-MM-DD',
+    minDate:0
 });
 $('#Expected_date').datetimepicker({
-    format: 'YYYY-MM-DD'
+    format: 'YYYY-MM-DD',
+    minDate:0
 });
 $('#Target_Date').datetimepicker({
-    format: 'YYYY-MM-DD'
+    format: 'YYYY-MM-DD',
+    minDate:0
 });
 
 var vHeight = 202,

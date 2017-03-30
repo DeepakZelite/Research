@@ -392,7 +392,7 @@ return [
 		'target_date'=>'Target Date',
 		'upload'=>'Upload File',
 		'select'=>'Select File',
-		'are_you_sure_delete_Batch'=>'are you sure delete Batch',
+		'are_you_sure_delete_batch'=>'Are you sure to Delete the Batch',
 		'delete_batch'=>'delete batch',
 		'download'=>'Download',
 		'batch_deleted'=>'Batch Deleted Successfully',
@@ -524,7 +524,7 @@ return [
 		'contact_created' => 'Staff has been added successfully.',
 		'company_updated' => 'Company has been updated successfully.',
 		'Added_Child_Company'=>'Added Child Company.',
-
+		
 		
 		'months' => [
         'January' => 'January',

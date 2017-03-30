@@ -56,7 +56,7 @@
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="name">@lang('app.company_instructions')</label> <input
-						type="text" class="form-control" id="company_instructions"
+						type="text" class="form-control" id="company_instructions" readonly="readonly"
 						name="company_instructions"	placeholder="@lang('app.company_instructions')"
 						value="{{ $editCompany ? $company->company_instructions : old('company_instructions') }}">
 				</div>

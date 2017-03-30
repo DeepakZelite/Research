@@ -116,7 +116,26 @@
     {!! HTML::style('assets/css/bootstrap-datetimepicker.min.css') !!}
 @stop
 @section('scripts')
-    <script>
+<script>
+$(document).ready(function(){
+    $("#start_date").datepicker({
+        minDate: 0,
+        maxDate: "+60D",
+        numberOfMonths: 2,
+        onSelect: function(selected) {
+          $("#start_date").datepicker("option","minDate", selected)
+        }
+    });
+    $("#Expected_date").datepicker({ 
+        minDate: 0,
+        maxDate:"+60D",
+        numberOfMonths: 2,
+        onSelect: function(selected) {
+           $("#Expected_date").datepicker("option","maxDate", selected)
+        }
+    });  
+});
+
 	function openAttachment() {
 	  document.getElementById('attachement').click();
 	}

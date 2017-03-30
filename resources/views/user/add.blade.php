@@ -55,6 +55,21 @@
 @stop
 
 @section('scripts')
+<script>
+$("#vendor_id").attr('disabled','disabled');
+$("#role").change(function() 
+{
+		var roleid= $( this ).val();
+		if(roleid=='1')
+		{
+			$("#vendor_id").attr('disabled', 'disabled');
+		}
+		else
+		{
+			$("#vendor_id").removeAttr('disabled');
+		}
+});
+</script>
     {!! HTML::script('assets/js/moment.min.js') !!}
     {!! HTML::script('assets/js/bootstrap-datetimepicker.min.js') !!}
     {!! HTML::script('assets/js/as/profile.js') !!}
