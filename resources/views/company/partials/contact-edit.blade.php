@@ -62,39 +62,39 @@
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="specialization">@lang('app.specialization')</label>
-												<input type="text" class="form-control" id="specialization"
-													name="specialization"
-													placeholder="@lang('app.specialization')" value="">
+												<input type="text" class="form-control" id="specialization" name="specialization"
+													placeholder="@lang('app.specialization')" value="{{ $editContact ? $contact->specialization : old('specialization') }}">
+
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="staff_source">@lang('app.staff_source')</label>
 												<input type="text" class="form-control" id="staff_source"
 													name="staff_source" placeholder="@lang('app.staff_source')"
-													value="">
+													value="{{ $editContact ? $contact->staff_source : old('staff_source') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="staff_emaile">@lang('app.staff_email')</label> <input
 													type="text" class="form-control" id="staff_email"
 													name="staff_email" placeholder="@lang('app.staff_email')"
-													value="">
+													value="{{ $editContact ? $contact->staff_email : old('staff_email') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="direct_phoneno">@lang('app.direct_phoneno')</label>
 												<input type="text" class="form-control" id="direct_phoneno"
-													name="direct_phoneno"
-													placeholder="@lang('app.direct_phoneno')" value="">
+													name="direct_phoneno" maxlength="10" onkeypress="return isNumberKey(event)"
+													placeholder="@lang('app.direct_phoneno')" value="{{ $editContact ? $contact->direct_phoneno : old('direct_phoneno') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="qualification">@lang('app.qualification')</label>
 												<input type="text" class="form-control" id="qualification"
 													name="qualification"
-													placeholder="@lang('app.qualification')" value="">
+													placeholder="@lang('app.qualification')" value="{{ $editContact ? $contact->qualification : old('qualification') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="email_source">@lang('app.email_source')</label>
 												<input type="text" class="form-control" id="email_source"
 													name="email_source" placeholder="@lang('app.email_source')"
-													value="">
+													value="{{ $editContact ? $contact->email_source : old('email_source') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="Staff_Disposition">@lang('app.staff_disposition')</label>
@@ -111,79 +111,80 @@
 										<div id="additional_info" class="tab-pane fade">
 											<div class="form-group col-lg-4">
 												<label for="deparment_number">@lang('app.deparment_number')</label>
-												<input type="text" class="form-control"
-													id="deparment_number" name="deparment_number"
-													placeholder="@lang('app.deparment_number')" value="">
+												<input type="text" class="form-control" maxlength="10"
+													id="deparment_number" name="deparment_number" onkeypress="return isNumberKey(event)"
+													placeholder="@lang('app.deparment_number')" value="{{ $editContact ? $contact->deparment_number : old('deparment_number') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="alternate_phone">@lang('app.alternate_phone')</label>
 												<input type="text" class="form-control" id="alternate_phone"
-													name="alternate_phone"
-													placeholder="@lang('app.alternate_phone')" value="">
+													name="alternate_phone" maxlength="10" onkeypress="return isNumberKey(event)"
+													placeholder="@lang('app.alternate_phone')" value="{{ $editContact ? $contact->alternate_phone : old('alternate_phone') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="alternate_email">@lang('app.alternate_email')</label>
 												<input type="text" class="form-control" id="alternate_email"
 													name="alternate_email"
-													placeholder="@lang('app.alternate_email')" value="">
+													placeholder="@lang('app.alternate_email')" value="{{ $editContact ? $contact->alternate_email : old('alternate_email') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="email_type">@lang('app.email_type')</label> <input
 													type="text" class="form-control" id="email_type"
 													name="email_type" placeholder="@lang('app.email_type')"
-													value="">
+													value="{{ $editContact ? $contact->email_type : old('email_type') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="shift_timing">@lang('app.shift_timing')</label>
 												<input type="text" class="form-control" id="shift_timing"
 													name="shift_timing" placeholder="@lang('app.shift_timing')"
-													value="">
+													value="{{ $editContact ? $contact->shift_timing : old('shift_timing') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="working_tenure">@lang('app.working_tenure')</label>
 												<input type="text" class="form-control" id="working_tenure"
 													name="working_tenure"
-													placeholder="@lang('app.working_tenure')" value="">
+													placeholder="@lang('app.working_tenure')" value="{{ $editContact ? $contact->working_tenure : old('working_tenure') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="paternership">@lang('app.paternership')</label>
 												<input type="text" class="form-control" id="paternership"
 													name="paternership" placeholder="@lang('app.paternership')"
-													value="">
+													value="{{ $editContact ? $contact->paternership : old('paternership') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="staff_remarks">@lang('app.staff_remarks')</label>
 												<input type="text" class="form-control" id="staff_remarks" name="staff_remarks"
-													placeholder="@lang('app.staff_remarks')" value="">
+													placeholder="@lang('app.staff_remarks')" value="{{ $editContact ? $contact->staff_remarks : old('staff_remarks') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="age">@lang('app.age')</label> <input type="text"
-													class="form-control" id="age" name="age"
-													placeholder="@lang('app.age')" value="">
+													class="form-control" id="age" name="age" maxlength="2" onkeypress="return isNumberKey(event)"
+													placeholder="@lang('app.age')" value="{{ $editContact ? $contact->age : old('age') }}">
+
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="additional_info1">@lang('app.contact_info1')</label>
 												<input type="text" class="form-control"
 													id="additional_info1" name="additional_info1"
-													placeholder="@lang('app.contact_info1')" value="">
+													placeholder="@lang('app.contact_info1')" value="{{ $editContact ? $contact->additional_info1 : old('additional_info1') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="additional_info2">@lang('app.contact_info2')</label>
 												<input type="text" class="form-control"
 													id="additional_info2" name="additional_info2"
-													placeholder="@lang('app.contact_info2')" value="">
+													placeholder="@lang('app.contact_info2')" value="{{ $editContact ? $contact->additional_info2 : old('additional_info2') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="additional_info3">@lang('app.contact_info3')</label>
 												<input type="text" class="form-control"
 													id="additional_info3" name="additional_info3"
-													placeholder="@lang('app.contact_info3')" value="">
+													placeholder="@lang('app.contact_info3')" value="{{ $editContact ? $contact->additional_info3 : old('additional_info3') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="additional_info4">@lang('app.contact_info4')</label>
 												<input type="text" class="form-control"
 													id="additional_info4" name="additional_info4"
-													placeholder="@lang('app.contact_info4')" value="">
+													placeholder="@lang('app.contact_info4')" value="{{ $editContact ? $contact->additional_info4 : old('additional_info4') }}">
 											</div>
 										</div>
 									</div>
@@ -208,6 +209,72 @@
 						</button>
 					</div>
 				</div>
+<script>
+
+	$('#first_name').focus();
+	$("#staff-form").click(function(event)
+	{
+		if ($('#first_name').val() == '') {
+		    $('#first_name').css('border-color', 'red');
+		    //$('#first_name').focus();
+		    return false;
+		}
+		else {
+		    $('#first_name').css('border-color', 'green');
+		}
+
+		if ($('#job_title').val() == '') {
+		    $('#job_title').css('border-color', 'red');
+		    //$('#job_title').focus();
+		    return false;
+		}
+		else {
+		    $('#job_title').css('border-color', 'green');
+		}
+		return true;
+	});
+		$('#staff_email').on('input', function() 
+		{
+			var input=$(this);
+			var re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+			var is_email=re.test(input.val());
+			if(is_email){$('#staff_email').css('border-color', 'green');}
+			else
+			{
+				$('#staff_email').css('border-color', 'red');
+			}
+		});
+		$('#alternate_email').on('input', function() 
+		{
+			var input=$(this);
+			var re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+			var is_email=re.test(input.val());
+			if(is_email){$('#alternate_email').css('border-color', 'green');}
+			else
+			{
+				$('#alternate_email').css('border-color', 'red');
+			}
+		});
+</script>
+{{ Form::close() }}
+
+@section('scripts')
+<script>
+hideMenu();
+function hideMenu() {
+	as.toggleSidebar()
+}
+function isNumberKey(evt)
+{
+	alert("hiii");
+  		var charCode = (evt.which) ? evt.which : event.keyCode
+  		if (charCode > 31 && (charCode < 48 || charCode > 57))
+    	return false;
+  		return true;
+}
+</script>
+@stop
 
 {{ Form::close() }}
+
 

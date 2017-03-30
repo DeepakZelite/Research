@@ -4,9 +4,9 @@ namespace Vanguard;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Employee extends Model
+class Code extends Model
 {
-	protected $table = 'employees';
-
+	protected $table = 'codes';
+	
 	public $timestamps = false;
 }

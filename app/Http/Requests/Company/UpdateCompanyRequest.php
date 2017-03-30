@@ -15,15 +15,15 @@ class UpdateCompanyRequest extends Request
     {
     	//$company = $this->route('company');
     	return [
-     		'company_name' => 'required',
-    			'address1'=>'required'
-    			//'city'=>'required',
-    			//'state'=>'required',
-    			//'zipcode'=>'required|digits:6',
-    			//'country'=>'required|exists:countries,id'
+    			/*'company_name' => 'required,company_name,' . $company->id,
+    			'address1'=>'required',
+    			'city'=>'required',
+    			'state'=>'required',
+    			'zipcode'=>'required|digits:6',
+    			'country'=>'required|exists:countries,id'
      			//'phone'=>'required|digits:10',
      			//'email'=>'required|email',
-     			//'mobile'=>'digits:10'
+     			//'mobile'=>'digits:10'*/
     	];
     }
 }

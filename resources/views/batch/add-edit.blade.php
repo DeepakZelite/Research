@@ -45,7 +45,7 @@
                 </div>
                 <div class="form-group">
                     <label for="name">@lang('app.name')<i style="color:red;">*</i></label>
-                    <input type="text" class="form-control" id="name"
+                    <input type="text" class="form-control" id="name" maxlength="20"
                            name="name" placeholder="@lang('app.batch_name')" value="{{ $edit ? $batch->name : old('name') }}" @if($edit) readonly="readonly" @endif>
                 </div>
 		      <div class="form-group">

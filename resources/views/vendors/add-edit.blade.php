@@ -42,17 +42,17 @@
                 <div class="form-group">
                     <label for="vendorCode">@lang('app.vendor_code')<i style="color:red;">*</i></label>
                     @if($edit)
-                    	<input type="text" class="form-control" id="vendor_code"
+                    	<input type="text" class="form-control" id="vendor_code" maxlength="15"
                            name="vendor_code" placeholder="@lang('app.vendor_code')" readonly="readonly" value="{{ $edit ? $vendor->vendor_code : old('vendor_code') }}">
-                    @else
-                    	<input type="text" class="form-control" id="vendor_code"
+                    @else 
+                    	<input type="text" class="form-control" id="vendor_code"  maxlength="15"
                            name="vendor_code" placeholder="@lang('app.vendor_code')" value="{{ $edit ? $vendor->vendor_code : old('vendor_code') }}">                      
                     @endif
                 </div>
                 
                 <div class="form-group">
                     <label for="location">@lang('app.location')<i style="color:red;">*</i></label>
-                    <input type="text" class="form-control" id="location"
+                    <input type="text" maxlength="25" class="form-control" id="location"
                            name="location" placeholder="@lang('Location of Vendor')" value="{{ $edit ? $vendor->location : old('location') }}">
                 </div>
                 
@@ -65,7 +65,7 @@
                 <div class="col-md-6">
                 <div class="form-group">
             		<label for="email">@lang('app.email')<i style="color:red;">*</i></label>
-            		<input type="email" class="form-control" id="email"
+            		<input type="email" maxlength="30" class="form-control" id="email"
  	                  name="email" placeholder="@lang('app.email')" value="{{ $edit ? $vendor->email : '' }}">
 		        </div>
                 <div class="form-group">
@@ -74,12 +74,12 @@
 
                    <!-- <label for="phone">@lang('app.phone')</label>-->
 
-                    <input type="phone" class="form-control" id="phone"
+                    <input type="text" class="form-control" id="phone" maxlength="10" onkeypress="return isNumberKey(event)"
                            name="phone" placeholder="@lang('phone Number')" value="{{ $edit ? $vendor->phone : old('phone') }}">
                 </div>
                 <div class="form-group">
                     <label for="mobile">@lang('app.mobile')</label>
-                    <input type="mobile" class="form-control" id="mobile"
+                    <input type="text" maxlength="10" class="form-control" id="mobile"  onkeypress="return isNumberKey(event)"
                            name="mobile" placeholder="@lang('Mobile Number')" value="{{ $edit ? $vendor->mobile : old('mobile') }}">
                 </div>
                 <div class="form-group">
@@ -122,6 +122,15 @@
 @stop
 
 @section('scripts')
+	<script>
+      function isNumberKey(evt)
+      {
+         var charCode = (evt.which) ? evt.which : event.keyCode
+         if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+         return true;
+      }
+    </script>
     @if ($edit)
         {!! JsValidator::formRequest('Vanguard\Http\Requests\Vendor\UpdateVendorRequest', '#vendor-form') !!}
     @else

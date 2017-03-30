@@ -107,13 +107,16 @@ class ProjectsController extends Controller
     {
     	
     		$file = Input::file('attachement');
-    		$destinationPath = public_path() .'/upload/';
-    		$filename =$request->code.''.'('.rand(1,20).').'. $file->getClientOriginalExtension();
-    		$file->move($destinationPath, $filename);
     		$this->projects->update($project->id, $request->all());
-    		$projects=Project::find($project->id);
-    		$projects->brief_file=$filename;
-    		$projects->save();
+    		if($file)
+    		{
+    			$destinationPath = public_path() .'/upload/';
+    			$filename =$request->code.''.'('.rand(1,20).').'. $file->getClientOriginalExtension();
+    			$file->move($destinationPath, $filename);
+    			$projects=Project::find($project->id);
+    			$projects->brief_file=$filename;
+    			$projects->save();
+    		}
     		return redirect()->route('project.list')
     			->withSuccess(trans('app.project_updated'));
     }

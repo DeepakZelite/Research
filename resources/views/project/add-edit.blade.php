@@ -45,12 +45,12 @@
                 </div>
                 <div class="form-group">
                     <label for="No_Companies">@lang('app.number_of_companies')<i style="color:red;">*</i></label>
-                    <input type="text" class="form-control" id="No_Companies"
+                    <input type="text" class="form-control" id="No_Companies" maxlength="5" onkeypress="return isNumberKey(event)"
                            name="No_Companies" placeholder="@lang('Number of Companies')" value="{{ $edit ? $project->No_Companies : old('No_Companies') }}">
                 </div>
                 <div class="form-group">
                     <label for="staff">@lang('app.expected_staff')<i style="color:red;">*</i></label>
-                    <input type="text" class="form-control" id="Expected_Staff"
+                    <input type="text" class="form-control" id="Expected_Staff" maxlength="5" onkeypress="return isNumberKey(event)"
                            name="Expected_Staff" placeholder="@lang('Expected Staff')" value="{{ $edit ? $project->Expected_Staff : old('Expected_Staff') }}">
                 </div>
                 <div class="form-group">
@@ -76,9 +76,9 @@
 						</div>
                 </div>
                 <div class="form-group">
-				  <label class="control-label" for="upload file">@lang('app.task_brief')<i style="color:red;">*</i></label>
+				  <label class="control-label" for="upload file">@lang('app.task_brief') @if(!$edit)<i style="color:red;">*</i>@endif</label>
  					<div class="input-group">
-				    	<input type='text' name="upload" id='upload' value="choose file" class="form-control" />
+				    	<input type='text' name="upload" id='upload' placeholder="choose file" value="{{ $edit ? $project->brief_file : old('brief_file')}}" class="form-control" />
 				    	<span class="input-group-btn">
 				    	<input type="file" accept=".pdf" class="file" id="attachement" name="attachement" style="display: none;" onchange="fileSelected(this)"/>
 				    	<button class="btn btn-success" type="button" id="btnAttachment" onclick="openAttachment()">@lang('app.upload_task_brief')</button>
@@ -124,6 +124,13 @@
 	function fileSelected(input){
 	  document.getElementById('upload').value =input.files[0].name
 	}
+    function isNumberKey(evt)
+    {
+       var charCode = (evt.which) ? evt.which : event.keyCode
+       if (charCode > 31 && (charCode < 48 || charCode > 57))
+          return false;
+       return true;
+    }
     </script>
     {!! HTML::script('assets/js/moment.min.js') !!}
     {!! HTML::script('assets/js/bootstrap-datetimepicker.min.js') !!}

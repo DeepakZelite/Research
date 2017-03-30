@@ -14,11 +14,13 @@ use Vanguard\Repositories\Batch\BatchRepository;
 use Vanguard\Repositories\Company\CompanyRepository;
 use Vanguard\Repositories\Contact\ContactRepository;
 use Vanguard\Repositories\SubBatch\SubBatchRepository;
+use Vanguard\Repositories\Project\ProjectRepository;
 use Vanguard\Repositories\User\UserRepository;
 use Vanguard\SubBatch;
 use Vanguard\Batch;
 use Vanguard\Http\Requests\Contact\UpdateContactRequest;
 use Vanguard\Repositories\Country\CountryRepository;
+use Vanguard\Repositories\Code\CodeRepository;
 use Vanguard\Support\Enum\SubBatchStatus;
 use Vanguard\Http\Requests\Company\CreateCompanyRequest;
 
@@ -62,8 +64,9 @@ class DataCaptureController extends Controller
 		$perPage = 5;
 		// Un-Comment to see only assigned subbatches in the data capture menu
 		//$subBatches = $this->subBatches->paginate($perPage, Input::get('search'), $this->theUser->id, 'Assigned');
-		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'), $this->theUser->id);
-		return view('subBatch.datacapturelist', compact('subBatches'));
+		$statuses = ['' => trans('app.all')] + SubBatchStatus::lists1();
+		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'), $this->theUser->id,Input::get('status'));
+		return view('subBatch.datacapturelist', compact('subBatches','statuses'));
 	}
 	
 	/**
@@ -88,7 +91,6 @@ class DataCaptureController extends Controller
 	 */
 	public function storeStaff(Company $company, CreateContactRequest $request) 
 	{
-		
 		$data = $request->all() + ['company_id' => $company->id]
 		+ ['user_id' => $this->theUser->id];
 		
@@ -104,20 +106,24 @@ class DataCaptureController extends Controller
 	 * @param CompanyRepository $companyRepository
 	 * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory|unknown
 	 */
-	public function capture($subBatchId, Company $company, CompanyRepository $companyRepository,CountryRepository $countryRepository)
+	public function capture($subBatchId, Company $company, CompanyRepository $companyRepository,CountryRepository $countryRepository,ProjectRepository $projectRepository,CodeRepository $codeRepository)
 	{
 		// Get the first or last saved company record from the sub batch.
 		$editCompany = true;
 		$perPage = 2;
 		$countries = $countryRepository->lists();
 		$countriesISDCodes = $countryRepository->lists1();
+		$codes=$codeRepository->lists();
+		$codes1=$codeRepository->lists1();
+		$subBatch=SubBatch::find($subBatchId);
+		$projects=$projectRepository->find($subBatch->project_id);
 		$companies = $companyRepository->getCompanyRecord($subBatchId, $this->theUser->id);
 		if (sizeof($companies) > 0) {
 			// open the company-staff capture screen for this company
 			$company = $companies[0];
 			$editContact = false;
 			$contacts = $this->contactRepository->paginate($perPage, Input::get('search'), $company->id);
-			return view('Company.company-data', compact('countries','countriesISDCodes','subBatchId', 'editCompany', 'company', 'contacts', 'editContact'));
+			return view('Company.company-data', compact('countries','countriesISDCodes','codes','codes1','subBatchId', 'editCompany', 'company', 'contacts', 'editContact','projects'));
 		} else {
 			// All the company records are submitted in this sub batch.
 			// Set the status of sub-batch to Submitted and redirect to sub-batch list
@@ -138,6 +144,10 @@ class DataCaptureController extends Controller
 		$comp=Company::find($company->id);
 		$comp->status="Submitted";
 		$comp->save();
+		
+		$subBatch=SubBatch::find($comp->sub_batch_id);
+		$subBatch->status="In-Process";
+		$subBatch->save();
 		if($companyRepository->getTotalCompanyCount($comp->batch_id)==$companyRepository->getSubmittedCompanyCount($comp->batch_id))
 		{
 			$batch=batch::find($comp->batch_id);
@@ -145,6 +155,14 @@ class DataCaptureController extends Controller
 			$batch->update();
 		}
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id);
+	}
+
+  /**
+	 * Set the Front end view to create a new child company.
+	 */
+	public function createChildCompany() 
+	{
+		$editCompany = false; 	
 	}
 	
 	/**
@@ -197,6 +215,5 @@ class DataCaptureController extends Controller
 		['company_instructions' => $companyId->company_instructions];
  		$newCompany = $this->companyRepository->create($data);
  		return redirect()->route('dataCapture.capture', $companyId->sub_batch_id)->withSuccess(trans('app.Added_Child_Company.'));
- 				
 	}
 }

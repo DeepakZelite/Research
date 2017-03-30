@@ -47,7 +47,7 @@
                 </li>
             @endpermission
  			-->
-        @permission(['roles.manage', 'permissions.manage'])
+ <!--       @permission(['roles.manage', 'permissions.manage'])
                  <li class="{{ Request::is('role*') || Request::is('permission*') ? 'active open' : ''  }}">
                      <a href="#">
                          <i class="fa fa-user fa-fw"></i>
@@ -62,15 +62,15 @@
                                  </a>
                              </li>
                          @endpermission
-<!--                           @permission('permissions.manage') 
+                           @permission('permissions.manage') 
                               <li> 
                                   <a href="{{ route('permission.index') }}" 
                                      class="{{ Request::is('permission*') ? 'active' : ''  }}">@lang('app.permissions')</a> 
                               </li> 
-                          @endpermission  -->
+                          @endpermission 
                      </ul>
                  </li>
-             @endpermission
+             @endpermission  -->
 			<!-- 
             @permission(['settings.general', 'settings.auth', 'settings.notifications'])
             <li class="{{ Request::is('settings*') ? 'active open' : ''  }}">

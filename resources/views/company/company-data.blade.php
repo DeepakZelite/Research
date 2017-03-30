@@ -42,7 +42,7 @@
 					<label for="company_name">@lang('app.company_name')<i
 						style="color: red;">*</i></label> <input type="text"
 						class="form-control" id="company_name" name="company_name"
-						placeholder="@lang('app.company_name')"
+     				placeholder="@lang('app.company_name')"
 						value="{{ $editCompany ? $company->company_name : old('company_name') }}">
 				</div>
 				<div class="form-group col-lg-2">
@@ -54,14 +54,13 @@
 				<div class="form-group col-lg-2">
 					<label for="name">@lang('app.company_instructions')</label> <input
 						type="text" class="form-control" id="company_instructions"
-						name="company_instructions"
-						placeholder="@lang('app.company_instructions')"
+						name="company_instructions"	placeholder="@lang('app.company_instructions')"
 						value="{{ $editCompany ? $company->company_instructions : old('company_instructions') }}">
 				</div>
 
 				<div class="form-group col-lg-2">
 					<label for="address1">@lang('app.address1')<i style="color: red;">*</i></label>
-					<input type="text" class="form-control" id="address1"
+					<input type="text" class="form-control" id="address1" required
 						name="address1" placeholder="@lang('app.address1')"
 						value="{{ $editCompany ? $company->address1 : old('address1') }}">
 				</div>
@@ -75,20 +74,20 @@
 				<div class="form-group col-lg-2">
 					<label for="city">@lang('app.city')<i style="color: red;">*</i></label>
 					<input type="text" class="form-control" id="city" name="city"
-						placeholder="@lang('app.city')"
+						placeholder="@lang('app.city')" maxlength="20" required
 						value="{{ $editCompany ? $company->city : old('city') }}">
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="state">@lang('app.state')<i style="color: red;">*</i></label>
 					<input type="text" class="form-control" id="state" name="state"
-						placeholder="@lang('app.state')"
+						placeholder="@lang('app.state')" required
 						value="{{ $editCompany ? $company->state : old('state') }}">
 				</div>
 				
 				<div class="form-group col-lg-2">
 					<label for="zipcode">@lang('app.zipcode')<i style="color: red;">*</i></label>
-					<input type="text" class="form-control" id="zipcode" name="zipcode"
-						placeholder="@lang('app.zipcode')"
+					<input type="text" class="form-control" id="zipcode" name="zipcode" required
+						placeholder="@lang('app.zipcode')"  onkeypress="return isNumberKey(event)" maxlength="6"
 						value="{{ $editCompany ? $company->zipcode : old('zipcode') }}">
 				</div>
 				<div class="form-group col-lg-2">
@@ -103,9 +102,9 @@
 							$countriesISDCodes,'', ['class' =>
 							'form-control','calling_code'=>'international_code']) !!}</div>
 						<div class="col-md-7">
-							<input type="text" class="form-control" id="switchboardnumber"
-								name="switchboardnumber"
-								placeholder="@lang('app.switchboardnumber')"
+							<input type="text" class="form-control" id="switchboardnumber" 
+								name="switchboardnumber" maxlength="10" onkeypress="return isNumberKey(event)"
+								placeholder="@lang('app.switchboardnumber')" 
 								value="{{ $editCompany ? $company->switchboardnumber : old('switchboardnumber') }}">
 						</div>
 					</div>
@@ -124,33 +123,33 @@
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="branchNumber">@lang('app.branchNumber')</label> <input
-						type="text" class="form-control" id="branchNumber"
-						name="branchNumber" placeholder="@lang('app.branchNumber')"
+						type="text" class="form-control" id="branchNumber" maxlength="5"
+						name="branchNumber" placeholder="@lang('app.branchNumber')" onkeypress="return isNumberKey(event)"
 						value="{{ $editCompany ? $company->branchNumber : old('branchNumber') }}">
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="addresscode">@lang('app.addresscode')</label> <input
-						type="text" class="form-control" id="addresscode"
-						name="addresscode" placeholder="@lang('app.addresscode')"
+						type="text" class="form-control" id="addresscode" 
+						name="addresscode" placeholder="@lang('app.addresscode')" maxlength="20"
 						value="{{ $editCompany ? $company->addresscode : old('addresscode') }}">
 				</div>
 				<div class="form-group col-lg-2">
-					<label for="employee_size">@lang('app.employee_size')</label> <input
-						type="text" class="form-control" id="employee_size"
-						name="employee_size" placeholder="@lang('app.employee_size')"
-						value="{{ $editCompany ? $company->employee_size : old('employee_size') }}">
+					<label for="employee_size">@lang('app.employee_size')</label>
+					{!! Form::select('employee_size', $codes,'', ['class' =>'form-control','id'=>'employee_size']) !!}
+					<!--  <input type="text" class="form-control" id="employee_size" name="employee_size" placeholder="@lang('app.employee_size')"
+						value="{{ $editCompany ? $company->employee_size : old('employee_size') }}">  -->
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="industry_classfication">@lang('app.industry_classfication')</label>
-					<input type="text" class="form-control" id="industry_classfication"
-						name="industry_classfication"
-						placeholder="@lang('app.industry_classfication')"
-						value="{{ $editCompany ? $company->industry_classfication : old('industry_classfication') }}">
+					 {!! Form::select('industry_classfication', $codes1,'', ['class' =>'form-control','id'=>'industry_classfication']) !!}
+					<!-- <input type="text" class="form-control" id="industry_classfication" name="industry_classfication"
+						placeholder="@lang('app.industry_classfication')" value="{{ $editCompany ? $company->industry_classfication : old('industry_classfication') }}"> -->
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="physician_size">@lang('app.physician_size')</label> <input
-						type="text" class="form-control" id="physician_size"
-						name="physician_size" placeholder="@lang('app.physician_size')"
+						type="text" class="form-control" id="physician_size" onkeypress="return isNumberKey(event)"
+						name="physician_size" placeholder="@lang('app.physician_size')" maxlength="5"
+
 						value="{{ $editCompany ? $company->physician_size : old('physician_size') }}">
 				</div>
 			</div>
@@ -171,7 +170,7 @@
 			<i class="glyphicon glyphicon-minus"></i> {{
 			trans('app.additional-info') }}
 		</button>
-		<button type="submit" class="btn btn-primary">
+		<button type="submit" id="btnSave" class="btn btn-primary" >
 			<i class="fa fa-save"></i> {{ $editCompany ? trans('app.save') :
 			trans('app.save') }}
 		</button>
@@ -294,7 +293,7 @@
 			<thead>
 				<th>@lang('app.first_name')</th>
 				<th>@lang('app.last_name')</th>
-				<th>@lang('app.email')</th>
+				<th>@lang('app.staff_email')</th>
 				<th>@lang('app.job_title')</th>
 				<th>@lang('app.action')</th>
 			</thead>
@@ -304,7 +303,7 @@
 				<tr>
 					<td>{{ $contact->first_name }}</td>
 					<td>{{ $contact->last_name }}</td>
-					<td>{{ $contact->email }}</td>
+					<td>{{ $contact->staff_email}}</td>
 					<td>{{ $contact->job_title }}</td>
 					<td class="text-left"><a href="#" 
 						class="btn btn-primary btn-circle" data-toggle="modal" 
@@ -421,6 +420,82 @@ hideMenu();
 function hideMenu() {
 	as.toggleSidebar();
 }
+$(document).ready(function() {
+	$("#company-form").click(function(event)
+	{
+		if ($('#company_name').val() == '') {
+		    $('#company_name').css('border-color', 'red');
+		    //$('#address1').focus();
+		    return false;
+		}
+		else {
+		    $('#company_name').css('border-color', 'green');
+		}
+		if ($('#address1').val() == '') {
+		    $('#address1').css('border-color', 'red');
+		    //$('#address1').focus();
+		    return false;
+		}
+		else {
+		    $('#address1').css('border-color', 'green');
+		}
+		if ($('#city').val() == '') {
+		    $('#city').css('border-color', 'red');
+		    //$('#city').focus();
+		    return false;
+		}
+		else {
+		    $('#city').css('border-color', 'green');
+		}
+		if ($('#state').val() == '') {
+		    $('#state').css('border-color', 'red');
+		   // $('#state').focus();
+		    return false;
+		}
+		else {
+		    $('#state').css('border-color', 'green');
+		}
+		
+		if ($('#zipcode').val() == '') {
+		    $('#zipcode').css('border-color', 'red');
+		   // $('#zipcode').focus();
+		    return false;
+		}
+		else {
+		    $('#zipcode').css('border-color', 'green');
+		}	
+		return true;
+	});
+
+		$('#company_email').on('input', function() 
+		{
+			var input=$(this);
+			var re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+			var is_email=re.test(input.val());
+			if(is_email){$('#company_email').css('border-color', 'green');}
+			else
+			{
+				$('#company_email').css('border-color', 'red');
+			}
+		});
+		$('#website').on('input', function() {
+			var input=$(this);
+			if (input.val().substring(0,4)=='www.'){input.val('http://www.'+input.val().substring(4));}
+			var re = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
+			var is_url=re.test(input.val());
+			if(is_url){$('#website').css('border-color', 'green');}
+			else{$('#website').css('border-color', 'red');}
+		});
+});
+
+
+function isNumberKey(evt)
+{
+		var charCode = (evt.which) ? evt.which : event.keyCode
+		if (charCode > 31 && (charCode < 48 || charCode > 57))
+  			return false;
+		return true;
+}
 
 $('#myModal').on('shown.bs.modal', function() {
 $('#firstName').focus();
@@ -442,6 +517,35 @@ function addContact(companyId) {
     $.ajax({
         method: "GET",
         url: "http://localhost:88/vguard/public/dataCapture/" + companyId + "/createContact",
+        success: function(data){
+            $data = $(data); 
+            //$('#editContact').fadeOut().html($data).fadeIn();
+            $('#editContact').html($data).fadeIn();
+            }
+    })	
+}
+
+$('#myModal').on('shown.bs.modal', function() {
+	$('#first_name').focus();
+
+});
+
+function editContact(id) {
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:88/Research/public/dataCapture/" + id + "/getContact",
+        success: function(data){
+            $data = $(data); 
+            $('#editContact').fadeOut().html($data).fadeIn();
+            }
+    })	
+}
+
+function addContact(companyId) {
+
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:88/Research/public/dataCapture/" + companyId + "/createContact",
         success: function(data){
             $data = $(data); 
             //$('#editContact').fadeOut().html($data).fadeIn();

@@ -118,8 +118,6 @@ interface CompanyRepository
      */
     public function getCompaniesForBatch($batchId, $limit);
     
-
-    
     /**
      * Get the un-assigned companies for batch.
      *
@@ -131,5 +129,10 @@ interface CompanyRepository
     
     
     public function getSubmittedCompanyCount($batchId);
+
+    
+    
+    public function getTotalCompany($batchId);
+
 
 }

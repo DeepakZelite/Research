@@ -12,7 +12,6 @@ use Vanguard\Repositories\Country\CountryRepository;
 use Vanguard\Repositories\Project\ProjectRepository;
 use Vanguard\Repositories\Role\RoleRepository;
 use Vanguard\Repositories\Vendor\VendorRepository;
-use Vanguard\Support\Enum\UserStatus;
 use Vanguard\Repositories\Batch\BatchRepository;
 use Vanguard\Repositories\User\UserRepository;
 use Vanguard\Repositories\Company\CompanyRepository;
@@ -59,8 +58,8 @@ class SubBatchesController extends Controller
 	public function index(BatchRepository $batchRepository, UserRepository $userRepository,ProjectRepository $projectRepository)
 	{
 		$perPage = 5;
-		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'),Input::get('status'));
-		$statuses = ['' => trans('app.all')] + SubBatchStatus::lists();
+		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'),null,Input::get('status'),$this->theUser->id);
+		$statuses = ['' => trans('app.all')] + SubBatchStatus::lists1();
 		$vendorId = $this->theUser->vendor_id;
 		$batches = $batchRepository->getVendorBatches($vendorId);
 	//	$batches->prepend('Select Batch');
@@ -103,7 +102,8 @@ class SubBatchesController extends Controller
 		if($companyRepository->getUnAssignedCount($batchId)>= $request->company_count)
 		{
 			$newSeqNo = $this->subBatches->getMaxSeqNo($request->input('batch_id'))+1;
-			$data = $request->all() + ['status' => SubBatchStatus::ASSIGNED] + ['seq_no' => $newSeqNo] +['project_id' => "$batch->project_id"];
+			$vendorId =$this->theUser = Auth::user()->id;// $this->theUser->vendor_id;
+			$data = $request->all() + ['status' => SubBatchStatus::ASSIGNED] + ['seq_no' => $newSeqNo] +['project_id' => "$batch->project_id"] + ['vendor_id'=>"$vendorId"];
 			$subBatch = $this->subBatches->create($data);
 			$companies = $this->companyRepository->getCompaniesForBatch($request->input('batch_id'), $request->input('company_count'));
 			if (count($companies)) {
@@ -114,11 +114,10 @@ class SubBatchesController extends Controller
 					$company->update();
 				}
 			}
-		$batch=batch::find($request->input('batch_id'));
-		$batch->status=SubBatchStatus::INPROCESS;
-		$batch->update();
-		return redirect()->route('subBatch.list')
-		->withSuccess(trans('app.sub_batch_created'));
+			$batch->status=SubBatchStatus::INPROCESS;
+			$batch->update();
+				return redirect()->route('subBatch.list')
+				->withSuccess(trans('app.sub_batch_created'));
 		}
 		else 
 		{

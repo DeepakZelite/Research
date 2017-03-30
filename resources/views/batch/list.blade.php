@@ -87,7 +87,7 @@
                             </a> -->
                           @endif
                           @if($batch->status=="Complete")
-                          		<a href="#" class="btn btn-primary btn-circle"
+                          		<a href="{{ route('batch.download',$batch->id) }}" class="btn btn-primary btn-circle"
                                		title="@lang('app.download')" data-toggle="tooltip" data-placement="top">
                                 	<i class="glyphicon glyphicon-download"></i>
                             	</a>

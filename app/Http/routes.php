@@ -499,6 +499,10 @@ Route::delete('batch/{batch}/delete', [
 		'uses' => 'BatchesController@delete'
 ]);
 
+Route::get('batch/{batch}/download',[
+		'as'=>'batch.download',
+		'uses'=>'BatchesController@download'
+]);
 /**
  * Manage SubBatches
  */

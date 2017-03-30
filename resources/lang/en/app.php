@@ -301,6 +301,7 @@ return [
 	'Assigned'=>'Assigned',
 	'In-Process'=>'In-Process',
 	'Complete'=>'Complete',
+	'Submitted'=>'Submitted',
 
     'user_created' => 'User created successfully.',
     'user_updated' => 'User updated successfully.',
@@ -368,6 +369,7 @@ return [
 		'contact_person'=>'Contact Person',
 		'mobile'=>'Mobile Number',
 		'vendor_code'=>'Vendor Code',
+		
 
 		// Batches
 		'batches' => 'Batches',
@@ -431,6 +433,7 @@ return [
 		'add_child_company'=>'Add Child Company',
 		'duplicate_check'=>'Duplicate Check',
 		'staff_disposition'=>'Staff Disposition',
+		'add_child_company_details_big'=>'Add Child Company Details',
 		
 		// Companies
 		'companys' => 'Company',
@@ -454,6 +457,7 @@ return [
 		'company_instructions'=>'Company Instructions',
 		'company_id'=>'Comapny ID',
 		'child_company'=>'Child Company',
+		'parent_company'=>'Parent Company',
 		'Company_name'=>'Company Name',
 		'address1'=>'Address line1',
 		'address2'=>'Address line2',
@@ -489,7 +493,7 @@ return [
 		'qualification'=>'Qualification',
 		'staff_source'=>'Staff Source',
 		'staff_email'=>'Staff Email',
-		'staff_email2'=>'Alternate Staff Email',
+		'alternate_email'=>'Alternate Staff Email',
 		'email_source'=>'Direct Email Source',
 		'direct_phoneno'=>'Direct Phone Number',
 		'deparment_number'=>'Department Phone Number',
@@ -519,6 +523,7 @@ return [
 		'batch_submitted' => 'Batch has been submitted successfully.',
 		'contact_created' => 'Staff has been added successfully.',
 		'company_updated' => 'Company has been updated successfully.',
+		'Added_Child_Company'=>'Added Child Company.',
 		'add_child_company_details_big' => 'Add Child Company',
 		'parent_company' => 'Parent Company',
 		
