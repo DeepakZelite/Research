@@ -207,7 +207,53 @@
 						</button>
 					</div>
 				</div>
+<script>
 
+	$('#first_name').focus();
+	$("#staff-form").click(function(event)
+	{
+		if ($('#first_name').val() == '') {
+		    $('#first_name').css('border-color', 'red');
+		    //$('#first_name').focus();
+		    return false;
+		}
+		else {
+		    $('#first_name').css('border-color', 'green');
+		}
+
+		if ($('#job_title').val() == '') {
+		    $('#job_title').css('border-color', 'red');
+		    //$('#job_title').focus();
+		    return false;
+		}
+		else {
+		    $('#job_title').css('border-color', 'green');
+		}
+		return true;
+	});
+		$('#staff_email').on('input', function() 
+		{
+			var input=$(this);
+			var re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+			var is_email=re.test(input.val());
+			if(is_email){$('#staff_email').css('border-color', 'green');}
+			else
+			{
+				$('#staff_email').css('border-color', 'red');
+			}
+		});
+		$('#alternate_email').on('input', function() 
+		{
+			var input=$(this);
+			var re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+			var is_email=re.test(input.val());
+			if(is_email){$('#alternate_email').css('border-color', 'green');}
+			else
+			{
+				$('#alternate_email').css('border-color', 'red');
+			}
+		});
+</script>
 {{ Form::close() }}
 
 @section('scripts')

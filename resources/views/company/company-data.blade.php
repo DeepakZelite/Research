@@ -499,7 +499,8 @@ function isNumberKey(evt)
 		return true;
 }
 $('#myModal').on('shown.bs.modal', function() {
-$('#firstName').focus();
+	$('#first_name').focus();
+
 });
 
 function editContact(id) {

@@ -100,8 +100,8 @@ class EloquentCompany implements CompanyRepository
     	if ($batchId != 0) {
     		$query->where(function ($q) use($batchId) {
     			$q->where('companies.batch_id', "=", "{$batchId}")
-    				->whereNull('sub_batch_id')
-    				->orwhere('sub_batch_id',"=","0");
+    				//->whereNull('sub_batch_id')
+    				->where('companies.sub_batch_id',"=",'0');
     		});
     	} else {
     		return 0;

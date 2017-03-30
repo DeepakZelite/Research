@@ -78,7 +78,7 @@ class DataCaptureController extends Controller
 	 * @param RoleRepository $roleRepository
 	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
 	 */
-	public function create(Company $company, CompanyRepository $companyRepository, CountryRepository $countryRepository)
+/*	public function create(Company $company, CompanyRepository $companyRepository, CountryRepository $countryRepository)
 	{
 		Log::info("Creating a new Company form with editCompany:" . $editCompany);
 		// Get the first or last saved company record from the sub batch.
@@ -88,7 +88,7 @@ class DataCaptureController extends Controller
 		$editContact = false;
 		return view('Company.company-data', compact('countries', '$countriesISDCodes', 'editContact'));
 	}
-	
+	*/
 	/**
 	 * Performs the company save action clicked on Save button click
 	 * 
@@ -98,6 +98,7 @@ class DataCaptureController extends Controller
 	 */
 	public function updateCompany(Company $company, UpdateCompanyRequest $request) 
 	{
+		//return $request->all();
 		$this->companyRepository->update($company->id, $request->all());
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.company_updated'));
 	}
@@ -111,7 +112,7 @@ class DataCaptureController extends Controller
 	 */
 	public function storeStaff(Company $company, CreateContactRequest $request) 
 	{
-		return "heello";
+		//return "heello";
 		$data = $request->all() + ['company_id' => $company->id]
 		+ ['user_id' => $this->theUser->id];
 		Log::info($data);
@@ -237,8 +238,8 @@ class DataCaptureController extends Controller
 		['company_name' => $request->new_company_name] +
 		['parent_company' => $companyId->company_name] +
 		['company_instructions' => $companyId->company_instructions];
+		//return $data;
 		$newCompany = $this->companyRepository->create($data);
-		return redirect()->route('dataCapture.capture', $companyId->sub_batch_id)->withSuccess(trans('app.Added_Child_Company.'));
-			
+		return redirect()->route('dataCapture.capture', $companyId->sub_batch_id)->withSuccess(trans('app.Added_Child_Company'));	
 	}
 }

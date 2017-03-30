@@ -523,6 +523,7 @@ return [
 		'batch_submitted' => 'Batch has been submitted successfully.',
 		'contact_created' => 'Staff has been added successfully.',
 		'company_updated' => 'Company has been updated successfully.',
+		'Added_Child_Company'=>'Added Child Company.',
 
 		
 		'months' => [
