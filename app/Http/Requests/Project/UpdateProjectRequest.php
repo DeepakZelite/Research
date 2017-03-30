@@ -21,7 +21,7 @@ class UpdateProjectRequest extends Request
         		'Expected_date' => 'required|date',
         		'No_Companies'=>'required|digits_between:1,4',
         		'Expected_Staff'=>'required|digits_between:1,4',
-    			'attachement'=>'required|file',
+    			//'attachement'=>'required|file',
     	];
     }
 }

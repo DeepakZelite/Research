@@ -207,7 +207,53 @@
 						</button>
 					</div>
 				</div>
+<script>
 
+	$('#first_name').focus();
+	$("#staff-form").click(function(event)
+	{
+		if ($('#first_name').val() == '') {
+		    $('#first_name').css('border-color', 'red');
+		    //$('#first_name').focus();
+		    return false;
+		}
+		else {
+		    $('#first_name').css('border-color', 'green');
+		}
+
+		if ($('#job_title').val() == '') {
+		    $('#job_title').css('border-color', 'red');
+		    //$('#job_title').focus();
+		    return false;
+		}
+		else {
+		    $('#job_title').css('border-color', 'green');
+		}
+		return true;
+	});
+		$('#staff_email').on('input', function() 
+		{
+			var input=$(this);
+			var re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+			var is_email=re.test(input.val());
+			if(is_email){$('#staff_email').css('border-color', 'green');}
+			else
+			{
+				$('#staff_email').css('border-color', 'red');
+			}
+		});
+		$('#alternate_email').on('input', function() 
+		{
+			var input=$(this);
+			var re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+			var is_email=re.test(input.val());
+			if(is_email){$('#alternate_email').css('border-color', 'green');}
+			else
+			{
+				$('#alternate_email').css('border-color', 'red');
+			}
+		});
+</script>
 {{ Form::close() }}
 
 @section('scripts')
@@ -216,58 +262,13 @@ hideMenu();
 function hideMenu() {
 	as.toggleSidebar()
 }
-function editContact(id) {
-	alert("edit");
-    $.ajax({
-        method: "GET",
-        url: "http://localhost:88/Research/public/dataCapture/" + id + "/getContact",
-        success: function(data){
-            $data = $(data); 
-            $('#editContact').fadeOut().html($data).fadeIn();
-            }
-    })	
-}
-function addContact(companyId) {
-	alert("add");
-    $.ajax({
-        method: "GET",
-        url: "http://localhost:88/Research/public/dataCapture/" + companyId + "/createContact",
-        success: function(data){
-            $data = $(data); 
-            //$('#editContact').fadeOut().html($data).fadeIn();
-            $('#editContact').html($data).fadeIn();
-            }
-    })	
-}
-
-$('#myModal').on('shown.bs.modal', function() {
-	  $('#firstName').focus();
-	});
-	
-	$("#country").change(function() {
-			 var batchId = $( this ).val();
-           $.ajax({
-               method: "GET",
-               url: "http://localhost:88/Research/public/dataCapture/getcountryCode",
-           })
-	});
-  $('#add_child_record').click(function(){
-  $('#company_name').attr('readonly',false);
-  $('#parent_company').attr('readonly',false);
-
-	});
-
-  function isNumberKey(evt)
-  {
+function isNumberKey(evt)
+{
+	alert("hiii");
   		var charCode = (evt.which) ? evt.which : event.keyCode
   		if (charCode > 31 && (charCode < 48 || charCode > 57))
     	return false;
   		return true;
-  }
+}
 </script>
-    @if ($editContact)
-        {!! JsValidator::formRequest('Vanguard\Http\Requests\Contact\UpdateContactRequest', '#staff-form') !!}
-    @else
-        {!! JsValidator::formRequest('Vanguard\Http\Requests\Contact\CreateContactRequest', '#staff-form') !!}
-    @endif
 @stop

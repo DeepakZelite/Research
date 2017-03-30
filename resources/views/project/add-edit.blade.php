@@ -76,9 +76,9 @@
 						</div>
                 </div>
                 <div class="form-group">
-				  <label class="control-label" for="upload file">@lang('app.task_brief')<i style="color:red;">*</i></label>
+				  <label class="control-label" for="upload file">@lang('app.task_brief') @if(!$edit)<i style="color:red;">*</i>@endif</label>
  					<div class="input-group">
-				    	<input type='text' name="upload" id='upload' value="choose file" class="form-control" />
+				    	<input type='text' name="upload" id='upload' placeholder="choose file" value="{{ $edit ? $project->brief_file : old('brief_file')}}" class="form-control" />
 				    	<span class="input-group-btn">
 				    	<input type="file" accept=".pdf" class="file" id="attachement" name="attachement" style="display: none;" onchange="fileSelected(this)"/>
 				    	<button class="btn btn-success" type="button" id="btnAttachment" onclick="openAttachment()">@lang('app.upload_task_brief')</button>

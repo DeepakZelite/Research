@@ -430,9 +430,10 @@ return [
 		'company_updated' => 'Company has been updated successfully',
 		'search_for_companys' => "Search for companies",
 		'add_contact' => "Add Contact",
-		'add_child_record'=>'Add Child Record',
+		'add_child_company'=>'Add Child Company',
 		'duplicate_check'=>'Duplicate Check',
 		'staff_disposition'=>'Staff Disposition',
+		'add_child_company_details_big'=>'Add Child Company Details',
 		
 		// Companies
 		'companys' => 'Company',
@@ -456,6 +457,7 @@ return [
 		'company_instructions'=>'Company Instructions',
 		'company_id'=>'Comapny ID',
 		'child_company'=>'Child Company',
+		'parent_company'=>'Parent Company',
 		'Company_name'=>'Company Name',
 		'address1'=>'Address line1',
 		'address2'=>'Address line2',
@@ -491,7 +493,7 @@ return [
 		'qualification'=>'Qualification',
 		'staff_source'=>'Staff Source',
 		'staff_email'=>'Staff Email',
-		'staff_email2'=>'Alternate Staff Email',
+		'alternate_email'=>'Alternate Staff Email',
 		'email_source'=>'Direct Email Source',
 		'direct_phoneno'=>'Direct Phone Number',
 		'deparment_number'=>'Department Phone Number',
@@ -521,6 +523,7 @@ return [
 		'batch_submitted' => 'Batch has been submitted successfully.',
 		'contact_created' => 'Staff has been added successfully.',
 		'company_updated' => 'Company has been updated successfully.',
+		'Added_Child_Company'=>'Added Child Company.',
 
 		
 		'months' => [
