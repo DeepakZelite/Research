@@ -166,13 +166,6 @@ class DataCaptureController extends Controller
 		$editCompany = false; 	
 	}
 	
-	/**
-	 * Set the Front end view to create a new child company.
-	 */
-	public function createChildCompany() 
-	{
-		$editCompany = false; 	
-	}
 	
 	public function updateStaff(Contact $contact, UpdateContactRequest $request) 
 	{
