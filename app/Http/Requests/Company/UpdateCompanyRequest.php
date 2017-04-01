@@ -15,7 +15,7 @@ class UpdateCompanyRequest extends Request
     {
     	//$company = $this->route('company');
     	return [
-     			/*'company_name' => 'required,company_name,' . $company->id,
+    			/*'company_name' => 'required,company_name,' . $company->id,
     			'address1'=>'required',
     			'city'=>'required',
     			'state'=>'required',

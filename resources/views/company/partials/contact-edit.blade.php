@@ -64,6 +64,7 @@
 												<label for="specialization">@lang('app.specialization')</label>
 												<input type="text" class="form-control" id="specialization" name="specialization"
 													placeholder="@lang('app.specialization')" value="{{ $editContact ? $contact->specialization : old('specialization') }}">
+
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="staff_source">@lang('app.staff_source')</label>
@@ -159,6 +160,7 @@
 												<label for="age">@lang('app.age')</label> <input type="text"
 													class="form-control" id="age" name="age" maxlength="2" onkeypress="return isNumberKey(event)"
 													placeholder="@lang('app.age')" value="{{ $editContact ? $contact->age : old('age') }}">
+
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="additional_info1">@lang('app.contact_info1')</label>
@@ -271,3 +273,7 @@ function isNumberKey(evt)
 }
 </script>
 @stop
+
+{{ Form::close() }}
+
+

@@ -24,7 +24,6 @@ use Vanguard\Repositories\Country\CountryRepository;
 use Vanguard\Repositories\Code\CodeRepository;
 use Vanguard\Support\Enum\SubBatchStatus;
 use Vanguard\Http\Requests\Company\CreateCompanyRequest;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class DataCaptureController - Controls all the operations for Company and Staff entity
@@ -161,6 +160,14 @@ class DataCaptureController extends Controller
 		}
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id);
 	}
+
+  /**
+	 * Set the Front end view to create a new child company.
+	 */
+	public function createChildCompany() 
+	{
+		$editCompany = false; 	
+	}
 	
 	/**
 	 * Set the Front end view to create a new child company.
@@ -170,19 +177,12 @@ class DataCaptureController extends Controller
 		$editCompany = false; 	
 	}
 	
-	
-	/////////////
-	
 	public function updateStaff(Contact $contact, UpdateContactRequest $request) 
 	{
-		Log::info("Contact:::::" . $contact);
-		//$data = $request->all();
- 		$data = $request->all() + ['company_id' => $contact->company_id]
+		$data = $request->all() + ['company_id' => $contact->company_id]
  		+ ['user_id' => $this->theUser->id];
- 		//Log::info($this->contactRepository);
  		$updatedContact = $this->contactRepository->update($contact->id,$data);
-		
- 		$company = Company::find($contact->company_id);
+		$company = Company::find($contact->company_id);
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.contact_created'));
 	}
 	
@@ -199,16 +199,13 @@ class DataCaptureController extends Controller
 	
 	public function getContact(Contact $contactId)
 	{
-		Log::info("Deepak:" + $contactId->id);
 		$contact=Contact::find($contactId->id);
-		Log::info($contact);
 		$editContact = true;
 		return view('company.partials.contact-edit', compact('editContact', 'contact'));
 	}
 	
 	public function createContact(Company $companyId)
 	{
-		Log::info("Comp ID:" + $companyId->id);
 		$company=Company::find($companyId->id);
 		$editContact = false;
 		return view('company.partials.contact-edit', compact('editContact', 'company'));
@@ -216,16 +213,15 @@ class DataCaptureController extends Controller
 	
 	public function addCompany(Company $companyId, CreateCompanyRequest $request)
 	{
-		$data =['parent_id' => $companyId->id] +
-		['user_id' => $this->theUser->id] +
+		$data =['parent_id' => $companyId->id] + 
+		['user_id' => $this->theUser->id] + 
 		['batch_id' => $companyId->batch_id] +
 		['sub_batch_id' => $companyId->sub_batch_id] +
 		['status' => 'Assigned'] +
-		['company_name' => $request->new_company_name] +
+		['company_name' => $request->new_company_name] + 
 		['parent_company' => $companyId->company_name] +
 		['company_instructions' => $companyId->company_instructions];
-		//return $data;
-		$newCompany = $this->companyRepository->create($data);
-		return redirect()->route('dataCapture.capture', $companyId->sub_batch_id)->withSuccess(trans('app.Added_Child_Company'));	
+ 		$newCompany = $this->companyRepository->create($data);
+ 		return redirect()->route('dataCapture.capture', $companyId->sub_batch_id)->withSuccess(trans('app.Added_Child_Company.'));
 	}
 }

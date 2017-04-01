@@ -161,11 +161,12 @@ class EloquentCompany implements CompanyRepository
     {
     	$query = Company::query();
     	if ($subBatchId != 0) {
-    		$query->where(function ($q) use($subBatchId, $userId) {
+    		$query = $query->where(function ($q) use($subBatchId, $userId) {
     			$q->where('companies.sub_batch_id', "=", "{$subBatchId}")
     			->where('companies.user_id', "=", "{$userId}")
-    			->where('companies.status', "=", "Assigned");
+    			->where('companies.status', "=", "Assigned");    			
     		});
+    		
     	} else {
     		return 0;
     	}

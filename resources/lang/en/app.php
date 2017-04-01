@@ -429,7 +429,7 @@ return [
 		'company_created' => 'Company has been created successfully',
 		'company_updated' => 'Company has been updated successfully',
 		'search_for_companys' => "Search for companies",
-		'add_contact' => "Add Contact",
+		'add_contact' => "Add Staff",
 		'add_child_company'=>'Add Child Company',
 		'duplicate_check'=>'Duplicate Check',
 		'staff_disposition'=>'Staff Disposition',
@@ -452,7 +452,7 @@ return [
 		'company_created' => 'Company has been created successfully',
 		'company_updated' => 'Company has been updated successfully',
 		'search_for_companys' => "Search for companies",
-		'add_contact' => "Add contact",
+		'add_contact' => "Add Staff",
 		'cancel'=>'Cancel',
 		
 		'company_instructions'=>'Company Instructions',
@@ -525,7 +525,6 @@ return [
 		'contact_created' => 'Staff has been added successfully.',
 		'company_updated' => 'Company has been updated successfully.',
 		'Added_Child_Company'=>'Added Child Company.',
-		
 		
 		'months' => [
         'January' => 'January',
