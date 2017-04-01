@@ -21,4 +21,6 @@ interface CountryRepository
      * @return mixed
      */
     public function lists1($column='calling_code');
+    
+    public function getCountryISDCode($countryid);
 }

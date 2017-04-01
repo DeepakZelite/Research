@@ -56,7 +56,7 @@
 <div class="table-responsive top-border-table" id="users-table-wrapper">
     <table class="table">
         <thead>
-            <th>@lang('app.name')</th>
+            <th>@lang('app.vendor_code')</th>
             <th>@lang('app.location')</th>
         <!--    <th>@lang('app.contact_person')</th>
             <th>@lang('app.email')</th>
@@ -69,7 +69,7 @@
             @if (count($vendors))
                 @foreach ($vendors as $vendor)
                     <tr>
-                        <td>{{ $vendor->name }}</td>
+                        <td>{{ $vendor->vendor_code}}</td>
                         <td>{{ $vendor->location }}</td>
                      <!--    <td>{{ $vendor->contactPerson }}</td>
                         <td>{{ $vendor->email }}</td>

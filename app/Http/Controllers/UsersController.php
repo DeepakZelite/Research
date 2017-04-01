@@ -54,14 +54,13 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(VendorRepository $vendorRepository)
     {
         $perPage = 5;
-
-        $users = $this->users->paginate($perPage, Input::get('search'), Input::get('status'));
+        $users = $this->users->paginate($perPage, Input::get('search'), Input::get('status'),Input::get('vendor_code'));
         $statuses = ['' => trans('app.all')] + UserStatus::lists1();
-
-        return view('user.list', compact('users', 'statuses'));
+        $vendors=[''=>trans('app.all')]+$vendorRepository->lists1();
+        return view('user.list', compact('users', 'statuses','vendors'));
     }
 
     /**

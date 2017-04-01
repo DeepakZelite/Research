@@ -21,4 +21,8 @@ class EloquentCountry implements CountryRepository
     {
     	return Country::distinct()->orderBy('calling_code')->lists($column); //distinct()->get(['calling_code']);
     }
+    public function getCountryISDCode($countryid)
+    {
+    	return Country::where('id', $countryid)->lists('calling_code');
+    }
 }

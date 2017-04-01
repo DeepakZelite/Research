@@ -630,3 +630,7 @@ Route::put('dataCapture/{companyId}/addCompany', [
 		'as' => 'dataCapture.addCompany',
 		'uses' => 'DataCaptureController@addCompany'
 ]);
+Route::get('dataCapture/getcountryCode',[
+		'as'=>'dataCapture.getcountryCode',
+		'uses'=>'DataCaptureController@getcountryCode'
+]);

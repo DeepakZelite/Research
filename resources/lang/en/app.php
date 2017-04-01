@@ -111,9 +111,9 @@ return [
     'add_permission' => 'Add Permission',
     'edit_permission' => 'Edit Permission',
     'delete_permission' => 'Delete Permission',
-    'please_confirm' => 'Please Confirm',
+    'please_confirm' => 'Warning',
     'are_you_sure_delete_permission' => 'Are you sure that you want to delete this permission?',
-    'yes_delete_it' => 'Yes, delete it!',
+    'yes' => 'Yes',
     'no_records_found' => 'No records found.',
     'save_permissions' => 'Save Permissions',
 
@@ -213,7 +213,7 @@ return [
     'view_user' => 'View User',
     'delete_user' => 'Delete User',
     'are_you_sure_delete_user' => 'Are you sure that you want to delete this user?',
-    'yes_delete_him' => 'Yes, delete him!',
+    'yes' => 'Yes',
 
     'edit_profile_details' => 'edit profile details',
     'active_sessions_sm' => 'active sessions',
@@ -235,7 +235,7 @@ return [
     'new' => 'New',
     'new_sm' => 'new',
     'leave_blank_if_you_dont_want_to_change' => 'Leave field blank if you don\'t want to change it',
-    'update_details' => 'Update Details',
+    'update_details' => 'Update',
     'avatar' => 'Avatar',
     'change_photo' => 'Change Photo',
     'upload_photo' => 'Upload Photo',
@@ -392,7 +392,7 @@ return [
 		'target_date'=>'Target Date',
 		'upload'=>'Upload File',
 		'select'=>'Select File',
-		'are_you_sure_delete_batch'=>'Are you sure to Delete the Batch',
+		'are_you_sure_delete_batch'=>'Are you sure that you want to permanently Delete the Batch',
 		'delete_batch'=>'delete batch',
 		'download'=>'Download',
 		'batch_deleted'=>'Batch Deleted Successfully',
@@ -434,6 +434,7 @@ return [
 		'duplicate_check'=>'Duplicate Check',
 		'staff_disposition'=>'Staff Disposition',
 		'add_child_company_details_big'=>'Add Child Company Details',
+		'updated_company_name'=>'Updated Company Name',
 		
 		// Companies
 		'companys' => 'Company',

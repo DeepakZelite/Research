@@ -81,18 +81,22 @@ class EloquentUser implements UserRepository
     /**
      * {@inheritdoc}
      */
-    public function paginate($perPage, $search = null, $status = null)
+    public function paginate($perPage, $search = null, $status = null,$vendor_code = null)
     {
         $query = User::query();
 
         if ($status) {
             $query->where('users.status', $status);
         }
+        if($vendor_code)
+        {
+        	$query->where('vendors.vendor_code',$vendor_code);
+        }
 
         if ($search) {
             $query->where(function ($q) use($search) {
                 $q->where('users.username', "like", "%{$search}%");
-                $q->orWhere('vendors.name', 'like', "%{$search}%");
+                $q->orWhere('vendors.vendor_code', 'like', "%{$search}%");
                 $q->orWhere('users.first_name', 'like', "%{$search}%");
                 $q->orWhere('users.last_name', 'like', "%{$search}%");
             });
@@ -103,7 +107,7 @@ class EloquentUser implements UserRepository
         $result = $query
         ->leftjoin('vendors', 'vendors.id', '=', 'users.vendor_id')
         ->where('users.vendor_id', '!=', '0')
-        ->select('users.*', 'vendors.name as vendor_name')
+        ->select('users.*', 'vendors.vendor_code as vendor_code')
         ->paginate($perPage);
         if ($search) {
             $result->appends(['search' => $search]);

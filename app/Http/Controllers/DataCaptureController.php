@@ -4,6 +4,7 @@ namespace Vanguard\Http\Controllers;
 
 
 use Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Vanguard\Company;
@@ -115,7 +116,9 @@ class DataCaptureController extends Controller
 		$countries = $countryRepository->lists();
 		$countriesISDCodes = $countryRepository->lists1();
 		$codes=$codeRepository->lists();
+		$codes->prepend('None');
 		$codes1=$codeRepository->lists1();
+		$codes1->prepend('None');
 		$subBatch=SubBatch::find($subBatchId);
 		$projects=$projectRepository->find($subBatch->project_id);
 		$companies = $companyRepository->getCompanyRecord($subBatchId, $this->theUser->id);
@@ -184,10 +187,14 @@ class DataCaptureController extends Controller
 	}
 	
 	
-	public function getcountryCode(Request $request, CountryRepository $countryRepository)
+	public function getcountryCode(Request $request,CountryRepository $countryRepository)
 	{
-		$countryid = $request->input('batchId');
-		return $countryid;
+		$batchId =$request->input('batchId');
+		Log::info("Contact:::::" . $batchId);
+		if ($batchId == "") {
+			$batchId = 1;
+		}
+		return $countryRepository->getCountryISDCode($batchId);
 	}
 	
 	public function getContact(Contact $contactId)

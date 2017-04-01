@@ -113,5 +113,9 @@ class EloquentProject implements ProjectRepository
             ->limit($count)
             ->get();
     }
-
+	
+    public function lists1()
+    {
+    	return Project::select('code')->lists('code','code')->toArray();
+    }
 }

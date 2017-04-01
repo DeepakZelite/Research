@@ -29,6 +29,10 @@ class EloquentVendor implements VendorRepository
     	return Vendor::lists($column, $key);
     }
     
+    public function lists1()
+    {
+    	return Vendor::select('vendor_code')->lists('vendor_code','vendor_code')->toArray();
+    }
     /**
      * {@inheritdoc}
      */
@@ -60,11 +64,14 @@ class EloquentVendor implements VendorRepository
             $query->where(function ($q) use($search) {
                 $q->where('name', "like", "%{$search}%");
                 $q->orwhere('contactPerson', "like", "%{$search}%");
+                $q->orwhere('vendor_code', "like", "%{$search}%");
+                $q->orwhere('email', "like", "%{$search}%");
+                $q->orwhere('phone', "like", "%{$search}%");
+                $q->orwhere('mobile', "like", "%{$search}%");
             });
         }
 
         $result = $query->paginate($perPage);
-
         if ($search) {
             $result->appends(['search' => $search]);
         }
