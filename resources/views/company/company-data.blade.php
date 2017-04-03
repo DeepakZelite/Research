@@ -105,10 +105,13 @@
 				<div class="form-group col-lg-2">
 					<label for="name">@lang('app.switchboardnumber')</label>
 					<div class="row">
-						<div class="col-md-6">{!! Form::select('international_code',
+						<div class="col-md-5">
+							<input type="text" id="isdcode" class="form-control" value="1">
+						</div>
+						<!-- <div class="col-md-6">{!! Form::select('international_code',
 							$countriesISDCodes,'', ['class' =>
-							'form-control','calling_code'=>'international_code']) !!}</div>
-						<div class="col-md-6">
+							'form-control','calling_code'=>'international_code']) !!}</div> -->
+						<div class="col-md-7">
 							<input type="text" class="form-control" id="switchboardnumber" 
 								name="switchboardnumber" maxlength="10" onkeypress="return isNumberKey(event)"
 								placeholder="@lang('app.switchboardnumber')" 
@@ -164,8 +167,8 @@
 </div>
 
 <div class="row">
-	<div class="col-md-8"></div>
-	<div class="col-md-4">
+	<!-- <div class="col-md-9"></div> -->
+	<div class=" pull-right">
 		<button type="button" id="add_contact" class="btn btn-primary" data-toggle="modal"
 			data-target="#myModal" onclick="addContact({{ $company->id }})">
 			<i class="glyphicon glyphicon-plus"></i> {{
@@ -428,14 +431,13 @@ function hideMenu() {
 }
 $("#country").change(function() {
 	 var batchId = $( this ).val();
-	 alert(batchId);
  $.ajax({
      method: "GET",
-     url: "http://localhost:88/Research/public/dataCapture/getcountryCode",
+     url: "http://localhost:88/Research/public/dataCapture/" + batchId + "/getcountryCode",
      data:{}
  })
  .done(function(data) {
-		alert(data);
+		$("#isdcode").val(data);
  });
 });
 $(document).ready(function() {

@@ -434,7 +434,7 @@ return [
 		'duplicate_check'=>'Duplicate Check',
 		'staff_disposition'=>'Staff Disposition',
 		'add_child_company_details_big'=>'Add Child Company Details',
-		'updated_company_name'=>'Updated Company Name',
+		'updated_company_name'=>'New Company Name',
 		
 		// Companies
 		'companys' => 'Company',

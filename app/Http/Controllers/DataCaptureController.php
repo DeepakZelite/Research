@@ -24,6 +24,8 @@ use Vanguard\Repositories\Country\CountryRepository;
 use Vanguard\Repositories\Code\CodeRepository;
 use Vanguard\Support\Enum\SubBatchStatus;
 use Vanguard\Http\Requests\Company\CreateCompanyRequest;
+use Vanguard\Country;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class DataCaptureController - Controls all the operations for Company and Staff entity
@@ -172,10 +174,10 @@ class DataCaptureController extends Controller
 	/**
 	 * Set the Front end view to create a new child company.
 	 */
-	public function createChildCompany() 
+	/*public function createChildCompany() 
 	{
 		$editCompany = false; 	
-	}
+	}*/
 	
 	public function updateStaff(Contact $contact, UpdateContactRequest $request) 
 	{
@@ -187,10 +189,10 @@ class DataCaptureController extends Controller
 	}
 	
 	
-	public function getcountryCode(Request $request,CountryRepository $countryRepository)
+	public function getcountryCode(Country $countryId,CountryRepository $countryRepository)
 	{
-		$batchId =$request->input('batchId');
-		Log::info("Contact:::::" . $batchId);
+		$batchId =$countryId->id;
+		Log::info("Contact:::::". $batchId);
 		if ($batchId == "") {
 			$batchId = 1;
 		}
