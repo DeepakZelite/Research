@@ -29,8 +29,14 @@
             @lang('app.add_batch')
         </a>
     </div>
-    <div class="col-md-5"></div>
+    <div class="col-md-1"></div>
     <form method="GET" action="" accept-charset="UTF-8" id="batches-form">
+    	<div class="col-md-2">
+                {!! Form::select('code', $projects, Input::get('code'), ['id'=>'code', 'class'=>'form-control'])!!}
+        </div>
+    	<div class="col-md-2">
+                {!! Form::select('vendor_code', $vendors, Input::get('vendor_code'), ['id'=>'vendor_code', 'class'=>'form-control'])!!}
+        </div>
         <div class="col-md-2">
                {!! Form::select('status', $statuses, Input::get('status'), ['id' => 'status', 'class' => 'form-control']) !!}
         </div> 
@@ -57,7 +63,7 @@
         <thead>
         	<th>@lang('app.name')</th>
             <th>@lang('app.code')</th>
-            <th>@lang('app.vendor_name')</th>
+            <th>@lang('app.vendor_code')</th>
             <th>@lang('app.number_of_companies')</th>
             <th>@lang('app.status')</th>
             <th class="text-center">@lang('app.action')</th>
@@ -68,7 +74,7 @@
                     <tr>
                         <td>{{ $batch->name }}</td>
                          <td>{{ $batch->project_code }}</td>
-                         <td>{{ $batch->vendor_name }}</td>
+                         <td>{{ $batch->vendor_code }}</td>
                          <td>{{ $batch->No_Companies }}</td>
                          <td>{{ $batch->status}}</td>
                          <td class="text-center">
@@ -77,9 +83,9 @@
                                     data-toggle="tooltip"
                                     data-placement="top"
                                     data-method="DELETE"
-                                    data-confirm-title="@lang('app.please_confirm')'"
+                                    data-confirm-title="@lang('app.please_confirm')"
                                     data-confirm-text="@lang('app.are_you_sure_delete_batch')"
-                                    data-confirm-delete="@lang('app.yes_delete_him')'">
+                                    data-confirm-delete="@lang('app.yes')">
                                 <i class="glyphicon glyphicon-trash"></i></a>
                            <!-- <a href="{{ route('batch.edit', $batch->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_batch')" data-toggle="tooltip" data-placement="top">
@@ -113,5 +119,12 @@
         $("#status").change(function () {
             $("#batches-form").submit();
         });
+        $("#vendor_code").change(function (){
+            $("#batches-form").submit();
+        });
+        $("#code").change(function (){
+            $("#batches-form").submit();
+        });
+        
     </script>
 @stop

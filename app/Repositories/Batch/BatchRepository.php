@@ -14,7 +14,7 @@ interface BatchRepository
      * @param null $status
      * @return mixed
      */
-    public function paginate($perPage, $search = null, $vendorId = null, $status = null);
+    public function paginate($perPage, $search = null, $vendorId = null, $status = null,$vendorCode =null,$projectcode = null);
 
     /**
      * Find user by its id.

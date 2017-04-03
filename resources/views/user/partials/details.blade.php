@@ -5,15 +5,23 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="first_name">@lang('app.role')<i style="color:red;">*</i></label>
-                    {!! Form::select('role', $roles, $edit ? $user->roles->first()->id : '',
-                        ['class' => 'form-control', 'id' => 'role', $profile ? 'disabled' : '']) !!}
+                    @if($edit)
+                    	{!! Form::select('role', $roles, $edit ? $user->roles->first()->id : '',
+                        	['class' => 'form-control', 'disabled' => 'disabled', 'id' => 'role', $profile ? 'disabled' : '']) !!}
+                    @else
+                    	  {!! Form::select('role', $roles, $edit ? $user->roles->first()->id : '',
+                        	['class' => 'form-control', 'id' => 'role', $profile ? 'disabled' : '']) !!}
+                    @endif 
                 </div>
-                
-                
                 <div class="form-group">
                     <label for="vendor_id">@lang('app.select_vendor')<i style="color:red;">*</i></label>
-                    {!! Form::select('vendor_id', $vendors, $edit ? $user->vendor_id : '',
-                        ['class' => 'form-control', 'id' => 'vendor_id',$profile ? 'disabled' : '']) !!}
+                    @if($edit)
+                    	{!! Form::select('vendor_id', $vendors, $edit ? $user->vendor_id : '',
+                        	['class' => 'form-control', 'disabled' => 'disabled', 'id' => 'vendor_id',$profile ? 'disabled' : '']) !!}
+                    @else
+                    	{!! Form::select('vendor_id', $vendors, $edit ? $user->vendor_id : '',
+                        	['class' => 'form-control', 'id' => 'vendor_id',$profile ? 'disabled' : '']) !!}
+                    @endif
                 </div>
                 <div class="form-group">
                     <label for="first_name">@lang('app.first_name')<i style="color:red;">*</i></label>

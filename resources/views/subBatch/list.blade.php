@@ -120,9 +120,9 @@
                                     data-toggle="tooltip"
                                     data-placement="top"
                                     data-method="DELETE"
-                                    data-confirm-title="@lang('app.please_confirm')'"
+                                    data-confirm-title="@lang('app.please_confirm')"
                                     data-confirm-text="@lang('app.are_you_sure_delete_batch')"
-                                    data-confirm-delete="@lang('app.yes_delete_him')'">
+                                    data-confirm-delete="@lang('app.yes')">
                                 <i class="glyphicon glyphicon-trash"></i></a>
                           @endif
                           <!--  <a href="{{ route('batch.edit', $subBatch->id) }}" class="btn btn-primary btn-circle"
@@ -166,7 +166,8 @@
 			//alert(" "+userId);           
             $.ajax({
                 method: "GET",
-                url: "http://localhost:88/Research/public/subBatch/getCompanyCount",
+                url: "{{ route('subBatch.getCompanyCount') }}",
+                //url: "http://192.168.1.108:88/Research/public/subBatch/getCompanyCount",
                 data: {batchId:batchId, userId:userId}
             })
             .done(function(data) {

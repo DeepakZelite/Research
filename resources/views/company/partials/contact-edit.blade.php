@@ -197,21 +197,21 @@
 				<div class="row">
 					<div class="col-md-9"></div>
 					<div class="col-md-1">
-						<button type="submit" class="btn btn-primary">
+						<button type="submit" id="btnSave" class="btn btn-primary">
 							<i class="fa fa-save"></i> {{ $editContact ? trans('app.save') :
 							trans('app.save') }}
 						</button>
 					</div>
 					<div class="col-md-1">
-						<button type="button" class="btn btn-default" data-dismiss="modal">
+						<button type="button" id="btnCancel" class="btn btn-default" data-dismiss="modal">
 							<i class=""></i> {{ $editContact ? trans('app.cancel') :
 							trans('app.cancel') }}
 						</button>
 					</div>
 				</div>
 <script>
+$('#first_name').focus();
 
-	$('#first_name').focus();
 	$("#staff-form").click(function(event)
 	{
 		if ($('#first_name').val() == '') {
@@ -266,7 +266,6 @@ function hideMenu() {
 }
 function isNumberKey(evt)
 {
-	alert("hiii");
   		var charCode = (evt.which) ? evt.which : event.keyCode
   		if (charCode > 31 && (charCode < 48 || charCode > 57))
     	return false;

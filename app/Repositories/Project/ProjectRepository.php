@@ -89,4 +89,6 @@ interface ProjectRepository
      */
     public function latest($count = 20);
     
+    
+    public function lists1();
 }

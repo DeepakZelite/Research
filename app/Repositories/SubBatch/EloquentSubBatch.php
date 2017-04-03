@@ -80,6 +80,7 @@ class EloquentSubBatch implements SubBatchRepository
     			$q->where('batches.name', "like", "%{$search}%");
     			$q->orwhere('users.username',"like","%{$search}%");
     			$q->orwhere('sub_batches.company_count',"like","%{$search}%");
+    			$q->orwhere('projects.code',"like","%{$search}%");
     		});
     	}
     	
@@ -105,7 +106,7 @@ class EloquentSubBatch implements SubBatchRepository
     	->leftjoin('batches', 'batches.id', '=', 'sub_batches.batch_id')
     	->leftjoin('users', 'users.id', '=', 'sub_batches.user_id')
     	->leftjoin('projects','projects.id','=','sub_batches.project_id')
-    	->select('sub_batches.*','projects.brief_file as brief_file' ,'batches.name as batch_name', 'users.username', 'sub_batches.seq_no as sub_batch_name')
+    	->select('sub_batches.*','projects.brief_file as brief_file' ,'batches.name as batch_name', 'users.username', 'sub_batches.seq_no as sub_batch_name','projects.code as project_code')
     	->paginate($perPage);
 
     	$result = $query->orderBy('created_at', 'desc')->paginate($perPage);

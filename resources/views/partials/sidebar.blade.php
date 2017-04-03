@@ -127,7 +127,7 @@
             @permission('batch.allocation')
                 <li class="{{ Request::is('subBatch*') ? 'active open' : ''  }}">
                     <a href="{{ route('subBatch.list') }}" class="{{ Request::is('subBatch*') ? 'active' : ''  }}">
-                        <i class="fa fa-refresh fa-spin fa-1x fa-fw"></i> @lang('app.subBatches')
+                        <i class="fa fa-refresh fa-1x fa-fw"></i> @lang('app.subBatches')
                     </a>
                 </li>
             @endpermission
