@@ -216,6 +216,22 @@ class DataCaptureController extends Controller
 		['parent_company' => $companyId->company_name] +
 		['company_instructions' => $companyId->company_instructions];
  		$newCompany = $this->companyRepository->create($data);
- 		return redirect()->route('dataCapture.capture', $companyId->sub_batch_id)->withSuccess(trans('app.Added_Child_Company.'));
+ 		return redirect()->route('dataCapture.capture', $companyId->sub_batch_id)->withSuccess(trans('app.Added_Child_Company'));
+	}
+	
+	
+	public function childCompanyRecord(Company $companyId,CompanyRepository $companyRepository)
+	{
+		$company1=Company::find($companyId->id);
+		$company=$companyRepository->getChildCompanies($companyId->id);
+		Log::info("Contact:::::". $company);
+		$editCompany = false;
+		return view('company.partials.addchild', compact('company1','editCompany', 'company'));
+	}
+	
+	public function getSpecificChild(Company $companyId)
+	{
+		return $companyId;
+		$editCompany=true;
 	}
 }

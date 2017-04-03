@@ -634,3 +634,12 @@ Route::get('dataCapture/{countryId}/getcountryCode',[
 		'as'=>'dataCapture.getcountryCode',
 		'uses'=>'DataCaptureController@getcountryCode'
 ]);
+Route::get('dataCapture/{companyId}/childCompanyRecord',[
+		'as'=>'dataCapture.childCompanyRecord',
+		'uses'=>'DataCaptureController@childCompanyRecord'
+]);
+
+Route::get('dataCapture/{companyId}/getSpecificChild',[
+		'as'=>'dataCapture.getSpecificChild',
+		'uses'=>'DataCaptureController@getSpecificChild'
+]);

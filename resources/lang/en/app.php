@@ -510,6 +510,7 @@ return [
 		'contact_info4'=>'Contact Additional Info 4',
 		'additional-info'=>'Additional Info',
 		'staff_info'=>'Staff Info',
+		'child_companies'=>'Child Companies',
 
 		'dataCapture' => "Data Capture",
 		'start' => "Start",

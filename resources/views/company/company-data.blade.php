@@ -106,11 +106,8 @@
 					<label for="name">@lang('app.switchboardnumber')</label>
 					<div class="row">
 						<div class="col-md-5">
-							<input type="text" id="isdcode" class="form-control" value="1">
+							<input type="text" id="isd_code" name="isd_code" class="form-control" value="{{ $editCompany ? $company->isd_code : old('isd_code') }}">
 						</div>
-						<!-- <div class="col-md-6">{!! Form::select('international_code',
-							$countriesISDCodes,'', ['class' =>
-							'form-control','calling_code'=>'international_code']) !!}</div> -->
 						<div class="col-md-7">
 							<input type="text" class="form-control" id="switchboardnumber" 
 								name="switchboardnumber" maxlength="10" onkeypress="return isNumberKey(event)"
@@ -370,15 +367,15 @@
 	</div>
 </div>
 
-<div id="newCompanyModal" class="modal fade" role="dialog">
+ <div id="newCompanyModal" class="modal fade" role="dialog">
 	<div class="modal-dialog">
 
 		<!-- Modal content-->
 		<div class="modal-content">
 			<div id="newCompany" class="modal-body">
-
+<!--
 <div class="row">
-	<!--First Section-->
+	<!--First Section
 	<div class="col-lg-12 col-md-8 col-sm-6">
 		<div class="panel panel-default">
 			<div class="panel-heading">@lang('app.add_child_company_details_big')</div>
@@ -386,6 +383,13 @@
 			<div class="panel-body">
 			{!! Form::open(['route' => ['dataCapture.addCompany', $company->id], 'method' => 'PUT', 'id' => 'add-company-form']) !!} 
 			<div class="row">
+			@if(!$editCompany)
+				 <div class="form-group col-lg-12">
+					<label for="child_companies">@lang('app.child_companies')<i
+						style="color: red;">*</i></label>
+						{!! Form::select('batches', $data,'', ['class' =>'form-control','id'=>'batches']) !!}
+				</div> 
+			@endif
 				<div class="form-group col-lg-12">
 					<label for="new_company_name">@lang('app.company_name')<i
 						style="color: red;">*</i></label> <input type="text"
@@ -413,7 +417,7 @@
 			</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 </div>
 </div>
 </div>
@@ -437,9 +441,11 @@ $("#country").change(function() {
      data:{}
  })
  .done(function(data) {
-		$("#isdcode").val(data);
+		$("#isd_code").val(data);
  });
 });
+
+
 $(document).ready(function() {
 	$('#updated_company_name').focus();
 	$("#company-form").click(function(event)
@@ -490,16 +496,16 @@ $(document).ready(function() {
 		}	
 
 		$('#company_email').on('input', function() 
-				{
-					var input=$(this);
-					var re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-					var is_email=re.test(input.val());
-					if(is_email){$('#company_email').css('border-color', 'green');}
-					else
-					{
-						$('#company_email').css('border-color', 'red');
-					}
-				});
+		{
+			var input=$(this);
+			var re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+			var is_email=re.test(input.val());
+			if(is_email){$('#company_email').css('border-color', 'green');}
+			else
+			{
+				$('#company_email').css('border-color', 'red');
+			}
+		});
 
 		$('#website').on('input', function() {
 			var input=$(this);
@@ -556,7 +562,14 @@ $('#myModal').on('shown.bs.modal', function() {
 	
 
   $('#add_child_record').click(function(){
-  
+	  $.ajax({
+	        method: "GET",
+	        url: "http://localhost:88/Research/public/dataCapture/32/childCompanyRecord",
+	        success: function(data){
+	        	$data = $(data); 
+	            $('#newCompany').fadeOut().html($data).fadeIn();
+	        }
+	    })
 	});
 
 
