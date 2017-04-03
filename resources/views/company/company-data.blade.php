@@ -549,10 +549,8 @@ function addContact(companyId) {
     $.ajax({
         method: "GET",
         url: "{{ route('dataCapture.createContact', $company->id) }}",
-        //url: "http://192.168.1.108:88/Research/public/dataCapture/" + companyId + "/createContact",
         success: function(data){
             $data = $(data); 
-            //$('#editContact').fadeOut().html($data).fadeIn();
             $('#editContact').html($data).fadeIn();
             }
     })	
