@@ -28,7 +28,7 @@
     {!! Form::open(['route' => 'project.store', 'id' => 'project-form','files'=>true ]) !!}
 @endif
 
-<div class="row">
+<div class="row"  id="date">
     <div class="col-lg-6 col-md-12 col-sm-12">
         <div class="panel panel-default">
             <div class="panel-heading">@lang('app.project_details_big')</div>
@@ -56,7 +56,7 @@
                 <div class="form-group">
                     <label for="startdate">@lang('app.start_date')<i style="color:red;">*</i></label>
                     <div class="form-group">
-							<div class='input-group date'>
+							<div class='input-group date' id='start_date'>
 								<input type='text' name="Start_Date" id='Start_Date' value="{{ $edit ? $project->Start_Date : '' }}" class="form-control" />
 								<span class="input-group-addon" style="cursor: default;">
                                 <span class="glyphicon glyphicon-calendar"></span>
@@ -67,7 +67,7 @@
                	<div class="form-group">
                     <label for="expecteddate">@lang('app.expected_date')<i style="color:red;">*</i></label>
                     <div class="form-group">
-							<div class='input-group date'>
+							<div class='input-group date' id='expected_date'>
 								<input type='text' name="Expected_date" id='Expected_date' value="{{ $edit ? $project->Expected_date : '' }}" class="form-control" />
 								<span class="input-group-addon" style="cursor: default;">
                                 <span class="glyphicon glyphicon-calendar"></span>
@@ -80,7 +80,7 @@
  					<div class="input-group">
 				    	<input type='text' name="upload" id='upload' placeholder="choose file" value="{{ $edit ? $project->brief_file : old('brief_file')}}" class="form-control" />
 				    	<span class="input-group-btn">
-				    	<input type="file" accept=".pdf" class="file" id="attachement" name="attachement" style="display: none;" onchange="fileSelected(this)"/>
+				    	<input type="file" accept=".pdf, .doc, .docx,.xlsx" class="file" id="attachement" name="attachement" style="display: none;" onchange="fileSelected(this)"/>
 				    	<button class="btn btn-success" type="button" id="btnAttachment" onclick="openAttachment()">@lang('app.upload_task_brief')</button>
     					</span>
   					</div>
@@ -117,25 +117,33 @@
 @stop
 @section('scripts')
 <script>
-$(document).ready(function(){
-    $("#start_date").datepicker({
-        minDate: 0,
-        maxDate: "+60D",
-        numberOfMonths: 2,
-        onSelect: function(selected) {
-          $("#start_date").datepicker("option","minDate", selected)
-        }
-    });
-    $("#Expected_date").datepicker({ 
-        minDate: 0,
-        maxDate:"+60D",
-        numberOfMonths: 2,
-        onSelect: function(selected) {
-           $("#Expected_date").datepicker("option","maxDate", selected)
-        }
-    });  
+var date=new Date();
+date.setDate(date.getDate()-1);
+$(function () {
+    $('#start_date').datetimepicker({
+					format: 'YYYY-MM-DD',
+					minDate:date
+			});
+    $('#expected_date').datetimepicker({
+		format: 'YYYY-MM-DD',
+		minDate:date
+			})
 });
-
+$(document).ready(function() {
+	$("#date").click(function(event)
+			{
+			var startdate=$("#Start_Date").val();
+			var enddate=$("#Expected_date").val();
+			if(startdate>enddate){
+				$('#Expected_date').css('border-color', 'red');
+				return false;
+	     	}
+			else{
+					$('#Expected_date').css('border-color', 'green');
+					return true;
+				}	
+	});
+});
 	function openAttachment() {
 	  document.getElementById('attachement').click();
 	}

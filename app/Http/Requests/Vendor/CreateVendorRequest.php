@@ -15,7 +15,7 @@ class CreateVendorRequest extends Request
     public function rules()
     {
         return [
-            	'name' => 'required|unique:vendors,name',
+            	'name' => 'required',
         		'vendor_code'=>'required|regex:/^[\w-]*$/|unique:vendors,vendor_code',
         		'location'=>'required',	
         		'contactPerson'=>'required',

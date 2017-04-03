@@ -53,19 +53,20 @@ class BatchesController extends Controller
 	 *
 	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
 	 */
-	public function index()
+	public function index(VendorRepository $vendorRepository,ProjectRepository $projectRepository)
 	{
 		$perPage = 5;
 		if ($this->theUser->username == 'admin') {
-			$batches = $this->batches->paginate($perPage, Input::get('search'), null , Input::get('status'));
+			$batches = $this->batches->paginate($perPage, Input::get('search'), null , Input::get('status'),Input::get('vendor_code'),Input::get('code'));
 		} 
 		else {
 			$batches = $this->batches->paginate($perPage, Input::get('search'), $this->theUser->vendor_id,Input::get('status'));
 		}
 		
 		$statuses = ['' => trans('app.all')] + SubBatchStatus::lists();
-		return view('batch.list', compact('batches', 'statuses')); 
-		
+		$vendors  =	[''=>trans('app.all')] + $vendorRepository->lists1();
+		$projects =	[''=>trans('app.all')] + $projectRepository->lists1();
+		return view('batch.list', compact('batches', 'statuses','vendors','projects')); 
 	}
 
 	/**
@@ -94,12 +95,13 @@ class BatchesController extends Controller
 	public function store(CreateBatchRequest $request)
 	{
 		$data = $request->all()+ ['status' => SubBatchStatus::ASSIGNED];
-		$batch = $this->batches->create($data);
-		
 		if($request->hasFile('attachement')){
 			$path = $request->file('attachement')->getRealPath();
 			$data1 = Excel::load($path, function($reader) {
 			})->get();
+		if($data1->count())
+		{
+			$batch = $this->batches->create($data);
 			if(!empty($data1) && $data1->count()){
 				foreach ($data1 as $key => $value) {
 					$insert[] = ['batch_id'=>$batch->id,'status' => 'UnAssigned','company_instructions' => $value->company_instructions, 'company_id' => $value->company_id,'parent_company' => $value->parent_company, 'company_name' => $value->company_name,'address1' => $value->address1, 'address2' => $value->address2,'city' => $value->city, 'state' => $value->state,'zipcode' => $value->zipcode, 'country' => $value->country,'international_code' => $value->international_code, 'switchboardnumber' => $value->switchboardnumber,'branchNumber' => $value->branch_number, 'addresscode' => $value->addresscode,'website' => $value->website, 'company_email' => $value->company_email,
@@ -110,6 +112,11 @@ class BatchesController extends Controller
 					//dd('Insert Record successfully.');
 				}
 			}
+		}
+		else
+		{
+			return redirect()->route('batch.create')->withErrors('Thier is no record in excel sheet');	
+		}
 		}
 
 		return redirect()->route('batch.list')

@@ -4,6 +4,7 @@ namespace Vanguard\Http\Controllers;
 
 
 use Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Vanguard\Company;
@@ -23,6 +24,8 @@ use Vanguard\Repositories\Country\CountryRepository;
 use Vanguard\Repositories\Code\CodeRepository;
 use Vanguard\Support\Enum\SubBatchStatus;
 use Vanguard\Http\Requests\Company\CreateCompanyRequest;
+use Vanguard\Country;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class DataCaptureController - Controls all the operations for Company and Staff entity
@@ -114,7 +117,9 @@ class DataCaptureController extends Controller
 		$countries = $countryRepository->lists();
 		$countriesISDCodes = $countryRepository->lists1();
 		$codes=$codeRepository->lists();
+		$codes->prepend('None');
 		$codes1=$codeRepository->lists1();
+		$codes1->prepend('None');
 		$subBatch=SubBatch::find($subBatchId);
 		$projects=$projectRepository->find($subBatch->project_id);
 		$companies = $companyRepository->getCompanyRecord($subBatchId, $this->theUser->id);
@@ -166,7 +171,6 @@ class DataCaptureController extends Controller
 		$editCompany = false; 	
 	}
 	
-	
 	public function updateStaff(Contact $contact, UpdateContactRequest $request) 
 	{
 		$data = $request->all() + ['company_id' => $contact->company_id]
@@ -177,10 +181,14 @@ class DataCaptureController extends Controller
 	}
 	
 	
-	public function getcountryCode(Request $request, CountryRepository $countryRepository)
+	public function getcountryCode(Country $countryId,CountryRepository $countryRepository)
 	{
-		$countryid = $request->input('batchId');
-		return $countryid;
+		$batchId =$countryId->id;
+		Log::info("Contact:::::". $batchId);
+		if ($batchId == "") {
+			$batchId = 1;
+		}
+		return $countryRepository->getCountryISDCode($batchId);
 	}
 	
 	public function getContact(Contact $contactId)

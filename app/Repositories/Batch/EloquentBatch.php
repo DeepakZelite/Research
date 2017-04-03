@@ -41,7 +41,7 @@ class EloquentBatch implements BatchRepository
     /**
      * {@inheritdoc}
      */
-    public function paginate($perPage, $search = null, $vendorId = null, $status = null)
+    public function paginate($perPage, $search = null, $vendorId = null, $status = null,$vendorCode =null,$projectcode = null)
     {
         $query = Batch::query();
         Log::info("Status value in Model:" . $status);
@@ -61,12 +61,18 @@ class EloquentBatch implements BatchRepository
         if ($vendorId) {
         	$query = $query->where('vendors.id', '=', $vendorId);
         }
-        
-        
+        if($vendorCode)
+        {
+        	$query= $query->where('vendors.vendor_code','=',$vendorCode);
+        }
+        if($projectcode)
+        {
+        	$query=$query->where('projects.code','=',$projectcode);
+        }
         if ($status) {
         	$query = $query->where('batches.status', '=', $status);
         }
-        $result = $query->select('batches.*', 'projects.code as project_code', 'vendors.name as vendor_name','projects.No_Companies as No_Companies')
+        $result = $query->select('batches.*', 'projects.code as project_code', 'vendors.vendor_code as vendor_code','projects.No_Companies as No_Companies')
         ->paginate($perPage);
 
         if ($search) {

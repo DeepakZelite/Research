@@ -155,7 +155,7 @@ class SubBatchesController extends Controller
 	}
 	
 	public function getCompanyCount(Request $request, CompanyRepository $companyRepository) {
-		$batchId = $request->input('batchId');
+		$batchId =$request->input('batchId');
 		if ($batchId == "") {
 			$batchId = 0;
 		}

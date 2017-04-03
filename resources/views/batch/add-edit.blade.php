@@ -34,15 +34,16 @@
             <div class="panel-heading">@lang('app.batch_details_big')</div>
             <div class="panel-body">
             	<div class="form-group">
-                    <label for="project_id">@lang('app.project_name')<i style="color:red;">*</i></label>
-                    {!! Form::select('project_id', $projects, $edit ? $batch->project_id : '',
-                        ['class' => 'form-control', 'id' => 'project_id']) !!}
-                </div>
-                <div class="form-group">
                     <label for="vendor_id">@lang('app.vendor_name')<i style="color:red;">*</i></label>
                     {!! Form::select('vendor_id', $vendors, $edit ? $batch->vendor_id : '',
                         ['class' => 'form-control', 'id' => 'vendor_id']) !!}
                 </div>
+            	<div class="form-group">
+                    <label for="project_id">@lang('app.project_name')<i style="color:red;">*</i></label>
+                    {!! Form::select('project_id', $projects, $edit ? $batch->project_id : '',
+                        ['class' => 'form-control', 'id' => 'project_id']) !!}
+                </div>
+                
                 <div class="form-group">
                     <label for="name">@lang('app.name')<i style="color:red;">*</i></label>
                     <input type="text" class="form-control" id="name" maxlength="20"
@@ -51,7 +52,7 @@
 		      <div class="form-group">
                     <label for="startdate">@lang('app.target_date')<i style="color:red;">*</i></label>
                     <div class="form-group">
-							<div class='input-group date'>
+							<div class='input-group date' id='target_date'>
 								<input type='text' name="Target_Date" id='Target_Date' value="{{ $edit ? $batch->Target_Date : '' }}" class="form-control" />
 								<span class="input-group-addon" style="cursor: default;">
                                 <span class="glyphicon glyphicon-calendar"></span>
@@ -105,6 +106,14 @@
 @stop
 @section('scripts')
     <script>
+var date=new Date();
+date.setDate(date.getDate()-1);
+$(function () {
+    $('#target_date').datetimepicker({
+					format: 'YYYY-MM-DD',
+					minDate:date
+						});
+});
 	function openAttachment() {
 	  document.getElementById('attachement').click();
 	}

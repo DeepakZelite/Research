@@ -51,6 +51,8 @@
     <table class="table">
         <thead>
         	<th>@lang('app.batch_name')</th>
+        	<th>@lang('app.sub_batch_name')</th>
+        	<th>@lang('app.code')</th>
             <th>@lang('app.companies')</th>
             <th>@lang('app.status')</th>
             <th>@lang('app.action')</th>
@@ -60,6 +62,8 @@
                 @foreach ($subBatches as $subBatch)
                     <tr>
                         <td>{{ $subBatch->batch_name }}</td>
+                        <td>{{ $subBatch->batch_name }}-{{ $subBatch->sub_batch_name }}</td>
+                        <td>{{ $subBatch->project_code}}</td>
                          <td>{{ $subBatch->company_count }}</td>
                          <td>{{ $subBatch->status }}</td>
                          <td class="text-left">

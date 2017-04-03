@@ -26,6 +26,7 @@ interface VendorRepository
     public function lists($column = 'name', $key = 'id');
     
     
+    public function lists1();
     /**
      * Find user by its id.
      *

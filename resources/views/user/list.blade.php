@@ -29,8 +29,11 @@
             @lang('app.add_user')
         </a>
     </div>
-    <div class="col-md-5"></div>
+    <div class="col-md-3"></div>
     <form method="GET" action="" accept-charset="UTF-8" id="users-form">
+    <div class="col-md-2">
+             {!! Form::select('vendor_code', $vendors, Input::get('vendor_code'), ['id'=>'vendor_code', 'class'=>'form-control'])!!}
+        </div>
         <div class="col-md-2">
              {!! Form::select('status', $statuses, Input::get('status'), ['id' => 'status', 'class' => 'form-control']) !!}
         </div>
@@ -57,7 +60,7 @@
         <thead>
             <th>@lang('app.username')</th>
             <th>@lang('app.full_name')</th>
-            <th>@lang('app.vendor_name')</th>
+            <th>@lang('app.vendor_code')</th>
           <!--  <th>@lang('app.email')</th>
              <th>@lang('app.registration_date')</th> -->
             <th>@lang('app.status')</th>
@@ -69,7 +72,7 @@
                     <tr>
                         <td>{{ $user->username ?: trans('app.n_a') }}</td>
                         <td>{{ $user->first_name . ' ' . $user->last_name }}</td>
-                        <td>{{$user->vendor_name}}</td>
+                        <td>{{$user->vendor_code}}</td>
                    <!--     <td>{{ $user->email }}</td>
                          <td>{{ $user->created_at->format('Y-m-d') }}</td> -->
                         <td>
@@ -119,6 +122,9 @@
 @section('scripts')
     <script>
         $("#status").change(function () {
+            $("#users-form").submit();
+        });
+        $("#vendor_code").change(function(){
             $("#users-form").submit();
         });
     </script>
