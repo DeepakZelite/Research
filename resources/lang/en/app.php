@@ -526,6 +526,8 @@ return [
 		'contact_created' => 'Staff has been added successfully.',
 		'company_updated' => 'Company has been updated successfully.',
 		'Added_Child_Company'=>'Added Child Company.',
+		'child_company_list'=>'Child Company Lists',
+		'child_company_lists'=>'Child Company Lists',
 		
 		'months' => [
         'January' => 'January',

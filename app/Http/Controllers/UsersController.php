@@ -156,8 +156,9 @@ class UsersController extends Controller
      */
     public function updateDetails(User $user, UpdateDetailsRequest $request)
     {
+    	//return $request->all();
         $this->users->update($user->id, $request->all());
-        $this->users->setRole($user->id, $request->get('role'));
+        //$this->users->setRole($user->id, $request->get('role'));
 
         event(new UpdatedByAdmin($user));
 

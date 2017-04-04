@@ -257,6 +257,12 @@ class EloquentCompany implements CompanyRepository
     
     public function getChildCompanies($parentId)
     {
-    	return Company::where('parent_id', $parentId)->lists('company_name','id');
+    	return Company::where('parent_id', $parentId)->get();//lists('company_name','id');
+    }
+    
+    
+    public function getCompanyRecord1($companyId)
+    {
+    	return Company::where('id',$companyId)->get();
     }
 }

@@ -128,8 +128,10 @@ class DataCaptureController extends Controller
 			// open the company-staff capture screen for this company
 			$company = $companies[0];
 			$editContact = false;
+			$childCompanies=$companyRepository->getChildCompanies($company->id);
+			if(sizeof($childCompanies)>0){$childRecord=true;}else{$childRecord=false;}
 			$contacts = $this->contactRepository->paginate($perPage, Input::get('search'), $company->id);
-			return view('Company.company-data', compact('countries','countriesISDCodes','codes','codes1','subBatchId', 'editCompany', 'company', 'contacts', 'editContact','projects'));
+			return view('Company.company-data', compact('countries','countriesISDCodes','codes','codes1','subBatchId','childRecord', 'editCompany', 'company', 'contacts', 'editContact','projects'));
 		} else {
 			// All the company records are submitted in this sub batch.
 			// Set the status of sub-batch to Submitted and redirect to sub-batch list
@@ -154,6 +156,8 @@ class DataCaptureController extends Controller
 		$subBatch=SubBatch::find($comp->sub_batch_id);
 		$subBatch->status="In-Process";
 		$subBatch->save();
+		//return $companyRepository->getTotalCompanyCount($comp->batch_id);
+		//return $companyRepository->getSubmittedCompanyCount($comp->batch_id);
 		if($companyRepository->getTotalCompanyCount($comp->batch_id)==$companyRepository->getSubmittedCompanyCount($comp->batch_id))
 		{
 			$batch=batch::find($comp->batch_id);
@@ -222,16 +226,31 @@ class DataCaptureController extends Controller
 	
 	public function childCompanyRecord(Company $companyId,CompanyRepository $companyRepository)
 	{
-		$company1=Company::find($companyId->id);
+		//$company1=Company::find($companyId->id);
 		$company=$companyRepository->getChildCompanies($companyId->id);
 		Log::info("Contact:::::". $company);
 		$editCompany = false;
-		return view('company.partials.addchild', compact('company1','editCompany', 'company'));
+		return view('company.partials.addchild', compact('editCompany', 'company'));
 	}
 	
-	public function getSpecificChild(Company $companyId)
+	public function getSpecificChild(Company $companyId,ContactRepository $contactRepository,CompanyRepository $companyRepository,CountryRepository $countryRepository,ProjectRepository $projectRepository,CodeRepository $codeRepository)
 	{
-		return $companyId;
-		$editCompany=true;
+		// Get the first or last saved company record from the sub batch.
+		$companies1=true;
+		$company=$companyId;
+		$editCompany = true;
+		$perPage = 2;
+		$countries = $countryRepository->lists();
+		$codes=$codeRepository->lists();
+		$codes->prepend('None');
+		$codes1=$codeRepository->lists1();
+		$codes1->prepend('None');
+		$subBatch=SubBatch::find($company->sub_batch_id);
+		$projects=$projectRepository->find($subBatch->project_id);
+		$editContact = false;
+		$childCompanies=$companyRepository->getChildCompanies($company->id);
+		if(sizeof($childCompanies)>0){$childRecord=true;}else{$childRecord=false;}
+		$contacts = $this->contactRepository->paginate($perPage, Input::get('search'), $companyId->id);
+		return view('Company.company-data', compact('countries','codes','codes1','subBatchId','childRecord', 'editCompany', 'company', 'contacts', 'editContact','projects'));
 	}
 }
