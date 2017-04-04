@@ -54,7 +54,8 @@
 						value="{{ $editCompany ? $company->parent_company : old('parent_company') }}">
 				</div>
 				<div class="form-group col-lg-2">
-					<label for="company_name">@lang('app.company_name')</label> 
+					<label for="company_name">@lang('app.company_name')</label>@if($childRecord)<a href="#" id="childCompanylist" data-target="#childCompanies"  data-toggle="modal" title="@lang('app.child_company_list')" data-placement="top" >
+					 <i class="glyphicon glyphicon-list-alt" ></i> </a>@endif
 					<input type="text" class="form-control" id="company_name" name="company_name"
 						placeholder="@lang('app.company_name')" readonly="readonly"
 						value="{{ $editCompany ? $company->company_name : old('company_name') }}">
@@ -99,7 +100,7 @@
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="address">@lang('app.country')<i style="color: red;">*</i></label>
-					{!! Form::select('country', $countries,'840', ['class' =>
+					{!! Form::select('country', $countries,$editCompany ? $company->country:'840', ['class' =>
 					'form-control','id'=>'country']) !!}
 				</div>
 				<div class="form-group col-lg-2">
@@ -130,7 +131,7 @@
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="branchNumber">@lang('app.branchNumber')</label> <input
-						type="text" class="form-control" id="branchNumber" maxlength="5"
+						type="text" class="form-control" id="branchNumber" maxlength="10"
 						name="branchNumber" placeholder="@lang('app.branchNumber')" onkeypress="return isNumberKey(event)"
 						value="{{ $editCompany ? $company->branchNumber : old('branchNumber') }}">
 				</div>
@@ -142,13 +143,13 @@
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="employee_size">@lang('app.employee_size')</label>
-					{!! Form::select('employee_size', $codes,'', ['class' =>'form-control','id'=>'employee_size']) !!}
+					{!! Form::select('employee_size', $codes,$editCompany ? $company->employee_size:'', ['class' =>'form-control','id'=>'employee_size']) !!}
 					<!--  <input type="text" class="form-control" id="employee_size" name="employee_size" placeholder="@lang('app.employee_size')"
 						value="{{ $editCompany ? $company->employee_size : old('employee_size') }}">  -->
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="industry_classfication">@lang('app.industry_classfication')</label>
-					 {!! Form::select('industry_classfication', $codes1,'', ['class' =>'form-control','id'=>'industry_classfication']) !!}
+					 {!! Form::select('industry_classfication', $codes1, $editCompany ? $company->industry_classfication:'', ['class' =>'form-control','id'=>'industry_classfication']) !!}
 					<!-- <input type="text" class="form-control" id="industry_classfication" name="industry_classfication"
 						placeholder="@lang('app.industry_classfication')" value="{{ $editCompany ? $company->industry_classfication : old('industry_classfication') }}"> -->
 				</div>
@@ -173,15 +174,13 @@
 		</button>
 		<button type="button" id="additionalinfo" class="btn btn-primary" data-toggle="modal"
 			data-target="#myModal1">
-			<i class="glyphicon glyphicon-minus"></i> {{
-			trans('app.additional-info') }}
+			<i class="glyphicon glyphicon-minus"></i> {{trans('app.additional-info') }}
 		</button>
 		<button type="submit" id="btnSave" class="btn btn-primary" >
 			<i class="fa fa-save"></i> {{ $editCompany ? trans('app.save') :
 			trans('app.save') }}
 		</button>
 	</div>
-	
 </div>
 
 
@@ -206,7 +205,7 @@
 								<div class="form-group col-lg-6">
 									<label for="foundation_year">@lang('app.foundation_year')</label>
 									<input type="text" class="form-control" id="foundation_year"
-										name="foundation_year"
+										name="foundation_year" maxlength="4"  onkeypress="return isNumberKey(event)"
 										placeholder="@lang('app.foundation_year')"
 										value="{{ $editCompany ? $company->foundation_year : old('foundation_year') }}">
 								</div>
@@ -234,14 +233,14 @@
 								<div class="form-group col-lg-6">
 									<label for="additional_info4">@lang('app.additional_info4')</label>
 									<input type="text" class="form-control" id="additional_info4"
-										name="additional_info4"
+										name="additional_info4" 
 										placeholder="@lang('app.additional_info4')"
 										value="{{ $editCompany ? $company->additional_info4 : old('additional_info4') }}">
 								</div>
 								<div class="form-group col-lg-6">
 									<label for="annual_revenue">@lang('app.annual_revenue')</label>
 									<input type="text" class="form-control" id="annual_revenue"
-										name="annual_revenue"
+										name="annual_revenue"  
 										placeholder="@lang('app.annual_revenue')"
 										value="{{ $editCompany ? $company->annual_revenue : old('annual_revenue') }}">
 								</div>
@@ -256,8 +255,8 @@
 								<div class="form-group col-lg-6">
 									<label for="number_of_beds">@lang('app.number_of_beds')</label>
 									<input type="text" class="form-control" id="number_of_beds"
-										name="number_of_beds"
-										placeholder="@lang('app.number_of_beds')"
+										name="number_of_beds" onkeypress="return isNumberKey(event)"
+										placeholder="@lang('app.number_of_beds')" maxlength="3"
 										value="{{ $editCompany ? $company->number_of_beds : old('number_of_beds') }}">
 								</div>
 							</div>
@@ -373,9 +372,9 @@
 		<!-- Modal content-->
 		<div class="modal-content">
 			<div id="newCompany" class="modal-body">
-<!--
+			
 <div class="row">
-	<!--First Section
+	<!--First Section-->
 	<div class="col-lg-12 col-md-8 col-sm-6">
 		<div class="panel panel-default">
 			<div class="panel-heading">@lang('app.add_child_company_details_big')</div>
@@ -383,13 +382,6 @@
 			<div class="panel-body">
 			{!! Form::open(['route' => ['dataCapture.addCompany', $company->id], 'method' => 'PUT', 'id' => 'add-company-form']) !!} 
 			<div class="row">
-			@if(!$editCompany)
-				 <div class="form-group col-lg-12">
-					<label for="child_companies">@lang('app.child_companies')<i
-						style="color: red;">*</i></label>
-						{!! Form::select('batches', $data,'', ['class' =>'form-control','id'=>'batches']) !!}
-				</div> 
-			@endif
 				<div class="form-group col-lg-12">
 					<label for="new_company_name">@lang('app.company_name')<i
 						style="color: red;">*</i></label> <input type="text"
@@ -411,18 +403,28 @@
 						</button>
 					</div>
 				</div>
-				
 				{{ Form::close() }}
  				
 			</div>
 			</div>
 		</div>
-	</div> -->
+	</div>
 </div>
 </div>
 </div>
 </div>
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+<div id="childCompanies" class="modal fade" role="dialog">
+	<div class="modal-dialog">
 
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div id="childCompany" class="modal-body">
+			
+</div>
+</div>
+</div>
+</div>
 <!-- --------------------------------------------------------------------------------------------------------------- -->
 
 @stop 
@@ -444,8 +446,6 @@ $("#country").change(function() {
 		$("#isd_code").val(data);
  });
 });
-
-
 $(document).ready(function() {
 	$('#updated_company_name').focus();
 	$("#company-form").click(function(event)
@@ -562,16 +562,20 @@ $('#myModal').on('shown.bs.modal', function() {
 	
 
   $('#add_child_record').click(function(){
-	  $.ajax({
-	        method: "GET",
-	        url: "http://localhost:88/Research/public/dataCapture/32/childCompanyRecord",
-	        success: function(data){
-	        	$data = $(data); 
-	            $('#newCompany').fadeOut().html($data).fadeIn();
-	        }
-	    })
+	
 	});
 
+  $('#childCompanylist').click(function(){
+	  $.ajax({
+	        method: "GET",
+	        url: "{{ route('dataCapture.childCompanyRecord', $company->id) }}",
+	        //url: "http://localhost:88/Research/public/dataCapture/32/childCompanyRecord",
+	        success: function(data){
+	        	$data = $(data); 
+	            $('#childCompany').fadeOut().html($data).fadeIn();
+	        }
+	    })
+	  });
 
 </script>
     @if ($editContact)
