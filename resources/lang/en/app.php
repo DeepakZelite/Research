@@ -510,6 +510,7 @@ return [
 		'contact_info4'=>'Contact Additional Info 4',
 		'additional-info'=>'Additional Info',
 		'staff_info'=>'Staff Info',
+		'child_companies'=>'Child Companies',
 
 		'dataCapture' => "Data Capture",
 		'start' => "Start",
@@ -525,6 +526,8 @@ return [
 		'contact_created' => 'Staff has been added successfully.',
 		'company_updated' => 'Company has been updated successfully.',
 		'Added_Child_Company'=>'Added Child Company.',
+		'child_company_list'=>'Child Company Lists',
+		'child_company_lists'=>'Child Company Lists',
 		
 		'months' => [
         'January' => 'January',

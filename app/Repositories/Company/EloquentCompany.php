@@ -166,7 +166,6 @@ class EloquentCompany implements CompanyRepository
     			->where('companies.user_id', "=", "{$userId}")
     			->where('companies.status', "=", "Assigned");    			
     		});
-    		
     	} else {
     		return 0;
     	}
@@ -252,5 +251,18 @@ class EloquentCompany implements CompanyRepository
     
     	$result = $query->get();
     	return $result;
+    }
+    
+    
+    
+    public function getChildCompanies($parentId)
+    {
+    	return Company::where('parent_id', $parentId)->get();//lists('company_name','id');
+    }
+    
+    
+    public function getCompanyRecord1($companyId)
+    {
+    	return Company::where('id',$companyId)->get();
     }
 }

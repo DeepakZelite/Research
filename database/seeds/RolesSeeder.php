@@ -20,9 +20,16 @@ class RolesSeeder extends Seeder
         ]);
 
         Role::create([
-            'name' => 'User',
-            'display_name' => 'User',
+            'name' => 'Entry User',
+            'display_name' => 'Entry User',
             'description' => 'Default system user.',
+            'removable' => false
+        ]);
+
+        Role::create([
+            'name'=>'Vendor Lead',
+            'display_name' => 'Vendor Lead',
+            'description' => 'Default vendor lead.',
             'removable' => false
         ]);
     }

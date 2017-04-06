@@ -1,5 +1,6 @@
 @include('partials.messages')
 
+
 @if ($editContact) 
 	{!! Form::open(['route' => ['dataCapture.updateStaff', $contact->id], 'id' => 'staff-form']) !!}
 @else 

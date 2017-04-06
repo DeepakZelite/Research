@@ -112,6 +112,7 @@ class DataCaptureController extends Controller
 	public function capture($subBatchId, Company $company, CompanyRepository $companyRepository,CountryRepository $countryRepository,ProjectRepository $projectRepository,CodeRepository $codeRepository)
 	{
 		// Get the first or last saved company record from the sub batch.
+		$editChild=false;
 		$editCompany = true;
 		$perPage = 2;
 		$countries = $countryRepository->lists();
@@ -128,8 +129,10 @@ class DataCaptureController extends Controller
 			// open the company-staff capture screen for this company
 			$company = $companies[0];
 			$editContact = false;
+			$childCompanies=$companyRepository->getChildCompanies($company->id);
+			if(sizeof($childCompanies)>0){$childRecord=true;}else{$childRecord=false;}
 			$contacts = $this->contactRepository->paginate($perPage, Input::get('search'), $company->id);
-			return view('Company.company-data', compact('countries','countriesISDCodes','codes','codes1','subBatchId', 'editCompany', 'company', 'contacts', 'editContact','projects'));
+			return view('Company.company-data', compact('countries','countriesISDCodes','codes','codes1','subBatchId','childRecord', 'editCompany', 'company', 'contacts', 'editContact','projects','editChild'));
 		} else {
 			// All the company records are submitted in this sub batch.
 			// Set the status of sub-batch to Submitted and redirect to sub-batch list
@@ -154,6 +157,8 @@ class DataCaptureController extends Controller
 		$subBatch=SubBatch::find($comp->sub_batch_id);
 		$subBatch->status="In-Process";
 		$subBatch->save();
+		//return $companyRepository->getTotalCompanyCount($comp->batch_id);
+		//return $companyRepository->getSubmittedCompanyCount($comp->batch_id);
 		if($companyRepository->getTotalCompanyCount($comp->batch_id)==$companyRepository->getSubmittedCompanyCount($comp->batch_id))
 		{
 			$batch=batch::find($comp->batch_id);
@@ -195,6 +200,8 @@ class DataCaptureController extends Controller
 	{
 		$contact=Contact::find($contactId->id);
 		$editContact = true;
+		//$editChild=false;
+		//return $contact;
 		return view('company.partials.contact-edit', compact('editContact', 'contact'));
 	}
 	
@@ -216,6 +223,45 @@ class DataCaptureController extends Controller
 		['parent_company' => $companyId->company_name] +
 		['company_instructions' => $companyId->company_instructions];
  		$newCompany = $this->companyRepository->create($data);
- 		return redirect()->route('dataCapture.capture', $companyId->sub_batch_id)->withSuccess(trans('app.Added_Child_Company.'));
+ 		return redirect()->route('dataCapture.capture', $companyId->sub_batch_id)->withSuccess(trans('app.Added_Child_Company'));
+	}
+	
+	
+	public function childCompanyRecord(Company $companyId,CompanyRepository $companyRepository)
+	{
+		//$company1=Company::find($companyId->id);
+		$company=$companyRepository->getChildCompanies($companyId->id);
+		Log::info("Contact:::::". $company);
+		$editCompany = false;
+		return view('company.partials.addchild', compact('editCompany', 'company'));
+	}
+	
+	public function getSpecificChild(Company $companyId,ContactRepository $contactRepository,CompanyRepository $companyRepository,CountryRepository $countryRepository,ProjectRepository $projectRepository,CodeRepository $codeRepository)
+	{
+		// Get the first or last saved company record from the sub batch.
+		$editChild=true;
+		$company=$companyId;
+		$editCompany = true;
+		$perPage = 2;
+		$countries = $countryRepository->lists();
+		$codes=$codeRepository->lists();
+		$codes->prepend('None');
+		$codes1=$codeRepository->lists1();
+		$codes1->prepend('None');
+		$subBatch=SubBatch::find($company->sub_batch_id);
+		$projects=$projectRepository->find($subBatch->project_id);
+		$editContact = false;
+		$childCompanies=$companyRepository->getChildCompanies($company->id);
+		if(sizeof($childCompanies)>0){$childRecord=true;}else{$childRecord=false;}
+		$contacts = $this->contactRepository->paginate($perPage, Input::get('search'), $companyId->id);
+		return view('Company.company-data', compact('countries','codes','codes1','subBatchId','childRecord', 'editCompany', 'company', 'contacts', 'editContact','projects','editChild'));
+	}
+	
+	public function updateChildCompany(Company $company, UpdateCompanyRequest $request)
+	{
+		//return $request->all();
+		//return $company->id;
+		$this->companyRepository->update($company->id, $request->all());
+		return redirect()->route('dataCapture.getSpecificChild', $company->id)->withSuccess(trans('app.company_updated'));
 	}
 }
