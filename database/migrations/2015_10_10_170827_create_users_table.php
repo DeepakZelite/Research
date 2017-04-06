@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('phone')->nullable();
             $table->string('avatar')->nullable();
             $table->string('address')->default('');
+            $table->unsignedInteger('vendor_id');
             $table->unsignedInteger('country_id')->nullable();
             $table->date('birthday')->nullable();
             $table->timestamp('last_login')->nullable();

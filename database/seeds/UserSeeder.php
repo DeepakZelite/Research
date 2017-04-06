@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
             'email' => 'admin@example.com',
             'username' => 'admin',
             'password' => 'admin123',
+            'vendor_id'=>'0',
             'avatar' => null,
             'country_id' => null,
             'status' => UserStatus::ACTIVE
