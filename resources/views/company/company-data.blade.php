@@ -9,7 +9,9 @@
 <br />
 
 <!-- ----------------Company-edit-details start-------------- -->
-@if ($editCompany) 
+@if($editCompany && $editChild)
+	 {!! Form::open(['route' => ['dataCapture.updateChildCompany', $company->id], 'method' => 'PUT', 'id' => 'company-form']) !!}  
+@elseif ($editCompany) 
 	{!! Form::open(['route' => ['dataCapture.updateCompany', $company->id], 'method' => 'PUT', 'id' => 'company-form']) !!} 
 @else 
 	{!! Form::open(['route' => ['dataCapture.storeCompany', $company->id], 'id' => 'company-form']) !!} 
@@ -332,11 +334,11 @@
 @endif
 
 <div class="row">
-	<div class="col-md-11"></div>
-
-	<div class="col-md-1">
+	<!-- <div class="col-md-11"></div>  -->
+	
+	<div class="pull-right">
 		<a href="{{ route('dataCapture.submitCompany', $company->id) }}"
-			class="btn btn-primary btn-block pull-right">Submit</a>
+			class="btn btn-primary btn-block pull-right">@if($editChild) Submit Child Company @else Submit @endif</a>
 	</div>
 </div>
 
@@ -516,8 +518,6 @@ $(document).ready(function() {
 		});
 		return true;
 	});
-
-		
 });
 
 
@@ -530,14 +530,13 @@ function isNumberKey(evt)
 }
 $('#myModal').on('shown.bs.modal', function() {
 	$('#first_name').focus();
-
 });
 
 function editContact(id) {
     $.ajax({
         method: "GET",
         //url: "{{route('dataCapture.getContact',$company->id)}}",
-        url: "http://192.168.1.108:88/Research/public/dataCapture/" + id + "/getContact",
+        url: "http://localhost:88/Research/public/dataCapture/" + id + "/getContact",
         success: function(data){
             $data = $(data); 
             $('#editContact').fadeOut().html($data).fadeIn();
