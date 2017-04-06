@@ -645,3 +645,8 @@ Route::get('dataCapture/{companyId}/getSpecificChild',[
 		'as'=>'dataCapture.getSpecificChild',
 		'uses'=>'DataCaptureController@getSpecificChild'
 ]);
+
+Route::put('dataCapture/{company}/updateChildCompany',[
+		'as'=>'dataCapture.updateChildCompany',
+		'uses'=>'DataCaptureController@updateChildCompany'
+]);
