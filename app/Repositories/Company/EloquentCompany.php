@@ -236,7 +236,7 @@ class EloquentCompany implements CompanyRepository
     	$query = Company::query();
     	$result = $query
     	->leftjoin('contacts', 'companies.id', '=', 'contacts.company_id')
-    	->select('companies.*','contacts.*');
+    	->select('companies.*','contacts.*','contacts.additional_info1 as info1','contacts.additional_info2 as info2','contacts.additional_info3 as info3','contacts.additional_info4 as info4');
     
     	if ($batchId != 0) {
     

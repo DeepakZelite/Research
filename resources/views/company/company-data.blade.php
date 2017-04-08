@@ -102,14 +102,19 @@
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="address">@lang('app.country')<i style="color: red;">*</i></label>
-					{!! Form::select('country', $countries,$editCompany ? $company->country:'840', ['class' =>
+					@if($company->country !='')
+					{!! Form::select('country', $countries,$editCompany ? $company->country:old('840'), ['class' =>
 					'form-control','id'=>'country']) !!}
+					@else
+					{!! Form::select('country', $countries,'840', ['class' =>
+					'form-control','id'=>'country']) !!}
+					@endif
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="name">@lang('app.switchboardnumber')</label>
 					<div class="row">
 						<div class="col-md-5">
-							<input type="text" id="isd_code" name="isd_code" class="form-control" value="{{ $editCompany ? $company->isd_code : old('isd_code') }}">
+							<input type="text" id="isd_code" name="isd_code" class="form-control" @if($company->country !='') value="{{ $editCompany ? $company->isd_code : old('isd_code') }}" @else value="1" @endif>
 						</div>
 						<div class="col-md-7">
 							<input type="text" class="form-control" id="switchboardnumber" 
@@ -441,7 +446,7 @@ $("#country").change(function() {
 	 var batchId = $( this ).val();
  $.ajax({
      method: "GET",
-     url: "http://localhost:88/Research/public/dataCapture/" + batchId + "/getcountryCode",
+     url: "http://192.168.1.108:88/Research/public/dataCapture/" + batchId + "/getcountryCode",
      data:{}
  })
  .done(function(data) {
@@ -536,7 +541,7 @@ function editContact(id) {
     $.ajax({
         method: "GET",
         //url: "{{route('dataCapture.getContact',$company->id)}}",
-        url: "http://localhost:88/Research/public/dataCapture/" + id + "/getContact",
+        url: "http://192.168.1.108:88/Research/public/dataCapture/" + id + "/getContact",
         success: function(data){
             $data = $(data); 
             $('#editContact').fadeOut().html($data).fadeIn();

@@ -226,7 +226,10 @@ class BatchesController extends Controller
 				 $company['Paternership']=$value['paternership'];
 				 $company['Age']=$value['age'];
 				 $company['Staff Remarks']=$value['staff_remarks'];
-				 $company['Last Name']=$value['staff_remarks'];
+				 $company['Contact Additional Info 1']=$value['info1'];
+				 $company['Contact Additional Info 2']=$value['info2'];
+				 $company['Contact Additional Info 3']=$value['info3'];
+				 $company['Contact Additional Info 4']=$value['info4'];
 				 
 				 $companies[] = $company;
 				 }

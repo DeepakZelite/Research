@@ -14,8 +14,9 @@
                     <i class="fa fa-dashboard fa-fw"></i> @lang('app.dashboard')
                 </a>
             </li>
+            
             @permission('users.manage')
-                <li class="{{ Request::is('user*') || Request::is('permission*') ? 'active open' : ''  }}">
+                <li class="{{ Request::is('user*') || Request::is('vendor*') ? 'active open' : ''  }}">
                     <a href="#">
                         <i class="fa fa-user fa-fw"></i>
                         @lang('app.user_management')
@@ -23,7 +24,7 @@
                     </a>
                     <ul class="nav nav-second-level collapse">
                              <li>
-                                <a href="{{ route('vendor.list') }}" class="{{ Request::is('user*') ? 'active' : ''  }}">
+                                <a href="{{ route('vendor.list') }}" class="{{ Request::is('vendor*') ? 'active' : ''  }}">
                                     @lang('app.manage_vendor')
                                 </a>
                             </li>
@@ -34,8 +35,6 @@
                             </li>
                               
                     </ul>
-                    
-                   
                 </li>
             @endpermission
 			<!-- 
@@ -119,7 +118,7 @@
             @permission('batches.manage')
                 <li class="{{ Request::is('batch*') ? 'active open' : ''  }}">
                     <a href="{{ route('batch.list') }}" class="{{ Request::is('batch*') ? 'active' : ''  }}">
-                        <i class="fa fa-users fa-fw"></i> @lang('app.batches')
+                        <i class="fa fa-slideshare fa-fw"></i> @lang('app.batches')
                     </a>
                 </li>
             @endpermission
@@ -127,15 +126,15 @@
             @permission('batch.allocation')
                 <li class="{{ Request::is('subBatch*') ? 'active open' : ''  }}">
                     <a href="{{ route('subBatch.list') }}" class="{{ Request::is('subBatch*') ? 'active' : ''  }}">
-                        <i class="fa fa-refresh fa-1x fa-fw"></i> @lang('app.subBatches')
-                    </a>
+                        <i class="fa fa-tasks fa-fw"></i> @lang('app.subBatches')
+                    </a><!-- fa-list-ul fa-1x -->
                 </li>
             @endpermission
            
             @permission('companys.manage')
                 <li class="{{ Request::is('dataCapture*') ? 'active open' : ''  }}">
                     <a href="{{ route('dataCapture.list') }}" class="{{ Request::is('dataCapture*') ? 'active' : ''  }}">
-                        <i class="fa fa-users fa-fw"></i> @lang('app.dataCapture')
+                        <i class="fa fa-desktop fa-fw"></i> @lang('app.dataCapture')
                     </a>
                 </li>
             @endpermission

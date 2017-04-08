@@ -157,8 +157,7 @@ class DataCaptureController extends Controller
 		$subBatch=SubBatch::find($comp->sub_batch_id);
 		$subBatch->status="In-Process";
 		$subBatch->save();
-		//return $companyRepository->getTotalCompanyCount($comp->batch_id);
-		//return $companyRepository->getSubmittedCompanyCount($comp->batch_id);
+		//return $companyRepository->getTotalCompanyCount($comp->batch_id).",".$companyRepository->getSubmittedCompanyCount($comp->batch_id);
 		if($companyRepository->getTotalCompanyCount($comp->batch_id)==$companyRepository->getSubmittedCompanyCount($comp->batch_id))
 		{
 			$batch=batch::find($comp->batch_id);
