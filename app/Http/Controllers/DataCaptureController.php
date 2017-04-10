@@ -129,10 +129,12 @@ class DataCaptureController extends Controller
 			// open the company-staff capture screen for this company
 			$company = $companies[0];
 			$editContact = false;
-			$childCompanies=$companyRepository->getChildCompanies($company->id);
-			if(sizeof($childCompanies)>0){$childRecord=true;}else{$childRecord=false;}
+			//$childCompanies=$companyRepository->getChildCompanies($company->id);
+			//if(sizeof($childCompanies)>0){$childRecord=true;}else{$childRecord=false;}
 			$contacts = $this->contactRepository->paginate($perPage, Input::get('search'), $company->id);
 			return view('Company.company-data', compact('countries','countriesISDCodes','codes','codes1','subBatchId','childRecord', 'editCompany', 'company', 'contacts', 'editContact','projects','editChild'));
+		
+		
 		} else {
 			// All the company records are submitted in this sub batch.
 			// Set the status of sub-batch to Submitted and redirect to sub-batch list
@@ -264,4 +266,23 @@ class DataCaptureController extends Controller
 		$this->companyRepository->update($company->id, $request->all());
 		return redirect()->route('dataCapture.getSpecificChild', $company->id)->withSuccess(trans('app.company_updated'));
 	}
+
+	public function getChildren(Company $company)
+	{
+		$perPage = 5;
+		//return $company->id;
+		$children = $this->companyRepository->paginate($perPage, Input::get('search'), $company->id);
+		//$editContact = true;
+		
+		return view('company.partials.company-list', compact('company' ,'children'));
+	}
+	
+	public function currentCompany(Company $company)
+	{
+		$compRecord = Company::find($company->id);
+		$compRecord->status="Assigned";
+		$compRecord->save();
+		return redirect()->route('dataCapture.capture', $compRecord->sub_batch_id);
+	}
+	
 }

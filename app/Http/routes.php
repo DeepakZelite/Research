@@ -2,47 +2,47 @@
 
 /**
  * Authentication
- */
+*/
 
 Route::get('login', 'Auth\AuthController@getLogin');
 Route::post('login', 'Auth\AuthController@postLogin');
 
 Route::get('logout', [
-    'as' => 'auth.logout',
-    'uses' => 'Auth\AuthController@getLogout'
+		'as' => 'auth.logout',
+		'uses' => 'Auth\AuthController@getLogout'
 ]);
 
 // Allow registration routes only if registration is enabled.
 if (settings('reg_enabled')) {
-    Route::get('register', 'Auth\AuthController@getRegister');
-    Route::post('register', 'Auth\AuthController@postRegister');
-    Route::get('register/confirmation/{token}', [
-        'as' => 'register.confirm-email',
-        'uses' => 'Auth\AuthController@confirmEmail'
-    ]);
+	Route::get('register', 'Auth\AuthController@getRegister');
+	Route::post('register', 'Auth\AuthController@postRegister');
+	Route::get('register/confirmation/{token}', [
+			'as' => 'register.confirm-email',
+			'uses' => 'Auth\AuthController@confirmEmail'
+	]);
 }
 
 // Register password reset routes only if it is enabled inside website settings.
 if (settings('forgot_password')) {
-    Route::get('password/remind', 'Auth\PasswordController@forgotPassword');
-    Route::post('password/remind', 'Auth\PasswordController@sendPasswordReminder');
-    Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
-    Route::post('password/reset', 'Auth\PasswordController@postReset');
+	Route::get('password/remind', 'Auth\PasswordController@forgotPassword');
+	Route::post('password/remind', 'Auth\PasswordController@sendPasswordReminder');
+	Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
+	Route::post('password/reset', 'Auth\PasswordController@postReset');
 }
 
 /**
  * Two-Factor Authentication
  */
 if (settings('2fa.enabled')) {
-    Route::get('auth/two-factor-authentication', [
-        'as' => 'auth.token',
-        'uses' => 'Auth\AuthController@getToken'
-    ]);
+	Route::get('auth/two-factor-authentication', [
+			'as' => 'auth.token',
+			'uses' => 'Auth\AuthController@getToken'
+	]);
 
-    Route::post('auth/two-factor-authentication', [
-        'as' => 'auth.token.validate',
-        'uses' => 'Auth\AuthController@postToken'
-    ]);
+	Route::post('auth/two-factor-authentication', [
+			'as' => 'auth.token.validate',
+			'uses' => 'Auth\AuthController@postToken'
+	]);
 }
 
 /**
@@ -64,8 +64,8 @@ if (settings('2fa.enabled')) {
  */
 
 Route::get('/', [
-    'as' => 'dashboard',
-    'uses' => 'DashboardController@index'
+		'as' => 'dashboard',
+		'uses' => 'DashboardController@index'
 ]);
 
 /**
@@ -73,136 +73,136 @@ Route::get('/', [
  */
 
 Route::get('profile', [
-    'as' => 'profile',
-    'uses' => 'ProfileController@index'
+		'as' => 'profile',
+		'uses' => 'ProfileController@index'
 ]);
 
 Route::get('profile/activity', [
-    'as' => 'profile.activity',
-    'uses' => 'ProfileController@activity'
+		'as' => 'profile.activity',
+		'uses' => 'ProfileController@activity'
 ]);
 
 Route::put('profile/details/update', [
-    'as' => 'profile.update.details',
-    'uses' => 'ProfileController@updateDetails'
+		'as' => 'profile.update.details',
+		'uses' => 'ProfileController@updateDetails'
 ]);
 
 Route::post('profile/avatar/update', [
-    'as' => 'profile.update.avatar',
-    'uses' => 'ProfileController@updateAvatar'
+		'as' => 'profile.update.avatar',
+		'uses' => 'ProfileController@updateAvatar'
 ]);
 
 Route::post('profile/avatar/update/external', [
-    'as' => 'profile.update.avatar-external',
-    'uses' => 'ProfileController@updateAvatarExternal'
+		'as' => 'profile.update.avatar-external',
+		'uses' => 'ProfileController@updateAvatarExternal'
 ]);
 
 Route::put('profile/login-details/update', [
-    'as' => 'profile.update.login-details',
-    'uses' => 'ProfileController@updateLoginDetails'
+		'as' => 'profile.update.login-details',
+		'uses' => 'ProfileController@updateLoginDetails'
 ]);
 
 Route::put('profile/social-networks/update', [
-    'as' => 'profile.update.social-networks',
-    'uses' => 'ProfileController@updateSocialNetworks'
+		'as' => 'profile.update.social-networks',
+		'uses' => 'ProfileController@updateSocialNetworks'
 ]);
 
 Route::post('profile/two-factor/enable', [
-    'as' => 'profile.two-factor.enable',
-    'uses' => 'ProfileController@enableTwoFactorAuth'
+		'as' => 'profile.two-factor.enable',
+		'uses' => 'ProfileController@enableTwoFactorAuth'
 ]);
 
 Route::post('profile/two-factor/disable', [
-    'as' => 'profile.two-factor.disable',
-    'uses' => 'ProfileController@disableTwoFactorAuth'
+		'as' => 'profile.two-factor.disable',
+		'uses' => 'ProfileController@disableTwoFactorAuth'
 ]);
 
 Route::get('profile/sessions', [
-    'as' => 'profile.sessions',
-    'uses' => 'ProfileController@sessions'
+		'as' => 'profile.sessions',
+		'uses' => 'ProfileController@sessions'
 ]);
 
 Route::delete('profile/sessions/{session}/invalidate', [
-    'as' => 'profile.sessions.invalidate',
-    'uses' => 'ProfileController@invalidateSession'
+		'as' => 'profile.sessions.invalidate',
+		'uses' => 'ProfileController@invalidateSession'
 ]);
 
 /**
  * User Management
  */
 Route::get('user', [
-    'as' => 'user.list',
-    'uses' => 'UsersController@index'
+		'as' => 'user.list',
+		'uses' => 'UsersController@index'
 ]);
 
 Route::get('user/create', [
-    'as' => 'user.create',
-    'uses' => 'UsersController@create'
+		'as' => 'user.create',
+		'uses' => 'UsersController@create'
 ]);
 
 Route::post('user/create', [
-    'as' => 'user.store',
-    'uses' => 'UsersController@store'
+		'as' => 'user.store',
+		'uses' => 'UsersController@store'
 ]);
 
 Route::get('user/{user}/show', [
-    'as' => 'user.show',
-    'uses' => 'UsersController@view'
+		'as' => 'user.show',
+		'uses' => 'UsersController@view'
 ]);
 
 Route::get('user/{user}/edit', [
-    'as' => 'user.edit',
-    'uses' => 'UsersController@edit'
+		'as' => 'user.edit',
+		'uses' => 'UsersController@edit'
 ]);
 
 Route::put('user/{user}/update/details', [
-    'as' => 'user.update.details',
-    'uses' => 'UsersController@updateDetails'
+		'as' => 'user.update.details',
+		'uses' => 'UsersController@updateDetails'
 ]);
 
 Route::put('user/{user}/update/login-details', [
-    'as' => 'user.update.login-details',
-    'uses' => 'UsersController@updateLoginDetails'
+		'as' => 'user.update.login-details',
+		'uses' => 'UsersController@updateLoginDetails'
 ]);
 
 Route::delete('user/{user}/delete', [
-    'as' => 'user.delete',
-    'uses' => 'UsersController@delete'
+		'as' => 'user.delete',
+		'uses' => 'UsersController@delete'
 ]);
 
 Route::post('user/{user}/update/avatar', [
-    'as' => 'user.update.avatar',
-    'uses' => 'UsersController@updateAvatar'
+		'as' => 'user.update.avatar',
+		'uses' => 'UsersController@updateAvatar'
 ]);
 
 Route::post('user/{user}/update/avatar/external', [
-    'as' => 'user.update.avatar.external',
-    'uses' => 'UsersController@updateAvatarExternal'
+		'as' => 'user.update.avatar.external',
+		'uses' => 'UsersController@updateAvatarExternal'
 ]);
 
 Route::post('user/{user}/update/social-networks', [
-    'as' => 'user.update.socials',
-    'uses' => 'UsersController@updateSocialNetworks'
+		'as' => 'user.update.socials',
+		'uses' => 'UsersController@updateSocialNetworks'
 ]);
 
 Route::get('user/{user}/sessions', [
-    'as' => 'user.sessions',
-    'uses' => 'UsersController@sessions'
+		'as' => 'user.sessions',
+		'uses' => 'UsersController@sessions'
 ]);
 
 Route::delete('user/{user}/sessions/{session}/invalidate', [
-    'as' => 'user.sessions.invalidate',
-    'uses' => 'UsersController@invalidateSession'
+		'as' => 'user.sessions.invalidate',
+		'uses' => 'UsersController@invalidateSession'
 ]);
 
 Route::post('user/{user}/two-factor/enable', [
-    'as' => 'user.two-factor.enable',
-    'uses' => 'UsersController@enableTwoFactorAuth'
+		'as' => 'user.two-factor.enable',
+		'uses' => 'UsersController@enableTwoFactorAuth'
 ]);
 
 Route::post('user/{user}/two-factor/disable', [
-    'as' => 'user.two-factor.disable',
-    'uses' => 'UsersController@disableTwoFactorAuth'
+		'as' => 'user.two-factor.disable',
+		'uses' => 'UsersController@disableTwoFactorAuth'
 ]);
 
 /**
@@ -210,39 +210,39 @@ Route::post('user/{user}/two-factor/disable', [
  */
 
 Route::get('role', [
-    'as' => 'role.index',
-    'uses' => 'RolesController@index'
+		'as' => 'role.index',
+		'uses' => 'RolesController@index'
 ]);
 
 Route::get('role/create', [
-    'as' => 'role.create',
-    'uses' => 'RolesController@create'
+		'as' => 'role.create',
+		'uses' => 'RolesController@create'
 ]);
 
 Route::post('role/store', [
-    'as' => 'role.store',
-    'uses' => 'RolesController@store'
+		'as' => 'role.store',
+		'uses' => 'RolesController@store'
 ]);
 
 Route::get('role/{role}/edit', [
-    'as' => 'role.edit',
-    'uses' => 'RolesController@edit'
+		'as' => 'role.edit',
+		'uses' => 'RolesController@edit'
 ]);
 
 Route::put('role/{role}/update', [
-    'as' => 'role.update',
-    'uses' => 'RolesController@update'
+		'as' => 'role.update',
+		'uses' => 'RolesController@update'
 ]);
 
 Route::delete('role/{role}/delete', [
-    'as' => 'role.delete',
-    'uses' => 'RolesController@delete'
+		'as' => 'role.delete',
+		'uses' => 'RolesController@delete'
 ]);
 
 
 Route::post('permission/save', [
-    'as' => 'permission.save',
-    'uses' => 'PermissionsController@saveRolePermissions'
+		'as' => 'permission.save',
+		'uses' => 'PermissionsController@saveRolePermissions'
 ]);
 
 Route::resource('permission', 'PermissionsController');
@@ -252,66 +252,66 @@ Route::resource('permission', 'PermissionsController');
  */
 
 Route::get('settings', [
-    'as' => 'settings.general',
-    'uses' => 'SettingsController@general',
-    'middleware' => 'permission:settings.general'
+		'as' => 'settings.general',
+		'uses' => 'SettingsController@general',
+		'middleware' => 'permission:settings.general'
 ]);
 
 Route::post('settings/general', [
-    'as' => 'settings.general.update',
-    'uses' => 'SettingsController@update',
-    'middleware' => 'permission:settings.general'
+		'as' => 'settings.general.update',
+		'uses' => 'SettingsController@update',
+		'middleware' => 'permission:settings.general'
 ]);
 
 Route::get('settings/auth', [
-    'as' => 'settings.auth',
-    'uses' => 'SettingsController@auth',
-    'middleware' => 'permission:settings.auth'
+		'as' => 'settings.auth',
+		'uses' => 'SettingsController@auth',
+		'middleware' => 'permission:settings.auth'
 ]);
 
 Route::post('settings/auth', [
-    'as' => 'settings.auth.update',
-    'uses' => 'SettingsController@update',
-    'middleware' => 'permission:settings.auth'
+		'as' => 'settings.auth.update',
+		'uses' => 'SettingsController@update',
+		'middleware' => 'permission:settings.auth'
 ]);
 
 // Only allow managing 2FA if AUTHY_KEY is defined inside .env file
 if (env('AUTHY_KEY')) {
-    Route::post('settings/auth/2fa/enable', [
-        'as' => 'settings.auth.2fa.enable',
-        'uses' => 'SettingsController@enableTwoFactor',
-        'middleware' => 'permission:settings.auth'
-    ]);
+	Route::post('settings/auth/2fa/enable', [
+			'as' => 'settings.auth.2fa.enable',
+			'uses' => 'SettingsController@enableTwoFactor',
+			'middleware' => 'permission:settings.auth'
+	]);
 
-    Route::post('settings/auth/2fa/disable', [
-        'as' => 'settings.auth.2fa.disable',
-        'uses' => 'SettingsController@disableTwoFactor',
-        'middleware' => 'permission:settings.auth'
-    ]);
+	Route::post('settings/auth/2fa/disable', [
+			'as' => 'settings.auth.2fa.disable',
+			'uses' => 'SettingsController@disableTwoFactor',
+			'middleware' => 'permission:settings.auth'
+	]);
 }
 
 Route::post('settings/auth/registration/captcha/enable', [
-    'as' => 'settings.registration.captcha.enable',
-    'uses' => 'SettingsController@enableCaptcha',
-    'middleware' => 'permission:settings.auth'
+		'as' => 'settings.registration.captcha.enable',
+		'uses' => 'SettingsController@enableCaptcha',
+		'middleware' => 'permission:settings.auth'
 ]);
 
 Route::post('settings/auth/registration/captcha/disable', [
-    'as' => 'settings.registration.captcha.disable',
-    'uses' => 'SettingsController@disableCaptcha',
-    'middleware' => 'permission:settings.auth'
+		'as' => 'settings.registration.captcha.disable',
+		'uses' => 'SettingsController@disableCaptcha',
+		'middleware' => 'permission:settings.auth'
 ]);
 
 Route::get('settings/notifications', [
-    'as' => 'settings.notifications',
-    'uses' => 'SettingsController@notifications',
-    'middleware' => 'permission:settings.notifications'
+		'as' => 'settings.notifications',
+		'uses' => 'SettingsController@notifications',
+		'middleware' => 'permission:settings.notifications'
 ]);
 
 Route::post('settings/notifications', [
-    'as' => 'settings.notifications.update',
-    'uses' => 'SettingsController@update',
-    'middleware' => 'permission:settings.notifications'
+		'as' => 'settings.notifications.update',
+		'uses' => 'SettingsController@update',
+		'middleware' => 'permission:settings.notifications'
 ]);
 
 /**
@@ -319,13 +319,13 @@ Route::post('settings/notifications', [
  */
 
 Route::get('activity', [
-    'as' => 'activity.index',
-    'uses' => 'ActivityController@index'
+		'as' => 'activity.index',
+		'uses' => 'ActivityController@index'
 ]);
 
 Route::get('activity/user/{user}/log', [
-    'as' => 'activity.user',
-    'uses' => 'ActivityController@userActivity'
+		'as' => 'activity.user',
+		'uses' => 'ActivityController@userActivity'
 ]);
 
 /**
@@ -333,48 +333,48 @@ Route::get('activity/user/{user}/log', [
  */
 
 $router->get('install', [
-    'as' => 'install.start',
-    'uses' => 'InstallController@index'
+		'as' => 'install.start',
+		'uses' => 'InstallController@index'
 ]);
 
 $router->get('install/requirements', [
-    'as' => 'install.requirements',
-    'uses' => 'InstallController@requirements'
+		'as' => 'install.requirements',
+		'uses' => 'InstallController@requirements'
 ]);
 
 $router->get('install/permissions', [
-    'as' => 'install.permissions',
-    'uses' => 'InstallController@permissions'
+		'as' => 'install.permissions',
+		'uses' => 'InstallController@permissions'
 ]);
 
 $router->get('install/database', [
-    'as' => 'install.database',
-    'uses' => 'InstallController@databaseInfo'
+		'as' => 'install.database',
+		'uses' => 'InstallController@databaseInfo'
 ]);
 
 $router->get('install/start-installation', [
-    'as' => 'install.installation',
-    'uses' => 'InstallController@installation'
+		'as' => 'install.installation',
+		'uses' => 'InstallController@installation'
 ]);
 
 $router->post('install/start-installation', [
-    'as' => 'install.installation',
-    'uses' => 'InstallController@installation'
+		'as' => 'install.installation',
+		'uses' => 'InstallController@installation'
 ]);
 
 $router->post('install/install-app', [
-    'as' => 'install.install',
-    'uses' => 'InstallController@install'
+		'as' => 'install.install',
+		'uses' => 'InstallController@install'
 ]);
 
 $router->get('install/complete', [
-    'as' => 'install.complete',
-    'uses' => 'InstallController@complete'
+		'as' => 'install.complete',
+		'uses' => 'InstallController@complete'
 ]);
 
 $router->get('install/error', [
-    'as' => 'install.error',
-    'uses' => 'InstallController@error'
+		'as' => 'install.error',
+		'uses' => 'InstallController@error'
 ]);
 
 /**
@@ -401,23 +401,23 @@ Route::get('project/{project}/edit', [
 		'uses' => 'ProjectsController@edit'
 ]);
 
-Route::get('project/download/{filename}', function($filename)
-{
-	// Check if file exists in app/storage/file folder
-	$file_path = public_path() .'/upload/'. $filename;
-	if (file_exists($file_path))
-	{
-		// Send Download
-		return Response::download($file_path, $filename, [
-				'Content-Length: '. filesize($file_path)
-		]);
-	}
-	else
-	{
-		// Error
-		exit('Requested file does not exist on our server!');
-	}
-});
+// Route::get('project/download/{filename}', function($filename)
+// {
+// 	// Check if file exists in app/storage/file folder
+// 	$file_path = public_path() .'/upload/'. $filename;
+// 	if (file_exists($file_path))
+// 	{
+// 		// Send Download
+// 		return Response::download($file_path, $filename, [
+// 				'Content-Length: '. filesize($file_path)
+// 		]);
+// 	}
+// 	else
+// 	{
+// 		// Error
+// 		exit('Requested file does not exist on our server!');
+// 	}
+// });
 
 Route::put('project/{project}/update', [
 		'as' => 'project.update',
@@ -630,23 +630,17 @@ Route::put('dataCapture/{companyId}/addCompany', [
 		'as' => 'dataCapture.addCompany',
 		'uses' => 'DataCaptureController@addCompany'
 ]);
-
-Route::get('dataCapture/{countryId}/getcountryCode',[
+Route::get('dataCapture/getcountryCode',[
 		'as'=>'dataCapture.getcountryCode',
 		'uses'=>'DataCaptureController@getcountryCode'
 ]);
 
-Route::get('dataCapture/{companyId}/childCompanyRecord',[
-		'as'=>'dataCapture.childCompanyRecord',
-		'uses'=>'DataCaptureController@childCompanyRecord'
+Route::get('dataCapture/{company}/getChildren',[
+		'as' => 'dataCapture.getChildren',
+		'uses' => 'DataCaptureController@getChildren'
 ]);
 
-Route::get('dataCapture/{companyId}/getSpecificChild',[
-		'as'=>'dataCapture.getSpecificChild',
-		'uses'=>'DataCaptureController@getSpecificChild'
-]);
-
-Route::put('dataCapture/{company}/updateChildCompany',[
-		'as'=>'dataCapture.updateChildCompany',
-		'uses'=>'DataCaptureController@updateChildCompany'
+Route::get('dataCapture/{company}/currentCompany', [
+		'as' => 'dataCapture.currentCompany',
+		'uses' => 'DataCaptureController@currentCompany'
 ]);

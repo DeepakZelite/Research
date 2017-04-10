@@ -430,10 +430,10 @@ return [
 		'company_updated' => 'Company has been updated successfully',
 		'search_for_companys' => "Search for companies",
 		'add_contact' => "Add Staff",
-		'add_child_company'=>'Add Child Company',
+		'add_child_company'=>'Add subsidiary',
 		'duplicate_check'=>'Duplicate Check',
 		'staff_disposition'=>'Staff Disposition',
-		'add_child_company_details_big'=>'Add Child Company Details',
+		'add_child_company_details_big'=>'Add subsidiary Details',
 		'updated_company_name'=>'New Company Name',
 		
 		// Companies
@@ -528,6 +528,7 @@ return [
 		'Added_Child_Company'=>'Added Child Company.',
 		'child_company_list'=>'Child Company Lists',
 		'child_company_lists'=>'Child Company Lists',
+		'child_company_list_big' => 'Subsidiaries',
 		
 		'months' => [
         'January' => 'January',

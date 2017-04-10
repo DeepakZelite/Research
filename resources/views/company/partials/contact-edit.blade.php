@@ -198,7 +198,7 @@
 				<div class="row">
 					<div class="col-md-9"></div>
 					<div class="col-md-1">
-						<button type="submit" id="btnSave" class="btn btn-primary">
+						<button type="submit" id="btnContactSave" class="btn btn-primary">
 							<i class="fa fa-save"></i> {{ $editContact ? trans('app.save') :
 							trans('app.save') }}
 						</button>
@@ -213,7 +213,7 @@
 <script>
 $('#first_name').focus();
 
-	$("#staff-form").click(function(event)
+	$("#btnContactSave").click(function(event)
 	{
 		if ($('#first_name').val() == '') {
 		    $('#first_name').css('border-color', 'red');

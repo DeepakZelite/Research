@@ -1,71 +1,69 @@
-@extends('layouts.app') 
+@extends('layouts.app') @section('page-title', trans('app.companys'))
 
-@section('page-title', trans('app.companys'))
-
-@section('content') 
-
-@include('partials.messages') 
+@section('content') @include('partials.messages')
 
 <br />
 
 <!-- ----------------Company-edit-details start-------------- -->
-@if($editCompany && $editChild)
-	 {!! Form::open(['route' => ['dataCapture.updateChildCompany', $company->id], 'method' => 'PUT', 'id' => 'company-form']) !!}  
-@elseif ($editCompany) 
-	{!! Form::open(['route' => ['dataCapture.updateCompany', $company->id], 'method' => 'PUT', 'id' => 'company-form']) !!} 
-@else 
-	{!! Form::open(['route' => ['dataCapture.storeCompany', $company->id], 'id' => 'company-form']) !!} 
+@if ($editCompany) {!! Form::open(['route' =>
+['dataCapture.updateCompany', $company->id], 'method' => 'PUT', 'id' =>'company-form']) !!} 
+@else {!! Form::open(['route' =>['dataCapture.storeCompany', $company->id], 'id' => 'company-form']) !!}
 @endif
 <div class="row">
 	<!--First Section-->
 	<div class="col-lg-12 col-md-12 col-sm-6">
 		<div class="panel panel-default">
-			<div class="panel-heading" id='pan_head'>@lang('app.company_details_big')
-			<div class="pull-right" style="margin-top: -7px;">
-				<!-- <button type="button" class="btn btn-default">
-      			<span class="glyphicon glyphicon-download"></span> Task Brief
-    			</button> -->
-    			<a href="{{ URL::to('project/download',$projects->brief_file) }}" class="btn btn-default" id="task_brief"> <i
-				class="glyphicon glyphicon-download"></i> @lang('app.task_brief')
-				</a>
+			<div class="panel-heading" id='pan_head'>
+				@lang('app.company_details_big')
+				<div class="pull-right" style="margin-top: -7px;">
+					<a href="{{ URL::to('project/download',$projects->brief_file) }}"
+						class="btn btn-default" id="task_brief"> <i
+						class="glyphicon glyphicon-download"></i> @lang('app.task_brief')
+					</a>
+				</div>
+				<div class="pull-right" style="margin-top: -7px; margin-right: 2px;">
+					<button type="button" class="btn btn-default" id="add_child_record"
+						data-toggle="modal" data-target="#newCompanyModal">
+						<span class="glyphicon glyphicon-plus"></span>
+						@lang('app.add_child_company')
+					</button>
+				</div>
+				<div class="pull-right" style="margin-top: -7px; margin-right: 2px;">
+					<button type="button" class="btn btn-default" data-toggle="modal"
+						data-target="#childrenModal"
+						onclick="getChildren({{ $company->id }});">
+						<span class="glyphicon glyphicon-search"></span> Check
+					</button>
+				</div>
 			</div>
-			<div class="pull-right" style="margin-top: -7px; margin-right:2px;">
-				<button type="button" class="btn btn-default" id="add_child_record" data-toggle="modal"
-				data-target="#newCompanyModal">
-      			<span class="glyphicon glyphicon-plus"></span> @lang('app.add_child_company')
-    			</button>
-			</div>
-			<div class="pull-right" style="margin-top: -7px;margin-right:2px;">
-				<button type="button" class="btn btn-default">
-      			<span class="glyphicon glyphicon-search"></span> Check
-    			</button>
-			</div>
-			</div>
-			 
+
+
 			<div class="panel-body">
 				<div class="form-group col-lg-2">
 					<label for="name">@lang('app.company_instructions')</label> <input
-						type="text" class="form-control" id="company_instructions" readonly="readonly"
-						name="company_instructions"	placeholder="@lang('app.company_instructions')"
+						type="text" class="form-control" id="company_instructions"
+						readonly="readonly" name="company_instructions"
+						placeholder="@lang('app.company_instructions')"
 						value="{{ $editCompany ? $company->company_instructions : old('company_instructions') }}">
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="name">@lang('app.parent_company')</label> <input
 						type="text" class="form-control" id="parent_company"
-						name="parent_company" placeholder="" readonly						
+						name="parent_company" placeholder="" readonly
 						value="{{ $editCompany ? $company->parent_company : old('parent_company') }}">
 				</div>
 				<div class="form-group col-lg-2">
-					<label for="company_name">@lang('app.company_name')</label>@if($childRecord)<a href="#" id="childCompanylist" data-target="#childCompanies"  data-toggle="modal" title="@lang('app.child_company_list')" data-placement="top" >
-					 <i class="glyphicon glyphicon-list-alt" ></i> </a>@endif
-					<input type="text" class="form-control" id="company_name" name="company_name"
-						placeholder="@lang('app.company_name')" readonly="readonly"
+					<label for="company_name">@lang('app.company_name')</label> <input
+						type="text" class="form-control" id="company_name"
+						name="company_name" placeholder="@lang('app.company_name')"
+						readonly="readonly"
 						value="{{ $editCompany ? $company->company_name : old('company_name') }}">
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="updated_company_name">@lang('app.updated_company_name')<i
 						style="color: red;">*</i></label> <input type="text"
-						class="form-control" id="updated_company_name" name="updated_company_name"
+						class="form-control" id="updated_company_name"
+						name="updated_company_name"
 						placeholder="@lang('app.company_name')"
 						value="{{ $editCompany ? $company->updated_company_name : old('updated_company_name') }}">
 				</div>
@@ -93,28 +91,32 @@
 						placeholder="@lang('app.state')" required
 						value="{{ $editCompany ? $company->state : old('state') }}">
 				</div>
-				
+
 				<div class="form-group col-lg-2">
 					<label for="zipcode">@lang('app.zipcode')<i style="color: red;">*</i></label>
-					<input type="text" class="form-control" id="zipcode" name="zipcode" required
-						placeholder="@lang('app.zipcode')"  onkeypress="return isNumberKey(event)" maxlength="6"
+					<input type="text" class="form-control" id="zipcode" name="zipcode"
+						required placeholder="@lang('app.zipcode')"
+						onkeypress="return isNumberKey(event)" maxlength="6"
 						value="{{ $editCompany ? $company->zipcode : old('zipcode') }}">
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="address">@lang('app.country')<i style="color: red;">*</i></label>
-					{!! Form::select('country', $countries,$editCompany ? $company->country:'840', ['class' =>
+					{!! Form::select('country', $countries,'840', ['class' =>
 					'form-control','id'=>'country']) !!}
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="name">@lang('app.switchboardnumber')</label>
 					<div class="row">
 						<div class="col-md-5">
-							<input type="text" id="isd_code" name="isd_code" class="form-control" value="{{ $editCompany ? $company->isd_code : old('isd_code') }}">
+							<input type="text" id="isd_code" name="isd_code"
+								class="form-control"
+								value="{{ $editCompany ? $company->isd_code : old('isd_code') }}">
 						</div>
 						<div class="col-md-7">
-							<input type="text" class="form-control" id="switchboardnumber" 
-								name="switchboardnumber" maxlength="10" onkeypress="return isNumberKey(event)"
-								placeholder="@lang('app.switchboardnumber')" 
+							<input type="text" class="form-control" id="switchboardnumber"
+								name="switchboardnumber" maxlength="10"
+								onkeypress="return isNumberKey(event)"
+								placeholder="@lang('app.switchboardnumber')"
 								value="{{ $editCompany ? $company->switchboardnumber : old('switchboardnumber') }}">
 						</div>
 					</div>
@@ -133,56 +135,66 @@
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="branchNumber">@lang('app.branchNumber')</label> <input
-						type="text" class="form-control" id="branchNumber" maxlength="10"
-						name="branchNumber" placeholder="@lang('app.branchNumber')" onkeypress="return isNumberKey(event)"
+						type="text" class="form-control" id="branchNumber" maxlength="5"
+						name="branchNumber" placeholder="@lang('app.branchNumber')"
+						onkeypress="return isNumberKey(event)"
 						value="{{ $editCompany ? $company->branchNumber : old('branchNumber') }}">
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="addresscode">@lang('app.addresscode')</label> <input
-						type="text" class="form-control" id="addresscode" 
-						name="addresscode" placeholder="@lang('app.addresscode')" maxlength="20"
+						type="text" class="form-control" id="addresscode"
+						name="addresscode" placeholder="@lang('app.addresscode')"
+						maxlength="20"
 						value="{{ $editCompany ? $company->addresscode : old('addresscode') }}">
 				</div>
 				<div class="form-group col-lg-2">
-					<label for="employee_size">@lang('app.employee_size')</label>
-					{!! Form::select('employee_size', $codes,$editCompany ? $company->employee_size:'', ['class' =>'form-control','id'=>'employee_size']) !!}
-					<!--  <input type="text" class="form-control" id="employee_size" name="employee_size" placeholder="@lang('app.employee_size')"
-						value="{{ $editCompany ? $company->employee_size : old('employee_size') }}">  -->
+					<label for="employee_size">@lang('app.employee_size')</label> {!!
+					Form::select('employee_size', $codes,'', ['class'
+					=>'form-control','id'=>'employee_size']) !!}
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="industry_classfication">@lang('app.industry_classfication')</label>
-					 {!! Form::select('industry_classfication', $codes1, $editCompany ? $company->industry_classfication:'', ['class' =>'form-control','id'=>'industry_classfication']) !!}
-					<!-- <input type="text" class="form-control" id="industry_classfication" name="industry_classfication"
-						placeholder="@lang('app.industry_classfication')" value="{{ $editCompany ? $company->industry_classfication : old('industry_classfication') }}"> -->
+					{!! Form::select('industry_classfication', $codes1,'', ['class'
+					=>'form-control','id'=>'industry_classfication']) !!}
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="physician_size">@lang('app.physician_size')</label> <input
-						type="text" class="form-control" id="physician_size" onkeypress="return isNumberKey(event)"
-						name="physician_size" placeholder="@lang('app.physician_size')" maxlength="5"
+						type="text" class="form-control" id="physician_size"
+						onkeypress="return isNumberKey(event)" name="physician_size"
+						placeholder="@lang('app.physician_size')" maxlength="5"
 						value="{{ $editCompany ? $company->physician_size : old('physician_size') }}">
 				</div>
 			</div>
+
+
+
+
 		</div>
 	</div>
+
+
 </div>
 
 <div class="row">
 	<!-- <div class="col-md-9"></div> -->
 	<div class=" pull-right">
-		<button type="button" id="add_contact" class="btn btn-primary" data-toggle="modal"
-			data-target="#myModal" onclick="addContact({{ $company->id }})">
-			<i class="glyphicon glyphicon-plus"></i> {{
-			trans('app.add_contact') }}
+		<button type="button" id="add_contact" class="btn btn-primary"
+			data-toggle="modal" data-target="#myModal"
+			onclick="addContact({{ $company->id }})">
+			<i class="glyphicon glyphicon-plus"></i> {{ trans('app.add_contact')
+			}}
 		</button>
-		<button type="button" id="additionalinfo" class="btn btn-primary" data-toggle="modal"
-			data-target="#myModal1">
-			<i class="glyphicon glyphicon-minus"></i> {{trans('app.additional-info') }}
+		<button type="button" id="additionalinfo" class="btn btn-primary"
+			data-toggle="modal" data-target="#myModal1">
+			<i class="glyphicon glyphicon-minus"></i> {{
+			trans('app.additional-info') }}
 		</button>
-		<button type="submit" id="btnSave" class="btn btn-primary" >
+		<button type="submit" id="btnSave" class="btn btn-primary">
 			<i class="fa fa-save"></i> {{ $editCompany ? trans('app.save') :
 			trans('app.save') }}
 		</button>
 	</div>
+
 </div>
 
 
@@ -207,7 +219,7 @@
 								<div class="form-group col-lg-6">
 									<label for="foundation_year">@lang('app.foundation_year')</label>
 									<input type="text" class="form-control" id="foundation_year"
-										name="foundation_year" maxlength="4"  onkeypress="return isNumberKey(event)"
+										name="foundation_year"
 										placeholder="@lang('app.foundation_year')"
 										value="{{ $editCompany ? $company->foundation_year : old('foundation_year') }}">
 								</div>
@@ -235,14 +247,14 @@
 								<div class="form-group col-lg-6">
 									<label for="additional_info4">@lang('app.additional_info4')</label>
 									<input type="text" class="form-control" id="additional_info4"
-										name="additional_info4" 
+										name="additional_info4"
 										placeholder="@lang('app.additional_info4')"
 										value="{{ $editCompany ? $company->additional_info4 : old('additional_info4') }}">
 								</div>
 								<div class="form-group col-lg-6">
 									<label for="annual_revenue">@lang('app.annual_revenue')</label>
 									<input type="text" class="form-control" id="annual_revenue"
-										name="annual_revenue"  
+										name="annual_revenue"
 										placeholder="@lang('app.annual_revenue')"
 										value="{{ $editCompany ? $company->annual_revenue : old('annual_revenue') }}">
 								</div>
@@ -257,8 +269,8 @@
 								<div class="form-group col-lg-6">
 									<label for="number_of_beds">@lang('app.number_of_beds')</label>
 									<input type="text" class="form-control" id="number_of_beds"
-										name="number_of_beds" onkeypress="return isNumberKey(event)"
-										placeholder="@lang('app.number_of_beds')" maxlength="3"
+										name="number_of_beds"
+										placeholder="@lang('app.number_of_beds')"
 										value="{{ $editCompany ? $company->number_of_beds : old('number_of_beds') }}">
 								</div>
 							</div>
@@ -290,7 +302,8 @@
 
 <!-- ----------------Company-edit-details end-------------- -->
 
-<hr style="width: 100%; color: black; height: 1px; background-color: black;" />
+<hr
+	style="width: 100%; color: black; height: 1px; background-color: black;" />
 
 <br />
 @if($editCompany)
@@ -305,22 +318,20 @@
 				<th>@lang('app.action')</th>
 			</thead>
 			<tbody>
-				@if (count($contacts)) 
-				@foreach ($contacts as $contact)
+				@if (count($contacts)) @foreach ($contacts as $contact)
 				<tr>
 					<td>{{ $contact->first_name }}</td>
 					<td>{{ $contact->last_name }}</td>
 					<td>{{ $contact->staff_email}}</td>
 					<td>{{ $contact->job_title }}</td>
-					<td class="text-left"><a href="#" 
-						class="btn btn-primary btn-circle" data-toggle="modal" 
-						data-target="#myModal" title="@lang('app.edit_contact')" onclick="editContact({{ $contact->id }});"
-						data-toggle="tooltip" data-placement="top"> <i
-							class="glyphicon glyphicon-edit"></i>
+					<td class="text-left"><a href="#"
+						class="btn btn-primary btn-circle" data-toggle="modal"
+						data-target="#myModal" title="@lang('app.edit_contact')"
+						onclick="editContact({{ $contact->id }});" data-toggle="tooltip"
+						data-placement="top"> <i class="glyphicon glyphicon-edit"></i>
 					</a></td>
 				</tr>
-				@endforeach 
-				@else
+				@endforeach @else
 				<tr>
 					<td colspan="6"><em>@lang('app.no_records_found')</em></td>
 				</tr>
@@ -334,11 +345,11 @@
 @endif
 
 <div class="row">
-	<!-- <div class="col-md-11"></div>  -->
-	
-	<div class="pull-right">
+	<div class="col-md-11"></div>
+
+	<div class="col-md-1">
 		<a href="{{ route('dataCapture.submitCompany', $company->id) }}"
-			class="btn btn-primary btn-block pull-right">@if($editChild) Submit Child Company @else Submit @endif</a>
+			class="btn btn-primary btn-block pull-right">Submit</a>
 	</div>
 </div>
 
@@ -360,78 +371,79 @@
 		<!-- Modal content-->
 		<div class="modal-content">
 			<div id="editContact" class="modal-body">
-			<!-- --------------contact-edit-start----------------- -->
-			<!-- --------------contact-edit-start----------------- -->
+				<!-- --------------contact-edit-start----------------- -->
+				<!-- --------------contact-edit-start----------------- -->
 			</div>
 		</div>
 
 	</div>
 </div>
 
- <div id="newCompanyModal" class="modal fade" role="dialog">
-	<div class="modal-dialog">
+<!-- --------------------Child company list start----------------------- -->
 
+<div id="childrenModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="row">
+			<div class="modal-content">
+				<div id="children" class="modal-body">Loading.....</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- --------------------Child compaby list end -->
+
+<div id="newCompanyModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
 		<!-- Modal content-->
 		<div class="modal-content">
 			<div id="newCompany" class="modal-body">
-			
-<div class="row">
-	<!--First Section-->
-	<div class="col-lg-12 col-md-8 col-sm-6">
-		<div class="panel panel-default">
-			<div class="panel-heading">@lang('app.add_child_company_details_big')</div>
-
-			<div class="panel-body">
-			{!! Form::open(['route' => ['dataCapture.addCompany', $company->id], 'method' => 'PUT', 'id' => 'add-company-form']) !!} 
-			<div class="row">
-				<div class="form-group col-lg-12">
-					<label for="new_company_name">@lang('app.company_name')<i
-						style="color: red;">*</i></label> <input type="text"
-						class="form-control" id="new_company_name" name="new_company_name"
-						placeholder="@lang('app.company_name')"
-						value="">
-				</div>
-				</div>
 				<div class="row">
-					<div class="col-md-8"></div>
-					<div class="col-md-2">
-						<button type="submit" class="btn btn-primary">
-							<i class="fa fa-save"></i> {{ trans('app.save') }}
-						</button>
-					</div>
-					<div class="col-md-2">
-						<button type="button" class="btn btn-default" data-dismiss="modal">
-							<i class=""></i> {{ trans('app.cancel') }}
-						</button>
+					<!--First Section-->
+					<div class="col-lg-12 col-md-8 col-sm-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">@lang('app.add_child_company_details_big')</div>
+							<div class="panel-body">
+								{!! Form::open(['route' => ['dataCapture.addCompany',
+								$company->id], 'method' => 'PUT', 'id' => 'add-company-form'])
+								!!}
+								<div class="row">
+									<div class="form-group col-lg-12">
+										<label for="new_company_name">@lang('app.company_name')<i
+											style="color: red;">*</i></label> <input type="text"
+											class="form-control" id="new_company_name"
+											name="new_company_name"
+											placeholder="@lang('app.company_name')" value="">
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8"></div>
+									<div class="col-md-2">
+										<button type="submit" class="btn btn-primary">
+											<i class="fa fa-save"></i> {{ trans('app.save') }}
+										</button>
+									</div>
+									<div class="col-md-2">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">
+											<i class=""></i> {{ trans('app.cancel') }}
+										</button>
+									</div>
+								</div>
+
+								{{ Form::close() }}
+
+							</div>
+						</div>
 					</div>
 				</div>
-				{{ Form::close() }}
- 				
-			</div>
 			</div>
 		</div>
 	</div>
 </div>
-</div>
-</div>
-</div>
-<!-- --------------------------------------------------------------------------------------------------------------- -->
-<div id="childCompanies" class="modal fade" role="dialog">
-	<div class="modal-dialog">
-
-		<!-- Modal content-->
-		<div class="modal-content">
-			<div id="childCompany" class="modal-body">
-			
-</div>
-</div>
-</div>
-</div>
 <!-- --------------------------------------------------------------------------------------------------------------- -->
 
-@stop 
-
-@section('scripts')
+@stop @section('scripts')
 <script>
 hideMenu();
 function hideMenu() {
@@ -448,13 +460,15 @@ $("#country").change(function() {
 		$("#isd_code").val(data);
  });
 });
+
+
 $(document).ready(function() {
 	$('#updated_company_name').focus();
-	$("#company-form").click(function(event)
+	$("#btnSave").click(function(event)
 	{
-		$('#pan_head').click(function(e) {
-		    e.stopPropagation();
-		});
+// 		$('#pan_head').click(function(e) {
+// 		    e.stopPropagation();
+// 		});
 		if ($('#updated_company_name').val() == '') {
 		    $('#updated_company_name').css('border-color', 'red');
 		    //$('#address1').focus();
@@ -518,6 +532,8 @@ $(document).ready(function() {
 		});
 		return true;
 	});
+
+		
 });
 
 
@@ -530,19 +546,32 @@ function isNumberKey(evt)
 }
 $('#myModal').on('shown.bs.modal', function() {
 	$('#first_name').focus();
+
 });
 
 function editContact(id) {
     $.ajax({
         method: "GET",
         //url: "{{route('dataCapture.getContact',$company->id)}}",
-        url: "http://localhost:88/Research/public/dataCapture/" + id + "/getContact",
+        url: "http://localhost:88/vguard/public/dataCapture/" + id + "/getContact",
         success: function(data){
             $data = $(data); 
             $('#editContact').fadeOut().html($data).fadeIn();
             }
     })	
 }
+
+function getChildren(id) {
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:88/vguard/public/dataCapture/" + id + "/getChildren",
+        success: function(data){
+            $data = $(data); 
+            $('#children').html($data).fadeIn();
+            }
+    })	
+}
+
 
 function addContact(companyId) {
     $.ajax({
@@ -561,38 +590,27 @@ $('#myModal').on('shown.bs.modal', function() {
 	
 
   $('#add_child_record').click(function(){
-	
+// 	  $.ajax({
+// 	        method: "GET",
+// 	        url: "http://localhost:88/Research/public/dataCapture/32/childCompanyRecord",
+// 	        success: function(data){
+// 	        	$data = $(data); 
+// 	            $('#newCompany').fadeOut().html($data).fadeIn();
+// 	        }
+// 	    })
 	});
 
-  $('#childCompanylist').click(function(){
-	  $.ajax({
-	        method: "GET",
-	        url: "{{ route('dataCapture.childCompanyRecord', $company->id) }}",
-	        //url: "http://localhost:88/Research/public/dataCapture/32/childCompanyRecord",
-	        success: function(data){
-	        	$data = $(data); 
-	            $('#childCompany').fadeOut().html($data).fadeIn();
-	        }
-	    })
-	  });
 
 </script>
-    @if ($editContact)
-        {!! JsValidator::formRequest('Vanguard\Http\Requests\Contact\UpdateContactRequest', '#staff-form') !!}
-    @else
-        {!! JsValidator::formRequest('Vanguard\Http\Requests\Contact\CreateContactRequest', '#staff-form') !!}
-    @endif
-
-@if ($editCompany) 
-	{!! JsValidator::formRequest('Vanguard\Http\Requests\Company\UpdateCompanyRequest', '#company-form') !!} 
-@else 
-	{!! JsValidator::formRequest('Vanguard\Http\Requests\Company\CreateCompanyRequest', '#company-form') !!} 
-@endif
-    
-@stop
-
-@section('scripts')
-{!! HTML::script('assets/js/moment.min.js') !!} 
-{!! HTML::script('assets/js/bootstrap-datetimepicker.min.js') !!}
-{!! HTML::script('assets/js/as/profile.js') !!} 
-@stop
+@if ($editContact) {!!
+JsValidator::formRequest('Vanguard\Http\Requests\Contact\UpdateContactRequest',
+'#staff-form') !!} @else {!!
+JsValidator::formRequest('Vanguard\Http\Requests\Contact\CreateContactRequest',
+'#staff-form') !!} @endif @if ($editCompany) {!!
+JsValidator::formRequest('Vanguard\Http\Requests\Company\UpdateCompanyRequest',
+'#company-form') !!} @else {!!
+JsValidator::formRequest('Vanguard\Http\Requests\Company\CreateCompanyRequest',
+'#company-form') !!} @endif @stop @section('scripts') {!!
+HTML::script('assets/js/moment.min.js') !!} {!!
+HTML::script('assets/js/bootstrap-datetimepicker.min.js') !!} {!!
+HTML::script('assets/js/as/profile.js') !!} @stop
