@@ -401,23 +401,23 @@ Route::get('project/{project}/edit', [
 		'uses' => 'ProjectsController@edit'
 ]);
 
-// Route::get('project/download/{filename}', function($filename)
-// {
-// 	// Check if file exists in app/storage/file folder
-// 	$file_path = public_path() .'/upload/'. $filename;
-// 	if (file_exists($file_path))
-// 	{
-// 		// Send Download
-// 		return Response::download($file_path, $filename, [
-// 				'Content-Length: '. filesize($file_path)
-// 		]);
-// 	}
-// 	else
-// 	{
-// 		// Error
-// 		exit('Requested file does not exist on our server!');
-// 	}
-// });
+ Route::get('project/download/{filename}', function($filename)
+ {
+ 	// Check if file exists in app/storage/file folder
+ 	$file_path = public_path() .'/upload/'. $filename;
+ 	if (file_exists($file_path))
+ 	{
+ 		// Send Download
+ 		return Response::download($file_path, $filename, [
+ 				'Content-Length: '. filesize($file_path)
+ 		]);
+ 	}
+ 	else
+ 	{
+ 		// Error
+ 		exit('Requested file does not exist on our server!');
+ 	}
+ });
 
 Route::put('project/{project}/update', [
 		'as' => 'project.update',
@@ -630,7 +630,7 @@ Route::put('dataCapture/{companyId}/addCompany', [
 		'as' => 'dataCapture.addCompany',
 		'uses' => 'DataCaptureController@addCompany'
 ]);
-Route::get('dataCapture/getcountryCode',[
+Route::get('dataCapture/{countryId}/getcountryCode',[
 		'as'=>'dataCapture.getcountryCode',
 		'uses'=>'DataCaptureController@getcountryCode'
 ]);

@@ -56,15 +56,15 @@
 </div>
 
 <div class="table-responsive top-border-table" id="users-table-wrapper">
-    <table class="table">
+    <table class="table" id="usertable">
         <thead>
             <th>@lang('app.username')</th>
             <th>@lang('app.full_name')</th>
             <th>@lang('app.vendor_code')</th>
           <!--  <th>@lang('app.email')</th>
              <th>@lang('app.registration_date')</th> -->
-            <th>@lang('app.status')</th>
-            <th class="text-center">@lang('app.action')</th>
+            <th class="nosort">@lang('app.status')</th>
+            <th class="text-center nosort">@lang('app.action')</th>
         </thead>
         <tbody>
             @if (count($users))
@@ -127,5 +127,19 @@
         $("#vendor_code").change(function(){
             $("#users-form").submit();
         });
+        $(document).ready(function() {
+            //$('#example').DataTable();
+            $('#usertable').dataTable( {
+                "bPaginate": false,
+                "bFilter": false,
+                "bInfo": false,
+                aoColumnDefs: [
+              	  {
+              	     bSortable: false,
+              	     aTargets: [ 'nosort' ]
+              	  }
+              	]
+          } );
+        } );
     </script>
 @stop
