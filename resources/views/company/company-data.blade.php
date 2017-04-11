@@ -5,8 +5,7 @@
 <br />
 
 <!-- ----------------Company-edit-details start-------------- -->
-@if ($editCompany) {!! Form::open(['route' =>
-['dataCapture.updateCompany', $company->id], 'method' => 'PUT', 'id' =>'company-form']) !!} 
+@if ($editCompany) {!! Form::open(['route' =>['dataCapture.updateCompany', $company->id], 'method' => 'PUT', 'id' =>'company-form']) !!} 
 @else {!! Form::open(['route' =>['dataCapture.storeCompany', $company->id], 'id' => 'company-form']) !!}
 @endif
 <div class="row">
@@ -30,7 +29,7 @@
 				</div>
 				<div class="pull-right" style="margin-top: -7px; margin-right: 2px;">
 					<button type="button" class="btn btn-default" data-toggle="modal"
-						data-target="#childrenModal"
+						data-target="#childrenModal" id="btn_check"
 						onclick="getChildren({{ $company->id }});">
 						<span class="glyphicon glyphicon-search"></span> Check
 					</button>
@@ -102,9 +101,7 @@
 				<div class="form-group col-lg-2">
 					<label for="address">@lang('app.country')<i style="color: red;">*</i></label>
 					@if($company->country !='')
-					{!! Form::select('country', $countries,$editCompany ? $company->country:old('840'), ['class' =>
-				<!--	{!! Form::select('country', $countries,'840', ['class' => -->
-					'form-control','id'=>'country']) !!}
+					{!! Form::select('country', $countries,$editCompany ? $company->country:old(''), ['class' =>'form-control','id'=>'country']) !!}
 					@else
 					{!! Form::select('country', $countries,'840', ['class' =>
 					'form-control','id'=>'country']) !!}
@@ -114,11 +111,10 @@
 					<label for="name">@lang('app.switchboardnumber')</label>
 					<div class="row">
 						<div class="col-md-5">
-
-				<!--	<input type="text" id="isd_code" name="isd_code" class="form-control" @if($company->country !='') value="{{ $editCompany ? $company->isd_code : old('isd_code') }}" @else value="1" @endif>-->
-							<input type="text" id="isd_code" name="isd_code"
+							<input type="text" id="isd_code" name="isd_code" class="form-control" @if($company->country !='') value="{{ $editCompany ? $company->isd_code : old('isd_code') }}" @else value="1" @endif>
+							<!-- <input type="text" id="isd_code" name="isd_code"
 								class="form-control"
-								value="{{ $editCompany ? $company->isd_code : old('isd_code') }}">
+								value="{{ $editCompany ? $company->isd_code : old('isd_code') }}"> -->
 
 						</div>
 						<div class="col-md-7">
@@ -144,7 +140,7 @@
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="branchNumber">@lang('app.branchNumber')</label> <input
-						type="text" class="form-control" id="branchNumber" maxlength="5"
+						type="text" class="form-control" id="branchNumber" maxlength="10"
 						name="branchNumber" placeholder="@lang('app.branchNumber')"
 						onkeypress="return isNumberKey(event)"
 						value="{{ $editCompany ? $company->branchNumber : old('branchNumber') }}">
@@ -153,18 +149,17 @@
 					<label for="addresscode">@lang('app.addresscode')</label> <input
 						type="text" class="form-control" id="addresscode"
 						name="addresscode" placeholder="@lang('app.addresscode')"
-						maxlength="20"
+						maxlength="20"  
 						value="{{ $editCompany ? $company->addresscode : old('addresscode') }}">
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="employee_size">@lang('app.employee_size')</label> {!!
-					Form::select('employee_size', $codes,'', ['class'
+					Form::select('employee_size', $codes,$editCompany ? $company->employee_size : old('employee_size'), ['class'
 					=>'form-control','id'=>'employee_size']) !!}
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="industry_classfication">@lang('app.industry_classfication')</label>
-					{!! Form::select('industry_classfication', $codes1,'', ['class'
-					=>'form-control','id'=>'industry_classfication']) !!}
+					{!! Form::select('industry_classfication', $codes1, $editCompany ? $company->industry_classfication : old('industry_classfication'), ['class'=>'form-control','id'=>'industry_classfication']) !!}
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="physician_size">@lang('app.physician_size')</label> <input
@@ -174,9 +169,6 @@
 						value="{{ $editCompany ? $company->physician_size : old('physician_size') }}">
 				</div>
 			</div>
-
-
-
 
 		</div>
 	</div>
@@ -228,8 +220,8 @@
 								<div class="form-group col-lg-6">
 									<label for="foundation_year">@lang('app.foundation_year')</label>
 									<input type="text" class="form-control" id="foundation_year"
-										name="foundation_year"
-										placeholder="@lang('app.foundation_year')"
+										name="foundation_year" onkeypress="return isNumberKey(event)"
+										placeholder="@lang('app.foundation_year')" maxlength="4"
 										value="{{ $editCompany ? $company->foundation_year : old('foundation_year') }}">
 								</div>
 								<div class="form-group col-lg-6">
@@ -278,8 +270,8 @@
 								<div class="form-group col-lg-6">
 									<label for="number_of_beds">@lang('app.number_of_beds')</label>
 									<input type="text" class="form-control" id="number_of_beds"
-										name="number_of_beds"
-										placeholder="@lang('app.number_of_beds')"
+										name="number_of_beds" onkeypress="return isNumberKey(event)"
+										placeholder="@lang('app.number_of_beds')" maxlength="5"
 										value="{{ $editCompany ? $company->number_of_beds : old('number_of_beds') }}">
 								</div>
 							</div>
@@ -355,11 +347,11 @@
 
 <div class="row">
 	<div class="col-md-11"></div>
-
+	<!--<div class="col-md-1"><a href="{{route('dataCapture.capture', $company->sub_batch_id)}}" id="child_cancel" class="btn btn-primary pull-right">Cancel</a></div> -->	
 	<div class="col-md-1">
 		<a href="{{ route('dataCapture.submitCompany', $company->id) }}"
-			class="btn btn-primary btn-block pull-right">Submit</a>
-	</div>
+			class="btn btn-primary btn-block pull-right">Submit</a> 	
+	</div>	
 </div>
 
 
@@ -428,7 +420,7 @@
 								<div class="row">
 									<div class="col-md-8"></div>
 									<div class="col-md-2">
-										<button type="submit" class="btn btn-primary">
+										<button type="submit" class="btn btn-primary" id="btnSave1">
 											<i class="fa fa-save"></i> {{ trans('app.save') }}
 										</button>
 									</div>
@@ -439,7 +431,6 @@
 										</button>
 									</div>
 								</div>
-
 								{{ Form::close() }}
 
 							</div>
@@ -462,7 +453,7 @@ $("#country").change(function() {
 	 var batchId = $( this ).val();
  $.ajax({
      method: "GET",
-     url: "http://192.168.1.108:88/Research/public/dataCapture/" + batchId + "/getcountryCode",
+     url: "http://localhost:88/Research/public/dataCapture/" + batchId + "/getcountryCode",
      data:{}
  })
  .done(function(data) {
@@ -472,6 +463,28 @@ $("#country").change(function() {
 
 
 $(document).ready(function() {
+
+	if($('#parent_company').val()!='')
+	{
+		$('#add_child_record').attr("disabled", "disabled");
+		$('#btn_check').attr("disabled", "disabled");
+		//$('#add_child_record').css("visibility", "hidden");
+		//$('#btn_check').css("visibility", "hidden");
+	}
+
+	$("#btnSave1").click(function(event)
+	{
+		if ($('#new_company_name').val() == '') {
+			$('#new_company_name').css('border-color', 'red');
+			//$('#first_name').focus();
+			return false;
+		}
+		else {
+			$('#new_company_name').css('border-color', 'green');
+		}
+		return true;
+	});
+
 	$('#updated_company_name').focus();
 	$("#btnSave").click(function(event)
 	{
@@ -562,7 +575,7 @@ function editContact(id) {
     $.ajax({
         method: "GET",
         //url: "{{route('dataCapture.getContact',$company->id)}}",
-        url: "http://192.168.1.108:88/Research/public/dataCapture/" + id + "/getContact",
+        url: "http://localhost:88/Research/public/dataCapture/" + id + "/getContact",
 
         success: function(data){
             $data = $(data); 
@@ -574,7 +587,7 @@ function editContact(id) {
 function getChildren(id) {
     $.ajax({
         method: "GET",
-        url: "http://localhost:88/vguard/public/dataCapture/" + id + "/getChildren",
+        url: "http://localhost:88/Research/public/dataCapture/" + id + "/getChildren",
         success: function(data){
             $data = $(data); 
             $('#children').html($data).fadeIn();

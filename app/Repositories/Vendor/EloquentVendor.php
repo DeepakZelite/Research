@@ -68,10 +68,12 @@ class EloquentVendor implements VendorRepository
                 $q->orwhere('email', "like", "%{$search}%");
                 $q->orwhere('phone', "like", "%{$search}%");
                 $q->orwhere('mobile', "like", "%{$search}%");
+                $q->orwhere('location', "like", "%{$search}%");
             });
         }
 
-        $result = $query->paginate($perPage);
+        $result = $query->orderBy('vendor_code', 'asc')
+        				->paginate($perPage);
         if ($search) {
             $result->appends(['search' => $search]);
         }

@@ -54,7 +54,7 @@
 </div>
 
 <div class="table-responsive top-border-table" id="users-table-wrapper">
-    <table class="table">
+    <table class="table" id="project_table">
         <thead>
         	<th>@lang('app.code')</th>
            <!--  <th>@lang('app.name')</th> -->
@@ -62,7 +62,7 @@
             <th>@lang('app.expected_staff')</th>
            <!-- <th>@lang('app.task_brief')</th>
             <th>@lang('app.expected_date')</th> -->
-            <th class="text-center">@lang('app.action')</th>
+            <th class="text-center nosort">@lang('app.action')</th>
         </thead>
         <tbody>
             @if (count($projects))
@@ -104,5 +104,19 @@
         $("#status").change(function () {
             $("#users-form").submit();
         });
+        $(document).ready(function() {
+            //$('#example').DataTable();
+            $('#project_table').dataTable( {
+                "bPaginate": false,
+                "bFilter": false,
+                "bInfo": false,
+                aoColumnDefs: [
+              	  {
+              	     bSortable: false,
+              	     aTargets: [ 'nosort' ]
+              	  }
+              	]
+             } );
+        } );
     </script>
 @stop
