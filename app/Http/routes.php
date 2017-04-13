@@ -644,3 +644,8 @@ Route::get('dataCapture/{company}/currentCompany', [
 		'as' => 'dataCapture.currentCompany',
 		'uses' => 'DataCaptureController@currentCompany'
 ]);
+
+Route::get('dataCapture/{company}/cancelCompany', [
+		'as' => 'dataCapture.cancelCompany',
+		'uses' => 'DataCaptureController@cancelCompany'
+]);

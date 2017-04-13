@@ -102,7 +102,7 @@
 			//alert(selectedValue);           
             $.ajax({
                 method: "GET",
-                url: "http://localhost:88/Research/public/subBatch/getCompanyCount",
+                url: "http://192.168.1.108:88/Research/public/subBatch/getCompanyCount",
                 data: {batchId:batchId, userId:userId}
             })
             .done(function(data) {

@@ -280,8 +280,17 @@ class DataCaptureController extends Controller
 	{
 		$compRecord = Company::find($company->id);
 		$compRecord->status="Assigned";
+		//$compRecord->timestamps = false;
 		$compRecord->save();
 		return redirect()->route('dataCapture.capture', $compRecord->sub_batch_id);
 	}
 	
+	public function cancelCompany(Company $company)
+	{
+		$compRecord = Company::find($company->id);
+		$compRecord->status="Submitted";
+		$compRecord->timestamps = false;
+		$compRecord->save();
+		return redirect()->route('dataCapture.capture', $compRecord->sub_batch_id);
+	}
 }

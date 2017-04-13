@@ -346,10 +346,11 @@
 @endif
 
 <div class="row">
-	<div class="col-md-11"></div>
-	<!--<div class="col-md-1"><a href="{{route('dataCapture.capture', $company->sub_batch_id)}}" id="child_cancel" class="btn btn-primary pull-right">Cancel</a></div> -->	
+	<div class="col-md-10"></div>
+	<div class="col-md-1"><!--<a href="{{route('dataCapture.cancelCompany', $company->id)}}" id="child_cancel" class="btn btn-primary pull-right">Cancel</a>-->	
+	</div> 
 	<div class="col-md-1">
-		<a href="{{ route('dataCapture.submitCompany', $company->id) }}"
+		<a id="btnSubmit" href="{{ route('dataCapture.submitCompany', $company->id) }}"
 			class="btn btn-primary btn-block pull-right">Submit</a> 	
 	</div>	
 </div>
@@ -453,7 +454,7 @@ $("#country").change(function() {
 	 var batchId = $( this ).val();
  $.ajax({
      method: "GET",
-     url: "http://localhost:88/Research/public/dataCapture/" + batchId + "/getcountryCode",
+     url: "http://192.168.1.108:88/Research/public/dataCapture/" + batchId + "/getcountryCode",
      data:{}
  })
  .done(function(data) {
@@ -471,6 +472,10 @@ $(document).ready(function() {
 		//$('#add_child_record').css("visibility", "hidden");
 		//$('#btn_check').css("visibility", "hidden");
 	}
+	else
+	{
+		$('#child_cancel').css("visibility","hidden");
+	}
 
 	$("#btnSave1").click(function(event)
 	{
@@ -486,7 +491,7 @@ $(document).ready(function() {
 	});
 
 	$('#updated_company_name').focus();
-	$("#btnSave").click(function(event)
+	$("#btnSave,#btnSubmit").click(function(event)
 	{
 // 		$('#pan_head').click(function(e) {
 // 		    e.stopPropagation();
@@ -575,7 +580,7 @@ function editContact(id) {
     $.ajax({
         method: "GET",
         //url: "{{route('dataCapture.getContact',$company->id)}}",
-        url: "http://localhost:88/Research/public/dataCapture/" + id + "/getContact",
+        url: "http://192.168.1.108:88/Research/public/dataCapture/" + id + "/getContact",
 
         success: function(data){
             $data = $(data); 
@@ -587,7 +592,7 @@ function editContact(id) {
 function getChildren(id) {
     $.ajax({
         method: "GET",
-        url: "http://localhost:88/Research/public/dataCapture/" + id + "/getChildren",
+        url: "http://192.168.1.108:88/Research/public/dataCapture/" + id + "/getChildren",
         success: function(data){
             $data = $(data); 
             $('#children').html($data).fadeIn();
