@@ -18,6 +18,7 @@ use Vanguard\Repositories\Company\CompanyRepository;
 use Vanguard\Http\Requests\SubBatch\CreateSubBatchRequest;
 use Vanguard\Support\Enum\SubBatchStatus;
 use Vanguard\Company;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class SubSubBatchesController - Controls all the operations for SubBatch entity
@@ -163,6 +164,8 @@ class SubBatchesController extends Controller
 		if ($userId == "") {
 			$userId = 0;
 		}
+		$data1=$companyRepository->getUnAssignedCount($batchId);
+		Log::info("Contact:::::". $data1);
 		return $companyRepository->getTotalCompanyCount($batchId) . ',' . $companyRepository->getUnAssignedCount($batchId);		
 	}
 	
@@ -174,7 +177,7 @@ class SubBatchesController extends Controller
 			foreach ($companies as $company) {
 				$company->status = "UnAssigned";
 				$company->user_id = "";
-				$company->sub_batch_id = "";
+				$company->sub_batch_id = null;
 				$company->update();
 			}
 		}

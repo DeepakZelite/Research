@@ -48,14 +48,14 @@
 </div>
 
 <div class="table-responsive top-border-table" id="users-table-wrapper">
-    <table class="table">
+    <table class="table" id="dataCapture_table">
         <thead>
         	<th>@lang('app.batch_name')</th>
         	<th>@lang('app.sub_batch_name')</th>
         	<th>@lang('app.code')</th>
             <th>@lang('app.companies')</th>
-            <th>@lang('app.status')</th>
-            <th>@lang('app.action')</th>
+            <th class="nosort">@lang('app.status')</th>
+            <th class="nosort">@lang('app.action')</th>
         </thead>
         <tbody>
             @if (count($subBatches))
@@ -102,7 +102,7 @@
 			//alert(selectedValue);           
             $.ajax({
                 method: "GET",
-                url: "http://localhost:88/vguard/public/subBatch/getCompanyCount",
+                url: "http://localhost:88/Research/public/subBatch/getCompanyCount",
                 data: {batchId:batchId, userId:userId}
             })
             .done(function(data) {
@@ -111,7 +111,20 @@
 				$("#unAssignedCompanies").val("Unassigned companies = " + array[1]);
             });
         });
-        
+        $(document).ready(function() {
+            //$('#example').DataTable();
+            $('#dataCapture_table').dataTable( {
+                "bPaginate": false,
+                "bFilter": false,
+                "bInfo": false,
+                aoColumnDefs: [
+              	  {
+              	     bSortable: false,
+              	     aTargets: [ 'nosort' ]
+              	  }
+              	]
+             } );
+        } );
     </script>
 @stop
 

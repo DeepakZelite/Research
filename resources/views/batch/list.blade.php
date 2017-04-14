@@ -59,14 +59,14 @@
 </div>
 
 <div class="table-responsive top-border-table" id="users-table-wrapper">
-    <table class="table">
+    <table class="table" id="batch_table">
         <thead>
         	<th>@lang('app.name')</th>
             <th>@lang('app.code')</th>
             <th>@lang('app.vendor_code')</th>
             <th>@lang('app.number_of_companies')</th>
-            <th>@lang('app.status')</th>
-            <th class="text-center">@lang('app.action')</th>
+            <th class="nosort">@lang('app.status')</th>
+            <th class="text-center nosort">@lang('app.action')</th>
         </thead>
         <tbody>
             @if (count($batches))
@@ -125,6 +125,19 @@
         $("#code").change(function (){
             $("#batches-form").submit();
         });
-        
+        $(document).ready(function() {
+            //$('#example').DataTable();
+            $('#batch_table').dataTable( {
+                "bPaginate": false,
+                "bFilter": false,
+                "bInfo": false,
+                aoColumnDefs: [
+              	  {
+              	     bSortable: false,
+              	     aTargets: [ 'nosort' ]
+              	  }
+              	]
+             } );
+        } );
     </script>
 @stop

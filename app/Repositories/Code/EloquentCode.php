@@ -10,7 +10,7 @@ class EloquentCode implements CodeRepository
 	 */
 	public function lists($column = 'description', $key = 'code')
 	{
-		return Code::where('code_type','=','EMP_SIZE')->orderBy('code')->lists($column, $key);
+		return Code::where('code_type','=','EMP_SIZE')->orderBy('id')->lists($column, $key);
 	}
 	public function lists1($column = 'description', $key = 'code')
 	{

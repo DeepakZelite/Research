@@ -90,15 +90,15 @@
 </div>
 
 <div class="table-responsive top-border-table" id="users-table-wrapper">
-    <table class="table">
+    <table class="table" id="subBatch_table">
         <thead>
         	<th>@lang('app.batch_name')</th>
             <th>@lang('app.sub_batch_name')</th>
             <th>@lang('app.assigned_user')</th>
             <th>@lang('app.companies')</th>
-            <th class="text-center">@lang('app.task_brief')</th>
-            <th>@lang('app.status')</th>
-            <th class="text-center">&nbsp;@lang('app.action')</th>
+            <th class="text-center nosort">@lang('app.task_brief')</th>
+            <th class="nosort">@lang('app.status')</th>
+            <th class="text-center nosort">&nbsp;@lang('app.action')</th>
         </thead>
         <tbody>
             @if (count($subBatches))
@@ -176,7 +176,20 @@
 				$("#unAssignedCompanies").val("Unassigned companies = " + array[1]);
             });
         });
-
+        $(document).ready(function() {
+            //$('#example').DataTable();
+            $('#subBatch_table').dataTable( {
+                "bPaginate": false,
+                "bFilter": false,
+                "bInfo": false,
+                aoColumnDefs: [
+                	  {
+                	     bSortable: false,
+                	     aTargets: [ 'nosort' ]
+                	  }
+                	]
+             } );
+        } );
     </script>
         {!! JsValidator::formRequest('Vanguard\Http\Requests\SubBatch\CreateSubBatchRequest', '#sub_batches-form') !!}
 @stop

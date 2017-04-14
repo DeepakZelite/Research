@@ -101,7 +101,7 @@ class EloquentCompany implements CompanyRepository
     		$query->where(function ($q) use($batchId) {
     			$q->where('companies.batch_id', "=", "{$batchId}")
     				->whereNull('sub_batch_id');
-    				//->where('companies.sub_batch_id',"=",'0');
+    				//->orwhere('companies.sub_batch_id',"=",'')
     		});
     	} else {
     		return 0;
@@ -236,7 +236,7 @@ class EloquentCompany implements CompanyRepository
     	$query = Company::query();
     	$result = $query
     	->leftjoin('contacts', 'companies.id', '=', 'contacts.company_id')
-    	->select('companies.*','contacts.*');
+    	->select('companies.*','contacts.*','contacts.additional_info1 as info1','contacts.additional_info2 as info2','contacts.additional_info3 as info3','contacts.additional_info4 as info4');
     
     	if ($batchId != 0) {
     

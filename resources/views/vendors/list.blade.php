@@ -54,16 +54,17 @@
 </div>
 
 <div class="table-responsive top-border-table" id="users-table-wrapper">
-    <table class="table">
+	  <table class="table" id="example">
         <thead>
-            <th>@lang('app.vendor_code')</th>
+            <!-- <th>@lang('app.vendor_code')<a href="#" id="vendor_code"><i class="fa fa-sort fa-fw"></i></a></th> -->
+            <th><span onclick='sortTable("code");'>@lang('app.vendor_code')</span></th>
             <th>@lang('app.location')</th>
         <!--    <th>@lang('app.contact_person')</th>
             <th>@lang('app.email')</th>
             <th>@lang('app.phone')</th>
             <th>@lang('app.mobile')</th>-->
-            <th>@lang('app.status')</th>
-            <th class="text-center">@lang('app.action')</th>
+            <th class="nosort">@lang('app.status')</th>
+            <th class="text-center nosort">@lang('app.action')</th>
         </thead>
         <tbody>
             @if (count($vendors))
@@ -74,7 +75,7 @@
                      <!--    <td>{{ $vendor->contactPerson }}</td>
                         <td>{{ $vendor->email }}</td>
                         <td>{{ $vendor->phone }}</td>
-                        <td>{{ $vendor->mobile }}</td> -->
+                        <td>{{ $vendor->mobile }}</td>-->
                         <td>
                             <span class="label label-{{ $vendor->present()->labelClass }}">{{ trans("app.{$vendor->status}") }}</span>
                         </td>
@@ -93,7 +94,6 @@
             @endif
         </tbody>
     </table>
-
     {!! $vendors->render() !!}
 </div>
 
@@ -104,5 +104,23 @@
         $("#status").change(function () {
             $("#vendors-form").submit();
         });
+        $(document).ready(function() {
+            //$('#example').DataTable();
+            $('#example').dataTable( {
+                "bPaginate": false,
+                "bFilter": false,
+                "bInfo": false,
+                aoColumnDefs: [
+              	  {
+              	     bSortable: false,
+              	     aTargets: [ 'nosort' ]
+              	  }
+              	]
+           } );
+        } );
+               
+     //   $(document).ready(function() {
+     //   	  $('#example').DataTable();
+     //   	});
     </script>
 @stop
