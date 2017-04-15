@@ -31,7 +31,7 @@
 					<button type="button" class="btn btn-default" data-toggle="modal"
 						data-target="#childrenModal" id="btn_check"
 						onclick="getChildren({{ $company->id }});">
-						<span class="glyphicon glyphicon-search"></span> Check
+						<span class="glyphicon glyphicon-search"></span> @lang('app.check')
 					</button>
 				</div>
 			</div>
@@ -59,12 +59,10 @@
 						value="{{ $editCompany ? $company->company_name : old('company_name') }}">
 				</div>
 				<div class="form-group col-lg-2">
-					<label for="updated_company_name">@lang('app.updated_company_name')<i
-						style="color: red;">*</i></label> <input type="text"
-						class="form-control" id="updated_company_name"
-						name="updated_company_name"
-						placeholder="@lang('app.company_name')"
-						value="{{ $editCompany ? $company->updated_company_name : old('updated_company_name') }}">
+					<label for="updated_company_name">@lang('app.updated_company_name')<i style="color: red;">*</i></label>
+						 	<input type="text" class="form-control" id="updated_company_name" name="updated_company_name" placeholder="@lang('app.company_name')"
+						 	@if($company->updated_company_name!="")	value="{{ $editCompany ? $company->updated_company_name : old('updated_company_name') }}" 
+						 	@else value="{{ $editCompany ? $company->company_name : old('company_name') }}" @endif>
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="address1">@lang('app.address1')<i style="color: red;">*</i></label>
@@ -103,8 +101,7 @@
 					@if($company->country !='')
 					{!! Form::select('country', $countries,$editCompany ? $company->country:old(''), ['class' =>'form-control','id'=>'country']) !!}
 					@else
-					{!! Form::select('country', $countries,'840', ['class' =>
-					'form-control','id'=>'country']) !!}
+					{!! Form::select('country', $countries,'840', ['class'=>'form-control','id'=>'country']) !!}
 					@endif
 				</div>
 				<div class="form-group col-lg-2">
@@ -112,10 +109,6 @@
 					<div class="row">
 						<div class="col-md-5">
 							<input type="text" id="isd_code" name="isd_code" class="form-control" @if($company->country !='') value="{{ $editCompany ? $company->isd_code : old('isd_code') }}" @else value="1" @endif>
-							<!-- <input type="text" id="isd_code" name="isd_code"
-								class="form-control"
-								value="{{ $editCompany ? $company->isd_code : old('isd_code') }}"> -->
-
 						</div>
 						<div class="col-md-7">
 							<input type="text" class="form-control" id="switchboardnumber"
@@ -154,12 +147,11 @@
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="employee_size">@lang('app.employee_size')</label> {!!
-					Form::select('employee_size', $codes,$editCompany ? $company->employee_size : old('employee_size'), ['class'
-					=>'form-control','id'=>'employee_size']) !!}
+					Form::select('employee_size', $codes,$editCompany ? $company->employee_size : old('employee_size'), ['class'=>'form-control','id'=>'employee_size']) !!}
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="industry_classfication">@lang('app.industry_classfication')</label>
-					{!! Form::select('industry_classfication', $codes1, $editCompany ? $company->industry_classfication : old('industry_classfication'), ['class'=>'form-control','id'=>'industry_classfication']) !!}
+					{!! Form::select('industry_classfication', $classication, $editCompany ? $company->industry_classfication : old('industry_classfication'), ['class'=>'form-control','id'=>'industry_classfication']) !!}
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="physician_size">@lang('app.physician_size')</label> <input
@@ -169,13 +161,9 @@
 						value="{{ $editCompany ? $company->physician_size : old('physician_size') }}">
 				</div>
 			</div>
-
 		</div>
 	</div>
-
-
 </div>
-
 <div class="row">
 	<!-- <div class="col-md-9"></div> -->
 	<div class=" pull-right">
@@ -199,7 +187,7 @@
 </div>
 
 
-
+<!-- ------------------------------------------------- Additional info for Company edit Start ----------------------------------------------------- -->
 <div id="myModal1" class="modal fade" role="dialog">
 	<div class="modal-dialog">
 		<!-- Modal content-->
@@ -277,7 +265,6 @@
 							</div>
 						</div>
 					</div>
-
 					<div class="row">
 						<div class="col-md-10"></div>
 						<div class="col-md-2">
@@ -288,26 +275,20 @@
 							</button>
 						</div>
 					</div>
+					
 				</div>
 			</div>
-
 		</div>
 	</div>
 </div>
-
-
-
-
-
+<!-- ------------------------------------------------- Additional info for Company edit Start ----------------------------------------------------- -->
 {{ Form::close() }}
 
 <!-- ----------------Company-edit-details end-------------- -->
 
-<hr
-	style="width: 100%; color: black; height: 1px; background-color: black;" />
-
+<hr  style="width: 100%; color: black; height: 1px; background-color: black;" />
 <br />
-@if($editCompany)
+<!-- ------------------------------------------------- Displaying Contact information dependent on company if record are present Start ----------------------------------------------------- -->
 <div class="row">
 	<div class="table-responsive top-border-table" id="users-table-wrapper">
 		<table class="table">
@@ -343,30 +324,29 @@
 		{!! $contacts->render() !!}
 	</div>
 </div>
-@endif
+<!-- ------------------------------------------------- Displaying Contact information dependent on company if record are present End ----------------------------------------------------- -->
 
 <div class="row">
 	<div class="col-md-10"></div>
-	<div class="col-md-1"><!--<a href="{{route('dataCapture.cancelCompany', $company->id)}}" id="child_cancel" class="btn btn-primary pull-right">Cancel</a>-->	
+	<div class="col-md-1">
 	</div> 
 	<div class="col-md-1">
 		<a id="btnSubmit" href="{{ route('dataCapture.submitCompany', $company->id) }}"
-			class="btn btn-primary btn-block pull-right">Submit</a> 	
+			class="btn btn-primary btn-block pull-right">@lang('app.submit')</a> 	
 	</div>	
 </div>
 
 
 <!-- Modal -->
 <style>
-<!--
 @media screen and (min-width: 768px) {
 	#myModal .modal-dialog {
 		width: 1200px;
 	}
+	#duplicateModel .modal-dialog{width:1200px;}
 }
--->
 </style>
-
+<!-- ---------------------------- code for opening the contact Pop-Up Start------------------------------ -->
 <div id="myModal" class="modal fade" role="dialog">
 	<div class="modal-dialog">
 
@@ -380,6 +360,7 @@
 
 	</div>
 </div>
+<!-- ---------------------------- code for opening the contact Pop-Up End ------------------------------ -->
 
 <!-- --------------------Child company list start----------------------- -->
 
@@ -388,13 +369,28 @@
 		<!-- Modal content-->
 		<div class="row">
 			<div class="modal-content">
-				<div id="children" class="modal-body">Loading.....</div>
+				<div id="children" class="modal-body">@lang('app.loading')</div>
 			</div>
 		</div>
 	</div>
 </div>
-<!-- --------------------Child compaby list end -->
+<!-- --------------------Child compaby list end ------------------------ -->
 
+<!-- --------------------Child company list start----------------------- -->
+
+<div id="duplicateModel" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="row">
+			<div class="modal-content">
+				 <div id="duplicate" class="modal-body">@lang('app.loading')</div> 
+			</div>
+		</div>
+	</div>
+</div>
+<!-- --------------------Child compaby list end ------------------------ -->
+
+<!-- ---------------------------------------- add subsidiary button click code start --------------------------------------------- -->
 <div id="newCompanyModal" class="modal fade" role="dialog">
 	<div class="modal-dialog">
 		<!-- Modal content-->
@@ -406,9 +402,7 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">@lang('app.add_child_company_details_big')</div>
 							<div class="panel-body">
-								{!! Form::open(['route' => ['dataCapture.addCompany',
-								$company->id], 'method' => 'PUT', 'id' => 'add-company-form'])
-								!!}
+								{!! Form::open(['route' => ['dataCapture.addCompany', $company->id], 'method' => 'PUT', 'id' => 'add-company-form']) !!}
 								<div class="row">
 									<div class="form-group col-lg-12">
 										<label for="new_company_name">@lang('app.company_name')<i
@@ -442,7 +436,7 @@
 		</div>
 	</div>
 </div>
-<!-- --------------------------------------------------------------------------------------------------------------- -->
+<!-- ---------------------------------------- add subsidiary button click code End -------------------------------------------------- -->
 
 @stop @section('scripts')
 <script>
@@ -450,11 +444,15 @@ hideMenu();
 function hideMenu() {
 	as.toggleSidebar();
 }
+
+
 $("#country").change(function() {
 	 var batchId = $( this ).val();
+	 var url = "{{ route('dataCapture.getcountryCode')}}";
+	 url = url.replace("getcountryCode", batchId + "/getcountryCode") 
  $.ajax({
      method: "GET",
-     url: "http://192.168.1.108:88/Research/public/dataCapture/" + batchId + "/getcountryCode",
+     url: url,
      data:{}
  })
  .done(function(data) {
@@ -464,24 +462,21 @@ $("#country").change(function() {
 
 
 $(document).ready(function() {
-
 	if($('#parent_company').val()!='')
 	{
-		$('#add_child_record').attr("disabled", "disabled");
-		$('#btn_check').attr("disabled", "disabled");
-		//$('#add_child_record').css("visibility", "hidden");
-		//$('#btn_check').css("visibility", "hidden");
+		$('#add_child_record').css("visibility", "hidden");
+		$('#btn_check').css("visibility", "hidden");
 	}
 	else
 	{
 		$('#child_cancel').css("visibility","hidden");
 	}
-
+	
+	// <!-- ------------------------------------- Client Side validation for Add Subsidory start ----------------------------------------------- -->
 	$("#btnSave1").click(function(event)
 	{
 		if ($('#new_company_name').val() == '') {
 			$('#new_company_name').css('border-color', 'red');
-			//$('#first_name').focus();
 			return false;
 		}
 		else {
@@ -489,16 +484,13 @@ $(document).ready(function() {
 		}
 		return true;
 	});
-
+	// <!-- ------------------------------------- Client Side validation for Add Subsidory End ----------------------------------------------- -->
+	// <!-- ------------------------------------- Client Side validation for Company Edit start ----------------------------------------------- -->
 	$('#updated_company_name').focus();
 	$("#btnSave,#btnSubmit").click(function(event)
 	{
-// 		$('#pan_head').click(function(e) {
-// 		    e.stopPropagation();
-// 		});
 		if ($('#updated_company_name').val() == '') {
 		    $('#updated_company_name').css('border-color', 'red');
-		    //$('#address1').focus();
 		    return false;
 		}
 		else {
@@ -506,7 +498,6 @@ $(document).ready(function() {
 		}
 		if ($('#address1').val() == '') {
 		    $('#address1').css('border-color', 'red');
-		    //$('#address1').focus();
 		    return false;
 		}
 		else {
@@ -514,7 +505,6 @@ $(document).ready(function() {
 		}
 		if ($('#city').val() == '') {
 		    $('#city').css('border-color', 'red');
-		    //$('#city').focus();
 		    return false;
 		}
 		else {
@@ -522,7 +512,6 @@ $(document).ready(function() {
 		}
 		if ($('#state').val() == '') {
 		    $('#state').css('border-color', 'red');
-		   // $('#state').focus();
 		    return false;
 		}
 		else {
@@ -531,7 +520,6 @@ $(document).ready(function() {
 		
 		if ($('#zipcode').val() == '') {
 		    $('#zipcode').css('border-color', 'red');
-		   // $('#zipcode').focus();
 		    return false;
 		}
 		else {
@@ -559,11 +547,10 @@ $(document).ready(function() {
 		});
 		return true;
 	});
-
-		
+	// <!-- ------------------------------------- Client Side validation for Company Edit End ----------------------------------------------- -->	
 });
 
-
+//<!-- --------------------------------------Client side validation for inputing only number Start ------------------------------------------------ -->
 function isNumberKey(evt)
 {
 		var charCode = (evt.which) ? evt.which : event.keyCode
@@ -571,6 +558,8 @@ function isNumberKey(evt)
   			return false;
 		return true;
 }
+//<!-- --------------------------------------Client side validation for inputing only number End ------------------------------------------------ -->
+
 $('#myModal').on('shown.bs.modal', function() {
 	$('#first_name').focus();
 
@@ -579,9 +568,7 @@ $('#myModal').on('shown.bs.modal', function() {
 function editContact(id) {
     $.ajax({
         method: "GET",
-        //url: "{{route('dataCapture.getContact',$company->id)}}",
-        url: "http://192.168.1.108:88/Research/public/dataCapture/" + id + "/getContact",
-
+        url: "{{route('dataCapture.getContact',$contact->id)}}",
         success: function(data){
             $data = $(data); 
             $('#editContact').fadeOut().html($data).fadeIn();
@@ -592,15 +579,35 @@ function editContact(id) {
 function getChildren(id) {
     $.ajax({
         method: "GET",
-        url: "http://192.168.1.108:88/Research/public/dataCapture/" + id + "/getChildren",
+        url:"{{ route('dataCapture.getChildren', $company->id) }}",
         success: function(data){
             $data = $(data); 
             $('#children').html($data).fadeIn();
             }
     })	
 }
-
-
+function getduplicateRecord()
+{
+	var $firstname	= $('#first_name').val();
+	var $lastname 	= $('#last_name').val();
+	var $jobtitle 	= $('#job_title').val();
+	var $email	 	= $('#staff_email').val();
+	var $company_name=$('#company_name').val();
+	var $website= $('#website').val();
+	var $address= $('#address1').val();
+	var $city	= $('#city').val();
+	var $state	= $('#state').val();
+	var $zipcode= $('#zipcode').val();
+	$.ajax({
+		method:"GET",
+		url:"{{route('dataCapture.getduplicateRecord')}}",
+		data:{'firstname':$firstname,'lastname':$lastname,'jobtitle':$jobtitle,'email':$email,'company_name':$company_name,'website':$website,'address':$address,'city':$city,'state':$state,'zipcode':$zipcode},
+		success:function(data){
+			$data=$(data);
+			$('#duplicate').html($data).fadeIn();
+			}
+	})
+}
 function addContact(companyId) {
     $.ajax({
         method: "GET",
@@ -616,29 +623,26 @@ $('#myModal').on('shown.bs.modal', function() {
 	  $('#firstName').focus();
 	});
 	
-
   $('#add_child_record').click(function(){
-// 	  $.ajax({
-// 	        method: "GET",
-// 	        url: "http://localhost:88/Research/public/dataCapture/32/childCompanyRecord",
-// 	        success: function(data){
-// 	        	$data = $(data); 
-// 	            $('#newCompany').fadeOut().html($data).fadeIn();
-// 	        }
-// 	    })
 	});
-
-
 </script>
-@if ($editContact) {!!
-JsValidator::formRequest('Vanguard\Http\Requests\Contact\UpdateContactRequest',
-'#staff-form') !!} @else {!!
-JsValidator::formRequest('Vanguard\Http\Requests\Contact\CreateContactRequest',
-'#staff-form') !!} @endif @if ($editCompany) {!!
-JsValidator::formRequest('Vanguard\Http\Requests\Company\UpdateCompanyRequest',
-'#company-form') !!} @else {!!
-JsValidator::formRequest('Vanguard\Http\Requests\Company\CreateCompanyRequest',
-'#company-form') !!} @endif @stop @section('scripts') {!!
-HTML::script('assets/js/moment.min.js') !!} {!!
-HTML::script('assets/js/bootstrap-datetimepicker.min.js') !!} {!!
-HTML::script('assets/js/as/profile.js') !!} @stop
+
+
+@if ($editContact) 
+		{!! JsValidator::formRequest('Vanguard\Http\Requests\Contact\UpdateContactRequest','#staff-form') !!}
+@else 
+		{!! JsValidator::formRequest('Vanguard\Http\Requests\Contact\CreateContactRequest','#staff-form') !!} 
+@endif 
+
+@if($editCompany) 
+		{!! JsValidator::formRequest('Vanguard\Http\Requests\Company\UpdateCompanyRequest','#company-form') !!} 
+@else 
+		{!! JsValidator::formRequest('Vanguard\Http\Requests\Company\CreateCompanyRequest','#company-form') !!} 
+@endif 
+@stop 
+
+@section('scripts') 
+		{!! HTML::script('assets/js/moment.min.js') !!} 
+		{!! HTML::script('assets/js/bootstrap-datetimepicker.min.js') !!} 
+		{!! HTML::script('assets/js/as/profile.js') !!} 
+@stop

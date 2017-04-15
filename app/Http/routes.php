@@ -630,7 +630,15 @@ Route::put('dataCapture/{companyId}/addCompany', [
 		'as' => 'dataCapture.addCompany',
 		'uses' => 'DataCaptureController@addCompany'
 ]);
-Route::get('dataCapture/{countryId}/getcountryCode',[
+Route::get('dataCapture/{country}/getcountryCode',[
+		'as'=>'dataCapture.getcountryCode',
+		'uses'=>'DataCaptureController@getcountryCode'
+]);
+Route::get('dataCapture/getcountryCode',[
+		'as'=>'dataCapture.getcountryCode',
+		'uses'=>'DataCaptureController@getcountryCode'
+]);
+Route::get('dataCapture/{country}/getcountryCode',[
 		'as'=>'dataCapture.getcountryCode',
 		'uses'=>'DataCaptureController@getcountryCode'
 ]);
@@ -648,4 +656,9 @@ Route::get('dataCapture/{company}/currentCompany', [
 Route::get('dataCapture/{company}/cancelCompany', [
 		'as' => 'dataCapture.cancelCompany',
 		'uses' => 'DataCaptureController@cancelCompany'
+]);
+
+Route::get('dataCapture/getduplicateRecord',[
+		'as'=>'dataCapture.getduplicateRecord',
+		'uses'=>'DataCaptureController@getduplicateRecord'
 ]);

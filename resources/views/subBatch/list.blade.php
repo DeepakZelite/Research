@@ -7,15 +7,13 @@
     <div class="col-lg-12">
         <h1 class="page-header">
             @lang('app.subBatches')
-            <small>@lang('app.list_of_subBatches')</small>
+            <small>@lang('app.list_of_subBatches')</small></h1>
             <div class="pull-right">
                 <ol class="breadcrumb">
                     <li><a href="{{ route('dashboard') }}">@lang('app.home')</a></li>
                     <li class="active">@lang('app.subBatches')</li>
                 </ol>
             </div>
-
-        </h1>
     </div>
 </div>
 
@@ -37,14 +35,9 @@
                            name="company_count" placeholder="@lang('app.no_of_records')" value="">
         </div>
         <div class="col-md-1">
-        	<!-- <a href="{{ route('subBatch.store') }}" class="btn btn-success" id="add-subbatch">
-            	<i class="glyphicon glyphicon-plus"></i>
-            	@lang('app.assign')
-        	</a> -->
-        	<button type="submit" class="btn btn-success">
-            <i class="fa fa-save"></i>
+        	<button type="submit" class="btn btn-success"><i class="fa fa-save"></i>
             @lang('app.assign')
-        </button>
+        	</button>
     	</div>
         
     <!-- </form> -->
@@ -105,7 +98,6 @@
                 @foreach ($subBatches as $subBatch)
                     <tr>
                         <td>{{ $subBatch->batch_name }}</td>
-                        <!-- <td>{{ $subBatch->sub_batch_name }}</td>-->
                          <td>{{ $subBatch->batch_name }}-{{ $subBatch->sub_batch_name }}</td>
                          <td>{{ $subBatch->username }}</td>
                          <td>{{ $subBatch->company_count }}</td>
@@ -125,10 +117,6 @@
                                     data-confirm-delete="@lang('app.yes')">
                                 <i class="glyphicon glyphicon-trash"></i></a>
                           @endif
-                          <!--  <a href="{{ route('batch.edit', $subBatch->id) }}" class="btn btn-primary btn-circle"
-                               title="@lang('app.edit_batch')" data-toggle="tooltip" data-placement="top">
-                                <i class="glyphicon glyphicon-edit"></i>
-                            </a>-->
           				</td>
                      </tr>
                 @endforeach
@@ -145,29 +133,16 @@
 @stop
 
 @section('scripts')
-  <!--   {!! HTML::script('assets/js/jquery-2.1.4.min.js') !!}
-    {!! HTML::script('assets/js/bootstrap.min.js') !!}
-    {!! HTML::script('assets/js/metisMenu.min.js') !!}
-    {!! HTML::script('assets/js/sweetalert.min.js') !!}
-    {!! HTML::script('assets/js/delete.handler.js') !!}
-    {!! HTML::script('assets/plugins/js-cookie/js.cookie.js') !!}
-    {!! HTML::script('assets/js/count.js') !!}
-    <script type="text/javascript">-->
     <script>
         $("#status").change(function () {
-            //alert("status changes");
             $("#sub-batches-form").submit();
         });
         $("#batch_id").change(function() {
-			//alert("OnChanged");
              var batchId = $( this ).val();
-             //alert(" "+batchId)
-             var userId = $("#user_id").val();
-			//alert(" "+userId);           
+             var userId = $("#user_id").val();          
             $.ajax({
                 method: "GET",
                 url: "{{ route('subBatch.getCompanyCount') }}",
-                //url: "http://192.168.1.108:88/Research/public/subBatch/getCompanyCount",
                 data: {batchId:batchId, userId:userId}
             })
             .done(function(data) {
@@ -177,7 +152,6 @@
             });
         });
         $(document).ready(function() {
-            //$('#example').DataTable();
             $('#subBatch_table').dataTable( {
                 "bPaginate": false,
                 "bFilter": false,
