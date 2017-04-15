@@ -8,17 +8,13 @@ use Illuminate\Support\Facades\Input;
 use Vanguard\SubBatch;
 use Vanguard\Batch;
 use Vanguard\Repositories\SubBatch\SubBatchRepository;
-use Vanguard\Repositories\Country\CountryRepository;
 use Vanguard\Repositories\Project\ProjectRepository;
-use Vanguard\Repositories\Role\RoleRepository;
-use Vanguard\Repositories\Vendor\VendorRepository;
 use Vanguard\Repositories\Batch\BatchRepository;
 use Vanguard\Repositories\User\UserRepository;
 use Vanguard\Repositories\Company\CompanyRepository;
 use Vanguard\Http\Requests\SubBatch\CreateSubBatchRequest;
 use Vanguard\Support\Enum\SubBatchStatus;
 use Vanguard\Company;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class SubSubBatchesController - Controls all the operations for SubBatch entity
@@ -37,9 +33,11 @@ class SubBatchesController extends Controller
 	private $companyRepository;
 	private $batchRepository;
 	private $projectRepository;
+	
 	/**
 	 * SubSubBatchesController constructor.
-	 * @param SubBatchRepository $users
+	 * @param SubBatchRepository $subBatches
+	 * @param CompanyRepository $companyRepository
 	 */
 	public function __construct(SubBatchRepository $subBatches,CompanyRepository $companyRepository)
 	{
@@ -53,8 +51,10 @@ class SubBatchesController extends Controller
 
 	/**
 	 * Display paginated list of all subSubBatches.
-	 *
-	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @param BatchRepository $batchRepository
+	 * @param UserRepository $userRepository
+	 * @param ProjectRepository $projectRepository
+	 * @return list of subbatches with batches and user drop down list.
 	 */
 	public function index(BatchRepository $batchRepository, UserRepository $userRepository,ProjectRepository $projectRepository)
 	{
@@ -63,38 +63,18 @@ class SubBatchesController extends Controller
 		$statuses = ['' => trans('app.all')] + SubBatchStatus::lists1();
 		$vendorId = $this->theUser->vendor_id;
 		$batches = $batchRepository->getVendorBatches($vendorId);
-	//	$batches->prepend('Select Batch');
-	//	$users = $userRepository->getVendorUsers($vendorId);
-	//	$users->prepend('Select User');
-
 		$batches->prepend('Select Batch', '0');
 		$users = $userRepository->getVendorUsers($vendorId);
 		$users->prepend('Select User', '0');
-		
-
 		return view('subBatch.list', compact('subBatches', 'statuses', 'batches', 'users'));
 	}
-
+	
 	/**
-	 * Displays form for creating a new SubBatch.
-	 *
-	 * @param CountryRepository $countryRepository
-	 * @param RoleRepository $roleRepository
-	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-	 */
-	public function create(ProjectRepository $projectRepository, VendorRepository $vendorRepository)
-	{
-		$projects = $projectRepository->lists();
-		$vendors = $vendorRepository->lists();
-		$edit = false;
-		return view('SubBatch.add-edit', compact('edit', 'projects', 'vendors'));
-	}
-
-	/**
-	 * Stores new SubBatch into the database.
-	 *
+	 * Stores new SubBatch into the database also changes in companies table
 	 * @param CreateSubBatchRequest $request
-	 * @return mixed
+	 * @param Batch $batch
+	 * @param CompanyRepository $companyRepository
+	 * @return on same page with success message and displaying new subbatch which is created.
 	 */
 	public function store(CreateSubBatchRequest $request,Batch $batch,CompanyRepository $companyRepository)
 	{
@@ -126,35 +106,13 @@ class SubBatchesController extends Controller
 			->withErrors(trans('app.sub_batch_not_created'));
 		}
 	}
-
-	/**
-	 * Displays edit SubBatch form.
-	 *
-	 * @param SubBatch $SubBatch
-	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-	 */
-	public function edit(SubBatch $SubBatch, ProjectRepository $projectRepository, VendorRepository $vendorRepository)
-	{
-		$projects = $projectRepository->lists();
-		$vendors = $vendorRepository->lists();
-		$edit = true;
-		return view('SubBatch.add-edit', compact('edit', 'SubBatch', 'projects', 'vendors'));
-	}
-
-	/**
-	 * Update specified SubBatch with provided data.
-	 *
-	 * @param Role $role
-	 * @param UpdateRoleRequest $request
-	 * @return mixed
-	 */
-	public function update(SubBatch $SubBatch, UpdateSubBatchRequest $request)
-	{
-		$this->subSubBatches->update($SubBatch->id, $request->all());
-		return redirect()->route('SubBatch.list')
-		->withSuccess(trans('app.SubBatch_updated'));
-	}
 	
+	/**
+	 * retriving the total company count and unassigned count based on dropdownlist of batches.
+	 * @param Request $request
+	 * @param CompanyRepository $companyRepository
+	 * @return count of total company and unassigned company
+	 */
 	public function getCompanyCount(Request $request, CompanyRepository $companyRepository) {
 		$batchId =$request->input('batchId');
 		if ($batchId == "") {
@@ -164,11 +122,15 @@ class SubBatchesController extends Controller
 		if ($userId == "") {
 			$userId = 0;
 		}
-		$data1=$companyRepository->getUnAssignedCount($batchId);
-		Log::info("Contact:::::". $data1);
 		return $companyRepository->getTotalCompanyCount($batchId) . ',' . $companyRepository->getUnAssignedCount($batchId);		
 	}
 	
+	/**
+	 * for deleting the sub-batch and updating the company table data
+	 * @param SubBatch $subBatch
+	 * @param CompanyRepository $companyRepository
+	 * @return on the same page with success message
+	 */
 	public function delete(SubBatch $subBatch,CompanyRepository $companyRepository)
 	{
 		$subBatch1=SubBatch::find($subBatch->id);
@@ -188,7 +150,6 @@ class SubBatchesController extends Controller
 			$batch->update();
 		}
 		$this->subBatches->delete($subBatch->id);
-		return redirect()->route('subBatch.list')
-		->withSuccess(trans('app.sub_batch_deleted'));
+		return redirect()->route('subBatch.list')->withSuccess(trans('app.sub_batch_deleted'));
 	}
 }
