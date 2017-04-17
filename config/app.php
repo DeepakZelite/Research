@@ -177,8 +177,8 @@ return [
         Vanguard\Providers\EventServiceProvider::class,
         Vanguard\Providers\RouteServiceProvider::class,
         Vanguard\Services\Auth\TwoFactor\AuthyServiceProvider::class,
-    	
-
+    	Vanguard\Providers\RouteServiceProvider::class,
+    	Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
     ],
 
     /*

@@ -34,7 +34,7 @@
       <div class="col-md-2">
             {!! Form::select('status', $statuses, Input::get('status'), ['id' => 'status', 'class' => 'form-control']) !!} 
         </div>
- 
+
         <div class="col-md-3">
             <div class="input-group custom-search-form">
                 <input type="text" class="form-control" name="search" value="{{ Input::get('search') }}" placeholder="@lang('app.search_for_vendors')">
@@ -56,15 +56,10 @@
 <div class="table-responsive top-border-table" id="users-table-wrapper">
 	  <table class="table" id="example">
         <thead>
-            <!-- <th>@lang('app.vendor_code')<a href="#" id="vendor_code"><i class="fa fa-sort fa-fw"></i></a></th> -->
-            <th><span onclick='sortTable("code");'>@lang('app.vendor_code')</span></th>
-            <th>@lang('app.location')</th>
-        <!--    <th>@lang('app.contact_person')</th>
-            <th>@lang('app.email')</th>
-            <th>@lang('app.phone')</th>
-            <th>@lang('app.mobile')</th>-->
-            <th class="nosort">@lang('app.status')</th>
-            <th class="text-center nosort">@lang('app.action')</th>
+        	<th>@sortablelink('vendor_code',trans('app.vendor_code'))</th>
+            <th>@sortablelink('location',trans('app.location'))</th>
+            <th class="text-primary">@lang('app.status')</th>
+            <th class="text-center text-primary">@lang('app.action')</th>
         </thead>
         <tbody>
             @if (count($vendors))
@@ -72,10 +67,6 @@
                     <tr>
                         <td>{{ $vendor->vendor_code}}</td>
                         <td>{{ $vendor->location }}</td>
-                     <!--    <td>{{ $vendor->contactPerson }}</td>
-                        <td>{{ $vendor->email }}</td>
-                        <td>{{ $vendor->phone }}</td>
-                        <td>{{ $vendor->mobile }}</td>-->
                         <td>
                             <span class="label label-{{ $vendor->present()->labelClass }}">{{ trans("app.{$vendor->status}") }}</span>
                         </td>
@@ -104,23 +95,5 @@
         $("#status").change(function () {
             $("#vendors-form").submit();
         });
-        $(document).ready(function() {
-            //$('#example').DataTable();
-            $('#example').dataTable( {
-                "bPaginate": false,
-                "bFilter": false,
-                "bInfo": false,
-                aoColumnDefs: [
-              	  {
-              	     bSortable: false,
-              	     aTargets: [ 'nosort' ]
-              	  }
-              	]
-           } );
-        } );
-               
-     //   $(document).ready(function() {
-     //   	  $('#example').DataTable();
-     //   	});
     </script>
 @stop

@@ -90,9 +90,17 @@ interface ContactRepository
     public function latest($count = 20);
     
     /**
-     * get the duplicate record if available
+     * for checking the duplicate data for specific fields.
      * @param unknown $first
      * @param unknown $last
+     * @param unknown $jobTitle
+     * @param unknown $email
+     * @param unknown $companyName
+     * @param unknown $website
+     * @param unknown $address
+     * @param unknown $city
+     * @param unknown $state
+     * @param unknown $zipcode
      */
     public function duplicate($first = null, $last = null,$jobTitle = null,$email = null,$companyName = null,$website = null,$address =null,$city = null,$state = null,$zipcode =null);
 }

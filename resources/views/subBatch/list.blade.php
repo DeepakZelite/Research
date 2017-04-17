@@ -85,13 +85,13 @@
 <div class="table-responsive top-border-table" id="users-table-wrapper">
     <table class="table" id="subBatch_table">
         <thead>
-        	<th>@lang('app.batch_name')</th>
-            <th>@lang('app.sub_batch_name')</th>
-            <th>@lang('app.assigned_user')</th>
-            <th>@lang('app.companies')</th>
-            <th class="text-center nosort">@lang('app.task_brief')</th>
-            <th class="nosort">@lang('app.status')</th>
-            <th class="text-center nosort">&nbsp;@lang('app.action')</th>
+        	<th>@sortablelink('name',trans('app.batch_name'))</th>
+            <th>@sortablelink('seq_no',trans('app.sub_batch_name'))</th>
+            <th>@sortablelink('user_name',trans('app.assigned_user'))</th>
+            <th>@sortablelink('company_count',trans('app.companies'))</th>
+            <th class="text-center text-primary">@lang('app.task_brief')</th>
+            <th class="text-primary">@lang('app.status')</th>
+            <th class="text-center text-primary">@lang('app.action')</th>
         </thead>
         <tbody>
             @if (count($subBatches))
@@ -151,19 +151,6 @@
 				$("#unAssignedCompanies").val("Unassigned companies = " + array[1]);
             });
         });
-        $(document).ready(function() {
-            $('#subBatch_table').dataTable( {
-                "bPaginate": false,
-                "bFilter": false,
-                "bInfo": false,
-                aoColumnDefs: [
-                	  {
-                	     bSortable: false,
-                	     aTargets: [ 'nosort' ]
-                	  }
-                	]
-             } );
-        } );
     </script>
         {!! JsValidator::formRequest('Vanguard\Http\Requests\SubBatch\CreateSubBatchRequest', '#sub_batches-form') !!}
 @stop

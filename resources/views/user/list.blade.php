@@ -58,13 +58,11 @@
 <div class="table-responsive top-border-table" id="users-table-wrapper">
     <table class="table" id="usertable">
         <thead>
-            <th>@lang('app.username')</th>
-            <th>@lang('app.full_name')</th>
-            <th>@lang('app.vendor_code')</th>
-          <!--  <th>@lang('app.email')</th>
-             <th>@lang('app.registration_date')</th> -->
-            <th class="nosort">@lang('app.status')</th>
-            <th class="text-center nosort">@lang('app.action')</th>
+            <th>@sortablelink('username',trans('app.username'))</th>
+            <th>@sortablelink('first_name','Full Name')</th>
+            <th>@sortablelink('vendor_code',trans('app.vendor_code'))</th>
+            <th class="text-primary">@lang('app.status')</th>
+            <th class="text-center text-primary">@lang('app.action')</th>
         </thead>
         <tbody>
             @if (count($users))
@@ -73,36 +71,15 @@
                         <td>{{ $user->username ?: trans('app.n_a') }}</td>
                         <td>{{ $user->first_name . ' ' . $user->last_name }}</td>
                         <td>{{$user->vendor_code}}</td>
-                   <!--     <td>{{ $user->email }}</td>
-                         <td>{{ $user->created_at->format('Y-m-d') }}</td> -->
                         <td>
                             <span class="label label-{{ $user->present()->labelClass }}">{{ trans("app.{$user->status}") }}</span>
                         </td>
                         <td class="text-center">
-                            <!--
-                            @if (config('session.driver') == 'database')
-                                <a href="{{ route('user.sessions', $user->id) }}" class="btn btn-info btn-circle"
-                                   title="@lang('app.user_sessions')" data-toggle="tooltip" data-placement="top">
-                                    <i class="fa fa-list"></i>
-                                </a>
-                            @endif
-                             <a href="{{ route('user.show', $user->id) }}" class="btn btn-success btn-circle"
-                               title="@lang('app.view_user')" data-toggle="tooltip" data-placement="top">
-                                <i class="glyphicon glyphicon-eye-open"></i>
-                            </a> -->
+                           
                             <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary btn-circle edit" title="@lang('app.edit_user')"
                                     data-toggle="tooltip" data-placement="top">
                                 <i class="glyphicon glyphicon-edit"></i>
                             </a>
-                         <!--    <a href="{{ route('user.delete', $user->id) }}" class="btn btn-danger btn-circle" title="@lang('app.delete_user')"
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    data-method="DELETE"
-                                    data-confirm-title="@lang('app.please_confirm')'"
-                                    data-confirm-text="@lang('app.are_you_sure_delete_user')"
-                                    data-confirm-delete="@lang('app.yes_delete_him')'">
-                                <i class="glyphicon glyphicon-trash"></i>
-                            </a> -->
                         </td>
                     </tr>
                 @endforeach
@@ -127,19 +104,5 @@
         $("#vendor_code").change(function(){
             $("#users-form").submit();
         });
-        $(document).ready(function() {
-            //$('#example').DataTable();
-            $('#usertable').dataTable( {
-                "bPaginate": false,
-                "bFilter": false,
-                "bInfo": false,
-                aoColumnDefs: [
-              	  {
-              	     bSortable: false,
-              	     aTargets: [ 'nosort' ]
-              	  }
-              	]
-          } );
-        } );
     </script>
 @stop

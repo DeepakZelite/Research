@@ -598,10 +598,12 @@ function getduplicateRecord()
 	var $city	= $('#city').val();
 	var $state	= $('#state').val();
 	var $zipcode= $('#zipcode').val();
+	var $specility=$('#specialization').val();
+	var $phone	=$('#branchNumber').val();
 	$.ajax({
 		method:"GET",
 		url:"{{route('dataCapture.getduplicateRecord')}}",
-		data:{'firstname':$firstname,'lastname':$lastname,'jobtitle':$jobtitle,'email':$email,'company_name':$company_name,'website':$website,'address':$address,'city':$city,'state':$state,'zipcode':$zipcode},
+		data:{'firstname':$firstname,'lastname':$lastname,'jobtitle':$jobtitle,'email':$email,'company_name':$company_name,'website':$website,'address':$address,'city':$city,'state':$state,'zipcode':$zipcode,'specility':$specility,'phone':$phone},
 		success:function(data){
 			$data=$(data);
 			$('#duplicate').html($data).fadeIn();

@@ -14,7 +14,9 @@
         "intervention/image": "^2.3",
         "zizaco/entrust": "^1.5",
         "anlutro/l4-settings": "^0.4.6",
-        "anhskohbo/no-captcha": "2.*"
+        "maatwebsite/excel": "~2.1.0",
+        "anhskohbo/no-captcha": "2.*",
+        "kyslik/column-sortable": "5.2.*"
     },
     "require-dev": {
         "symfony/css-selector": "~3.0",
