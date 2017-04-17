@@ -4,6 +4,7 @@ namespace Vanguard\Repositories\Project;
 
 use Vanguard\Project;
 use Carbon\Carbon;
+use Kyslik\ColumnSortable\Sortable;
 
 class EloquentProject implements ProjectRepository
 {
@@ -52,7 +53,7 @@ class EloquentProject implements ProjectRepository
             });
         }
 
-        $result = $query->paginate($perPage);
+        $result = $query->sortable()->paginate($perPage);
 
         if ($search) {
             $result->appends(['search' => $search]);

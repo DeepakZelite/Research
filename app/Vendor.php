@@ -5,9 +5,11 @@ namespace Vanguard;
 use Illuminate\Database\Eloquent\Model;
 use Vanguard\Presenters\UserPresenter;
 use Laracasts\Presenter\PresentableTrait;
+use Kyslik\ColumnSortable\Sortable;
 
 class Vendor extends Model
 {
+	use Sortable;
 	use PresentableTrait;
 	protected $presenter = UserPresenter::class;
     /**
@@ -22,6 +24,8 @@ class Vendor extends Model
     ];
 
     protected $fillable = ['name','vendor_code','location','contactPerson','email','phone','mobile', 'status'];
+    
+    public $sortable = ['name','vendor_code','location','contactPerson','email','phone','mobile'];
     
   /*  public function isInActive()
     {

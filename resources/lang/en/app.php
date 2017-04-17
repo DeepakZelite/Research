@@ -369,6 +369,9 @@ return [
 		'contact_person'=>'Contact Person',
 		'mobile'=>'Mobile Number',
 		'vendor_code'=>'Vendor Code',
+		'all_status'=>"All Status",
+		'all_vendor'=>'All Vendors',
+		'all_project'=>'All Projects',
 		
 
 		// Batches
@@ -520,6 +523,7 @@ return [
 		'id'=>'Id',
 		'duplicate_contact_list'=>'Duplicate list',
 		'check'=>'Check',
+		'specility'=>'Specility',
 
 		'dataCapture' => "Data Capture",
 		'start' => "Start",

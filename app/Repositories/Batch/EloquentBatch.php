@@ -4,6 +4,7 @@ namespace Vanguard\Repositories\Batch;
 
 use Vanguard\Batch;
 use Carbon\Carbon;
+use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Support\Facades\Log;
 
 class EloquentBatch implements BatchRepository
@@ -73,7 +74,7 @@ class EloquentBatch implements BatchRepository
         	$query = $query->where('batches.status', '=', $status);
         }
         $result = $query->select('batches.*', 'projects.code as project_code', 'vendors.vendor_code as vendor_code','projects.No_Companies as No_Companies')
-        ->paginate($perPage);
+        ->sortable()->paginate($perPage);
 
         if ($search) {
             $result->appends(['search' => $search]);

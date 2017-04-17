@@ -61,12 +61,12 @@
 <div class="table-responsive top-border-table" id="users-table-wrapper">
     <table class="table" id="batch_table">
         <thead>
-        	<th>@lang('app.name')</th>
-            <th>@lang('app.code')</th>
-            <th>@lang('app.vendor_code')</th>
-            <th>@lang('app.number_of_companies')</th>
-            <th class="nosort">@lang('app.status')</th>
-            <th class="text-center nosort">@lang('app.action')</th>
+        	<th>@sortablelink('name',trans('app.name'))</th>
+            <th>@sortablelink('code',trans('app.code'))</th>
+            <th>@sortablelink('vendor_code',trans('app.vendor_code'))</th>
+            <th>@sortablelink('No_Companies',trans('app.number_of_companies'))</th>
+            <th class="text-primary">@lang('app.status')</th>
+            <th class="text-center text-primary">@lang('app.action')</th>
         </thead>
         <tbody>
             @if (count($batches))
@@ -87,10 +87,6 @@
                                     data-confirm-text="@lang('app.are_you_sure_delete_batch')"
                                     data-confirm-delete="@lang('app.yes')">
                                 <i class="glyphicon glyphicon-trash"></i></a>
-                           <!-- <a href="{{ route('batch.edit', $batch->id) }}" class="btn btn-primary btn-circle"
-                               title="@lang('app.edit_batch')" data-toggle="tooltip" data-placement="top">
-                                <i class="glyphicon glyphicon-edit"></i>
-                            </a> -->
                           @endif
                           @if($batch->status=="Complete")
                           		<a href="{{ route('batch.download',$batch->id) }}" class="btn btn-primary btn-circle"
@@ -125,19 +121,5 @@
         $("#code").change(function (){
             $("#batches-form").submit();
         });
-        $(document).ready(function() {
-            //$('#example').DataTable();
-            $('#batch_table').dataTable( {
-                "bPaginate": false,
-                "bFilter": false,
-                "bInfo": false,
-                aoColumnDefs: [
-              	  {
-              	     bSortable: false,
-              	     aTargets: [ 'nosort' ]
-              	  }
-              	]
-             } );
-        } );
     </script>
 @stop

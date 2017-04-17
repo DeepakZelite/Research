@@ -4,8 +4,6 @@ namespace Vanguard\Http\Controllers;
 
 use Vanguard\Http\Requests\Vendor\CreateVendorRequest;
 use Vanguard\Http\Requests\Vendor\UpdateVendorRequest;
-use Vanguard\Repositories\Country\CountryRepository;
-use Vanguard\Repositories\Role\RoleRepository;
 use Vanguard\Repositories\Vendor\VendorRepository;
 use Vanguard\Support\Enum\UserStatus;
 use Vanguard\Vendor;
@@ -40,24 +38,19 @@ class VendorsController extends Controller
 
     /**
      * Display paginated list of all vendors.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return a list view
      */
     public function index()
     {
         $perPage = 5;
-        //return Input::get('sort');
         $vendors = $this->vendors->paginate($perPage, Input::get('search'), Input::get('status'));
-        $statuses = ['' => trans('app.all')] + UserStatus::lists1(); // Check-Deepak
+        $statuses = ['' => trans('app.all_status')] + UserStatus::lists1(); // Check-Deepak
         return view('vendors.list', compact('vendors', 'statuses')); // Check-Deepak
     }
 
     /**
      * Displays form for creating a new vendor.
-     *
-     * @param CountryRepository $countryRepository
-     * @param RoleRepository $roleRepository
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function create()
     {
@@ -68,22 +61,18 @@ class VendorsController extends Controller
 
     /**
      * Stores new vendor into the database.
-     *
      * @param CreateVendorRequest $request
-     * @return mixed
+     * @return a list of Vendors.
      */
     public function store(CreateVendorRequest $request)
     {
         $data = $request->all() + ['status' => UserStatus::ACTIVE];
-        //return $data;
         $vendor = $this->vendors->create($data);
-        return redirect()->route('vendor.list')
-            ->withSuccess(trans('app.vendor_created'));      
+        return redirect()->route('vendor.list') ->withSuccess(trans('app.vendor_created'));      
     }
 
     /**
      * Displays edit vendor form.
-     *
      * @param Vendor $vendor
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -94,17 +83,15 @@ class VendorsController extends Controller
         return view('vendors.add-edit', compact('edit', 'vendor','statuses'));
     }
 
-    /**
-     * Update specified vendor with provided data.
-     *
-     * @param Role $role
-     * @param UpdateRoleRequest $request
-     * @return mixed
-     */
+   /**
+    * Update specified vendor with provided data.
+    * @param Vendor $vendor
+    * @param UpdateVendorRequest $request
+    * @return list of vendors with updated record.
+    */
     public function update(Vendor $vendor, UpdateVendorRequest $request)
     {
     	$this->vendors->update($vendor->id, $request->all());
-    	return redirect()->route('vendor.list')
-    		->withSuccess(trans('app.vendor_updated'));
+    	return redirect()->route('vendor.list') ->withSuccess(trans('app.vendor_updated'));
     }
   }

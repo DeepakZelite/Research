@@ -20,21 +20,25 @@
 							<th>@lang('app.address1')</th>
 							<th>@lang('app.state')</th>
 							<th>@lang('app.zipcode')</th>
+							<th>@lang('app.phone')</th>
+							<th>@lang('app.specility')</th>
 						</thead>
 						<tbody>
 							@if(count($duplicate)) 
 							@foreach ($duplicate as $contact)
 							<tr>
-								<td>{{ $contact->company_name }}</td>
-								<td>{{ $contact->website }}</td>
-								<td>{{ $contact->first_name }}</td>
-								<td>{{ $contact->last_name }}</td>
-								<td>{{ $contact->job_title }}</td>
-								<td>{{ $contact->staff_email }}</td>
-								<td>{{ $contact->city }}</td>
-								<td>{{ $contact->address1 }}<td>
-								<td>{{ $contact->state }}</td>
-								<td>{{ $contact->zipcode }}</td>
+								<td>	{{ $contact->company_name }}	</td>
+								<td>	{{ $contact->website }}		</td>
+								<td>	{{ $contact->first_name }}	</td>
+								<td>	{{ $contact->last_name }}	</td>
+								<td>	{{ $contact->job_title }}	</td>
+								<td>	{{ $contact->staff_email }}	</td>
+								<td>	{{ $contact->city }}		</td>
+								<td>	{{ $contact->address1 }}	</td>
+								<td>	{{ $contact->state }}		</td>
+								<td>	{{ $contact->zipcode }}		</td>
+								<td>	{{ $contact->branchnumber }}	</td>
+								<td>	{{ $contact->specialization }}	</td>
 							</tr>
 							@endforeach @else
 							<tr>

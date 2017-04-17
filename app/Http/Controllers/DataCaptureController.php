@@ -273,19 +273,21 @@ class DataCaptureController extends Controller
 	public function getduplicateRecord(Request $request,ContactRepository $contactRepository,Contact $contact)
 	{
 		$inputs = Input::all();
-		$first=$inputs['firstname'];
-		$last =$inputs['lastname'];
+		$first	=$inputs['firstname'];
+		$last 	=$inputs['lastname'];
 		$jobtitle=$inputs['jobtitle'];
-		$email=$inputs['email'];
+		$email	=$inputs['email'];
 		$company_name=$inputs['company_name'];
 		$website= $inputs['website'];
 		$address= $inputs['address'];
 		$city	= $inputs['city'];
 		$state	= $inputs['state'];
 		$zipcode= $inputs['zipcode'];
-		Log::info("Contact:::::". $first." ".$last." ".$jobtitle." ".$company_name." ".$website." ".$address." ".$city." ".$state." ".$zipcode);
+		$specility=$inputs['specility'];
+		$phone	=$inputs['specility'];
+		Log::info("Contact:::::". $first." ".$last." ".$jobtitle." ".$company_name." ".$website." ".$address." ".$city." ".$state." ".$zipcode." ".$specility." ".$phone);
 		$perPage=5;
-		$duplicate = $contactRepository->duplicate($first,$last,$jobtitle,$email,$company_name,$website,$address,$city,$state,$zipcode);
+		$duplicate = $contactRepository->duplicate($first,$last,$jobtitle,$email,$company_name,$website,$address,$city,$state,$zipcode,$specility,$phone);
 		//$duplicate = $this->companyRepository->paginate($perPage,null,null,$first);
 		Log::info("Contact:::::". $duplicate);
 		return view('company.partials.duplicate-list', compact('duplicate'));

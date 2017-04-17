@@ -39,7 +39,6 @@ class ProjectsController extends Controller
 
     /**
      * Display paginated list of all projects.
-     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
@@ -52,7 +51,6 @@ class ProjectsController extends Controller
 
     /**
      * Displays form for creating a new project.
-     *
      * @param CountryRepository $countryRepository
      * @param RoleRepository $roleRepository
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -65,7 +63,6 @@ class ProjectsController extends Controller
 
     /**
      * Stores new project into the database.
-     *
      * @param CreateProjectRequest $request
      * @return mixed
      */
@@ -86,7 +83,6 @@ class ProjectsController extends Controller
 
     /**
      * Displays edit project form.
-     *
      * @param Project $project
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -98,7 +94,6 @@ class ProjectsController extends Controller
 
     /**
      * Update specified project with provided data.
-     *
      * @param Role $role
      * @param UpdateRoleRequest $request
      * @return mixed

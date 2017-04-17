@@ -128,7 +128,7 @@ class EloquentContact implements ContactRepository
      * {@inheritDoc}
      * @see \Vanguard\Repositories\Contact\ContactRepository::duplicat()
      */
-    public function duplicate($first = null,$last = null,$jobTitle = null,$email = null,$companyName = null,$website = null,$address =null,$city = null,$state = null,$zipcode =null)
+    public function duplicate($first = null,$last = null,$jobTitle = null,$email = null,$companyName = null,$website = null,$address =null,$city = null,$state = null,$zipcode =null,$specility = null,$phone = null)
     {	
     	$query = Contact::query();
     	
@@ -156,6 +156,10 @@ class EloquentContact implements ContactRepository
     	{
     		$query->where('companies.zipcode',"=","{$zipcode}");
     	}
+    	if($phone)
+    	{
+    		$query->where('companies.branchNumber',"like","{$phone}%");
+    	}
     	if ($first) {
     		$query->where('contacts.first_name', "=", "{$first}");
     	}
@@ -170,6 +174,10 @@ class EloquentContact implements ContactRepository
     	if($email)
     	{
     		$query->where('contacts.staff_email', "=" ,"{$email}");
+    	}
+    	if($specility)
+    	{
+    		$query->where('contacts.specialization'."like","{$specility}%");
     	}
     	$result = $query
     	->leftjoin('companies', 'companies.id', '=', 'contacts.company_id')

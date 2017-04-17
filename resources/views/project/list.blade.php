@@ -31,10 +31,6 @@
     </div>
     <div class="col-md-7"></div>
     <form method="GET" action="" accept-charset="UTF-8" id="projects-form">
- <!--        <div class="col-md-2">
-            {!! Form::select('status', $statuses, Input::get('status'), ['id' => 'status', 'class' => 'form-control']) !!}
-        </div>
-         -->
         <div class="col-md-3">
             <div class="input-group custom-search-form">
                 <input type="text" class="form-control" name="search" value="{{ Input::get('search') }}" placeholder="@lang('app.search_for_projects')">
@@ -56,13 +52,10 @@
 <div class="table-responsive top-border-table" id="users-table-wrapper">
     <table class="table" id="project_table">
         <thead>
-        	<th>@lang('app.code')</th>
-           <!--  <th>@lang('app.name')</th> -->
-            <th>@lang('app.number_of_companies')</th>
-            <th>@lang('app.expected_staff')</th>
-           <!-- <th>@lang('app.task_brief')</th>
-            <th>@lang('app.expected_date')</th> -->
-            <th class="text-center nosort">@lang('app.action')</th>
+        	<th>@sortablelink('code',trans('app.code'))</th>
+            <th>@sortablelink('No_Companies',trans('app.no_of_companies'))</th>
+            <th>@sortablelink('Expected_Staff',trans('app.expected_staff'))</th>
+            <th class="text-center text-primary">@lang('app.action')</th>
         </thead>
         <tbody>
             @if (count($projects))
@@ -71,13 +64,7 @@
                     	<td>{{ $project->code }}</td>
                      <!--    <td>{{ $project->name }}</td> -->
                         <td>{{ $project->No_Companies }}</td>
-                        <td>{{ $project->Expected_Staff }}</td>
-                      <!--   <td><a href="{{ URL::to('project/download',$project->brief_file) }}" class="btn btn-primary btn-circle"
-                               title="@lang('app.download')" data-toggle="tooltip" data-placement="top">
-                                <i class="glyphicons glyphicons-info-sign"></i>
-                            </a>
-                         </td> 
-                        <td>{{ $project->Expected_date }}</td>  -->                      
+                        <td>{{ $project->Expected_Staff }}</td>                   
                          <td class="text-center">
                             <a href="{{ route('project.edit', $project->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_project')" data-toggle="tooltip" data-placement="top">
@@ -104,19 +91,5 @@
         $("#status").change(function () {
             $("#users-form").submit();
         });
-        $(document).ready(function() {
-            //$('#example').DataTable();
-            $('#project_table').dataTable( {
-                "bPaginate": false,
-                "bFilter": false,
-                "bInfo": false,
-                aoColumnDefs: [
-              	  {
-              	     bSortable: false,
-              	     aTargets: [ 'nosort' ]
-              	  }
-              	]
-             } );
-        } );
     </script>
 @stop
