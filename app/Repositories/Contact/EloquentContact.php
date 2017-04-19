@@ -123,8 +123,7 @@ class EloquentContact implements ContactRepository
             ->get();
     }
     
-    /**
-     * 
+    /** 
      * {@inheritDoc}
      * @see \Vanguard\Repositories\Contact\ContactRepository::duplicat()
      */
@@ -186,4 +185,21 @@ class EloquentContact implements ContactRepository
     	return $result;
     }
 
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getTotalContactCount($companyId)
+    {
+    	$query = Contact::query();
+    	if ($companyId != 0) {
+    		$query->where(function ($q) use($companyId) {
+    			$q->where('contacts.company_id', "=", "{$companyId}");
+    		});
+    	} else {
+    		return 0;
+    	}
+    	$result = $query->count();
+    	return $result;
+    }
 }

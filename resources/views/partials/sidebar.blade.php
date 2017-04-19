@@ -140,6 +140,33 @@
             @endpermission
             
             
+            @permission('reports.manage')
+                <li class="{{ Request::is('productivityreport*') || Request::is('myproductivityreport*') || Request::is('report*') ? 'active open' : ''  }}">
+                    <a href="#">
+                        <i class="fa fa-user fa-fw"></i>
+                        @lang('app.report')
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level collapse">
+                             <li>
+                                <a href="{{ route('report.list') }}" class="{{ Request::is('report*') ? 'active' : ''  }}">
+                                    @lang('app.project_status_report')
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('report.productivity')}}" class="{{ Request::is('productivityreport*') ? 'active' : ''  }}">
+                                    @lang('app.productivity_report')
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="{{ Request::is('myproductivityreport*') ? 'active' : ''  }}">
+                                    @lang('app.my_productivity')
+                                </a>
+                            </li> 
+                    </ul>
+                </li>
+            @endpermission
+            
         </ul>
     </div>
     

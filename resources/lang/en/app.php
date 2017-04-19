@@ -543,6 +543,25 @@ return [
 		'child_company_lists'=>'Child Company Lists',
 		'child_company_list_big' => 'Subsidiaries',
 		
+		//Reports
+		'report' => 'Reports',
+		'project_status_report'=>'Project Status Report',
+		'productivity_report'=>'Productivity Report',
+		'my_productivity'=>'My Productivity',
+		'project_status' => 'Project Status',
+		'no_of_staff_record_processed'=>'No. Of Staff Record Processed',
+		'project_code'=>'Project Code',
+		'batch_code' => 'Batch Code',
+		'go' => 'Go',
+		'batch_status' => 'Batch Status',
+		'total' => 'Total',
+		'status_report'=>'Status Report',
+		'user_name'=>'User Name',
+		'hour_spend'=>'Hours Spent',
+		'number_of_companies_processed'=>'No Of Companies Processed',
+		'no_of_record_processed' => 'No of Record Processed',
+		'record_per_hour' => 'Record Per Hour',
+		
 		'months' => [
         'January' => 'January',
         'February' => 'February',

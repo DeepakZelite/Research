@@ -25,7 +25,7 @@ class EloquentVendor implements VendorRepository
     /**
      * {@inheritdoc}
      */
-    public function lists($column = 'name', $key = 'id')
+    public function lists($column = 'vendor_code', $key = 'id')
     {
     	return Vendor::lists($column, $key);
     }
@@ -125,5 +125,5 @@ class EloquentVendor implements VendorRepository
             ->limit($count)
             ->get();
     }
-
+    
 }

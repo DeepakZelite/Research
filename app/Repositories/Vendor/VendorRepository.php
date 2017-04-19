@@ -23,7 +23,7 @@ interface VendorRepository
      * @param string $key
      * @return mixed
      */
-    public function lists($column = 'name', $key = 'id');
+    public function lists($column = 'vendor_code', $key = 'id');
     
     
     public function lists1();

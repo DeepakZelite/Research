@@ -137,5 +137,6 @@ interface CompanyRepository
     
     public function getChildCompanies($parentId);
     
-    public function getCompanyRecord1($companyId);
+    
+    public function getcompanies($batchId);
 }

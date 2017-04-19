@@ -69,10 +69,7 @@ class EloquentCompany implements CompanyRepository
     {
         return $this->find($id)->update($data);
     }
-    /* public function update($batch_id,array $data)
-     {
-     	return $this->find($batch_id->update($data));
-     }
+
     /**
      * {@inheritdoc}
      */
@@ -101,7 +98,6 @@ class EloquentCompany implements CompanyRepository
     		$query->where(function ($q) use($batchId) {
     			$q->where('companies.batch_id', "=", "{$batchId}")
     				->whereNull('sub_batch_id');
-    				//->orwhere('companies.sub_batch_id',"=",'')
     		});
     	} else {
     		return 0;
@@ -231,6 +227,10 @@ class EloquentCompany implements CompanyRepository
     	return $result;
     }
     
+    /**
+     * {@inheritDoc}
+     * @see \Vanguard\Repositories\Company\CompanyRepository::getTotalCompany()
+     */
     public function getTotalCompany($batchId)
     {
     	$query = Company::query();
@@ -254,15 +254,27 @@ class EloquentCompany implements CompanyRepository
     }
     
     
-    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \Vanguard\Repositories\Company\CompanyRepository::getChildCompanies()
+     */
     public function getChildCompanies($parentId)
     {
     	return Company::where('parent_id', $parentId)->get();//lists('company_name','id');
     }
-    
-    
-    public function getCompanyRecord1($companyId)
+   
+    public function getcompanies($batchId)
     {
-    	return Company::where('id',$companyId)->get();
+    	$query = Company::query();
+    	if ($batchId != 0) {
+    		$query->where(function ($q) use($batchId) {
+    			$q->where('companies.batch_id', "=", "{$batchId}");
+    		});
+    	} else {
+    		return 0;
+    	}
+    	$result = $query->select('id')->get();
+    	return $result;
     }
 }

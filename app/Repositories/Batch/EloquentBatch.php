@@ -45,7 +45,7 @@ class EloquentBatch implements BatchRepository
     public function paginate($perPage, $search = null, $vendorId = null, $status = null,$vendorCode =null,$projectcode = null)
     {
         $query = Batch::query();
-        Log::info("Status value in Model:" . $status);
+        
         if ($search) {
             $query->where(function ($q) use($search) {
                 $q->where('batches.name', "like", "%{$search}%");
@@ -143,5 +143,25 @@ class EloquentBatch implements BatchRepository
     {
     	return Batch::where('vendor_id', $vendorId)->lists('name', 'id');
     	
+    }
+    
+    public function getDataForProjectReport($vendor_code = null, $project_code = null)
+    {
+    	$query = Batch::query();
+    	Log::info("Status value in Model:" . $vendor_code);
+    	if($project_code)
+    	{
+    		$query->where('projects.code',"=","{$project_code}");
+    	}
+    	if($vendor_code)
+    	{
+    		$query->where('vendors.vendor_code',"=","{$vendor_code}");
+    	}
+    	$result=$query
+    	->leftjoin('projects', 'projects.id', '=', 'batches.project_id')
+    	->leftjoin('vendors', 'vendors.id', '=', 'batches.vendor_id')
+    	->select('vendors.vendor_code','projects.code','projects.No_Companies as companies','batches.id','batches.name','batches.status');
+    	$result= $query->get();
+    	return $result;
     }
 }
