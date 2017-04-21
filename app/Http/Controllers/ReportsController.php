@@ -13,8 +13,8 @@ use Vanguard\Repositories\Project\ProjectRepository;
 use Vanguard\Repositories\Company\CompanyRepository;
 use Vanguard\Repositories\Contact\ContactRepository;
 use Vanguard\Repositories\User\UserRepository;
-use Vanguard\Batch;
 use Vanguard\Repositories\Vendor\VendorRepository;
+use Vanguard\Repositories\SubBatch\SubBatchRepository;
 use Illuminate\Support\Facades\Log;
 use DB;
 
@@ -27,6 +27,9 @@ class ReportsController extends Controller
 	private $projectRepository;
 	private $vendorRepository;
 	
+	/**
+	 * contructor
+	 */
 	public function __construct()
 	{
 		$this->middleware('auth');
@@ -35,6 +38,12 @@ class ReportsController extends Controller
 		$this->theUser = Auth::user();
 	}
 	
+	/**
+	 * project status report list page
+	 * @param VendorRepository $vendorRepository
+	 * @param ProjectRepository $projectRepository
+	 * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+	 */
 	public function index(VendorRepository $vendorRepository,ProjectRepository $projectRepository)
 	{
 		$batches=null;
@@ -51,6 +60,15 @@ class ReportsController extends Controller
 		return view('report.project-status-report', compact('show','batches','projects', 'vendors'));
 	}
 	
+	/**
+	 * Go button click code for displying the batches report
+	 * @param VendorRepository $vendorRepository
+	 * @param ProjectRepository $projectRepository
+	 * @param ContactRepository $contactRepository
+	 * @param CompanyRepository $companyRepository
+	 * @param BatchRepository $batchRepository
+	 * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+	 */
 	public function getData(VendorRepository $vendorRepository,ProjectRepository $projectRepository,ContactRepository $contactRepository,CompanyRepository $companyRepository,BatchRepository $batchRepository)
 	{
 		$projects =	[''=>trans('app.all_project')] + $projectRepository->lists1();
@@ -91,30 +109,165 @@ class ReportsController extends Controller
 		return view('report.project-status-report',compact('show','batches','projects', 'vendors'));
 	}
 	
-	public function productivityList(VendorRepository $vendorRepository,UserRepository $userRepository)
+	
+	/**
+	 * productivity report for all vendors by default.
+	 * @param VendorRepository $vendorRepository
+	 * @param UserRepository $userRepository
+	 * @param CompanyRepository $companyRepository
+	 * @param ContactRepository $contactRepository
+	 * @param SubBatchRepository $subBatchRepository
+	 * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+	 */
+	public function productivityList(VendorRepository $vendorRepository,UserRepository $userRepository,CompanyRepository $companyRepository,ContactRepository $contactRepository,SubBatchRepository $subBatchRepository)
 	{
 		$vendors  = $vendorRepository->lists();
 		$vendors -> prepend('select vendor','-1');
-		if($vendorId="")
+		if ($this->theUser->username == 'admin')
 		{
-			$vendorId=-1;
+			$show=true;
+			$users = $userRepository->getVendorUsers(Input::get('vendor_code'));
+			$users -> prepend('select user','0');
+			$datas=null;
+			$datas=DB::table('vendors')->select('id','vendors.vendor_code as code')->get();
+			if(sizeof($datas)>0)
+			{
+				foreach($datas as &$data)
+				{
+					$count=null;
+					//for calculating the hours spend for perticular vendor
+					$a=$subBatchRepository->getTimespend($data->id);
+					//for calculating the companies Processed
+					$c=$companyRepository->getCompaniesForProductivityReport($data->id);
+					//for calculating the record processed
+					$companies=DB::table('companies')->where('vendor_id',"=","$data->id")->select('companies.id')->get();
+					if(sizeof($companies)>1)
+					{
+						foreach($companies as $company)
+						{
+							$abc=$contactRepository->getTotalContactCount($company->id);
+							$count=$count+$abc;
+						}
+					}
+					//for calculating the time per hour
+					$b=$a[0]->count;
+					$per_hour=null;
+					if($b > 0){
+						$per_hour=$count/$b;
+						$per_hour=round($per_hour);
+					}
+					$data=(array)$data;
+					$data["username"]= "All";
+					$data["hour_spend"] ="$b";
+					$data["companies_processed"] = "$c";
+					$data["processed_record"] = "$count";
+					$data["per_hour"] = "$per_hour";
+				}
+			}
 		}
-		$users = $userRepository->getVendorUsers(Input::get('vendor_code'));
-		$users -> prepend('select user','0');
+		else 
+		{ 
+			$show=false;
+			$users = $userRepository->getVendorUsers($this->theUser->vendor_id); 
+			$users -> prepend('select user','0');
+			$datas=null;
+			$vendorId=$this->theUser->vendor_id;
+			$userId 	=null;
+			$datas=$vendorRepository->getReportData($vendorId,$userId);
+			if(sizeof($datas)>0)
+			{
+				foreach($datas as $data)
+				{
+					$count=null;
+					//for calculating the hours spend for perticular vendor
+					$a=$subBatchRepository->getTimespend($data->vendor_id,$data->user_id);
+					//for calculating the companies Processed
+					$c=$companyRepository->getCompaniesForProductivityReport($data->vendorid,$data->user_id);
+					//for calculating the record processed
+					$companies=DB::table('companies')->where('vendor_id',"=","$data->vendor_id")->where('user_id',"=","$data->user_id")->select('companies.id')->get();
+					if(sizeof($companies)>1)
+					{
+						foreach($companies as $company)
+						{
+							Log::info("Contact:::".$company->id);
+							$abc=$contactRepository->getTotalContactCount($company->id);
+							$count=$count+$abc;
+						}
+					}
+					Log::info("Contact:::".$data->code." ".$data->username." ".$data->user_id." ".$data->vendor_id." ".$a[0]->count." ".$c." ".$count);
+					$b=$a[0]->count;
+					if($b > 0){
+						$per_hour=$count/$b;
+						$per_hour=round($per_hour);
+					}
+					$data["hour_spend"] ="$b";
+					$data["companies_processed"] = "$c";
+					$data["processed_record"] = "$count";
+					$data["per_hour"] = "$per_hour";
+				}
+			}
+		}
+		
+		return view('report.productivity-report', compact('show','datas','users', 'vendors'));
+	}
+	
+	/**
+	 * Go button click code for productivity report for displaying data of perticular vendor and user
+	 * @param Request $request
+	 * @param VendorRepository $vendorRepository
+	 * @param CompanyRepository $companyRepository
+	 * @param ContactRepository $contactRepository
+	 * @param SubBatchRepository $subBatchRepository
+	 * @return unknown
+	 */
+	public function getProductivityReport(Request $request,VendorRepository $vendorRepository,CompanyRepository $companyRepository,ContactRepository $contactRepository,SubBatchRepository $subBatchRepository)
+	{
+		$inputs = Input::all();
+		if ($this->theUser->username == 'admin')
+		{
+			$vendorId	=$inputs['vendorId'];
+		}
+		else 
+		{
+			$vendorId=$this->theUser->vendor_id;
+		}
+		$userId 	=$inputs['userId'];
+		Log::info("Contact:::::". $vendorId." ".$userId);
 		$datas=null;
-		$datas=DB::table('vendors')->select('vendors.vendor_code as code')->get();
-				/*->join('users','vendors.id',"=",'users.vendor_id')
-				->select('vendors.vendor_code','users.username')
-				->get();*/
-		$vendorId=Input::get('vendor_code');
-		if($vendorId!=0)
+		$datas=$vendorRepository->getReportData($vendorId,$userId);
+		if(sizeof($datas)>0)
 		{
-			$datas=DB::table('vendors')
-			->join('users','vendors.id',"=",'users.vendor_id')
-			 ->select('vendors.vendor_code as code','users.username')
-			 ->where('vendors.id',"=","$vendorId")
-			 ->get();
+			foreach($datas as $data)
+			{
+				$count=null;
+				//for calculating the hours spend for perticular vendor
+				$a=$subBatchRepository->getTimespend($data->vendor_id,$data->user_id);
+				//for calculating the companies Processed
+				$c=$companyRepository->getCompaniesForProductivityReport($data->vendorid,$data->user_id);
+				//for calculating the record processed
+				$companies=DB::table('companies')->where('vendor_id',"=","$data->vendor_id")->where('user_id',"=","$data->user_id")->select('companies.id')->get();
+				if(sizeof($companies)>1)
+				{
+					foreach($companies as $company)
+					{
+						Log::info("Contact:::".$company->id);
+						$abc=$contactRepository->getTotalContactCount($company->id);
+						$count=$count+$abc;
+					}
+				}
+				Log::info("Contact:::".$data->code." ".$data->username." ".$data->user_id." ".$data->vendor_id." ".$a[0]->count." ".$c." ".$count);
+				$b=$a[0]->count;
+				if($b > 0){
+					$per_hour=$count/$b;
+					$per_hour=round($per_hour);
+				}
+				$data["hour_spend"] ="$b";
+				$data["companies_processed"] = "$c";
+				$data["processed_record"] = "$count";
+				$data["per_hour"] = "$per_hour";
+			}
 		}
-		return view('report.productivity-report', compact('datas','users', 'vendors'));
+		Log::info("Contact:::".$datas);
+		return $datas;
 	}
 }

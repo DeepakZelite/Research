@@ -90,4 +90,10 @@ interface VendorRepository
      */
     public function latest($count = 20);
     
+    /**
+     * get the data for report
+     * @param unknown $vendorId
+     * @param unknown $userId
+     */
+    public function getReportData($vendorId = null, $userId = null);
 }

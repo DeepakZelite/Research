@@ -5,6 +5,7 @@ namespace Vanguard\Repositories\SubBatch;
 use Vanguard\SubBatch;
 use Carbon\Carbon;
 use Kyslik\ColumnSortable\Sortable;
+use DB;
 
 class EloquentSubBatch implements SubBatchRepository
 {
@@ -173,4 +174,20 @@ class EloquentSubBatch implements SubBatchRepository
             ->get();
     }
 
+    public function getTimespend($vendorId = null,$userId = null)
+    {
+    	$query = SubBatch::query();
+    	if($vendorId)
+    	{
+    		$query ->where('vendor_id', "=" ,"{$vendorId}");
+    	}
+    	if($userId)
+    	{
+    		$query ->where('user_id',"=","{$userId}");
+    	}
+    	$result = $query
+    			->select(DB::raw('sum(TIMESTAMPDIFF(hour,created_at,updated_at)) as count'),'batch_id')
+    			->get();
+    	return $result;
+    }
 }

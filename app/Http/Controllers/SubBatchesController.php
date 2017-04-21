@@ -83,7 +83,8 @@ class SubBatchesController extends Controller
 		if($companyRepository->getUnAssignedCount($batchId)>= $request->company_count)
 		{
 			$newSeqNo = $this->subBatches->getMaxSeqNo($request->input('batch_id'))+1;
-			$vendorId =$this->theUser = Auth::user()->id;// $this->theUser->vendor_id;
+			$vendorId =$this->theUser->vendor_id;// = Auth::user()->id;// $this->theUser->vendor_id;
+			return $vendorId;
 			$data = $request->all() + ['status' => SubBatchStatus::ASSIGNED] + ['seq_no' => $newSeqNo] +['project_id' => "$batch->project_id"] + ['vendor_id'=>"$vendorId"];
 			$subBatch = $this->subBatches->create($data);
 			$companies = $this->companyRepository->getCompaniesForBatch($request->input('batch_id'), $request->input('company_count'));

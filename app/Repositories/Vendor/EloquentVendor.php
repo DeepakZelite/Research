@@ -126,4 +126,21 @@ class EloquentVendor implements VendorRepository
             ->get();
     }
     
+    public function getReportData($vendorId = null, $userId = null)
+    {
+    	$query = Vendor::query();
+    	if($vendorId)
+    	{
+    		$query->where('vendors.id',"=","{$vendorId}");
+    	}
+    	if($userId)
+    	{
+    		$query->where('users.id',"=","{$userId}");
+    	}
+    	$result = $query
+    			->leftjoin('users','vendors.id',"=",'users.vendor_id')
+    			->select('vendors.vendor_code as code','users.username','vendors.id as vendor_id','users.id as user_id')
+    			->get();
+    	return $result;
+    }
 }

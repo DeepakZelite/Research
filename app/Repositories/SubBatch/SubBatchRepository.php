@@ -88,4 +88,10 @@ interface SubBatchRepository
 	 */
 	public function getMaxSeqNo($batchId);
 
+	/**
+	 * 
+	 * @param unknown $vendorId
+	 * @param unknown $useId
+	 */
+	public function getTimespend($vendorId = null,$userId = null);
 }

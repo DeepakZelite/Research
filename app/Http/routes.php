@@ -677,3 +677,8 @@ Route::get('report/productivity',[
 		'as'=>'report.productivity',
 		'uses'=>'ReportsController@productivityList'
 ]);
+
+Route::get('report/getProductivityReport',[
+		'as'=>'report.getProductivityReport',
+		'uses'=>'ReportsController@getProductivityReport'
+]);

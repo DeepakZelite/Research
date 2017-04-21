@@ -22,23 +22,29 @@
 @include('partials.messages')
 
 <div class="row tab-search">
+     @if($show)
     <form method="GET" action="" accept-charset="UTF-8" id="productivity-report-form">
     	<div class="col-md-2">
                 {!! Form::select('vendor_code', $vendors, Input::get('vendor_code'), ['id'=>'vendor_code', 'class'=>'form-control'])!!}
         </div>
- 	
+ 	 </form>
+ 	 @endif
+ 	 	<!-- {!! Form::open(['route' => 'report.getProductivityReport', 'id' => 'report-form1']) !!} 
+ 	 	<div> <input type="hidden" id="vendor_id" name="vendor_id" value="">
+ 	 	</div>
+ 	 	 -->
  		<div class="col-md-2">
              	{!! Form::select('user_id', $users, Input::get('user'), ['class' => 'form-control', 'id' => 'user_id']) !!}
         </div>
     	<div class="col-md-1">
-        	<button type="submit" class="btn btn-success" id="btn_go">
+    	<input type="button" id="btn_go" class="btn btn-success" value="@lang('app.go')" onclick="getRecord();"/>
+        	<!-- <button type="submit" class="btn btn-success" id="btn_go" onclick="">
             @lang('app.go')
-        	</button>
+        	</button> -->
     	</div>
-    </form>
 </div>
 
-<div class="table-responsive top-border-table" id="users-table-wrapper">
+<div class="table-responsive top-border-table" id="users-table-wrapper1">
     <table class="table" id="example">
         <thead>
         	<th>@lang('app.vendor_code')</th>
@@ -52,12 +58,12 @@
 			@if(count($datas))
 			    @foreach($datas as $data)
                     <tr>
-                        <td>{{ $data->code }}</td>
-                         <td>{{$data->username}}</td>
-                         <td></td>
-                         <td></td>
-                         <td></td>
-                         <td class="text-center"></td>
+                        <td>{{ $data['code'] }}</td>
+                         <td>{{ $data['username'] }}</td>
+                         <td>{{ $data['hour_spend'] }}</td>
+                         <td>{{ $data['companies_processed'] }}</td>
+                         <td>{{ $data['processed_record'] }}</td>
+                         <td>{{ $data['per_hour'] }}</td>
                      </tr>
                  @endforeach
             @else
@@ -69,7 +75,8 @@
         <tfoot>
         	<tr>
         		<th>@lang('app.total')</th>
-        		<th colspan="2"></th>
+        		<th></th>
+        		<th><span id="hourspend"></span></th>
         		<th><span id ="totalcompany"></span></th>
         		<th><span id ="totalstaff"></span></th>
         		<th></th>
@@ -82,14 +89,44 @@
 
 @section('scripts')
 <script>
+function getRecord()
+{
+	var $vendorId	= $("#vendor_code").val();
+	var $userId = $("#user_id").val();
+	var html = "";
+    html += '';
+	$.ajax({
+		method:"GET",
+		url:"{{route('report.getProductivityReport')}}",
+		data:{'vendorId':$vendorId,'userId':$userId},
+		success:function(data){
+			$datas=$(data);
+			var trHTML = '';
+	        $.each(data, function (i, item) {
+	            trHTML += '<tr><td>' + item.code + '</td><td>' + item.username + '</td><td>' + item.hour_spend + '</td><td>' + item.companies_processed + '</td><td>' + item.processed_record + '</td><td>' + item.per_hour + '</td></tr>';
+	        });
+	        $('#example tbody').append(trHTML);
+			//foreach ($datas as $item) {
+			//	html += "<tr><td>" + $item['code'] + "</td><td>" + $item['username'] + "</td></tr>"
+			//}
+			//$('#example tbody').fadeOut(function() {
+			//    $('#example tbody').html(trhtml).fadeIn();
+			//});
+			//$('#users-table-wrapper1').fadeOut(function()
+			//	{
+			//		 $('#users-table-wrapper1').html($datas).fadeIn(); 
+			//	});
+			//$('#users-table-wrapper1').fadeOut().html($data).fadeIn();//.html($data).fadeIn();
+			}
+	})
+}
+
 $("#vendor_code").change(function() {
 	$("#productivity-report-form").submit();
 });
-$("#btn_go").onclick(function() {
-	$("#productivity-report-form").submit();
-});
+
 $(document).ready(function() {
-    $('#example').dataTable({
+   $('#example').dataTable({
     "bPaginate": false,
     "bFilter": false,
     "bInfo": false,		
@@ -108,9 +145,13 @@ $(document).ready(function() {
 					return intVal(a) + intVal(b);
 				},0 );
 
+				total_hourSpend_count = api.column( 2 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				},0 );
 				// Update footer
 				$('#totalcompany').html(total_no_companies);
-				$('#totalstaff').html(total_staff_count);		
+				$('#totalstaff').html(total_staff_count);	
+				$('#hourspend').html(total_hourSpend_count);
 			},		
 	});
 });
