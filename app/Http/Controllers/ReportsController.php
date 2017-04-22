@@ -35,6 +35,7 @@ class ReportsController extends Controller
 		$this->middleware('auth');
 		$this->middleware('session.database', ['only' => ['sessions', 'invalidateSession']]);
 		$this->middleware('permission:reports.manage');
+		//$this->middleware('permission:reports.user');
 		$this->theUser = Auth::user();
 	}
 	
@@ -245,6 +246,7 @@ class ReportsController extends Controller
 				//for calculating the companies Processed
 				$c=$companyRepository->getCompaniesForProductivityReport($data->vendorid,$data->user_id);
 				//for calculating the record processed
+				//$companies=$companyRepository->getcompaniesforReport($data->vendor_id,$data->user_id);
 				$companies=DB::table('companies')->where('vendor_id',"=","$data->vendor_id")->where('user_id',"=","$data->user_id")->select('companies.id')->get();
 				if(sizeof($companies)>1)
 				{
@@ -268,6 +270,16 @@ class ReportsController extends Controller
 			}
 		}
 		Log::info("Contact:::".$datas);
-		return $datas;
+		return view('report.partials.productivity-table',compact('datas'));
+		
+	}
+	
+	public function myProductivityList(SubBatchRepository $subBatchRepository,CompanyRepository $companyRepository,ContactRepository $contactRepository)
+	{
+		$userId = 25;//$this->theUser->id;
+		$username = $this->theUser->username;
+		$a = $subBatchRepository->getTimespend(null,$userId);
+		$b = $companyRepository->getCompaniesForProductivityReport(null,$userid);
+		return view('report.my_productivity');
 	}
 }

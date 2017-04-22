@@ -682,3 +682,8 @@ Route::get('report/getProductivityReport',[
 		'as'=>'report.getProductivityReport',
 		'uses'=>'ReportsController@getProductivityReport'
 ]);
+
+Route::get('report/myProductivity',[
+		'as'=>'report.myProductivity',
+		'uses'=>'ReportsController@myProductivityList'
+]);

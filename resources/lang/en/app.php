@@ -544,7 +544,8 @@ return [
 		'child_company_list_big' => 'Subsidiaries',
 		
 		//Reports
-		'report' => 'Reports',
+		'reports' => 'Reports',
+		'report' =>  'Report',
 		'project_status_report'=>'Project Status Report',
 		'productivity_report'=>'Productivity Report',
 		'my_productivity'=>'My Productivity',
@@ -559,8 +560,10 @@ return [
 		'user_name'=>'User Name',
 		'hour_spend'=>'Hours Spent',
 		'number_of_companies_processed'=>'No Of Companies Processed',
-		'no_of_record_processed' => 'No of Record Processed',
+		'no_of_record_processed' => 'No of Record/staff Processed',
 		'record_per_hour' => 'Record Per Hour',
+		'my_productivity_report'=>'My Productivity Report',
+		'my_productivity'=>'My Productivity',
 		
 		'months' => [
         'January' => 'January',

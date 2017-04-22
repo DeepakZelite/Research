@@ -294,4 +294,19 @@ class EloquentCompany implements CompanyRepository
     	
     	return $result;
     }
+    
+    public function getcompaniesforReport($vendorId = null,$userId = null)
+    {
+    	$query = Company::query();
+    	if ($vendorId) 
+    	{
+    		$query->where('companies.vendor_id', "=", "{$vendorId}");
+    	}
+    	if($userId)
+    	{
+    		$query->where('$companies.user_id',"=","{$userId}");
+    	}
+    	$result = $query->select('id')->get();
+    	return $result;
+    }
 }

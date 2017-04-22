@@ -158,4 +158,11 @@ interface CompanyRepository
      * @param unknown $userId
      */
     public function getCompaniesForProductivityReport($vendorId = null,$userId = null);
+    
+    /**
+     * get companies id for report
+     * @param unknown $vendorId
+     * @param unknown $userId
+     */
+    public function getcompaniesforReport($vendorId = null,$userId = null);
 }

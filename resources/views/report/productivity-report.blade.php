@@ -44,7 +44,10 @@
     	</div>
 </div>
 
-<div class="table-responsive top-border-table" id="users-table-wrapper1">
+<div class="table-responsive top-border-table" id="reportData">
+
+<!--  Place it using ajax -->
+
     <table class="table" id="example">
         <thead>
         	<th>@lang('app.vendor_code')</th>
@@ -79,10 +82,11 @@
         		<th><span id="hourspend"></span></th>
         		<th><span id ="totalcompany"></span></th>
         		<th><span id ="totalstaff"></span></th>
-        		<th></th>
+        		<th><span id="perhour"></span></th>
         	</tr>
         </tfoot>
     </table>
+
 </div>
 
 @stop
@@ -91,34 +95,20 @@
 <script>
 function getRecord()
 {
+	
 	var $vendorId	= $("#vendor_code").val();
 	var $userId = $("#user_id").val();
 	var html = "";
     html += '';
+    
 	$.ajax({
 		method:"GET",
 		url:"{{route('report.getProductivityReport')}}",
 		data:{'vendorId':$vendorId,'userId':$userId},
 		success:function(data){
-			$datas=$(data);
-			var trHTML = '';
-	        $.each(data, function (i, item) {
-	            trHTML += '<tr><td>' + item.code + '</td><td>' + item.username + '</td><td>' + item.hour_spend + '</td><td>' + item.companies_processed + '</td><td>' + item.processed_record + '</td><td>' + item.per_hour + '</td></tr>';
-	        });
-	        $('#example tbody').append(trHTML);
-			//foreach ($datas as $item) {
-			//	html += "<tr><td>" + $item['code'] + "</td><td>" + $item['username'] + "</td></tr>"
-			//}
-			//$('#example tbody').fadeOut(function() {
-			//    $('#example tbody').html(trhtml).fadeIn();
-			//});
-			//$('#users-table-wrapper1').fadeOut(function()
-			//	{
-			//		 $('#users-table-wrapper1').html($datas).fadeIn(); 
-			//	});
-			//$('#users-table-wrapper1').fadeOut().html($data).fadeIn();//.html($data).fadeIn();
-			}
-	})
+			$('#reportData').html(data).fadeIn();
+		}
+	});
 }
 
 $("#vendor_code").change(function() {
@@ -136,7 +126,7 @@ $(document).ready(function() {
 				var intVal = function ( i ) {
 					return typeof i === 'string' ? i.replace(/[\$,]/g, '')*1 : typeof i === 'number' ? i : 0;
 				};
-				// total_salary over all pages
+
 				total_no_companies = api.column( 3 ).data().reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				},0 );
@@ -148,10 +138,15 @@ $(document).ready(function() {
 				total_hourSpend_count = api.column( 2 ).data().reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				},0 );
+
+				avg_per_hour = api.column( 5 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				},0 );
 				// Update footer
 				$('#totalcompany').html(total_no_companies);
 				$('#totalstaff').html(total_staff_count);	
 				$('#hourspend').html(total_hourSpend_count);
+				$('#perhour').html(avg_per_hour);
 			},		
 	});
 });
