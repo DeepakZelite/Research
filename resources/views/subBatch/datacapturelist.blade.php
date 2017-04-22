@@ -94,23 +94,6 @@
         $("#status").change(function () {
             $("#sub-batches-form").submit();
         });
-
-        $("#batch_id").change(function() {
-			//alert("OnChanged");
-             var batchId = $( this ).val();
-             var userId = $("#user_id").val();
-			//alert(selectedValue);           
-            $.ajax({
-                method: "GET",
-                url: "http://localhost:88/Research/public/subBatch/getCompanyCount",
-                data: {batchId:batchId, userId:userId}
-            })
-            .done(function(data) {
-				var array = data.split(",");
-				$("#totalCompanies").val(" No of Companies = " + array[0]);
-				$("#unAssignedCompanies").val("Unassigned companies = " + array[1]);
-            });
-        });
         $(document).ready(function() {
             //$('#example').DataTable();
             $('#dataCapture_table').dataTable( {

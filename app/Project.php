@@ -3,9 +3,11 @@
 namespace Vanguard;
 
 use Illuminate\Database\Eloquent\Model;
+use Kyslik\ColumnSortable\Sortable;
 
 class Project extends Model
 {
+	use Sortable;
     /**
      * The database table used by the model.
      *
@@ -19,6 +21,9 @@ class Project extends Model
     ];
 
     protected $fillable = ['name', 'code','No_Companies','Expected_Staff','brief_file','Start_Date','Expected_date'];
-//  	protected $fillable = ['brief_file'];
+
+    
+    protected $sortable = ['name', 'code','No_Companies','Expected_Staff','brief_file','Start_Date','Expected_date'];
+    
 
 }

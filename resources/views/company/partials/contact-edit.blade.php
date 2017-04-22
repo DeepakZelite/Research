@@ -3,14 +3,23 @@
 
 @if ($editContact) 
 	{!! Form::open(['route' => ['dataCapture.updateStaff', $contact->id], 'id' => 'staff-form']) !!}
-@else 
-	{!! Form::open(['route' => ['dataCapture.storeStaff', $company->id], 'method' => 'PUT', 'id' => 'staff-form']) !!}  
+@else
+	{!! Form::open(['route' => ['dataCapture.storeStaff', $company->id], 'method' => 'PUT', 'id' => 'staff-form']) !!}
 @endif
 
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12">
 						<div class="panel panel-default">
-							<div class="panel-heading">@lang('app.staff_details_big')</div>
+							<div class="panel-heading">@lang('app.staff_details_big')
+								<div class="pull-right" style="margin-top: -7px; margin-right: 1px;">
+									<button type="button" class="btn btn-default" data-toggle="modal"
+											data-target="#duplicateModel" id="btn_duplicate"
+											onclick="getduplicateRecord();" data-dismiss="modal">
+											<span class="glyphicon glyphicon-search"></span> @lang('app.duplicate_check')
+									</button> 
+								</div>
+							</div>
+							
 							<div class="panel-body">
 
 								<div class="container">
@@ -217,7 +226,6 @@ $('#first_name').focus();
 	{
 		if ($('#first_name').val() == '') {
 		    $('#first_name').css('border-color', 'red');
-		    //$('#first_name').focus();
 		    return false;
 		}
 		else {
@@ -226,7 +234,6 @@ $('#first_name').focus();
 
 		if ($('#job_title').val() == '') {
 		    $('#job_title').css('border-color', 'red');
-		    //$('#job_title').focus();
 		    return false;
 		}
 		else {
@@ -258,23 +265,4 @@ $('#first_name').focus();
 		});
 </script>
 {{ Form::close() }}
-
-@section('scripts')
-<script>
-hideMenu();
-function hideMenu() {
-	as.toggleSidebar()
-}
-function isNumberKey(evt)
-{
-  		var charCode = (evt.which) ? evt.which : event.keyCode
-  		if (charCode > 31 && (charCode < 48 || charCode > 57))
-    	return false;
-  		return true;
-}
-</script>
-@stop
-
-{{ Form::close() }}
-
 

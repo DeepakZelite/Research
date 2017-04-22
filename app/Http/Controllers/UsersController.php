@@ -11,7 +11,6 @@ use Vanguard\Http\Requests\User\CreateUserRequest;
 use Vanguard\Http\Requests\User\EnableTwoFactorRequest;
 use Vanguard\Http\Requests\User\UpdateDetailsRequest;
 use Vanguard\Http\Requests\User\UpdateLoginDetailsRequest;
-use Vanguard\Http\Requests\User\UpdateUserRequest;
 use Vanguard\Repositories\Activity\ActivityRepository;
 use Vanguard\Repositories\Country\CountryRepository;
 use Vanguard\Repositories\Role\RoleRepository;
@@ -58,8 +57,8 @@ class UsersController extends Controller
     {
         $perPage = 5;
         $users = $this->users->paginate($perPage, Input::get('search'), Input::get('status'),Input::get('vendor_code'));
-        $statuses = ['' => trans('app.all')] + UserStatus::lists1();
-        $vendors=[''=>trans('app.all')]+$vendorRepository->lists1();
+        $statuses = ['' => trans('app.all_status')] + UserStatus::lists1();
+        $vendors=[''=>trans('app.all_vendor')]+$vendorRepository->lists1();
         return view('user.list', compact('users', 'statuses','vendors'));
     }
 
@@ -100,7 +99,6 @@ class UsersController extends Controller
 
     /**
      * Stores new user into the database.
-     *
      * @param CreateUserRequest $request
      * @return mixed
      */
@@ -108,26 +106,21 @@ class UsersController extends Controller
     {
         // When user is created by administrator, we will set his
         // status to Active by default.
-        
     	$data = $request->all() + ['status' => UserStatus::ACTIVE]+['vendor_id'=>'0'];
-    	//return $data;
         // Username should be updated only if it is provided.
         // So, if it is an empty string, then we just leave it as it is.
         if (trim($data['username']) == '') {
             $data['username'] = null;
         }
-
         $user = $this->users->create($data);
         $this->users->updateSocialNetworks($user->id, []);
         $this->users->setRole($user->id, $request->get('role'));
 
-        return redirect()->route('user.list')
-            ->withSuccess(trans('app.user_created'));
+        return redirect()->route('user.list') ->withSuccess(trans('app.user_created'));
     }
 
     /**
      * Displays edit user form.
-     *
      * @param User $user
      * @param CountryRepository $countryRepository
      * @param RoleRepository $roleRepository
@@ -149,32 +142,25 @@ class UsersController extends Controller
 
     /**
      * Updates user details.
-     *
      * @param User $user
      * @param UpdateDetailsRequest $request
      * @return mixed
      */
     public function updateDetails(User $user, UpdateDetailsRequest $request)
     {
-    	//return $request->all();
         $this->users->update($user->id, $request->all());
         //$this->users->setRole($user->id, $request->get('role'));
-
         event(new UpdatedByAdmin($user));
-
         // If user status was updated to "Banned",
         // fire the appropriate event.
         if ($this->userIsBanned($user, $request)) {
             event(new Banned($user));
         }
-
-        return redirect()->back()
-            ->withSuccess(trans('app.user_updated'));
+        return redirect()->back()->withSuccess(trans('app.user_updated'));
     }
 
     /**
      * Check if user is banned during last update.
-     *
      * @param User $user
      * @param Request $request
      * @return bool
@@ -186,7 +172,6 @@ class UsersController extends Controller
 	
     /**
      * Update user's avatar from uploaded image.
-     *
      * @param User $user
      * @param UserAvatarManager $avatarManager
      * @return mixed
@@ -205,7 +190,6 @@ class UsersController extends Controller
 
     /**
      * Update user's avatar from some external source (Gravatar, Facebook, Twitter...)
-     *
      * @param User $user
      * @param Request $request
      * @param UserAvatarManager $avatarManager
@@ -225,7 +209,6 @@ class UsersController extends Controller
 
     /**
      * Update user's social networks.
-     *
      * @param User $user
      * @param Request $request
      * @return mixed
@@ -242,7 +225,6 @@ class UsersController extends Controller
 
     /**
      * Update user's login details.
-     *
      * @param User $user
      * @param UpdateLoginDetailsRequest $request
      * @return mixed
@@ -266,7 +248,6 @@ class UsersController extends Controller
 
     /**
      * Removes the user from database.
-     *
      * @param User $user
      * @return $this
      */
@@ -313,7 +294,6 @@ class UsersController extends Controller
 
     /**
      * Disables Authy Two-Factor Authentication for user.
-     *
      * @param User $user
      * @return $this
      */
@@ -323,13 +303,9 @@ class UsersController extends Controller
             return redirect()->route('user.edit', $user->id)
                 ->withErrors(trans('app.2fa_not_enabled_user'));
         }
-
         Authy::delete($user);
-
         $user->save();
-
         event(new TwoFactorDisabledByAdmin($user));
-
         return redirect()->route('user.edit', $user->id)
             ->withSuccess(trans('app.2fa_disabled'));
     }
@@ -337,7 +313,6 @@ class UsersController extends Controller
 
     /**
      * Displays the list with all active sessions for selected user.
-     *
      * @param User $user
      * @param SessionRepository $sessionRepository
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -346,13 +321,11 @@ class UsersController extends Controller
     {
         $adminView = true;
         $sessions = $sessionRepository->getUserSessions($user->id);
-
         return view('user.sessions', compact('sessions', 'user', 'adminView'));
     }
 
     /**
      * Invalidate specified session for selected user.
-     *
      * @param User $user
      * @param $sessionId
      * @param SessionRepository $sessionRepository
@@ -361,7 +334,6 @@ class UsersController extends Controller
     public function invalidateSession(User $user, $sessionId, SessionRepository $sessionRepository)
     {
         $sessionRepository->invalidateUserSession($user->id, $sessionId);
-
         return redirect()->route('user.sessions', $user->id)
             ->withSuccess(trans('app.session_invalidated'));
     }

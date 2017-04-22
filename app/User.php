@@ -14,14 +14,14 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Laracasts\Presenter\PresentableTrait;
-use Zizaco\Entrust\Traits\EntrustUserTrait;
+use Kyslik\ColumnSortable\Sortable;
 
 class User extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
                                     CanResetPasswordContract,
                                     TwoFactorAuthenticatableContract
 {
-    use TwoFactorAuthenticatable, CanResetPassword, PresentableTrait, AuthorizationUserTrait;
+    use TwoFactorAuthenticatable, CanResetPassword, PresentableTrait, AuthorizationUserTrait,Sortable;
 
     protected $presenter = UserPresenter::class;
 
@@ -45,6 +45,7 @@ class User extends Model implements AuthenticatableContract,
         'group_id', 'remember_token'
     ];
 
+    public $sortable = ['name', 'email', 'password', 'username', 'first_name', 'last_name'];
     /**
      * The attributes excluded from the model's JSON form.
      *

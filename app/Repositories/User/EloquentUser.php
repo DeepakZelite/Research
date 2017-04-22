@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Database\SQLiteConnection;
 use Laravel\Socialite\Contracts\User as SocialUser;
+use Kyslik\ColumnSortable\Sortable;
 
 class EloquentUser implements UserRepository
 {
@@ -108,7 +109,7 @@ class EloquentUser implements UserRepository
         ->leftjoin('vendors', 'vendors.id', '=', 'users.vendor_id')
         ->where('users.vendor_id', '!=', '0')
         ->select('users.*', 'vendors.vendor_code as vendor_code')
-        ->paginate($perPage);
+        ->sortable()->paginate($perPage);
         if ($search) {
             $result->appends(['search' => $search]);
         }

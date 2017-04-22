@@ -14,7 +14,7 @@ interface ContactRepository
      * @param null $status
      * @return mixed
      */
-    public function paginate($perPage, $search = null);
+    public function paginate($perPage, $search = null,$companyId = null,$first=null);
 
     /**
      * Lists all system roles into $key => $column value pairs.
@@ -89,4 +89,18 @@ interface ContactRepository
      */
     public function latest($count = 20);
     
+    /**
+     * for checking the duplicate data for specific fields.
+     * @param unknown $first
+     * @param unknown $last
+     * @param unknown $jobTitle
+     * @param unknown $email
+     * @param unknown $companyName
+     * @param unknown $website
+     * @param unknown $address
+     * @param unknown $city
+     * @param unknown $state
+     * @param unknown $zipcode
+     */
+    public function duplicate($first = null, $last = null,$jobTitle = null,$email = null,$companyName = null,$website = null,$address =null,$city = null,$state = null,$zipcode =null);
 }

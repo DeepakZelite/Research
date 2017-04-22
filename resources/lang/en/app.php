@@ -369,6 +369,9 @@ return [
 		'contact_person'=>'Contact Person',
 		'mobile'=>'Mobile Number',
 		'vendor_code'=>'Vendor Code',
+		'all_status'=>"All Status",
+		'all_vendor'=>'All Vendors',
+		'all_project'=>'All Projects',
 		
 
 		// Batches
@@ -511,6 +514,16 @@ return [
 		'additional-info'=>'Additional Info',
 		'staff_info'=>'Staff Info',
 		'child_companies'=>'Child Companies',
+		'none'=>'None',
+		'loading'=>'Loading.....',
+		'submit'=>'Submit',
+		'close'=>'Close',
+		'check'=>'Check',
+		'duplicate_check'=>'Duplicate Check',
+		'id'=>'Id',
+		'duplicate_contact_list'=>'Duplicate list',
+		'check'=>'Check',
+		'specility'=>'Specility',
 
 		'dataCapture' => "Data Capture",
 		'start' => "Start",

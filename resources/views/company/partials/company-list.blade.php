@@ -37,9 +37,8 @@
 	<div class="row">
 		<div class="col-md-10"></div>
 		<div class="col-md-1">
-			<button type="button" id="btnCloseChildren" class="btn btn-default"
-				data-dismiss="modal">
-				<i class=""></i> Close
+			<button type="button" id="btnCloseChildren" class="btn btn-default" data-dismiss="modal"> <i class=""></i> 
+			@lang('app.close')
 			</button>
 		</div>
 	</div>

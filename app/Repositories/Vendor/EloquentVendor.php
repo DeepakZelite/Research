@@ -4,6 +4,7 @@ namespace Vanguard\Repositories\Vendor;
 
 use Vanguard\Vendor;
 use Carbon\Carbon;
+use Kyslik\ColumnSortable\Sortable;
 
 class EloquentVendor implements VendorRepository
 {
@@ -72,8 +73,7 @@ class EloquentVendor implements VendorRepository
             });
         }
 
-        $result = $query->orderBy('vendor_code', 'asc')
-        				->paginate($perPage);
+        $result = $query->sortable()->paginate($perPage);
         if ($search) {
             $result->appends(['search' => $search]);
         }
