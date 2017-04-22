@@ -96,4 +96,11 @@ interface BatchRepository
      * @return mixed
      */
     public function getVendorBatches($vendorId);
+    
+    /**
+     * 
+     * @param unknown $vendor_code
+     * @param unknown $project_code
+     */
+    public function getDataForProjectReport($vendor_code = null, $project_code = null);
 }

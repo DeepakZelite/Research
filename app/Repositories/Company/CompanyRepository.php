@@ -127,15 +127,42 @@ interface CompanyRepository
     
     
     
-    
+    /**
+     * 
+     * @param unknown $batchId
+     */
     public function getSubmittedCompanyCount($batchId);
 
     
-    
+    /**
+     * 
+     * @param unknown $batchId
+     */
     public function getTotalCompany($batchId);
 
-    
+    /**
+     * 
+     * @param unknown $parentId
+     */
     public function getChildCompanies($parentId);
     
-    public function getCompanyRecord1($companyId);
+    /**
+     * 
+     * @param unknown $batchId
+     */
+    public function getcompanies($batchId);
+    
+    /**
+     * 
+     * @param unknown $vendorId
+     * @param unknown $userId
+     */
+    public function getCompaniesForProductivityReport($vendorId = null,$userId = null);
+    
+    /**
+     * get companies id for report
+     * @param unknown $vendorId
+     * @param unknown $userId
+     */
+    public function getcompaniesforReport($vendorId = null,$userId = null);
 }

@@ -23,7 +23,7 @@ interface VendorRepository
      * @param string $key
      * @return mixed
      */
-    public function lists($column = 'name', $key = 'id');
+    public function lists($column = 'vendor_code', $key = 'id');
     
     
     public function lists1();
@@ -90,4 +90,10 @@ interface VendorRepository
      */
     public function latest($count = 20);
     
+    /**
+     * get the data for report
+     * @param unknown $vendorId
+     * @param unknown $userId
+     */
+    public function getReportData($vendorId = null, $userId = null);
 }
