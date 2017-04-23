@@ -233,7 +233,8 @@ class DataCaptureController extends Controller
 		['status' => 'Assigned'] +
 		['company_name' => $request->new_company_name] + 
 		['parent_company' => $companyId->company_name] +
-		['company_instructions' => $companyId->company_instructions];
+		['company_instructions' => $companyId->company_instructions]+
+		['vendor_id' => $companyId->theUser->vendor_id];
  		$newCompany = $this->companyRepository->create($data);
  		return redirect()->route('dataCapture.capture', $companyId->sub_batch_id)->withSuccess(trans('app.Added_Child_Company'));
 	}

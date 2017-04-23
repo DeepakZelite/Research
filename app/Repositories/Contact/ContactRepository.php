@@ -103,4 +103,10 @@ interface ContactRepository
      * @param unknown $zipcode
      */
     public function duplicate($first = null, $last = null,$jobTitle = null,$email = null,$companyName = null,$website = null,$address =null,$city = null,$state = null,$zipcode =null);
+    
+    /**
+     * for geting the count of perticular company.
+     * @param unknown $companyId
+     */
+    public function getTotalContactCount($companyId);
 }

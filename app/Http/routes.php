@@ -662,3 +662,28 @@ Route::get('dataCapture/getduplicateRecord',[
 		'as'=>'dataCapture.getduplicateRecord',
 		'uses'=>'DataCaptureController@getduplicateRecord'
 ]);
+
+Route::get('report',[
+		'as'=>'report.list',
+		'uses'=>'ReportsController@index'
+]);
+
+Route::post('report/getData',[
+		'as'=>'report.getData',
+		'uses'=>'ReportsController@getData'
+]);
+
+Route::get('report/productivity',[
+		'as'=>'report.productivity',
+		'uses'=>'ReportsController@productivityList'
+]);
+
+Route::get('report/getProductivityReport',[
+		'as'=>'report.getProductivityReport',
+		'uses'=>'ReportsController@getProductivityReport'
+]);
+
+Route::get('report/myProductivity',[
+		'as'=>'report.myProductivity',
+		'uses'=>'ReportsController@myProductivityList'
+]);

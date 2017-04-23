@@ -568,7 +568,7 @@ $('#myModal').on('shown.bs.modal', function() {
 function editContact(id) {
     $.ajax({
         method: "GET",
-        url: "{{route('dataCapture.getContact',$contact->id)}}",
+        url: "http://localhost:88/Research/public/dataCapture/"+ id +"/getContact",
         success: function(data){
             $data = $(data); 
             $('#editContact').fadeOut().html($data).fadeIn();
