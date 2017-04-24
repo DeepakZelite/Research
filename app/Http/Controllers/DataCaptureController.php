@@ -199,9 +199,11 @@ class DataCaptureController extends Controller
 	 * @param Contact $contactId
 	 * @return the specific contact for editing the contact.
 	 */
-	public function getContact(Contact $contactId)
+	public function getContact(Request $request,Contact $contactId)
 	{
-		$contact=Contact::find($contactId->id);
+		$inputs = Input::all();
+		$contactId = $inputs['contactId'];
+		$contact=Contact::find($contactId);
 		$editContact = true;
 		return view('company.partials.contact-edit', compact('editContact', 'contact'));
 	}
@@ -233,8 +235,7 @@ class DataCaptureController extends Controller
 		['status' => 'Assigned'] +
 		['company_name' => $request->new_company_name] + 
 		['parent_company' => $companyId->company_name] +
-		['company_instructions' => $companyId->company_instructions]+
-		['vendor_id' => $companyId->theUser->vendor_id];
+		['company_instructions' => $companyId->company_instructions];
  		$newCompany = $this->companyRepository->create($data);
  		return redirect()->route('dataCapture.capture', $companyId->sub_batch_id)->withSuccess(trans('app.Added_Child_Company'));
 	}

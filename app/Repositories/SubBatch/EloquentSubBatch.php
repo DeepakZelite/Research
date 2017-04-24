@@ -179,11 +179,11 @@ class EloquentSubBatch implements SubBatchRepository
     	$query = SubBatch::query();
     	if($vendorId)
     	{
-    		$query ->where('vendor_id', "=" ,"{$vendorId}");
+    		$query -> where('vendor_id', "=" ,"{$vendorId}");
     	}
     	if($userId)
     	{
-    		$query ->where('user_id',"=","{$userId}");
+    		$query -> where('user_id',"=","{$userId}");
     	}
     	$result = $query
     			->select(DB::raw('sum(TIMESTAMPDIFF(hour,created_at,updated_at)) as count'),'batch_id')

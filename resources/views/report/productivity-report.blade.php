@@ -29,18 +29,31 @@
         </div>
  	 </form>
  	 @endif
- 	 	<!-- {!! Form::open(['route' => 'report.getProductivityReport', 'id' => 'report-form1']) !!} 
- 	 	<div> <input type="hidden" id="vendor_id" name="vendor_id" value="">
- 	 	</div>
- 	 	 -->
  		<div class="col-md-2">
              	{!! Form::select('user_id', $users, Input::get('user'), ['class' => 'form-control', 'id' => 'user_id']) !!}
         </div>
+        <div class="col-md-2">
+             <div class="form-group">
+				<div class='input-group date' id='start_date'>
+					<input type='text' name="Start_Date" id='Start_Date' placeholder="@lang('app.from_date')"  value="" class="form-control" />
+					<span class="input-group-addon" style="cursor: default;">
+                    <span class="glyphicon glyphicon-calendar"></span>
+					</span>
+				</div>
+			 </div>
+       </div>
+       <div class="col-md-2">
+           <div class="form-group">
+				<div class='input-group date' id='expected_date'>
+					<input type='text' name="Expected_date" id='Expected_date' placeholder="@lang('app.to_date')" value="" class="form-control" />
+						<span class="input-group-addon" style="cursor: default;">
+                        <span class="glyphicon glyphicon-calendar"></span>
+						</span>
+				</div>
+			</div>
+        </div>
     	<div class="col-md-1">
     	<input type="button" id="btn_go" class="btn btn-success" value="@lang('app.go')" onclick="getRecord();"/>
-        	<!-- <button type="submit" class="btn btn-success" id="btn_go" onclick="">
-            @lang('app.go')
-        	</button> -->
     	</div>
 </div>
 
@@ -58,53 +71,54 @@
             <th class="text-center">@lang('app.record_per_hour')</th>
         </thead>
         <tbody>
-			@if(count($datas))
-			    @foreach($datas as $data)
-                    <tr>
-                        <td>{{ $data['code'] }}</td>
-                         <td>{{ $data['username'] }}</td>
-                         <td>{{ $data['hour_spend'] }}</td>
-                         <td>{{ $data['companies_processed'] }}</td>
-                         <td>{{ $data['processed_record'] }}</td>
-                         <td>{{ $data['per_hour'] }}</td>
-                     </tr>
-                 @endforeach
-            @else
                 <tr>
                     <td colspan="6"><em>@lang('app.no_records_found')</em></td>
                 </tr>
- 			@endif
         </tbody>
-        <tfoot>
-        	<tr>
-        		<th>@lang('app.total')</th>
-        		<th></th>
-        		<th><span id="hourspend"></span></th>
-        		<th><span id ="totalcompany"></span></th>
-        		<th><span id ="totalstaff"></span></th>
-        		<th><span id="perhour"></span></th>
-        	</tr>
-        </tfoot>
     </table>
 
 </div>
 
 @stop
-
+@section('styles')
+    {!! HTML::style('assets/css/bootstrap-datetimepicker.min.css') !!}
+@stop
 @section('scripts')
 <script>
+$(function () {
+    $('#start_date').datetimepicker({
+					format: 'YYYY-MM-DD',
+			});
+    $('#expected_date').datetimepicker({
+		format: 'YYYY-MM-DD',
+			});
+});
+$(document).ready(function() {
+	$("#date").click(function(event)
+			{
+			var startdate=$("#Start_Date").val();
+			var enddate=$("#Expected_date").val();
+			if(startdate>enddate){
+				$('#Expected_date').css('border-color', 'red');
+				return false;
+	     	}
+			else{
+					$('#Expected_date').css('border-color', 'green');
+					return true;
+				}	
+	});
+});
+
 function getRecord()
 {
-	
 	var $vendorId	= $("#vendor_code").val();
 	var $userId = $("#user_id").val();
-	var html = "";
-    html += '';
-    
+	var $startdate=$("#Start_Date").val();
+	var $enddate=$("#Expected_date").val();
 	$.ajax({
 		method:"GET",
 		url:"{{route('report.getProductivityReport')}}",
-		data:{'vendorId':$vendorId,'userId':$userId},
+		data:{'vendorId':$vendorId,'userId':$userId,'fromDate':$startdate,'toDate':$enddate},
 		success:function(data){
 			$('#reportData').html(data).fadeIn();
 		}
@@ -114,41 +128,7 @@ function getRecord()
 $("#vendor_code").change(function() {
 	$("#productivity-report-form").submit();
 });
-
-$(document).ready(function() {
-   $('#example').dataTable({
-    "bPaginate": false,
-    "bFilter": false,
-    "bInfo": false,		
-		"footerCallback": function ( row, data, start, end, display ) {
-				var api = this.api(), data;	 
-				// Remove the formatting to get integer data for summation
-				var intVal = function ( i ) {
-					return typeof i === 'string' ? i.replace(/[\$,]/g, '')*1 : typeof i === 'number' ? i : 0;
-				};
-
-				total_no_companies = api.column( 3 ).data().reduce( function (a, b) {
-					return intVal(a) + intVal(b);
-				},0 );
-				
-				total_staff_count = api.column( 4 ).data().reduce( function (a, b) {
-					return intVal(a) + intVal(b);
-				},0 );
-
-				total_hourSpend_count = api.column( 2 ).data().reduce( function (a, b) {
-					return intVal(a) + intVal(b);
-				},0 );
-
-				avg_per_hour = api.column( 5 ).data().reduce( function (a, b) {
-					return intVal(a) + intVal(b);
-				},0 );
-				// Update footer
-				$('#totalcompany').html(total_no_companies);
-				$('#totalstaff').html(total_staff_count);	
-				$('#hourspend').html(total_hourSpend_count);
-				$('#perhour').html(avg_per_hour);
-			},		
-	});
-});
 </script>
+    {!! HTML::script('assets/js/moment.min.js') !!}
+    {!! HTML::script('assets/js/bootstrap-datetimepicker.min.js') !!}
 @stop

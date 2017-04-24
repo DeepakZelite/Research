@@ -159,11 +159,6 @@
                                     @lang('app.productivity_report')
                                 </a>
                             </li>
-                            <li>
-                         		<a href="{{ route('report.myProductivity') }}" class="{{ Request::is('myproductivityreport*') ? 'active' : ''  }}">
-                               		@lang('app.my_productivity')
-                         		</a>
-                    		</li>
                     </ul>
                 </li>
             @endpermission

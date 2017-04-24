@@ -59,7 +59,7 @@ class SubBatchesController extends Controller
 	public function index(BatchRepository $batchRepository, UserRepository $userRepository,ProjectRepository $projectRepository)
 	{
 		$perPage = 5;
-		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'),null,Input::get('status'),$this->theUser->id);
+		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'),$this->theUser->id,Input::get('status'),null);
 		$statuses = ['' => trans('app.all')] + SubBatchStatus::lists1();
 		$vendorId = $this->theUser->vendor_id;
 		$batches = $batchRepository->getVendorBatches($vendorId);
@@ -84,7 +84,7 @@ class SubBatchesController extends Controller
 		{
 			$newSeqNo = $this->subBatches->getMaxSeqNo($request->input('batch_id'))+1;
 			$vendorId =$this->theUser->vendor_id;// = Auth::user()->id;// $this->theUser->vendor_id;
-			return $vendorId;
+			//return $vendorId;
 			$data = $request->all() + ['status' => SubBatchStatus::ASSIGNED] + ['seq_no' => $newSeqNo] +['project_id' => "$batch->project_id"] + ['vendor_id'=>"$vendorId"];
 			$subBatch = $this->subBatches->create($data);
 			$companies = $this->companyRepository->getCompaniesForBatch($request->input('batch_id'), $request->input('company_count'));

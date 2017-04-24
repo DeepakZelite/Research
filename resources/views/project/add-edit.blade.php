@@ -85,12 +85,6 @@
     					</span>
   					</div>
 				</div>
-
-                <!-- <div class="form-group">
-                    <label for="description">@lang('app.description')</label>
-                    <textarea name="description" id="description" class="form-control">{{ $edit ? $project->description : old('description') }}</textarea>
-                </div>
-                 -->
                 </div>
             </div>
         </div>
