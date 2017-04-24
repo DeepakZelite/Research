@@ -5,6 +5,8 @@ namespace Vanguard\Repositories\Contact;
 use Vanguard\Contact;
 use Carbon\Carbon;
 use League\Flysystem\Adapter\NullAdapter;
+use DB;
+use Illuminate\Support\Facades\Log;
 
 class EloquentContact implements ContactRepository
 {
@@ -200,6 +202,49 @@ class EloquentContact implements ContactRepository
     		return 0;
     	}
     	$result = $query->count();
+    	return $result;
+    }
+    
+    public function getDataForReport($vendorId = null,$userId = null,$fromDate = null, $toDate = null)
+    {
+    	$query = Contact::query();
+    	if($vendorId)
+    	{
+    		$query->where('vendors.id',"=","{$vendorId}");
+    	}
+    	if($userId)
+    	{
+    		$query->where('users.id',"=","{$userId}");
+    	}
+    	/*if($fromDate)
+    	 {
+    	 $query->where('contacts.updated_at',">=", "{$fromDate}");
+    	 }*/
+    	 if($toDate == null )
+    	 {
+    	 	$toDate=Carbon::now()->format('Y-m-d');//Carbon::today()
+    	 	Log::info("Contact:::::". $toDate);
+    	 }
+    	 
+    	if($vendorId== 0 && $userId == 0)
+    	{
+    		$result=$query
+    				->from(DB::raw('(select count(*) no_rows, TIMESTAMPDIFF(HOUR,min(s.updated_at), max(s.updated_at)) as hrs, count(distinct(c.id)) as comp_count,b.vendor_id, c.user_id 
+								from contacts s inner join companies c on s.company_id = c.id  inner join batches b on c.batch_id = b.id where s.updated_at >="'.$fromDate.'" and s.updated_at <= "'.$toDate.'" group by b.vendor_id) as rows'))
+    							->select('vendors.vendor_code', 'rows.no_rows', 'rows.hrs', 'rows.comp_count')
+    							->join('users','users.id',"=","rows.user_id")
+    							->rightJoin('vendors','vendors.id',"=","rows.vendor_id")
+    							->get();
+    	}
+    	else {
+    		$result=$query
+    				->from(DB::raw('(select count(*) no_rows, TIMESTAMPDIFF(HOUR,min(s.updated_at), max(s.updated_at)) as hrs, count(distinct(c.id)) as comp_count,b.vendor_id, c.user_id from
+								contacts s inner join companies c on s.company_id = c.id  inner join batches b on c.batch_id = b.id where s.updated_at >="'.$fromDate.'" and s.updated_at <= "'.$toDate.'" group by b.vendor_id, c.user_id) as rows'))
+    							->select('vendors.vendor_code', 'users.first_name', 'users.last_name', 'rows.no_rows', 'rows.hrs', 'rows.comp_count')
+    							->join('users','users.id',"=","rows.user_id")
+    							->rightJoin('vendors','vendors.id',"=","rows.vendor_id")
+    							->get();
+    	}
     	return $result;
     }
 }

@@ -5,7 +5,6 @@ namespace Vanguard\Repositories\Batch;
 use Vanguard\Batch;
 use Carbon\Carbon;
 use Kyslik\ColumnSortable\Sortable;
-use Illuminate\Support\Facades\Log;
 
 class EloquentBatch implements BatchRepository
 {
@@ -148,7 +147,6 @@ class EloquentBatch implements BatchRepository
     public function getDataForProjectReport($vendor_code = null, $project_code = null)
     {
     	$query = Batch::query();
-    	Log::info("Status value in Model:" . $vendor_code);
     	if($project_code)
     	{
     		$query->where('projects.code',"=","{$project_code}");

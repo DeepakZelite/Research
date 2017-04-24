@@ -60,11 +60,6 @@
 							</div>
 					</div>
                 </div>
-               <!--   <div class="form-group">
-                    <label for="description">@lang('app.description')</label>
-                    <input type="text" class="form-control" id="description"
-                           name="description" placeholder="@lang('app.description')" value="{{ $edit ? $batch->description : old('description') }}">
-                </div> -->
                  <div class="form-group">
 				  <label class="control-label" for="upload file">@lang('app.upload')<i style="color:red;">*</i></label>
  					<div class="input-group">
@@ -75,11 +70,6 @@
     					</span>
   					</div>
 				</div>
-                <!-- <div class="form-group">
-                    <label for="description">@lang('app.description')</label>
-                    <textarea name="description" id="description" class="form-control">{{ $edit ? $batch->description : old('description') }}</textarea>
-                </div>
-                 -->
                 </div>
             </div>
         </div>

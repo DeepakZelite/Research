@@ -109,4 +109,13 @@ interface ContactRepository
      * @param unknown $companyId
      */
     public function getTotalContactCount($companyId);
+    
+    /**
+     * for geting the data for creating the report
+     * @param unknown $vendorId
+     * @param unknown $userId
+     * @param unknown $fromDate
+     * @param unknown $toDate
+     */
+    public function getDataForReport($vendorId = null,$userId = null,$fromDate = null, $toDate = null);
 }

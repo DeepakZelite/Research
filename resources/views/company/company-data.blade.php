@@ -331,6 +331,8 @@
 	<div class="col-md-1">
 	</div> 
 	<div class="col-md-1">
+			 	<a id="btnParentSubmit" href="{{ route('dataCapture.submitCompany', $company->id) }}" class="btn btn-primary btn-block pull-right" onclick="javascript:return confirm('@lang('app.are_you_sure_to_submit_parent_company')')">@lang('app.submit')
+                 </a>       
 		<a id="btnSubmit" href="{{ route('dataCapture.submitCompany', $company->id) }}"
 			class="btn btn-primary btn-block pull-right">@lang('app.submit')</a> 	
 	</div>	
@@ -466,10 +468,12 @@ $(document).ready(function() {
 	{
 		$('#add_child_record').css("visibility", "hidden");
 		$('#btn_check').css("visibility", "hidden");
+		$('#btnParentSubmit').css("visibility", "hidden");
 	}
 	else
 	{
-		$('#child_cancel').css("visibility","hidden");
+		$('#btnSubmit').css("visibility", "hidden");
+		//$('#child_cancel').css("visibility","hidden");
 	}
 	
 	// <!-- ------------------------------------- Client Side validation for Add Subsidory start ----------------------------------------------- -->
@@ -566,9 +570,11 @@ $('#myModal').on('shown.bs.modal', function() {
 });
 
 function editContact(id) {
+	var $contactId=id;
     $.ajax({
         method: "GET",
-        url: "http://localhost:88/Research/public/dataCapture/"+ id +"/getContact",
+        url: "{{ route('dataCapture.getContact') }}",
+        data:{'contactId':$contactId},
         success: function(data){
             $data = $(data); 
             $('#editContact').fadeOut().html($data).fadeIn();
