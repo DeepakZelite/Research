@@ -59,7 +59,7 @@ class SubBatchesController extends Controller
 	public function index(BatchRepository $batchRepository, UserRepository $userRepository,ProjectRepository $projectRepository)
 	{
 		$perPage = 5;
-		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'),$this->theUser->id,Input::get('status'),null);
+		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'),null,Input::get('status'),$this->theUser->vendor_id);
 		$statuses = ['' => trans('app.all')] + SubBatchStatus::lists1();
 		$vendorId = $this->theUser->vendor_id;
 		$batches = $batchRepository->getVendorBatches($vendorId);

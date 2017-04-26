@@ -19,8 +19,8 @@ class CreateProjectRequest extends Request
         		'code'=>'required|regex:/^[\w-]*$/|unique:projects,code',
         		'Start_Date' => 'required|date',
         		'Expected_date' => 'required|date',
-        		'No_Companies'=>'required|digits_between:1,4',
-        		'Expected_Staff'=>'required|digits_between:1,4',
+        		'No_Companies'=>'required|integer|min:1',
+        		'Expected_Staff'=>'required|integer|min:1',
         		'attachement'=>'required|file',
                ];
     }

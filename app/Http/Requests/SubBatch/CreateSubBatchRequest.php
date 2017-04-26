@@ -15,9 +15,9 @@ class CreateSubBatchRequest extends Request
     public function rules()
     {
         return [
-            'batch_id' => 'required|exists:batches,id',
-        	'user_id'=>'required|exists:users,id',
-        	'company_count'=>'required'
+            	'batch_id' => 'required|exists:batches,id',
+        		'user_id'=>'required|exists:users,id',
+        		'company_count'=>'required|integer|min:1'
                ];
     }
 }

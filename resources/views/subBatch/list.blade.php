@@ -151,18 +151,6 @@
 				$("#unAssignedCompanies").val("Unassigned companies = " + array[1]);
             });
         });
-
-        $(document).ready(function() {
-        	$("#btnAssign").click(function(event)
-        	{
-        		var val = parseFloat($('#company_count').val());
-        		if (isNaN(val) || (val === 0))
-        		{
-        			alert("0 is not allowed");
-            		return false;
-        		}
-        	});
-        });
         
         function isNumberKey(evt)
         {
