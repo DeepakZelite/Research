@@ -399,6 +399,7 @@ return [
 		'delete_batch'=>'delete batch',
 		'download'=>'Download',
 		'batch_deleted'=>'Batch Deleted Successfully',
+		'batch_name'=>'Batch Name',
 		
 		// Batch Allocation
 		'no_of_records' => 'Enter no of records',

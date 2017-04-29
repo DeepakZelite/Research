@@ -14,8 +14,7 @@ class Project extends Model
      * @var string
      */
     protected $table = 'projects';
-
-
+    
     protected $casts = [
         'removable' => 'boolean'
     ];

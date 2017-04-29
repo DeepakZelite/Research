@@ -222,7 +222,7 @@ class EloquentContact implements ContactRepository
     	 }*/
     	 if($toDate == null )
     	 {
-    	 	$toDate=Carbon::now()->format('Y-m-d');//Carbon::today()
+    	 	$toDate=Carbon::now();//->format('Y-m-d h:M:s');//Carbon::today()
     	 	Log::info("Contact:::::". $toDate);
     	 }
     	 

@@ -23,7 +23,7 @@ class CreateTableCompanies extends Migration
             $table->unsignedInteger('parent_id');
             $table->string('parent_company')->nullable();
             $table->string('company_name')->nullable();
-            $table->string('updated_company_name')->unique();
+            $table->string('updated_company_name')->nullable();
             $table->string('address1')->nullable();
             $table->string('address2')->nullable();
             $table->string('city')->nullable();
@@ -33,7 +33,7 @@ class CreateTableCompanies extends Migration
             $table->string('isd_code')->nullable();
             $table->string('switchboardnumber')->nullable();
             $table->string('branchNumber')->nullable();
-            $table->string('addresscode')->unique();
+            $table->string('addresscode')->nullable();
             $table->string('website')->nullable();
             $table->string('company_email')->nullable();
             $table->string('products_services')->nullable();

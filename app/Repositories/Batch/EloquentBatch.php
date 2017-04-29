@@ -162,4 +162,18 @@ class EloquentBatch implements BatchRepository
     	$result= $query->get();
     	return $result;
     }
+    
+    public function getBatchNameCount($batch = null)
+    {
+    	$query = Batch::query();
+    	if($batch)
+    	{
+    		$query->where('name',"like","{$batch}%");
+    	}
+    	else{
+    		return 0;
+    	}
+    	$result = $query->count();
+    	return $result;
+    }
 }

@@ -503,6 +503,14 @@ Route::get('batch/{batch}/download',[
 		'as'=>'batch.download',
 		'uses'=>'BatchesController@download'
 ]);
+
+Route::get('batch/getbatchName',[
+		'as'=>'batch.getbatchName',
+		'uses'=>'BatchesController@getbatchName'
+]);
+
+
+
 /**
  * Manage SubBatches
  */

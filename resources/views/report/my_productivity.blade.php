@@ -85,12 +85,15 @@
 @stop
 @section('scripts')
 <script>
+var date=new Date();
 $(function () {
     $('#start_date').datetimepicker({
 					format: 'YYYY-MM-DD',
+					maxDate:date
 			});
     $('#expected_date').datetimepicker({
 		format: 'YYYY-MM-DD',
+		maxDate:date
 			});
 });
 $(document).ready(function() {
