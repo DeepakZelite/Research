@@ -542,6 +542,8 @@ return [
 		'child_company_list'=>'Child Company Lists',
 		'child_company_lists'=>'Child Company Lists',
 		'child_company_list_big' => 'Subsidiaries',
+		'submit_parent_company' => 'Submit Parent Company',
+		'are_you_sure_to_submit_parent_company'=>'Are You Sure To Submit the Parent Company?',
 		
 		//Reports
 		'reports' => 'Reports',
@@ -564,6 +566,8 @@ return [
 		'record_per_hour' => 'Record Per Hour',
 		'my_productivity_report'=>'My Productivity Report',
 		'my_productivity'=>'My Productivity',
+		'from_date' => 'Date From',
+		'to_date' => 'Date To',
 		
 		'months' => [
         'January' => 'January',

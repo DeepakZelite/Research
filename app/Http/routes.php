@@ -615,8 +615,8 @@ Route::get('dataCapture/create', [
 		'as' => 'dataCapture.create',
 		'uses' => 'DataCaptureController@create'
 ]);
-
-Route::get('dataCapture/{contactId}/getContact', [
+//----------------------------------------------------------
+Route::get('dataCapture/getContact', [
 		'as' => 'dataCapture.getContact',
 		'uses' => 'DataCaptureController@getContact'
 ]);
@@ -685,5 +685,10 @@ Route::get('report/getProductivityReport',[
 
 Route::get('report/myProductivity',[
 		'as'=>'report.myProductivity',
-		'uses'=>'ReportsController@myProductivityList'
+		'uses'=>'MyReportController@myProductivityList'
+]);
+
+Route::post('report/searchReportList',[
+		'as'=>'report.searchReportList',
+		'uses'=>'MyReportController@searchReportList'
 ]);

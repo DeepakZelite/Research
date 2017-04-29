@@ -22,6 +22,32 @@
 @include('partials.messages')
 
 <div class="row tab-search">
+    {!! Form::open(['route' => 'report.searchReportList', 'method' => 'POST', 'id' => 'myproductivity-report-form']) !!}
+        <div class="col-md-2">
+             <div class="form-group">
+				<div class='input-group date' id='start_date'>
+					<input type='text' placeholder="@lang('app.from_date')" name="Start_Date" id='Start_Date' value="" class="form-control" />
+					<span class="input-group-addon" style="cursor: default;">
+                    <span class="glyphicon glyphicon-calendar"></span>
+					</span>
+				</div>
+			 </div>
+       </div>
+       <div class="col-md-2">
+           <div class="form-group">
+				<div class='input-group date' id='expected_date'>
+					<input type='text' name="Expected_date" id='Expected_date' placeholder="@lang('app.to_date')" value="" class="form-control" />
+						<span class="input-group-addon" style="cursor: default;">
+                        <span class="glyphicon glyphicon-calendar"></span>
+						</span>
+				</div>
+			</div>
+        </div>
+    	<div class="col-md-1">
+        	<button type="submit" class="btn btn-success">
+            @lang('app.go')
+        	</button>
+    	</div>
 </div>
 
 <div class="table-responsive top-border-table" id="users-table-wrapper1">
@@ -34,16 +60,55 @@
             <th class="text-center">@lang('app.record_per_hour')</th>
         </thead>
         <tbody>
-				<tr>
+        	@if(count($datas))
+			    @foreach($datas as $data)
+                    <tr>
+                         <td>{{ $data->first_name }}  {{ $data->last_name }}</td>
+                         <td>{{ $data->hrs }}</td>
+                         <td>{{ $data->comp_count }}</td>
+                         <td>{{ $data->no_rows }}</td>
+                         <td>{{ $data['per_hour'] }}</td>
+                     </tr>
+                 @endforeach
+            @else
+                <tr>
                     <td colspan="6"><em>@lang('app.no_records_found')</em></td>
                 </tr>
+ 			@endif
         </tbody>
     </table>
 </div>
 
 @stop
-
+@section('styles')
+    {!! HTML::style('assets/css/bootstrap-datetimepicker.min.css') !!}
+@stop
 @section('scripts')
 <script>
+$(function () {
+    $('#start_date').datetimepicker({
+					format: 'YYYY-MM-DD',
+			});
+    $('#expected_date').datetimepicker({
+		format: 'YYYY-MM-DD',
+			});
+});
+$(document).ready(function() {
+	$("#date").click(function(event)
+			{
+			var startdate=$("#Start_Date").val();
+			var enddate=$("#Expected_date").val();
+			if(startdate>enddate){
+				$('#Expected_date').css('border-color', 'red');
+				return false;
+	     	}
+			else{
+					$('#Expected_date').css('border-color', 'green');
+					return true;
+				}	
+	});
+});
 </script>
+{!! HTML::script('assets/js/moment.min.js') !!}
+{!! HTML::script('assets/js/bootstrap-datetimepicker.min.js') !!}
 @stop

@@ -31,11 +31,11 @@
              	{!! Form::select('user_id', $users, Input::get('user'), ['class' => 'form-control', 'id' => 'user_id']) !!}
         </div>
         <div class="col-md-3">
-        <input type="text" class="form-control" id="company_count"
+        <input type="text" class="form-control" id="company_count" onkeypress="return isNumberKey(event)"
                            name="company_count" placeholder="@lang('app.no_of_records')" value="">
         </div>
         <div class="col-md-1">
-        	<button type="submit" class="btn btn-success"><i class="fa fa-save"></i>
+        	<button type="submit" id="btnAssign" class="btn btn-success"><i class="fa fa-save"></i>
             @lang('app.assign')
         	</button>
     	</div>
@@ -151,6 +151,14 @@
 				$("#unAssignedCompanies").val("Unassigned companies = " + array[1]);
             });
         });
+        
+        function isNumberKey(evt)
+        {
+        		var charCode = (evt.which) ? evt.which : event.keyCode
+        		if (charCode > 31 && (charCode < 48 || charCode > 57))
+          			return false;
+        		return true;
+        }
     </script>
         {!! JsValidator::formRequest('Vanguard\Http\Requests\SubBatch\CreateSubBatchRequest', '#sub_batches-form') !!}
 @stop

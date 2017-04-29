@@ -139,16 +139,14 @@
                 </li>
             @endpermission
             
-            
             @permission('reports.manage')
                 <li class="{{ Request::is('productivity*') || Request::is('report*') ? 'active open' : ''  }}">
                     <a href="#">
-                        <i class="fa fa-user fa-fw"></i>
+                        <i class="fa fa-flag-checkered fa-fw"></i>
                         @lang('app.reports')
                         <span class="fa arrow"></span>
                     </a>
                     <ul class="nav nav-second-level collapse">
-                    
                              <li>
                                 <a href="{{ route('report.list') }}" class="{{ Request::is('report*') ? 'active' : ''  }}">
                                     @lang('app.project_status_report')
@@ -159,11 +157,6 @@
                                     @lang('app.productivity_report')
                                 </a>
                             </li>
-                            <li>
-                         		<a href="{{ route('report.myProductivity') }}" class="{{ Request::is('myproductivityreport*') ? 'active' : ''  }}">
-                               		@lang('app.my_productivity')
-                         		</a>
-                    		</li>
                     </ul>
                 </li>
             @endpermission
@@ -172,7 +165,7 @@
                 <li>
                   <li class="{{ Request::is('myproductivityreport*') ? 'active open' : ''  }}">
                        <a href="{{ route('report.myProductivity') }}" class="{{ Request::is('myproductivityreport*') ? 'active' : ''  }}">
-                           <i class="fa fa-user fa-fw"></i>@lang('app.report')
+                           <i class="fa fa-flag-checkered fa-fw"></i>@lang('app.report')
                        </a>
                   </li>
             @endpermission
