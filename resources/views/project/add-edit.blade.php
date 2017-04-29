@@ -40,7 +40,7 @@
                 </div> -->
                  <div class="form-group">
                     <label for="code">@lang('app.code')<i style="color:red;">*</i></label>
-                    <input type="text" class="form-control" id="code"
+                    <input type="text" class="form-control" id="code" maxlength="4"
                            name="code" placeholder="@lang('app.code')" value="{{ $edit ? $project->code : old('code') }}" @if($edit) readonly="readonly" @endif>
                 </div>
                 <div class="form-group">

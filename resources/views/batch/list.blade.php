@@ -61,7 +61,7 @@
 <div class="table-responsive top-border-table" id="users-table-wrapper">
     <table class="table" id="batch_table">
         <thead>
-        	<th>@sortablelink('name',trans('app.name'))</th>
+        	<th>@sortablelink('name',trans('app.batch_name'))</th>
             <th>@sortablelink('code',trans('app.code'))</th>
             <th>@sortablelink('vendor_code',trans('app.vendor_code'))</th>
             <th>@sortablelink('No_Companies',trans('app.number_of_companies'))</th>

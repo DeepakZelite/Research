@@ -14,7 +14,11 @@ use Vanguard\Repositories\Company\CompanyRepository;
 use Vanguard\Support\Enum\SubBatchStatus;
 use DB;
 use Excel;
+use Carbon\Carbon;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\Debug\Tests\Fixtures\ToStringThrower;
+use Vanguard\Project;
 
 
 /**
@@ -94,9 +98,10 @@ class BatchesController extends Controller
 			$path = $request->file('attachement')->getRealPath();
 			$data1 = Excel::load($path, function($reader) {
 			})->get();
+			//return $data1->count();
 		if($data1->count())
 		{
-			$batch = $this->batches->create($data); //added vendor_id field on 21 april
+			$batch = $this->batches->create($data);
 			if(!empty($data1) && $data1->count()){
 				foreach ($data1 as $key => $value) {
 					$insert[] = ['batch_id'=>$batch->id,'status' => 'UnAssigned','company_instructions' => $value->company_instructions, 'company_id' => $value->company_id,'parent_company' => $value->parent_company, 'company_name' => $value->company_name,'address1' => $value->address1, 'address2' => $value->address2,'city' => $value->city, 'state' => $value->state,'zipcode' => $value->zipcode, 'country' => $value->country,'isd_code' => $value->international_code, 'switchboardnumber' => $value->switchboardnumber,'branchNumber' => $value->branch_number, 'addresscode' => $value->addresscode,'website' => $value->website, 'company_email' => $value->company_email,
@@ -143,5 +148,30 @@ class BatchesController extends Controller
 		$this->batches->delete($batch->id);
 		return redirect()->route('batch.list')
 		->withSuccess(trans('app.batch_deleted'));
+	}
+	
+
+	public function getbatchName(Request $request,VendorRepository $vendorRepository,ProjectRepository $projectRepository,BatchRepository $batchRepository)
+	{
+		$vendorId =$request->input('vendorId');
+		$projectId = $request->input('projectId');
+		$vendors=$vendorRepository->find($vendorId);
+		$projects=$projectRepository->find($projectId);
+		$today = Carbon::now()->format('ymd');
+		$a=null;
+		if($vendorId != 0 && $projectId != 0)
+		{
+			$a=$vendors->vendor_code."_".$projects->code."_".$today."_B";
+		}
+		$count=$batchRepository->getBatchNameCount($a);
+		$count=$count+1;
+		if($count<=9)
+		{
+			return $vendors->vendor_code."_".$projects->code."_".$today."_B0".$count;
+		}
+		else
+		{
+			return $vendors->vendor_code."_".$projects->code."_".$today."_B".$count;
+		}
 	}
 }

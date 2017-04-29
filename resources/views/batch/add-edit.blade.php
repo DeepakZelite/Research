@@ -34,20 +34,20 @@
             <div class="panel-heading">@lang('app.batch_details_big')</div>
             <div class="panel-body">
             	<div class="form-group">
-                    <label for="vendor_id">@lang('app.vendor_name')<i style="color:red;">*</i></label>
+                    <label for="vendor_id">@lang('app.vendor_code')<i style="color:red;">*</i></label>
                     {!! Form::select('vendor_id', $vendors, $edit ? $batch->vendor_id : '',
                         ['class' => 'form-control', 'id' => 'vendor_id']) !!}
                 </div>
             	<div class="form-group">
-                    <label for="project_id">@lang('app.project_name')<i style="color:red;">*</i></label>
+                    <label for="project_id">@lang('app.project_code')<i style="color:red;">*</i></label>
                     {!! Form::select('project_id', $projects, $edit ? $batch->project_id : '',
                         ['class' => 'form-control', 'id' => 'project_id']) !!}
                 </div>
                 
                 <div class="form-group">
-                    <label for="name">@lang('app.name')<i style="color:red;">*</i></label>
-                    <input type="text" class="form-control" id="name" maxlength="20"
-                           name="name" placeholder="@lang('app.batch_name')" value="{{ $edit ? $batch->name : old('name') }}" @if($edit) readonly="readonly" @endif>
+                    <label for="name">@lang('app.batch_name')<i style="color:red;">*</i></label>
+                    <input type="text" class="form-control" id="name" 
+                           name="name" placeholder="@lang('app.batch_name')" value="{{ $edit ? $batch->name : old('name') }}" readonly="readonly" >
                 </div>
 		      <div class="form-group">
                     <label for="startdate">@lang('app.target_date')<i style="color:red;">*</i></label>
@@ -95,7 +95,7 @@
     {!! HTML::style('assets/css/bootstrap-datetimepicker.min.css') !!}
 @stop
 @section('scripts')
-    <script>
+<script>
 var date=new Date();
 date.setDate(date.getDate()-1);
 $(function () {
@@ -111,7 +111,20 @@ $(function () {
 	function fileSelected(input){
 	  document.getElementById('upload').value =input.files[0].name
 	}
-    </script>
+
+    $("#vendor_id,#project_id").change(function() {
+       var vendorId = $("#vendor_id").val();
+       var projectId = $("#project_id").val();
+       $.ajax({
+           method: "GET",
+           url: "{{ route('batch.getbatchName') }}",
+           data: {vendorId:vendorId, projectId:projectId}
+       })
+       .done(function(data) {
+			$("#name").val(data);
+       });
+   });
+</script>
     @if ($edit)
         {!! JsValidator::formRequest('Vanguard\Http\Requests\Batch\UpdateBatchRequest', '#batch-form') !!}
     @else
