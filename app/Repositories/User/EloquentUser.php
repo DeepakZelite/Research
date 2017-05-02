@@ -102,14 +102,12 @@ class EloquentUser implements UserRepository
                 $q->orWhere('users.last_name', 'like', "%{$search}%");
             });
         }
-
-        //$result = $query->paginate($perPage);
-
         $result = $query
-        ->leftjoin('vendors', 'vendors.id', '=', 'users.vendor_id')
-        ->where('users.vendor_id', '!=', '0')
-        ->select('users.*', 'vendors.vendor_code as vendor_code')
-        ->sortable()->paginate($perPage);
+        		->leftjoin('vendors', 'vendors.id', '=', 'users.vendor_id')
+        		->where('users.vendor_id', '!=', '0')
+        		->select('users.*', 'vendors.vendor_code as vendor_code')
+        		->sortable()
+        		->paginate($perPage);
         if ($search) {
             $result->appends(['search' => $search]);
         }

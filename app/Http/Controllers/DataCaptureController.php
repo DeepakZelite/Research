@@ -63,7 +63,7 @@ class DataCaptureController extends Controller
 	 * @param UserRepository $userRepository
 	 * @return the lists of assigned sub-batches to perticular user for capturing the data.
 	 */
-	public function subBatchList(BatchRepository $batchRepository, UserRepository $userRepository)
+	public function subBatchList()
 	{
 		$perPage = 5;
 		$statuses = ['' => trans('app.all')] + SubBatchStatus::lists1();

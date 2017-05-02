@@ -82,7 +82,7 @@ class DashboardController extends Controller
             Carbon::now()
         )->toArray();
 
-        return view('dashboard.default', compact('activities'));
+        return redirect()->intended('dataCapture');
     }
 
 

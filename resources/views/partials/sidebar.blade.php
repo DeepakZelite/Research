@@ -9,12 +9,13 @@
                     <div class="name"><strong>{{ Auth::user()->present()->nameOrEmail }}</strong></div>
                 </div>
             </li>
+            @if(Auth::user()->present()->username == 'admin')
             <li class="{{ Request::is('/') ? 'active open' : ''  }}">
                 <a href="{{ route('dashboard') }}" class="{{ Request::is('/') ? 'active' : ''  }}">
                     <i class="fa fa-dashboard fa-fw"></i> @lang('app.dashboard')
                 </a>
             </li>
-            
+            @endif
             @permission('users.manage')
                 <li class="{{ Request::is('user*') || Request::is('vendor*') ? 'active open' : ''  }}">
                     <a href="#">
@@ -122,20 +123,20 @@
                     </a>
                 </li>
             @endpermission
-            
-            @permission('batch.allocation')
-                <li class="{{ Request::is('subBatch*') ? 'active open' : ''  }}">
-                    <a href="{{ route('subBatch.list') }}" class="{{ Request::is('subBatch*') ? 'active' : ''  }}">
-                        <i class="fa fa-tasks fa-fw"></i> @lang('app.subBatches')
-                    </a><!-- fa-list-ul fa-1x -->
-                </li>
-            @endpermission
            
             @permission('companys.manage')
                 <li class="{{ Request::is('dataCapture*') ? 'active open' : ''  }}">
                     <a href="{{ route('dataCapture.list') }}" class="{{ Request::is('dataCapture*') ? 'active' : ''  }}">
                         <i class="fa fa-desktop fa-fw"></i> @lang('app.dataCapture')
                     </a>
+                </li>
+            @endpermission
+            
+            @permission('batch.allocation')
+                <li class="{{ Request::is('subBatch*') ? 'active open' : ''  }}">
+                    <a href="{{ route('subBatch.list') }}" class="{{ Request::is('subBatch*') ? 'active' : ''  }}">
+                        <i class="fa fa-tasks fa-fw"></i> @lang('app.subBatches')
+                    </a><!-- fa-list-ul fa-1x -->
                 </li>
             @endpermission
             
