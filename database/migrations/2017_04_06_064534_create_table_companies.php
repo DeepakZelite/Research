@@ -43,7 +43,7 @@ class CreateTableCompanies extends Migration
             $table->string('annual_revenue')->nullable();
             $table->string('number_of_beds')->nullable();
             $table->string('foundation_year')->nullable();
-            $table->string('company_remark')->unique();
+            $table->string('company_remark')->nullable();
             $table->string('additional_info1')->nullable();
             $table->string('additional_info2')->nullable();
             $table->string('additional_info3')->nullable();

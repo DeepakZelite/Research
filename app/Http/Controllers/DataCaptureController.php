@@ -67,7 +67,7 @@ class DataCaptureController extends Controller
 	{
 		$perPage = 5;
 		$statuses = ['' => trans('app.all')] + SubBatchStatus::lists1();
-		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'), $this->theUser->id,Input::get('status'));
+		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'), $this->theUser->id,Input::get('status'),null);
 		return view('subBatch.datacapturelist', compact('subBatches','statuses'));
 	}
 	
