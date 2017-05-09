@@ -47,7 +47,7 @@
             <th>@lang('app.project_code')</th>
             <th>@lang('app.batch_name')</th>
             <th>@lang('app.number_of_companies')</th>
-            <th>@lang('app.no_of_staff_record_processed')</th>
+            <th>@lang('app.staff_processed')</th>
             <th class="text-center">@lang('app.batch_status')</th>
         </thead>
         <tbody>

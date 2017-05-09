@@ -79,20 +79,20 @@
 				<div class="form-group col-lg-2">
 					<label for="city">@lang('app.city')<i style="color: red;">*</i></label>
 					<input type="text" class="form-control" id="city" name="city"
-						placeholder="@lang('app.city')" maxlength="50" required
+						placeholder="@lang('app.city')" maxlength="255" required
 						value="{{ $editCompany ? $company->city : old('city') }}">
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="state">@lang('app.state')<i style="color: red;">*</i></label>
 					<input type="text" class="form-control" id="state" name="state"
-						placeholder="@lang('app.state')" required maxlength="50"
+						placeholder="@lang('app.state')" required maxlength="255"
 						value="{{ $editCompany ? $company->state : old('state') }}">
 				</div>
 
 				<div class="form-group col-lg-2">
 					<label for="zipcode">@lang('app.zipcode')<i style="color: red;">*</i></label>
 					<input type="text" class="form-control" id="zipcode" name="zipcode"
-						required placeholder="@lang('app.zipcode')" maxlength="7"
+						required placeholder="@lang('app.zipcode')" maxlength="255"
 						value="{{ $editCompany ? $company->zipcode : old('zipcode') }}">
 				</div>
 				<div class="form-group col-lg-2">
@@ -131,7 +131,7 @@
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="branchNumber">@lang('app.branchNumber')</label> <input
-						type="text" class="form-control" id="branchNumber" maxlength="10"
+						type="text" class="form-control" id="branchNumber" maxlength="255"
 						name="branchNumber" placeholder="@lang('app.branchNumber')"
 						onkeypress="return isNumberKey(event)"
 						value="{{ $editCompany ? $company->branchNumber : old('branchNumber') }}">
@@ -154,7 +154,7 @@
 					<label for="physician_size">@lang('app.physician_size')</label> <input
 						type="text" class="form-control" id="physician_size"
 						onkeypress="return isNumberKey(event)" name="physician_size"
-						placeholder="@lang('app.physician_size')" maxlength="5"
+						placeholder="@lang('app.physician_size')" maxlength="255"
 						value="{{ $editCompany ? $company->physician_size : old('physician_size') }}">
 				</div>
 			</div>
@@ -206,7 +206,7 @@
 									<label for="foundation_year">@lang('app.foundation_year')</label>
 									<input type="text" class="form-control" id="foundation_year"
 										name="foundation_year" onkeypress="return isNumberKey(event)"
-										placeholder="@lang('app.foundation_year')" maxlength="4"
+										placeholder="@lang('app.foundation_year')" maxlength="255"
 										value="{{ $editCompany ? $company->foundation_year : old('foundation_year') }}">
 								</div>
 								<div class="form-group col-lg-6">
@@ -256,7 +256,7 @@
 									<label for="number_of_beds">@lang('app.number_of_beds')</label>
 									<input type="text" class="form-control" id="number_of_beds"
 										name="number_of_beds" onkeypress="return isNumberKey(event)"
-										placeholder="@lang('app.number_of_beds')" maxlength="5"
+										placeholder="@lang('app.number_of_beds')" maxlength="255"
 										value="{{ $editCompany ? $company->number_of_beds : old('number_of_beds') }}">
 								</div>
 							</div>
@@ -464,7 +464,7 @@ $('#switchboardnumber').on('input', function()
 	var value=$(this).val();
 	value = value.replace(/[^\d]/g, '');
 	$(this).val(value);
-	$('#switchboardnumber').attr("maxlength", 10);
+	$('#switchboardnumber').attr("maxlength", 250);
 });
 
 $(document).ready(function() {

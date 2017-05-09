@@ -167,13 +167,13 @@ class ReportsController extends Controller
 		$userId = $inputs['userId'];
 		$fromDate = $inputs['fromDate'];
 		$toDate = $inputs['toDate'];
-		Log::info("Contact:::::". $vendorId." ".$userId." ".$fromDate." ".$toDate);
+		//Log::info("Contact:::::". $vendorId." ".$userId." ".$fromDate." ".$toDate);
 		$datas=$contactRepository->getDataForReport($vendorId,$userId,$fromDate,$toDate);
 		foreach ($datas as $data)
 		{
 			$records=$data->no_rows;
 			$hours=$data->hrs;
-			$per_hour=null;
+			$per_hour=0;
 			if($hours!=0)
 			{
 				$per_hour=round($records/$hours);
@@ -184,7 +184,7 @@ class ReportsController extends Controller
 				$data['first_name']="All";
 			}
 		}
-		Log::info("Contact:::::". $datas);
+		//Log::info("Contact:::::". $datas);
 		
 		return view('report.partials.productivity-table',compact('datas'));
 	}
