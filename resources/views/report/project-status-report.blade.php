@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h1 class="page-header">
             @lang('app.project_status_report')
             <!-- <small>@lang('app.list_of_batches')</small> -->
@@ -25,14 +25,14 @@
     <!-- <form method="GET" action="" accept-charset="UTF-8" id="batches-form"> -->
     {!! Form::open(['route' => 'report.getData', 'id' => 'report-form']) !!}
     		@if($show)
-    		<div class="col-md-2">
+    		<div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
                 {!! Form::select('vendor_code', $vendors, Input::get('vendor_code'), ['id'=>'vendor_code', 'class'=>'form-control'])!!}
             </div>
             @endif
-    	<div class="col-md-2">
+    	<div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
                 {!! Form::select('code', $projects, Input::get('code'), ['id'=>'code', 'class'=>'form-control'])!!}
         </div>
-    	<div class="col-md-1">
+    	<div class="col-xs-2 col-sm-2 col-md-1 col-lg-1">
         	<button type="submit" class="btn btn-success">
             @lang('app.go')
         	</button>

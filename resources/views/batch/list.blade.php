@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h1 class="page-header">
             @lang('app.batches')
             <small>@lang('app.list_of_batches')</small>
@@ -23,24 +23,24 @@
 @include('partials.messages')
 
 <div class="row tab-search">
-    <div class="col-md-2">
+    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
         <a href="{{ route('batch.create') }}" class="btn btn-success" id="add-batch">
             <i class="glyphicon glyphicon-plus"></i>
             @lang('app.add_batch')
         </a>
     </div>
-    <div class="col-md-1"></div>
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
     <form method="GET" action="" accept-charset="UTF-8" id="batches-form">
-    	<div class="col-md-2">
+    	<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                 {!! Form::select('code', $projects, Input::get('code'), ['id'=>'code', 'class'=>'form-control'])!!}
         </div>
-    	<div class="col-md-2">
+    	<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                 {!! Form::select('vendor_code', $vendors, Input::get('vendor_code'), ['id'=>'vendor_code', 'class'=>'form-control'])!!}
         </div>
-        <div class="col-md-2">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                {!! Form::select('status', $statuses, Input::get('status'), ['id' => 'status', 'class' => 'form-control']) !!}
         </div> 
-        <div class="col-md-3">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
             <div class="input-group custom-search-form">
                 <input type="text" class="form-control" name="search" value="{{ Input::get('search') }}" placeholder="@lang('app.search_for_batches')">
                 <span class="input-group-btn">

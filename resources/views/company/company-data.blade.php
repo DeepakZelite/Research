@@ -10,7 +10,7 @@
 @endif
 <div class="row">
 	<!--First Section-->
-	<div class="col-lg-12 col-md-12 col-sm-6">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<div class="panel panel-default">
 			<div class="panel-heading" id='pan_head'>
 				@lang('app.company_details_big')
@@ -79,21 +79,20 @@
 				<div class="form-group col-lg-2">
 					<label for="city">@lang('app.city')<i style="color: red;">*</i></label>
 					<input type="text" class="form-control" id="city" name="city"
-						placeholder="@lang('app.city')" maxlength="20" required
+						placeholder="@lang('app.city')" maxlength="50" required
 						value="{{ $editCompany ? $company->city : old('city') }}">
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="state">@lang('app.state')<i style="color: red;">*</i></label>
 					<input type="text" class="form-control" id="state" name="state"
-						placeholder="@lang('app.state')" required
+						placeholder="@lang('app.state')" required maxlength="50"
 						value="{{ $editCompany ? $company->state : old('state') }}">
 				</div>
 
 				<div class="form-group col-lg-2">
 					<label for="zipcode">@lang('app.zipcode')<i style="color: red;">*</i></label>
 					<input type="text" class="form-control" id="zipcode" name="zipcode"
-						required placeholder="@lang('app.zipcode')"
-						onkeypress="return isNumberKey(event)" maxlength="6"
+						required placeholder="@lang('app.zipcode')" maxlength="7"
 						value="{{ $editCompany ? $company->zipcode : old('zipcode') }}">
 				</div>
 				<div class="form-group col-lg-2">
@@ -112,8 +111,7 @@
 						</div>
 						<div class="col-md-7">
 							<input type="text" class="form-control" id="switchboardnumber"
-								name="switchboardnumber" maxlength="10"
-								onkeypress="return isNumberKey(event)"
+								name="switchboardnumber" onkeypress="return isNumberKey(event)"
 								placeholder="@lang('app.switchboardnumber')"
 								value="{{ $editCompany ? $company->switchboardnumber : old('switchboardnumber') }}">
 						</div>
@@ -142,7 +140,6 @@
 					<label for="addresscode">@lang('app.addresscode')</label> <input
 						type="text" class="form-control" id="addresscode"
 						name="addresscode" placeholder="@lang('app.addresscode')"
-						maxlength="20"  
 						value="{{ $editCompany ? $company->addresscode : old('addresscode') }}">
 				</div>
 				<div class="form-group col-lg-2">
@@ -462,6 +459,13 @@ $("#country").change(function() {
  });
 });
 
+$('#switchboardnumber').on('input', function() 
+{
+	var value=$(this).val();
+	value = value.replace(/[^\d]/g, '');
+	$(this).val(value);
+	$('#switchboardnumber').attr("maxlength", 10);
+});
 
 $(document).ready(function() {
 	if($('#parent_company').val()!='')

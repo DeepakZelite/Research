@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-xs-12 col-md-12 col-lg-12">
         <h1 class="page-header">
             @lang('app.subBatches')
             <small>@lang('app.list_of_subBatches')</small></h1>
@@ -20,21 +20,21 @@
 @include('partials.messages')
 
 <div class="row tab-search">
-    <div class="col-md-12">
+    <div class="col-xs-12 col-md-12 col-lg-12">
     <!-- <form method="GET" action="" accept-charset="UTF-8" id="assign-form"> -->
     	{!! Form::open(['route' => 'subBatch.store', 'id' => 'assign-form']) !!}
        
-         <div class="col-md-3">
+         <div class="col-xs-6 col-md-3 col-lg-3">
             {!! Form::select('batch_id', $batches, Input::get('batch'), ['class' => 'form-control', 'id' => 'batch_id']) !!}
         </div>
-        <div class="col-md-3">
+        <div class="col-xs-6 col-md-3 col-lg-3">
              	{!! Form::select('user_id', $users, Input::get('user'), ['class' => 'form-control', 'id' => 'user_id']) !!}
         </div>
-        <div class="col-md-3">
+        <div class="col-xs-6 col-md-3 col-lg-3">
         <input type="text" class="form-control" id="company_count" onkeypress="return isNumberKey(event)"
                            name="company_count" placeholder="@lang('app.no_of_records')" value="">
         </div>
-        <div class="col-md-1">
+        <div class="col-xs-2 col-md-1 col-lg-1">
         	<button type="submit" id="btnAssign" class="btn btn-success"><i class="fa fa-save"></i>
             @lang('app.assign')
         	</button>
@@ -44,13 +44,13 @@
     </div>
 </div><!-- First Assign Row  -->
 <div class="row tab-search">
-    <div class="col-md-12">
+    <div class="col-xs-12 col-md-12 col-lg-12">
     <form method="GET" action="" accept-charset="UTF-8" id="assign-form">
-         <div class="col-md-3">
+         <div class="col-xs-6 col-md-3 col-lg-3">
         <input type="text" disabled class="form-control" id="totalCompanies"
                            name="totalCompanies" placeholder="@lang('app.no_of_companies')" value="">
         </div>
-        <div class="col-md-3">
+        <div class="col-xs-6 col-md-3 col-lg-3">
         <input type="text" disabled class="form-control" id="unAssignedCompanies"
                            name="unAssignedCompanies" placeholder="@lang('app.unassigned_companies')" value="">
         </div>
@@ -58,13 +58,13 @@
     </div>
 </div><!-- Second Assign Row  -->
 <div class="row tab-search">
-    <div class="col-md-7"></div>
+    <div class="col-xs-2 col-md-7 col-lg-7"></div>
     <form method="GET" action="" accept-charset="UTF-8" id="sub-batches-form">
-        <div class="col-md-2">
+        <div class="col-xs-4 col-md-2 col-lg-2">
             {!! Form::select('status', $statuses, Input::get('status'), ['id' => 'status', 'class' => 'form-control']) !!}
         </div>
          
-        <div class="col-md-3">
+        <div class="col-xs-6 col-md-3 col-lg-3">
             <div class="input-group custom-search-form">
                 <input type="text" class="form-control" name="search" value="{{ Input::get('search') }}" placeholder="@lang('app.search')">
                 <span class="input-group-btn">

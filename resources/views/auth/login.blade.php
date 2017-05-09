@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="form-wrap col-md-5 auth-form" id="login">
+<div class="form-wrap col-xs-5 col-md-5 auth-form" id="login">
     <div style="text-align: center; margin-bottom: 25px;">
         <img src="{{ url('assets/img/vanguard-logo.png') }}" alt="{{ settings('app_name') }}">
     </div>

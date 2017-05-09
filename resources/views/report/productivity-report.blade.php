@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h1 class="page-header">
             @lang('app.productivity_report')
             <!-- <small>@lang('app.list_of_batches')</small> -->
@@ -24,15 +24,15 @@
 <div class="row tab-search">
      @if($show)
     <form method="GET" action="" accept-charset="UTF-8" id="productivity-report-form">
-    	<div class="col-md-2">
+    	<div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
                 {!! Form::select('vendor_code', $vendors, Input::get('vendor_code'), ['id'=>'vendor_code', 'class'=>'form-control'])!!}
         </div>
  	 </form>
  	 @endif
- 		<div class="col-md-2">
+ 		<div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
              	{!! Form::select('user_id', $users, Input::get('user'), ['class' => 'form-control', 'id' => 'user_id']) !!}
         </div>
-        <div class="col-md-2">
+        <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
              <div class="form-group">
 				<div class='input-group date' id='start_date'>
 					<input type='text' name="Start_Date" id='Start_Date' placeholder="@lang('app.from_date')"  value="" class="form-control" />
@@ -42,7 +42,7 @@
 				</div>
 			 </div>
        </div>
-       <div class="col-md-2">
+       <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2">
            <div class="form-group">
 				<div class='input-group date' id='expected_date'>
 					<input type='text' name="Expected_date" id='Expected_date' placeholder="@lang('app.to_date')" value="" class="form-control" />
@@ -52,7 +52,7 @@
 				</div>
 			</div>
         </div>
-    	<div class="col-md-1">
+    	<div class="col-xs-3 col-sm-3 col-md-1 col-lg-1">
     	<input type="button" id="btn_go" class="btn btn-success" value="@lang('app.go')" onclick="getRecord();"/>
     	</div>
 </div>

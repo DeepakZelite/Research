@@ -127,7 +127,7 @@ class DataCaptureController extends Controller
 			$company = $companies[0];
 			$editContact = false;
 			$contacts = $this->contactRepository->paginate($perPage, Input::get('search'), $company->id);
-			return view('Company.company-data', compact('countries','codes','classication','subBatchId','childRecord', 'editCompany', 'company', 'contacts', 'editContact','projects','editChild'));
+			return view('company.company-data', compact('countries','codes','classication','subBatchId','childRecord', 'editCompany', 'company', 'contacts', 'editContact','projects','editChild'));
 		} else {
 			// All the company records are submitted in this sub batch.
 			// Set the status of sub-batch to Submitted and redirect to sub-batch list
