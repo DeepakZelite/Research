@@ -48,7 +48,7 @@ class ReportsController extends Controller
 	public function index(VendorRepository $vendorRepository,ProjectRepository $projectRepository)
 	{
 		$batches=null;
-		if ($this->theUser->username == 'admin')
+		if ($this->theUser->vendor_id == "0")
 		{
 			$show=true;
 			$vendors  =	[''=>trans('app.all_vendor')] + $vendorRepository->lists1();
@@ -75,7 +75,7 @@ class ReportsController extends Controller
 		$projects =	[''=>trans('app.all_project')] + $projectRepository->lists1();
 		$vendors  =	[''=>trans('app.all_vendor')] + $vendorRepository->lists1();
 		$project_code = Input::get('code');
-		if($this->theUser->username == 'admin')
+		if($this->theUser->vendor_id == "0")
 		{
 			$show=true;
 			$vendor_code  = Input::get('vendor_code');
@@ -129,7 +129,7 @@ class ReportsController extends Controller
 	{
 		$vendors  = $vendorRepository->lists();
 		$vendors -> prepend('select vendor','0');
-		if ($this->theUser->username == 'admin')
+		if ($this->theUser->vendor_id == "0")
 		{
 			$show=true;
 			$users = $userRepository->getVendorUsers(Input::get('vendor_code'));
@@ -156,7 +156,7 @@ class ReportsController extends Controller
 	public function getProductivityReport(Request $request,VendorRepository $vendorRepository,CompanyRepository $companyRepository,ContactRepository $contactRepository,SubBatchRepository $subBatchRepository)
 	{
 		$inputs = Input::all();
-		if ($this->theUser->username == 'admin')
+		if ($this->theUser->vendor_id == "0")
 		{
 			$vendorId	=$inputs['vendorId'];
 		}

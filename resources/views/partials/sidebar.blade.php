@@ -9,7 +9,7 @@
                     <div class="name"><strong>{{ Auth::user()->present()->nameOrEmail }}</strong></div>
                 </div>
             </li>
-            @if(Auth::user()->present()->username == 'admin')
+            @if(Auth::user()->present()->vendor_id == "0")
             <li class="{{ Request::is('/') ? 'active open' : ''  }}">
                 <a href="{{ route('dashboard') }}" class="{{ Request::is('/') ? 'active' : ''  }}">
                     <i class="fa fa-dashboard fa-fw"></i> @lang('app.dashboard')
