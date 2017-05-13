@@ -57,19 +57,19 @@ class EloquentSubBatch implements SubBatchRepository
     	
     	if ($userId) {
     		$query->where(function ($q) use($userId) {
-    			$q->where('sub_Batches.user_id', "=", "{$userId}");
+    			$q->where('sub_batches.user_id', "=", "{$userId}");
     		});
     	}
     	
     	if ($vendorId) {
     		$query->where(function ($q) use($vendorId) {
-    			$q->where('sub_Batches.vendor_id', "=", "{$vendorId}");
+    			$q->where('sub_batches.vendor_id', "=", "{$vendorId}");
     		});
     	}
     	
     	if ($status) {
     		$query->where(function ($q) use($status) {
-    			$q->where('sub_Batches.status', "=", "{$status}");
+    			$q->where('sub_batches.status', "=", "{$status}");
     		});
     	}
     

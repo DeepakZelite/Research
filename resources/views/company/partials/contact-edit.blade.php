@@ -91,7 +91,7 @@
 											<div class="form-group col-lg-4">
 												<label for="direct_phoneno">@lang('app.direct_phoneno')</label>
 												<input type="text" class="form-control" id="direct_phoneno"
-													name="direct_phoneno" maxlength="10" onkeypress="return isNumberKey(event)"
+													name="direct_phoneno" maxlength="255" onkeypress="return isNumberKey(event)"
 													placeholder="@lang('app.direct_phoneno')" value="{{ $editContact ? $contact->direct_phoneno : old('direct_phoneno') }}">
 											</div>
 											<div class="form-group col-lg-4">
@@ -121,14 +121,14 @@
 										<div id="additional_info" class="tab-pane fade">
 											<div class="form-group col-lg-4">
 												<label for="deparment_number">@lang('app.deparment_number')</label>
-												<input type="text" class="form-control" maxlength="10"
+												<input type="text" class="form-control" maxlength="255"
 													id="deparment_number" name="deparment_number" onkeypress="return isNumberKey(event)"
 													placeholder="@lang('app.deparment_number')" value="{{ $editContact ? $contact->deparment_number : old('deparment_number') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="alternate_phone">@lang('app.alternate_phone')</label>
 												<input type="text" class="form-control" id="alternate_phone"
-													name="alternate_phone" maxlength="10" onkeypress="return isNumberKey(event)"
+													name="alternate_phone"  onkeypress="return isNumberKey(event)"
 													placeholder="@lang('app.alternate_phone')" value="{{ $editContact ? $contact->alternate_phone : old('alternate_phone') }}">
 											</div>
 											<div class="form-group col-lg-4">

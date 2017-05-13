@@ -55,8 +55,8 @@
         <thead>
             <th>@lang('app.user_name')</th>
             <th>@lang('app.hour_spend')</th>
-            <th>@lang('app.number_of_companies_processed')</th>
-            <th>@lang('app.no_of_record_processed')</th>
+            <th>@lang('app.companies_processed')</th>
+            <th>@lang('app.staff_processed')</th>
             <th class="text-center">@lang('app.record_per_hour')</th>
         </thead>
         <tbody>

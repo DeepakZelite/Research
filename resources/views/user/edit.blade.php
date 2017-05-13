@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h1 class="page-header">
             {{ $user->present()->nameOrEmail }}
             <small>@lang('app.edit_user_details')</small>
@@ -49,12 +49,12 @@
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="details">
         <div class="row">
-            <div class="col-lg-8 col-md-7">
+            <div class="col-xs-12 col-sm-12 col-lg-8 col-md-7">
                 {!! Form::open(['route' => ['user.update.details', $user->id], 'method' => 'PUT', 'id' => 'details-form']) !!}
                     @include('user.partials.details', ['profile' => false])
                 {!! Form::close() !!}
             </div>
-            <div class="col-lg-4 col-md-5">
+            <div class="col-xs-12 col-sm-12 col-lg-4 col-md-5">
                 {!! Form::open(['route' => ['user.update.avatar', $user->id], 'files' => true, 'id' => 'avatar-form']) !!}
                     @include('user.partials.avatar', ['updateUrl' => route('user.update.avatar.external', $user->id)])
                 {!! Form::close() !!}
@@ -72,7 +72,7 @@
     </div>
     <div role="tabpanel" class="tab-pane" id="auth">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-xs-12 col-sm-12 col-md-8">
                 {!! Form::open(['route' => ['user.update.login-details', $user->id], 'method' => 'PUT', 'id' => 'login-details-form']) !!}
                     @include('user.partials.auth')
                 {!! Form::close() !!}

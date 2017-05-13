@@ -27,13 +27,13 @@
                    name="password_confirmation" @if ($edit) placeholder="@lang('app.leave_blank_if_you_dont_want_to_change')" @endif>
         </div>
         @if ($edit)
-        	<div class="col-md-8"></div>
-        	<div class="col-md-2">
+        	<div class="col-xs-4 col-sm-4 col-md-8 col-lg-8"></div>
+        	<div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
             <button type="submit" class="btn btn-primary" id="update-login-details-btn">
                 <i class="fa fa-refresh"></i>
                 @lang('app.update_details')
             </button></div>
-            <div class="col-md-2">
+            <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
         		<a href="{{ route('dashboard') }}" class="btn btn-primary btn-block" id="cancel">
             		@lang('app.cancel')
         		</a>

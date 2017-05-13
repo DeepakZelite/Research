@@ -63,11 +63,11 @@ class DataCaptureController extends Controller
 	 * @param UserRepository $userRepository
 	 * @return the lists of assigned sub-batches to perticular user for capturing the data.
 	 */
-	public function subBatchList(BatchRepository $batchRepository, UserRepository $userRepository)
+	public function subBatchList()
 	{
 		$perPage = 5;
 		$statuses = ['' => trans('app.all')] + SubBatchStatus::lists1();
-		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'), $this->theUser->id,Input::get('status'));
+		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'), $this->theUser->id,Input::get('status'),null);
 		return view('subBatch.datacapturelist', compact('subBatches','statuses'));
 	}
 	
@@ -127,7 +127,7 @@ class DataCaptureController extends Controller
 			$company = $companies[0];
 			$editContact = false;
 			$contacts = $this->contactRepository->paginate($perPage, Input::get('search'), $company->id);
-			return view('Company.company-data', compact('countries','codes','classication','subBatchId','childRecord', 'editCompany', 'company', 'contacts', 'editContact','projects','editChild'));
+			return view('company.company-data', compact('countries','codes','classication','subBatchId','childRecord', 'editCompany', 'company', 'contacts', 'editContact','projects','editChild'));
 		} else {
 			// All the company records are submitted in this sub batch.
 			// Set the status of sub-batch to Submitted and redirect to sub-batch list

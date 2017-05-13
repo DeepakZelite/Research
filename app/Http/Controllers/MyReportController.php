@@ -37,13 +37,13 @@ class MyReportController extends Controller
 			$records=$data->no_rows;
 			$hours=$data->hrs;
 			$per_hour=null;
-			if($hours!=0)
+			if($hours!= 0)
 			{
 				$per_hour=round($records/$hours);
 			}
 			$data['per_hour']=$per_hour;
 		}
-		Log::info("Contact:::::". $datas);
+		//Log::info("Contact:::::". $datas);
 		return view('report.my_productivity',compact('datas'));
 	}
 	
@@ -59,7 +59,18 @@ class MyReportController extends Controller
 		$toDate=$request->Expected_date;
 		$userId = $this->theUser->id;
 		$datas = $contactRepository->getDataForReport(null,$userId,$fromDate,$toDate);
-		//return $datas;
+		foreach ($datas as $data)
+		{
+			$records=$data->no_rows;
+			$hours=$data->hrs;
+			$per_hour=null;
+			if($hours!= 0)
+			{
+				$per_hour=round($records/$hours);
+			}
+			$data['per_hour']=$per_hour;
+		}
+		//Log::info("Contact:::::". $datas);
 		return view('report.my_productivity',compact('datas'));
 	}
 }

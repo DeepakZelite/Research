@@ -22,7 +22,7 @@ class Project extends Model
     protected $fillable = ['name', 'code','No_Companies','Expected_Staff','brief_file','Start_Date','Expected_date'];
 
     
-    protected $sortable = ['name', 'code','No_Companies','Expected_Staff','brief_file','Start_Date','Expected_date'];
+    protected $sortable = ['code','No_Companies','Expected_Staff'];
     
 
 }

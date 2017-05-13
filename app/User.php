@@ -45,7 +45,7 @@ class User extends Model implements AuthenticatableContract,
         'group_id', 'remember_token'
     ];
 
-    public $sortable = ['name', 'email', 'password', 'username', 'first_name', 'last_name'];
+    protected $sortable = ['name', 'email', 'password', 'username', 'first_name', 'last_name'];
     /**
      * The attributes excluded from the model's JSON form.
      *

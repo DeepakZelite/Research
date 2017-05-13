@@ -3,8 +3,8 @@
         	<th>@lang('app.vendor_code')</th>
             <th>@lang('app.user_name')</th>
             <th>@lang('app.hour_spend')</th>
-            <th>@lang('app.number_of_companies_processed')</th>
-            <th>@lang('app.no_of_record_processed')</th>
+            <th>@lang('app.companies_processed')</th>
+            <th>@lang('app.staff_processed')</th>
             <th class="text-center">@lang('app.record_per_hour')</th>
         </thead>
         <tbody>
@@ -13,9 +13,9 @@
                     <tr>
                         <td>{{ $data->vendor_code }}</td>
                          <td>{{ $data->first_name }}  {{ $data->last_name }}</td>
-                         <td>{{ $data->hrs }}</td>
-                         <td>{{ $data->comp_count }}</td>
-                         <td>{{ $data->no_rows }}</td>
+                         <td>@if($data->hrs!=""){{ $data->hrs }}@else 0 @endif</td>
+                         <td>@if($data->comp_count!=""){{ $data->comp_count }}@else 0 @endif</td>
+                         <td>@if($data->no_rows!=""){{ $data->no_rows }}@else 0 @endif</td>
                          <td>{{ $data->per_hour }}</td>
                      </tr>
                  @endforeach
