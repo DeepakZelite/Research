@@ -53,7 +53,8 @@
         	<th>@lang('app.batch_name')</th>
         	<th>@lang('app.sub_batch_name')</th>
         	<th>@lang('app.code')</th>
-            <th>@lang('app.companies')</th>
+            <th>@lang('app.allocated_companies')</th>
+            <th>@lang('app.remaining_companies')</th>
             <th class="nosort">@lang('app.status')</th>
             <th class="nosort">@lang('app.action')</th>
         </thead>
@@ -65,6 +66,7 @@
                         <td>{{ $subBatch->batch_name }}-{{ $subBatch->sub_batch_name }}</td>
                         <td>{{ $subBatch->project_code}}</td>
                          <td>{{ $subBatch->company_count }}</td>
+                         <td>{{ $subBatch->count}}	</td>
                          <td>{{ $subBatch->status }}</td>
                          <td class="text-left">
                          @if ($subBatch->status != "Submitted")
@@ -95,7 +97,6 @@
             $("#sub-batches-form").submit();
         });
         $(document).ready(function() {
-            //$('#example').DataTable();
             $('#dataCapture_table').dataTable( {
                 "bPaginate": false,
                 "bFilter": false,

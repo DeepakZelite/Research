@@ -82,7 +82,7 @@ class EloquentUser implements UserRepository
     /**
      * {@inheritdoc}
      */
-    public function paginate($perPage, $search = null, $status = null,$vendor_code = null)
+    public function paginate($perPage, $search = null, $status = null,$vendor_code = null,$user = null)
     {
         $query = User::query();
 
@@ -102,12 +102,27 @@ class EloquentUser implements UserRepository
                 $q->orWhere('users.last_name', 'like', "%{$search}%");
             });
         }
-        $result = $query
+        $result=null;
+        if($user == 1)
+        {
+        	$result = $query
+        	->leftjoin('vendors', 'vendors.id', '=', 'users.vendor_id')
+        	->where('users.id', '!=', '1')
+        	->select('users.*', 'vendors.vendor_code as vendor_code')
+        	->sortable()
+        	->orderBy('created_at', 'DESC')
+        	->paginate($perPage);
+        }
+        else
+        {
+        	$result = $query
         		->leftjoin('vendors', 'vendors.id', '=', 'users.vendor_id')
         		->where('users.vendor_id', '!=', '0')
         		->select('users.*', 'vendors.vendor_code as vendor_code')
         		->sortable()
+        		->orderBy('created_at', 'DESC')
         		->paginate($perPage);
+        }
         if ($search) {
             $result->appends(['search' => $search]);
         }

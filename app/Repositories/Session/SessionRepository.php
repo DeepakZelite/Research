@@ -20,4 +20,10 @@ interface SessionRepository
      * @return mixed
      */
     public function invalidateUserSession($userId, $sessionId);
+    
+    /**
+     * 
+     * @param unknown $userId
+     */
+    public function getUserSessionCount($userId);
 }

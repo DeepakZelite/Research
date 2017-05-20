@@ -165,4 +165,10 @@ interface CompanyRepository
      * @param unknown $userId
      */
     public function getcompaniesforReport($vendorId = null,$userId = null);
+    
+    /**
+     * for retriving the perticular sub-batch Completed Record for Displaying in dataCapture
+     * @param unknown $subBatchId
+     */
+    public function getAssignedCompanyCountForSubBatch($subBatchId = null);
 }

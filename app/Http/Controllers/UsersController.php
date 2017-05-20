@@ -56,7 +56,7 @@ class UsersController extends Controller
     public function index(VendorRepository $vendorRepository)
     {
         $perPage = 5;
-        $users = $this->users->paginate($perPage, Input::get('search'), Input::get('status'),Input::get('vendor_code'));
+        $users = $this->users->paginate($perPage, Input::get('search'), Input::get('status'),Input::get('vendor_code'),Auth::user()->id);
         $statuses = ['' => trans('app.all_status')] + UserStatus::lists1();
         $vendors=[''=>trans('app.all_vendor')]+$vendorRepository->lists1();
         return view('user.list', compact('users', 'statuses','vendors'));

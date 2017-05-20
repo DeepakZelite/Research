@@ -41,7 +41,7 @@
                 </div>              
                 <div class="form-group">
                     <label for="vendorCode">@lang('app.vendor_code')<i style="color:red;">*</i></label>
-                    @if($edit)
+                    @if($edit && $user != 1)
                     	<input type="text" class="form-control" id="vendor_code" maxlength="4"
                            name="vendor_code" placeholder="@lang('app.vendor_code')" readonly="readonly" value="{{ $edit ? $vendor->vendor_code : old('vendor_code') }}">
                     @else 

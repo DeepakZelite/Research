@@ -63,11 +63,15 @@ class DataCaptureController extends Controller
 	 * @param UserRepository $userRepository
 	 * @return the lists of assigned sub-batches to perticular user for capturing the data.
 	 */
-	public function subBatchList()
+	public function subBatchList(CompanyRepository $companyRepository)
 	{
 		$perPage = 5;
 		$statuses = ['' => trans('app.all')] + SubBatchStatus::lists1();
 		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'), $this->theUser->id,Input::get('status'),null);
+		foreach($subBatches as $subBatch)
+		{
+			$subBatch['count'] = $companyRepository->getAssignedCompanyCountForSubBatch($subBatch->id);
+		}
 		return view('subBatch.datacapturelist', compact('subBatches','statuses'));
 	}
 	
@@ -113,7 +117,7 @@ class DataCaptureController extends Controller
 		// Get the first to last saved company record from the sub batch.
 		$editChild=false;
 		$editCompany = true;
-		$perPage = 2;
+		$perPage = 10;
 		$countries = $countryRepository->lists();
 		$codes=$codeRepository->lists();
 		$codes->prepend(trans('app.none'));
@@ -203,9 +207,11 @@ class DataCaptureController extends Controller
 	{
 		$inputs = Input::all();
 		$contactId = $inputs['contactId'];
+		$data = array("Mr","Mrs","Miss","Dr","Ms","Prof");
+		$disposition = array("Verified","Not Verified","Acquired","Left and Gone Away","Retired");
 		$contact=Contact::find($contactId);
 		$editContact = true;
-		return view('company.partials.contact-edit', compact('editContact', 'contact'));
+		return view('company.partials.contact-edit', compact('editContact', 'contact','data','disposition'));
 	}
 	
 	/**
@@ -216,8 +222,10 @@ class DataCaptureController extends Controller
 	public function createContact(Company $companyId)
 	{
 		$company=Company::find($companyId->id);
+		$data = array("Mr","Mrs","Miss","Dr","Ms","Prof");
+		$disposition = array("Verified","Not Verified","Acquired","Left and Gone Away","Retired");
 		$editContact = false;
-		return view('company.partials.contact-edit', compact('editContact', 'company'));
+		return view('company.partials.contact-edit', compact('editContact', 'company','data','disposition'));
 	}
 	
 	/**
@@ -287,11 +295,20 @@ class DataCaptureController extends Controller
 		$zipcode= $inputs['zipcode'];
 		$specility=$inputs['specility'];
 		$phone	=$inputs['specility'];
-		Log::info("Contact:::::". $first." ".$last." ".$jobtitle." ".$company_name." ".$website." ".$address." ".$city." ".$state." ".$zipcode." ".$specility." ".$phone);
+		$prm 	=$inputs['prm'];
+		//Log::info("Contact:::::". $first." ".$last." ".$jobtitle." ".$company_name." ".$website." ".$address." ".$city." ".$state." ".$zipcode." ".$specility." ".$phone);
 		$perPage=5;
-		$duplicate = $contactRepository->duplicate($first,$last,$jobtitle,$email,$company_name,$website,$address,$city,$state,$zipcode,$specility,$phone);
+		$duplicate = $contactRepository->duplicate($first,$last,$jobtitle,$email,$company_name,$website,$address,$city,$state,$zipcode,$specility,$phone,$prm);
 		//$duplicate = $this->companyRepository->paginate($perPage,null,null,$first);
 		Log::info("Contact:::::". $duplicate);
 		return view('company.partials.duplicate-list', compact('duplicate'));
+	}
+	
+	public function delete(Contact $contact,ContactRepository $contactRepository)
+	{
+		$contact = Contact::find($contact->id);
+		$company = Company::find($contact->company_id);
+		$contactRepository->delete($contact->id);
+		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.staff_deleted'));
 	}
 }

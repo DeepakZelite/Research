@@ -53,7 +53,7 @@ class EloquentCompany implements CompanyRepository
             });
         }
 
-        $result = $query->where("parent_id", "=", $parentId)->paginate($perPage);
+        $result = $query->where("parent_id", "=", $parentId)->orderBy('created_at', 'DESC')->paginate($perPage);
 
         if ($search) {
             $result->appends(['search' => $search]);
@@ -307,6 +307,17 @@ class EloquentCompany implements CompanyRepository
     		$query->where('$companies.user_id',"=","{$userId}");
     	}
     	$result = $query->select('id')->get();
+    	return $result;
+    }
+    
+    public function getAssignedCompanyCountForSubBatch($subBatchId = null)
+    {
+    	$query = Company::query();
+    	if($subBatchId)
+    	{
+    		$query->where('companies.sub_batch_id',"=","{$subBatchId}");
+    	}
+    	$result = $query->where('status',"=","Assigned")->count();
     	return $result;
     }
 }

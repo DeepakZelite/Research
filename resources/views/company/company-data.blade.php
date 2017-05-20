@@ -111,7 +111,7 @@
 						</div>
 						<div class="col-md-7">
 							<input type="text" class="form-control" id="switchboardnumber"
-								name="switchboardnumber" onkeypress="return isNumberKey(event)"
+								name="switchboardnumber"
 								placeholder="@lang('app.switchboardnumber')"
 								value="{{ $editCompany ? $company->switchboardnumber : old('switchboardnumber') }}">
 						</div>
@@ -131,9 +131,8 @@
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="branchNumber">@lang('app.branchNumber')</label> <input
-						type="text" class="form-control" id="branchNumber" maxlength="255"
+						type="text" class="form-control" id="branchNumber" 
 						name="branchNumber" placeholder="@lang('app.branchNumber')"
-						onkeypress="return isNumberKey(event)"
 						value="{{ $editCompany ? $company->branchNumber : old('branchNumber') }}">
 				</div>
 				<div class="form-group col-lg-2">
@@ -143,19 +142,18 @@
 						value="{{ $editCompany ? $company->addresscode : old('addresscode') }}">
 				</div>
 				<div class="form-group col-lg-2">
-					<label for="employee_size">@lang('app.employee_size')</label> {!!
-					Form::select('employee_size', $codes,$editCompany ? $company->employee_size : old('employee_size'), ['class'=>'form-control','id'=>'employee_size']) !!}
+					<label for="employee_size">@lang('app.employee_size')</label> 
+					{!!Form::select('employee_size', $codes,$editCompany ? $company->employee_size : old('employee_size'), ['class'=>'form-control','id'=>'employee_size']) !!}
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="industry_classfication">@lang('app.industry_classfication')</label>
 					{!! Form::select('industry_classfication', $classication, $editCompany ? $company->industry_classfication : old('industry_classfication'), ['class'=>'form-control','id'=>'industry_classfication']) !!}
 				</div>
 				<div class="form-group col-lg-2">
-					<label for="physician_size">@lang('app.physician_size')</label> <input
-						type="text" class="form-control" id="physician_size"
-						onkeypress="return isNumberKey(event)" name="physician_size"
-						placeholder="@lang('app.physician_size')" maxlength="255"
-						value="{{ $editCompany ? $company->physician_size : old('physician_size') }}">
+					<label for="prm">@lang('app.prm')</label> <input
+						type="text" class="form-control" id="prm" name="prm"
+						placeholder="@lang('app.prm')" 
+						value="{{ $editCompany ? $company->prm : old('prm') }}">
 				</div>
 			</div>
 		</div>
@@ -196,6 +194,12 @@
 							<div class="panel-heading">@lang('app.additional-info')</div>
 							<div class="panel-body">
 								<div class="form-group col-lg-6">
+									<label for="physician_size">@lang('app.physician_size')</label> 
+									<input type="text" class="form-control" id="physician_size" name="physician_size"
+											placeholder="@lang('app.physician_size')" maxlength="255"
+											value="{{ $editCompany ? $company->physician_size : old('physician_size') }}">
+								</div>
+								<div class="form-group col-lg-6">
 									<label for="company_remark">@lang('app.company_remark')</label>
 									<input type="text" class="form-control" id="company_remark"
 										name="company_remark"
@@ -205,8 +209,7 @@
 								<div class="form-group col-lg-6">
 									<label for="foundation_year">@lang('app.foundation_year')</label>
 									<input type="text" class="form-control" id="foundation_year"
-										name="foundation_year" onkeypress="return isNumberKey(event)"
-										placeholder="@lang('app.foundation_year')" maxlength="255"
+										name="foundation_year" placeholder="@lang('app.foundation_year')" maxlength="255"
 										value="{{ $editCompany ? $company->foundation_year : old('foundation_year') }}">
 								</div>
 								<div class="form-group col-lg-6">
@@ -240,23 +243,19 @@
 								<div class="form-group col-lg-6">
 									<label for="annual_revenue">@lang('app.annual_revenue')</label>
 									<input type="text" class="form-control" id="annual_revenue"
-										name="annual_revenue"
-										placeholder="@lang('app.annual_revenue')"
+										name="annual_revenue" placeholder="@lang('app.annual_revenue')"
 										value="{{ $editCompany ? $company->annual_revenue : old('annual_revenue') }}">
 								</div>
 								<div class="form-group col-lg-6">
 									<label for="products_services">@lang('app.products_services')</label>
 									<input type="text" class="form-control" id="products_services"
-										name="products_services"
-										placeholder="@lang('app.products_services')"
+										name="products_services" placeholder="@lang('app.products_services')"
 										value="{{ $editCompany ? $company->products_services : old('products_services') }}">
 								</div>
 
 								<div class="form-group col-lg-6">
 									<label for="number_of_beds">@lang('app.number_of_beds')</label>
-									<input type="text" class="form-control" id="number_of_beds"
-										name="number_of_beds" onkeypress="return isNumberKey(event)"
-										placeholder="@lang('app.number_of_beds')" maxlength="255"
+									<input type="text" class="form-control" id="number_of_beds"	name="number_of_beds" placeholder="@lang('app.number_of_beds')" maxlength="255"
 										value="{{ $editCompany ? $company->number_of_beds : old('number_of_beds') }}">
 								</div>
 							</div>
@@ -267,8 +266,7 @@
 						<div class="col-md-2">
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">
-								<i class=""></i> {{ $editCompany ? trans('app.close') :
-								trans('app.close') }}
+								<i class=""></i> {{ $editCompany ? trans('app.close') : trans('app.close') }}
 							</button>
 						</div>
 					</div>
@@ -308,7 +306,16 @@
 						data-target="#myModal" title="@lang('app.edit_contact')"
 						onclick="editContact({{ $contact->id }});" data-toggle="tooltip"
 						data-placement="top"> <i class="glyphicon glyphicon-edit"></i>
-					</a></td>
+					</a>
+					<a href="{{ route('dataCapture.delete', $contact->id) }}" class="btn btn-danger btn-circle" title="@lang('app.delete_staff')"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    data-method="DELETE"
+                                    data-confirm-title="@lang('app.please_confirm')"
+                                    data-confirm-text="@lang('app.are_you_sure_delete_staff')"
+                                    data-confirm-delete="@lang('app.yes')">
+                                <i class="glyphicon glyphicon-trash"></i></a>
+					</td>
 				</tr>
 				@endforeach @else
 				<tr>
@@ -328,8 +335,8 @@
 	<div class="col-md-1">
 	</div> 
 	<div class="col-md-1">
-			 	<a id="btnParentSubmit" href="{{ route('dataCapture.submitCompany', $company->id) }}" class="btn btn-primary btn-block pull-right" onclick="javascript:return confirm('@lang('app.are_you_sure_to_submit_parent_company')')">@lang('app.submit')
-                 </a>       
+			 	<!-- <a id="btnParentSubmit" href="{{ route('dataCapture.submitCompany', $company->id) }}" class="btn btn-primary btn-block pull-right" onclick="javascript:return confirm('@lang('app.are_you_sure_to_submit_parent_company')')">@lang('app.submit')
+                 </a> -->       
 		<a id="btnSubmit" href="{{ route('dataCapture.submitCompany', $company->id) }}"
 			class="btn btn-primary btn-block pull-right">@lang('app.submit')</a> 	
 	</div>	
@@ -439,6 +446,9 @@
 
 @stop @section('scripts')
 <script>
+window.location.hash="no-back-button";
+window.location.hash="Again-No-back-button";
+window.onhashchange=function(){window.location.hash="no-back-button";}
 hideMenu();
 function hideMenu() {
 	as.toggleSidebar();
@@ -459,24 +469,16 @@ $("#country").change(function() {
  });
 });
 
-$('#switchboardnumber').on('input', function() 
-{
-	var value=$(this).val();
-	value = value.replace(/[^\d]/g, '');
-	$(this).val(value);
-	$('#switchboardnumber').attr("maxlength", 250);
-});
-
 $(document).ready(function() {
 	if($('#parent_company').val()!='')
 	{
 		$('#add_child_record').css("visibility", "hidden");
 		$('#btn_check').css("visibility", "hidden");
-		$('#btnParentSubmit').css("visibility", "hidden");
+		//$('#btnParentSubmit').css("visibility", "hidden");
 	}
 	else
 	{
-		$('#btnSubmit').css("visibility", "hidden");
+		//$('#btnSubmit').css("visibility", "hidden");
 		//$('#child_cancel').css("visibility","hidden");
 	}
 	
@@ -532,40 +534,62 @@ $(document).ready(function() {
 		}
 		else {
 		    $('#zipcode').css('border-color', 'green');
-		}	
+		}
 
-		$('#company_email').on('input', function() 
+		if($('#website').val() != '')
 		{
-			var input=$(this);
-			var re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-			var is_email=re.test(input.val());
-			if(is_email){$('#company_email').css('border-color', 'green');}
+			var re = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+			var re1 = /.[a-zA-Z]{2,3}$/;
+			var is_url=$('#website').val();
+			if(re.test(is_url))
+			{
+				$('#website').css('border-color', 'red');
+		    	return false
+			}
 			else
 			{
-				$('#company_email').css('border-color', 'red');
+				$('#website').css('border-color', 'green');
 			}
-		});
+		}
 
-		$('#website').on('input', function() {
-			var input=$(this);
-			var re = /[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
-			var is_url=re.test(input.val());
-			if(is_url){$('#website').css('border-color', 'green');}
-			else{$('#website').css('border-color', 'red');}
-		});
+		if($('#company_email').val() != '')
+		{
+			var regix = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+			var email= $('#company_email').val();
+			if(!regix.test(email))
+			{
+				$('#company_email').css('border-color', 'red');
+				return false;
+			}
+			else
+			{
+				$('#company_email').css('border-color', 'green');
+			}
+		}
 		return true;
 	});
+
 	// <!-- ------------------------------------- Client Side validation for Company Edit End ----------------------------------------------- -->	
 });
 
 //<!-- --------------------------------------Client side validation for inputing only number Start ------------------------------------------------ -->
 function isNumberKey(evt)
 {
+		evt = (evt) ? evt : window.event;
+		//evt = evt || window.event || event;
 		var charCode = (evt.which) ? evt.which : event.keyCode
-		if (charCode > 31 && (charCode < 48 || charCode > 57))
+		if (charCode > 31 && (charCode < 48 || charCode > 57 || charcode == 86))
   			return false;
 		return true;
 }
+
+var mod;
+var numeric = $('#branchNumber,#switchboardnumber,#physician_size,#foundation_year,#number_of_beds').keydown(function(e){
+  mod = e.which; 
+  if(!((e.which >= 96 && e.which <= 105)||(e.which >= 48 && e.which <= 57)) && (e.which != 8 && e.which != 46 && e.which != 37 && e.which != 39 && e.which != 9 && e.which !=35 && e.which != 36) && (mod && (e.which == 67 || e.which != 86))){
+      e.preventDefault();
+  }
+});
 //<!-- --------------------------------------Client side validation for inputing only number End ------------------------------------------------ -->
 
 $('#myModal').on('shown.bs.modal', function() {
@@ -610,10 +634,11 @@ function getduplicateRecord()
 	var $zipcode= $('#zipcode').val();
 	var $specility=$('#specialization').val();
 	var $phone	=$('#branchNumber').val();
+	var $prm 	=$('#prm').val();
 	$.ajax({
 		method:"GET",
 		url:"{{route('dataCapture.getduplicateRecord')}}",
-		data:{'firstname':$firstname,'lastname':$lastname,'jobtitle':$jobtitle,'email':$email,'company_name':$company_name,'website':$website,'address':$address,'city':$city,'state':$state,'zipcode':$zipcode,'specility':$specility,'phone':$phone},
+		data:{'firstname':$firstname,'lastname':$lastname,'jobtitle':$jobtitle,'email':$email,'company_name':$company_name,'website':$website,'address':$address,'city':$city,'state':$state,'zipcode':$zipcode,'specility':$specility,'phone':$phone,'prm':$prm},
 		success:function(data){
 			$data=$(data);
 			$('#duplicate').html($data).fadeIn();

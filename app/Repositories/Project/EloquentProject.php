@@ -53,7 +53,7 @@ class EloquentProject implements ProjectRepository
             });
         }
 
-        $result = $query->sortable()->paginate($perPage);
+        $result = $query->sortable()->orderBy('created_at', 'DESC')->paginate($perPage);
 
         if ($search) {
             $result->appends(['search' => $search]);
@@ -118,5 +118,17 @@ class EloquentProject implements ProjectRepository
     public function lists1()
     {
     	return Project::select('code')->lists('code','code')->toArray();
+    }
+    
+    public function getProjectCompanyCount($projectId = null)
+    {
+    	$query = Project::query();
+    	
+    	if($projectId)
+    	{
+    		$query->where('id', "=", "{$projectId}");
+    	}
+    	$result=$query->select('No_Companies')->get()->first();
+    	return $result;
     }
 }

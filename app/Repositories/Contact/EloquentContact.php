@@ -129,7 +129,7 @@ class EloquentContact implements ContactRepository
      * {@inheritDoc}
      * @see \Vanguard\Repositories\Contact\ContactRepository::duplicat()
      */
-    public function duplicate($first = null,$last = null,$jobTitle = null,$email = null,$companyName = null,$website = null,$address =null,$city = null,$state = null,$zipcode =null,$specility = null,$phone = null)
+    public function duplicate($first = null,$last = null,$jobTitle = null,$email = null,$companyName = null,$website = null,$address =null,$city = null,$state = null,$zipcode =null,$specility = null,$phone = null,$prm = null)
     {	
     	$query = Contact::query();
     	
@@ -178,7 +178,11 @@ class EloquentContact implements ContactRepository
     	}
     	if($specility)
     	{
-    		$query->where('contacts.specialization'."like","{$specility}%");
+    		$query->where('contacts.specialization',"like","{$specility}%");
+    	}
+    	if($prm)
+    	{
+    		$query->where('companies.prm','like',"{$prm}");
     	}
     	$result = $query
     	->leftjoin('companies', 'companies.id', '=', 'contacts.company_id')
@@ -224,11 +228,15 @@ class EloquentContact implements ContactRepository
     	 {
     	 	$toDate=Carbon::now();//->format('Y-m-d h:M:s');//Carbon::today()
     	 }
+    	 else 
+    	 {
+    	 	$toDate =$toDate . " 23:59:59";
+    	 }
     	 
     	if($vendorId== 0 && $userId == 0)
     	{
     		$result=$query
-    				->from(DB::raw('(select count(*) no_rows, Round(TIMESTAMPDIFF(Minute,min(s.updated_at), max(s.updated_at))/60,2) as hrs, count(distinct(c.id)) as comp_count,b.vendor_id, c.user_id 
+    				->from(DB::raw('(select count(*) no_rows,CONCAT(TIMESTAMPDIFF(HOUR, min(s.updated_at), max(s.updated_at)), ":",MOD(TIMESTAMPDIFF(MINUTE, min(s.updated_at), max(s.updated_at)),60)) as hrs, count(distinct(c.id)) as comp_count,b.vendor_id, c.user_id 
 								from contacts s inner join companies c on s.company_id = c.id  inner join batches b on c.batch_id = b.id where s.updated_at >="'.$fromDate.'" and s.updated_at <= "'.$toDate.'" group by b.vendor_id) as rows'))
     							->select('vendors.vendor_code', 'rows.no_rows', 'rows.hrs', 'rows.comp_count')
     							->join('users','users.id',"=","rows.user_id")
@@ -237,7 +245,7 @@ class EloquentContact implements ContactRepository
     	}
     	else {
     		$result=$query
-    				->from(DB::raw('(select count(*) no_rows, ROUND(TIMESTAMPDIFF(Minute,min(s.updated_at), max(s.updated_at))/60,2) as hrs, count(distinct(c.id)) as comp_count,b.vendor_id, c.user_id from
+    				->from(DB::raw('(select count(*) no_rows,CONCAT(TIMESTAMPDIFF(HOUR, min(s.updated_at), max(s.updated_at)), ":",MOD(TIMESTAMPDIFF(MINUTE, min(s.updated_at), max(s.updated_at)),60)) as hrs, count(distinct(c.id)) as comp_count,b.vendor_id, c.user_id from
 								contacts s inner join companies c on s.company_id = c.id  inner join batches b on c.batch_id = b.id where s.updated_at >="'.$fromDate.'" and s.updated_at <= "'.$toDate.'" group by b.vendor_id, c.user_id) as rows'))
     							->select('vendors.vendor_code', 'users.first_name', 'users.last_name', 'rows.no_rows', 'rows.hrs', 'rows.comp_count')
     							->join('users','users.id',"=","rows.user_id")

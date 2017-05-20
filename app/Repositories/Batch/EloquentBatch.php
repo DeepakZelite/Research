@@ -73,7 +73,7 @@ class EloquentBatch implements BatchRepository
         	$query = $query->where('batches.status', '=', $status);
         }
         $result = $query->select('batches.*', 'projects.code as project_code', 'vendors.vendor_code as vendor_code','projects.No_Companies as No_Companies')
-        ->sortable()->paginate($perPage);
+        ->sortable()->orderBy('created_at', 'DESC')->paginate($perPage);
 
         if ($search) {
             $result->appends(['search' => $search]);
@@ -163,6 +163,9 @@ class EloquentBatch implements BatchRepository
     	return $result;
     }
     
+    /**
+     * Batch Name Logic
+     */
     public function getBatchNameCount($batch = null)
     {
     	$query = Batch::query();
@@ -174,6 +177,20 @@ class EloquentBatch implements BatchRepository
     		return 0;
     	}
     	$result = $query->count();
+    	return $result;
+    }
+    
+    public function getCompanyCountBasedOnProject($projectId=null)
+    {
+    	$query = Batch::query();
+    	if($projectId)
+    	{
+    		$query->where('project_id',"=","{$projectId}");
+    	}
+    	else{
+    		return 0;
+    	}
+    	$result = $query->sum('company_count');
     	return $result;
     }
 }

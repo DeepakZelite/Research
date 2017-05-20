@@ -78,9 +78,10 @@ class VendorsController extends Controller
      */
     public function edit(Vendor $vendor)
     {
+    	$user = Auth::user()->id;
     	$statuses = UserStatus::lists1();
         $edit = true;
-        return view('vendors.add-edit', compact('edit', 'vendor','statuses'));
+        return view('vendors.add-edit', compact('edit', 'vendor','statuses','user'));
     }
 
    /**

@@ -78,9 +78,11 @@ class EloquentSubBatch implements SubBatchRepository
     	->leftjoin('users', 'users.id', '=', 'sub_batches.user_id')
     	->leftjoin('projects','projects.id','=','sub_batches.project_id')
     	->select('sub_batches.*','projects.brief_file as brief_file' ,'batches.name as batch_name', 'users.username', 'sub_batches.seq_no as sub_batch_name','projects.code as project_code')
-    	->sortable()->paginate($perPage);
+    	->sortable()
+    	->orderBy('created_at', 'DESC')
+    	->paginate($perPage);
 
-    	$result = $query->orderBy('created_at', 'desc')->paginate($perPage);
+    	//$result = $query->orderBy('created_at', 'desc')->paginate($perPage);
     	   
     	if ($search) {
     		$result->appends(['search' => $search]);

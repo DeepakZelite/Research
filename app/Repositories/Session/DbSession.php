@@ -43,4 +43,11 @@ class DbSession implements SessionRepository
 
         $this->users->update($userId, ['remember_token' => null]);
     }
+    
+    public function getUserSessionCount($userId)
+    {
+    	return DB::table('sessions')
+    	->where('user_id', $userId)
+    	->count();
+    }
 }
