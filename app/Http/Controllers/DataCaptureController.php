@@ -294,9 +294,9 @@ class DataCaptureController extends Controller
 		$state	= $inputs['state'];
 		$zipcode= $inputs['zipcode'];
 		$specility=$inputs['specility'];
-		$phone	=$inputs['specility'];
+		$phone	=$inputs['phone'];
 		$prm 	=$inputs['prm'];
-		//Log::info("Contact:::::". $first." ".$last." ".$jobtitle." ".$company_name." ".$website." ".$address." ".$city." ".$state." ".$zipcode." ".$specility." ".$phone);
+		Log::info("Contact:::::". $first." ".$last." ".$jobtitle." ".$company_name." ".$website." ".$address." ".$city." ".$state." ".$zipcode." ".$specility." ".$phone);
 		$perPage=5;
 		$duplicate = $contactRepository->duplicate($first,$last,$jobtitle,$email,$company_name,$website,$address,$city,$state,$zipcode,$specility,$phone,$prm);
 		//$duplicate = $this->companyRepository->paginate($perPage,null,null,$first);

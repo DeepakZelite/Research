@@ -38,7 +38,7 @@
 								<td>	{{ $contact->address1 }}	</td>
 								<td>	{{ $contact->state }}		</td>
 								<td>	{{ $contact->zipcode }}		</td>
-								<td>	{{ $contact->branchnumber }}	</td>
+								<td>	{{ $contact->branchNumber }}	</td>
 								<td>	{{ $contact->specialization }}	</td>
 								<td>	{{ $contact->prm}}		</td>
 							</tr>
