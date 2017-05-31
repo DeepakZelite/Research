@@ -102,7 +102,7 @@ interface ContactRepository
      * @param unknown $state
      * @param unknown $zipcode
      */
-    public function duplicate($first = null, $last = null,$jobTitle = null,$email = null,$companyName = null,$website = null,$address =null,$city = null,$state = null,$zipcode =null);
+    public function duplicate($first = null, $last = null,$jobTitle = null,$email = null,$companyName = null,$website = null,$address =null,$city = null,$state = null,$zipcode =null,$prm = null);
     
     /**
      * for geting the count of perticular company.
@@ -118,4 +118,5 @@ interface ContactRepository
      * @param unknown $toDate
      */
     public function getDataForReport($vendorId = null,$userId = null,$fromDate = null, $toDate = null);
+    
 }

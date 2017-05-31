@@ -52,7 +52,7 @@ class BatchesController extends Controller
 	 * @param ProjectRepository $projectRepository
 	 * @return the list of batches.
 	 */
-	public function index(VendorRepository $vendorRepository,ProjectRepository $projectRepository)
+	public function index(VendorRepository $vendorRepository,ProjectRepository $projectRepository,CompanyRepository $companyRepository)
 	{
 		$perPage = 5;
 		if ($this->theUser->username == 'admin') {
@@ -64,7 +64,7 @@ class BatchesController extends Controller
 		
 		$statuses = ['' => trans('app.all_status')] + SubBatchStatus::lists();
 		$vendors  =	[''=>trans('app.all_vendor')] + $vendorRepository->lists1();
-		$projects =	[''=>trans('app.all_project')] + $projectRepository->lists1();
+		$projects =	[''=>trans('app.all_project')] + $projectRepository->lists1();	
 		return view('batch.list', compact('batches', 'statuses','vendors','projects')); 
 	}
 
@@ -89,27 +89,36 @@ class BatchesController extends Controller
 	 * @param CreateBatchRequest $request
 	 * @return on list of batches page with success message.
 	 */
-	public function store(CreateBatchRequest $request)
+	public function store(CreateBatchRequest $request,ProjectRepository $projectRepository,BatchRepository $batchRepository)
 	{
-		$data = $request->all()+ ['status' => SubBatchStatus::ASSIGNED];
-		
 		//logic for uploading the excel sheet for companies.
 		if($request->hasFile('attachement')){
 			$path = $request->file('attachement')->getRealPath();
-			$data1 = Excel::load($path, function($reader) {
-			})->get();
-			//return $data1->count();
+			$data1 = Excel::load($path, function($reader) {})->get();
+		$count = $data1->count();
+		$data = $request->all()+ ['status' => SubBatchStatus::ASSIGNED]+['company_count'=>$count];
+		$companies=$projectRepository->getProjectCompanyCount($request->project_id);
+		$company_count = $companies -> No_Companies;
+		$batches = $batchRepository->getCompanyCountBasedOnProject($request->project_id);
 		if($data1->count())
 		{
-			$batch = $this->batches->create($data);
-			if(!empty($data1) && $data1->count()){
-				foreach ($data1 as $key => $value) {
-					$insert[] = ['batch_id'=>$batch->id,'status' => 'UnAssigned','company_instructions' => $value->company_instructions, 'company_id' => $value->company_id,'parent_company' => $value->parent_company, 'company_name' => $value->company_name,'address1' => $value->address1, 'address2' => $value->address2,'city' => $value->city, 'state' => $value->state,'zipcode' => $value->zipcode, 'country' => $value->country,'isd_code' => $value->international_code, 'switchboardnumber' => $value->switchboardnumber,'branchNumber' => $value->branch_number, 'addresscode' => $value->addresscode,'website' => $value->website, 'company_email' => $value->company_email,
+			$count = $batches + $data1->count();
+			if($count <= $company_count)
+			{
+				$batch = $this->batches->create($data);
+				if(!empty($data1) && $data1->count()){
+					foreach ($data1 as $key => $value) {
+						$insert[] = ['batch_id'=>$batch->id,'status' => 'UnAssigned','company_instructions' => $value->company_instructions, 'company_id' => $value->company_id,'parent_company' => $value->parent_company, 'company_name' => $value->company_name,'address1' => $value->address1, 'address2' => $value->address2,'city' => $value->city, 'state' => $value->state,'zipcode' => $value->zipcode, 'country' => $value->country,'isd_code' => $value->international_code, 'switchboardnumber' => $value->switchboardnumber,'branchNumber' => $value->branch_number, 'addresscode' => $value->addresscode,'website' => $value->website, 'company_email' => $value->company_email,
 							'products_services' => $value->products_services, 'industry_classfication' => $value->industry_classfication,'employee_size' => $value->employee_size, 'physician_size' => $value->physician_size,'annual_revenue' => $value->annual_revenue, 'number_of_beds' => $value->number_of_beds,'foundation_year' => $value->foundation_year, 'company_remark' => $value->company_remark,'additional_info1' => $value->additional_info1, 'additional_info2' => $value->additional_info2,'additional_info3' => $value->additional_info3, 'additional_info4' => $value->additional_info4];
+					}
+					if(!empty($insert)){
+						DB::table('companies')->insert($insert);
+					}
 				}
-				if(!empty($insert)){
-					DB::table('companies')->insert($insert);
-				}
+			}
+			else
+			{
+				return redirect()->route('batch.create')->withErrors(trans('app.total_batch_company_count_should_not_greater_than_project_count'));
 			}
 		}
 		else

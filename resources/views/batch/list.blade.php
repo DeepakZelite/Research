@@ -75,7 +75,7 @@
                         <td>{{ $batch->name }}</td>
                          <td>{{ $batch->project_code }}</td>
                          <td>{{ $batch->vendor_code }}</td>
-                         <td>{{ $batch->No_Companies }}</td>
+                         <td>{{ $batch->company_count }}</td>
                          <td>{{ $batch->status}}</td>
                          <td class="text-center">
                           @if($batch->status =="Assigned")

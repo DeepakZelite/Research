@@ -33,6 +33,6 @@ class Batch extends Model
 	 * for updation purpose
 	 * @var array
 	 */
-    protected $fillable = ['id', 'name', 'project_id', 'vendor_id','Target_Date','status'];
+    protected $fillable = ['id', 'name', 'project_id', 'vendor_id','Target_Date','company_count','status'];
    
 }

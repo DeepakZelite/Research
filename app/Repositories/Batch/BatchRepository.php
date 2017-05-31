@@ -109,4 +109,10 @@ interface BatchRepository
      * @param unknown $batch
      */
     public function getBatchNameCount($batch = null);
+    
+    /**
+     * 
+     * @param unknown $projectId
+     */
+    public function getCompanyCountBasedOnProject($projectId=null);
 }

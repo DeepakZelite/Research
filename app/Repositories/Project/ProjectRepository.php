@@ -91,4 +91,6 @@ interface ProjectRepository
     
     
     public function lists1();
+    
+    public function getProjectCompanyCount($projectId = null);
 }

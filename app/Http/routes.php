@@ -700,3 +700,8 @@ Route::post('report/searchReportList',[
 		'as'=>'report.searchReportList',
 		'uses'=>'MyReportController@searchReportList'
 ]);
+
+Route::delete('dataCapture/{contact}/delete', [
+		'as' => 'dataCapture.delete',
+		'uses' => 'DataCaptureController@delete'
+]);

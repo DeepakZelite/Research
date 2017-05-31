@@ -325,6 +325,7 @@ return [
     'thank_you_for_registering' => 'Thank you for registering on :app website.',
     'confirm_email_on_link_below' => 'Please confirm your email by clicking on the link below:',
     'confirm_email' => 'Confirm Email',
+	'user_you_specified_is_already_in_use'=>'User you Specified is Already in Use.',
 
 	// Projects
 	'projects' => 'Projects',
@@ -400,6 +401,7 @@ return [
 		'download'=>'Download',
 		'batch_deleted'=>'Batch Deleted Successfully',
 		'batch_name'=>'Batch Name',
+		'total_batch_company_count_should_not_greater_than_project_count'=>'Total Batch company count should not be greater than project company count',
 		
 		// Batch Allocation
 		'no_of_records' => 'Enter no of records',
@@ -411,6 +413,8 @@ return [
 		'sub_batch_name' => 'Sub Batch Name',
 		'assigned_user' => 'Assigned User',
 		'companies' => 'Companies',
+		'allocated_companies'=>'Allocated',
+		'remaining_companies'=>'Remaining',
 		'search' => 'search',
 		'delete_subBatch'=>'Delete subBatch',
 		'sub_batch_deleted'=>'Sub Batch Deleted Successfully',
@@ -467,6 +471,11 @@ return [
 		'address1'=>'Address line1',
 		'address2'=>'Address line2',
 		'city'=>'City',
+		'prm'=>'PRM',
+		'salutation'=>'Salutation',
+		'delete_staff'=>'Delete Staff',
+		'are_you_sure_delete_staff'=>'Are You Sure To Delete The Staff',
+		'staff_deleted'=>'Staff Deleted',
 		'state'=>'State',
 		'zipcode'=>'ZipCode',
 		'country'=>'Country',

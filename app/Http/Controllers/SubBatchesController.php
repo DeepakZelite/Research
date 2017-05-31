@@ -56,7 +56,7 @@ class SubBatchesController extends Controller
 	 * @param ProjectRepository $projectRepository
 	 * @return list of subbatches with batches and user drop down list.
 	 */
-	public function index(BatchRepository $batchRepository, UserRepository $userRepository)
+	public function index(BatchRepository $batchRepository, UserRepository $userRepository,CompanyRepository $companyRepository)
 	{
 		$perPage = 5;
 		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'),null,Input::get('status'),$this->theUser->vendor_id);
@@ -66,6 +66,10 @@ class SubBatchesController extends Controller
 		$batches->prepend('Select Batch', '0');
 		$users = $userRepository->getVendorUsers($vendorId);
 		$users->prepend('Select User', '0');
+		foreach($subBatches as $subBatch)
+		{
+			$subBatch['count'] = $companyRepository->getAssignedCompanyCountForSubBatch($subBatch->id);
+		}
 		return view('subBatch.list', compact('subBatches', 'statuses', 'batches', 'users'));
 	}
 	

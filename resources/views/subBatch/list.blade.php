@@ -88,7 +88,8 @@
         	<th>@sortablelink('name',trans('app.batch_name'))</th>
             <th>@sortablelink('seq_no',trans('app.sub_batch_name'))</th>
             <th>@sortablelink('user_name',trans('app.assigned_user'))</th>
-            <th>@sortablelink('company_count',trans('app.companies'))</th>
+            <th>@sortablelink('company_count',trans('app.allocated_companies'))</th>
+            <th>@sortablelink('company_count',trans('app.remaining_companies'))</th>
             <th class="text-center text-primary">@lang('app.task_brief')</th>
             <th class="text-primary">@lang('app.status')</th>
             <th class="text-center text-primary">@lang('app.action')</th>
@@ -101,6 +102,7 @@
                          <td>{{ $subBatch->batch_name }}-{{ $subBatch->sub_batch_name }}</td>
                          <td>{{ $subBatch->username }}</td>
                          <td>{{ $subBatch->company_count }}</td>
+                         <td>{{ $subBatch->count 	}}</td>
                          <td class="text-center"><a href="{{ URL::to('project/download',$subBatch->brief_file) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.download')" data-toggle="tooltip" data-placement="top">
                                 <i class="fa fa-info-circle"></i>

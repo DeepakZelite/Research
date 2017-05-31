@@ -48,6 +48,7 @@ class CreateTableCompanies extends Migration
             $table->string('additional_info2',64000)->nullable();
             $table->string('additional_info3',64000)->nullable();
             $table->string('additional_info4',64000)->nullable();
+            $table->string('prm',64000)->nullable();
             $table->tinyInteger('removable')->default('1');
             $table->timestamps();
         });

@@ -173,6 +173,14 @@ class ReportsController extends Controller
 		{
 			$records=$data->no_rows;
 			$hours=$data->hrs;
+			$myArray = explode(':', $hours);
+			$h=$myArray[0];
+			foreach($myArray as $time)
+			{
+				$m=$time;
+			}
+			$m=$m/60;
+			$hours=$h+$m;
 			$per_hour=0;
 			if($hours!=0)
 			{
