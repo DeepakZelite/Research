@@ -22,6 +22,7 @@ use Vanguard\Http\Controllers\Controller;
 use Lang;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Validator;
+use Config;
 use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
@@ -94,8 +95,22 @@ class AuthController extends Controller
         $datas=$sessionRepository->getUserSessionCount($user->id);
         if($datas>=1)
         {
-        	return redirect()->to('login' . $to)
-        	->withErrors(trans('app.user_you_specified_is_already_in_use'));
+        	$val = $sessionRepository->getLastActivity($user->id);
+        	//return $val->last_activity;
+        	foreach($val as $value)
+        	{
+        		Log::info("".$value->last_activity);
+        		Log::info("".time() - $value->last_activity);
+        		if ((time() - $value->last_activity) > (Config::get('session.lifetime')*60))
+        		{
+        			Auth::logout();
+        		}
+        		else
+        		{
+        			return redirect()->to('login' . $to)
+        			->withErrors(trans('app.user_you_specified_is_already_in_use'));
+        		}
+        	}
         }
         
         if ($user->isUnconfirmed()) {
