@@ -31,7 +31,7 @@
 					<button type="button" class="btn btn-default" data-toggle="modal"
 						data-target="#childrenModal" id="btn_check"
 						onclick="getChildren({{ $company->id }});">
-						<span class="glyphicon glyphicon-search"></span> @lang('app.check')
+						<span class="glyphicon glyphicon-search"></span> @lang('app.subsidiary')
 					</button>
 				</div>
 			</div>
@@ -334,11 +334,13 @@
 	<div class="col-md-10"></div>
 	<div class="col-md-1">
 	</div> 
+
 	<div class="col-md-1">
+	<button type="button" id="btnSubmit" class="btn btn-primary btn-block pull-right" onclick="submitCompany();">@lang('app.submit')</button>
 			 	<!-- <a id="btnParentSubmit" href="{{ route('dataCapture.submitCompany', $company->id) }}" class="btn btn-primary btn-block pull-right" onclick="javascript:return confirm('@lang('app.are_you_sure_to_submit_parent_company')')">@lang('app.submit')
-                 </a> -->       
-		<a id="btnSubmit" href="{{ route('dataCapture.submitCompany', $company->id) }}"
-			class="btn btn-primary btn-block pull-right">@lang('app.submit')</a> 	
+                 </a>      
+		<a id="btnSubmit" href="{{ route('dataCapture.submitCompany', $company->id) }}" 
+			class="btn btn-primary btn-block pull-right">@lang('app.submit')</a> 	 --> 
 	</div>	
 </div>
 
@@ -350,9 +352,10 @@
 		width: 1200px;
 	}
 	#duplicateModel .modal-dialog{width:1200px;}
+	
 }
 </style>
-<!-- ---------------------------- code for opening the contact Pop-Up Start------------------------------ -->
+<!-- ---------------------------- code for opening the contact Pop-Up Start------------------------------#duplicateModel .modal-content{ max-width:1300px; max-height:600px; overflow-y: auto;} -->
 <div id="myModal" class="modal fade" role="dialog">
 	<div class="modal-dialog">
 
@@ -497,7 +500,7 @@ $(document).ready(function() {
 	// <!-- ------------------------------------- Client Side validation for Add Subsidory End ----------------------------------------------- -->
 	// <!-- ------------------------------------- Client Side validation for Company Edit start ----------------------------------------------- -->
 	$('#updated_company_name').focus();
-	$("#btnSave,#btnSubmit").click(function(event)
+	$("#btnSave").click(function(event)
 	{
 		if ($('#updated_company_name').val() == '') {
 		    $('#updated_company_name').css('border-color', 'red');
@@ -626,7 +629,7 @@ function getduplicateRecord()
 	var $lastname 	= $('#last_name').val();
 	var $jobtitle 	= $('#job_title').val();
 	var $email	 	= $('#staff_email').val();
-	var $company_name=$('#company_name').val();
+	var $company_name=$('#updated_company_name').val();
 	var $website= $('#website').val();
 	var $address= $('#address1').val();
 	var $city	= $('#city').val();
@@ -655,7 +658,110 @@ function addContact(companyId) {
             }
     })	
 }
+function submitCompany()
+{
+	if ($('#updated_company_name').val() == '') {
+	    $('#updated_company_name').css('border-color', 'red');
+	    return false;
+	}
+	else {
+	    $('#updated_company_name').css('border-color', 'green');
+	}
+	if ($('#address1').val() == '') {
+	    $('#address1').css('border-color', 'red');
+	    return false;
+	}
+	else {
+	    $('#address1').css('border-color', 'green');
+	}
+	if ($('#city').val() == '') {
+	    $('#city').css('border-color', 'red');
+	    return false;
+	}
+	else {
+	    $('#city').css('border-color', 'green');
+	}
+	if ($('#state').val() == '') {
+	    $('#state').css('border-color', 'red');
+	    return false;
+	}
+	else {
+	    $('#state').css('border-color', 'green');
+	}
+	
+	if ($('#zipcode').val() == '') {
+	    $('#zipcode').css('border-color', 'red');
+	    return false;
+	}
+	else {
+	    $('#zipcode').css('border-color', 'green');
+	}
 
+	if($('#website').val() != '')
+	{
+		var re = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+		var re1 = /.[a-zA-Z]{2,3}$/;
+		var is_url=$('#website').val();
+		if(re.test(is_url))
+		{
+			$('#website').css('border-color', 'red');
+	    	return false
+		}
+		else
+		{
+			$('#website').css('border-color', 'green');
+		}
+	}
+
+	if($('#company_email').val() != '')
+	{
+		var regix = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+		var email= $('#company_email').val();
+		if(!regix.test(email))
+		{
+			$('#company_email').css('border-color', 'red');
+			return false;
+		}
+		else
+		{
+			$('#company_email').css('border-color', 'green');
+		}
+	}
+	var $updated_company_name = $('#updated_company_name').val();
+	var $address1=$('#address1').val();
+	var $address2=$('#address2').val();
+	var $city=$('#city').val();
+	var $state=$('#state').val();
+	var $zipcode=$('#zipcode').val();
+	var $country=$('#country').val();
+	var $isd_code=$('#isd_code').val();
+	var $switchboardnumber=$('#switchboardnumber').val();
+	var $website = $('#website').val();
+	var $company_email = $('#company_email').val();
+	var $branchNumber = $('#branchNumber').val();
+	var $addresscode = $('#addresscode').val();
+	var $employee_size = $('#employee_size').val();
+	var $industry_classfication = $('#industry_classfication').val();
+	var $prm = $('#prm').val();
+	var $physician_size = $('#physician_size').val();
+	var $company_remark = $('#company_remark').val();
+	var $foundation_year = $('#foundation_year').val();
+	var $annual_revenue = $('#annual_revenue').val();
+	var $products_services = $('#products_services').val();
+	var $number_of_beds = $('#number_of_beds').val();
+	var $additional_info1 = $('#additional_info1').val();
+	var $additional_info2 = $('#additional_info2').val();
+	var $additional_info3 = $('#additional_info3').val();
+	var $additional_info4 = $('#additional_info4').val();
+	$.ajax({
+		method:"GET",
+		url:"{{ route('dataCapture.submitCompany', $company->id) }}",
+		data:{'updated_company_name':$updated_company_name,'address1':$address1,'address2':$address2,'city':$city,'state':$state,'zipcode':$zipcode,'country':$country,'isd_code':$isd_code,'switchboardnumber':$switchboardnumber,'website':$website,'company_email':$company_email,'branchNumber':$branchNumber,'addresscode':$addresscode,'employee_size':$employee_size,'industry_classfication':$industry_classfication,'prm':$prm,'physician_size':$physician_size,'company_remark':$company_remark,'foundation_year':$foundation_year,'annual_revenue':$annual_revenue,'products_services':$products_services,'number_of_beds':$number_of_beds,'additional_info1':$additional_info1,'additional_info2':$additional_info2,'additional_info3':$additional_info3,'additional_info4':$additional_info4},
+		success:function(data){
+			 window.location.reload(); 
+			}
+	})
+}
 $('#myModal').on('shown.bs.modal', function() {
 	  $('#firstName').focus();
 	});

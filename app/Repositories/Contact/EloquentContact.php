@@ -135,7 +135,7 @@ class EloquentContact implements ContactRepository
     	
     	if($companyName)
     	{
-    		$query->where('companies.company_name',"like","{$companyName}%");
+    		$query->where('companies.updated_company_name',"like","{$companyName}%");
     	}
     	if($website)
     	{
@@ -238,7 +238,7 @@ class EloquentContact implements ContactRepository
     		$result=$query
     				->from(DB::raw('(select count(*) no_rows,CONCAT(TIMESTAMPDIFF(HOUR, min(s.updated_at), max(s.updated_at)), ":",MOD(TIMESTAMPDIFF(MINUTE, min(s.updated_at), max(s.updated_at)),60)) as hrs, count(distinct(c.id)) as comp_count,b.vendor_id, c.user_id 
 								from contacts s inner join companies c on s.company_id = c.id  inner join batches b on c.batch_id = b.id where s.updated_at >="'.$fromDate.'" and s.updated_at <= "'.$toDate.'" group by b.vendor_id) as rows'))
-    							->select('vendors.vendor_code', 'rows.no_rows', 'rows.hrs', 'rows.comp_count')
+    							->select('vendors.vendor_code', 'rows.no_rows', 'rows.hrs', 'rows.comp_count','rows.vendor_id')
     							->join('users','users.id',"=","rows.user_id")
     							->rightJoin('vendors','vendors.id',"=","rows.vendor_id")
     							->get();
@@ -247,7 +247,7 @@ class EloquentContact implements ContactRepository
     		$result=$query
     				->from(DB::raw('(select count(*) no_rows,CONCAT(TIMESTAMPDIFF(HOUR, min(s.updated_at), max(s.updated_at)), ":",MOD(TIMESTAMPDIFF(MINUTE, min(s.updated_at), max(s.updated_at)),60)) as hrs, count(distinct(c.id)) as comp_count,b.vendor_id, c.user_id from
 								contacts s inner join companies c on s.company_id = c.id  inner join batches b on c.batch_id = b.id where s.updated_at >="'.$fromDate.'" and s.updated_at <= "'.$toDate.'" group by b.vendor_id, c.user_id) as rows'))
-    							->select('vendors.vendor_code', 'users.first_name', 'users.last_name', 'rows.no_rows', 'rows.hrs', 'rows.comp_count')
+    							->select('vendors.vendor_code', 'users.first_name', 'users.last_name', 'rows.no_rows', 'rows.hrs', 'rows.comp_count','rows.vendor_id','rows.user_id')
     							->join('users','users.id',"=","rows.user_id")
     							->rightJoin('vendors','vendors.id',"=","rows.vendor_id")
     							->get();

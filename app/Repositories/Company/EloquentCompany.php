@@ -239,8 +239,6 @@ class EloquentCompany implements CompanyRepository
     	->select('companies.*','contacts.*','contacts.additional_info1 as info1','contacts.additional_info2 as info2','contacts.additional_info3 as info3','contacts.additional_info4 as info4');
     
     	if ($batchId != 0) {
-    
-    
     		$query->where(function ($q) use($batchId) {
     			$q->where('companies.batch_id', "=", "{$batchId}");
     
@@ -283,16 +281,22 @@ class EloquentCompany implements CompanyRepository
     	$query = Company::query();
     	if($vendorId)
     	{
-    		$query->where('companies.vendor_id',"=","{$vendorId}");
+    		$query->where('batches.vendor_id',"=","{$vendorId}");
     	}
     	if($userId)
     	{
     		$query->where('companies.user_id',"=","{$userId}");
     	}
-    	$result=$query->where('status',"=","Submitted")
+    	if($vendorId || $userId)
+    	{
+    		$result=$query
+    			->leftjoin('batches', 'batches.id', '=', 'companies.batch_id')
+    			->where('companies.status',"=","Submitted")
     			->count();
-    	
-    	return $result;
+    			return $result;
+    	}
+    	else 
+    		return 0;
     }
     
     public function getcompaniesforReport($vendorId = null,$userId = null)

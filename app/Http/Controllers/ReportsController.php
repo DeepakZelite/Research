@@ -169,8 +169,12 @@ class ReportsController extends Controller
 		$toDate = $inputs['toDate'];
 		//Log::info("Contact:::::". $vendorId." ".$userId." ".$fromDate." ".$toDate);
 		$datas=$contactRepository->getDataForReport($vendorId,$userId,$fromDate,$toDate);
+		//Log::info($datas);
 		foreach ($datas as $data)
 		{
+			//Log::info($data->vendor_id."     ".$data->user_id);
+			$company_count=$companyRepository->getCompaniesForProductivityReport($data->vendor_id,$data->user_id);
+			$data->comp_count=$company_count;
 			$records=$data->no_rows;
 			$hours=$data->hrs;
 			$myArray = explode(':', $hours);

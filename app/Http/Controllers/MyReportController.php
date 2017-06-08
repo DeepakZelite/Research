@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use Vanguard\Http\Requests;
 use Vanguard\Repositories\Contact\ContactRepository;
-use Illuminate\Support\Facades\Log;
+use Vanguard\Repositories\Company\CompanyRepository;
 use Auth;
 
 class MyReportController extends Controller
@@ -27,13 +27,15 @@ class MyReportController extends Controller
 	 * @param ContactRepository $contactRepository
 	 * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
 	 */
-	public function myProductivityList(ContactRepository $contactRepository)
+	public function myProductivityList(ContactRepository $contactRepository,CompanyRepository $companyRepository)
 	{
 		$userId=$this->theUser->id;
 		$username = $this->theUser->username;
 		$datas=$contactRepository->getDataForReport(null,$userId);
 		foreach ($datas as $data)
 		{
+			$company_count=$companyRepository->getCompaniesForProductivityReport($data->vendor_id,$data->user_id);
+			$data->comp_count=$company_count;
 			$records=$data->no_rows;
 			$hours=$data->hrs;
 			$myArray = explode(':', $hours);
@@ -61,7 +63,7 @@ class MyReportController extends Controller
 	 * @param ContactRepository $contactRepository
 	 * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
 	 */
-	public function searchReportList(Request $request,ContactRepository $contactRepository)
+	public function searchReportList(Request $request,ContactRepository $contactRepository,CompanyRepository $companyRepository)
 	{
 		$fromDate=$request->Start_Date;
 		$toDate=$request->Expected_date;
@@ -69,6 +71,8 @@ class MyReportController extends Controller
 		$datas = $contactRepository->getDataForReport(null,$userId,$fromDate,$toDate);
 		foreach ($datas as $data)
 		{
+			$company_count=$companyRepository->getCompaniesForProductivityReport($data->vendor_id,$data->user_id);
+			$data->comp_count=$company_count;
 			$records=$data->no_rows;
 			$hours=$data->hrs;
 			$myArray = explode(':', $hours);

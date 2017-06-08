@@ -68,11 +68,12 @@ class DataCaptureController extends Controller
 		$perPage = 5;
 		$statuses = ['' => trans('app.all')] + SubBatchStatus::lists1();
 		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'), $this->theUser->id,Input::get('status'),null);
+		$statuscount = $this->subBatches->getUserInProcessCount($this->theUser->id);
 		foreach($subBatches as $subBatch)
 		{
 			$subBatch['count'] = $companyRepository->getAssignedCompanyCountForSubBatch($subBatch->id);
 		}
-		return view('subBatch.datacapturelist', compact('subBatches','statuses'));
+		return view('subBatch.datacapturelist', compact('subBatches','statuses','statuscount'));
 	}
 	
 	/**
@@ -148,8 +149,9 @@ class DataCaptureController extends Controller
 	 * @param CompanyRepository $companyRepository
 	 * @return the next company for capturing the data.
 	 */
-	public function submitCompany(Company $company,CompanyRepository $companyRepository) 
+	public function submitCompany(Company $company,CompanyRepository $companyRepository,Request $request) 
 	{
+		$this->companyRepository->update($company->id, $request->all());
 		$comp=Company::find($company->id);
 		$comp->status="Submitted";
 		$comp->save();

@@ -69,11 +69,20 @@
                          <td>{{ $subBatch->count}}	</td>
                          <td>{{ $subBatch->status }}</td>
                          <td class="text-left">
-                         @if ($subBatch->status != "Submitted")
-                            <a href="{{ route('dataCapture.capture', $subBatch->id) }}" target='_blank' class="btn btn-primary btn-circle"
-                               title="@lang('app.start')" data-toggle="tooltip" data-placement="top">
-                                <i class="glyphicon glyphicon-play"></i>
-                            </a>
+                         @if($statuscount==1)
+                         	@if ($subBatch->status != "Submitted" && $subBatch->status != "Assigned")
+                            	<a href="{{ route('dataCapture.capture', $subBatch->id) }}" target='_blank' class="btn btn-primary btn-circle"
+                               			title="@lang('app.start')" data-toggle="tooltip" data-placement="top">
+                                		<i class="glyphicon glyphicon-play"></i>
+                            	</a>
+                         	@endif
+                         @else
+                         	@if ($subBatch->status != "Submitted")
+                            	<a href="{{ route('dataCapture.capture', $subBatch->id) }}" target='_blank' class="btn btn-primary btn-circle"
+                               			title="@lang('app.start')" data-toggle="tooltip" data-placement="top">
+                                		<i class="glyphicon glyphicon-play"></i>
+                            	</a>
+                         	@endif
                          @endif   
           				</td>
                      </tr>
@@ -97,6 +106,7 @@
             $("#sub-batches-form").submit();
         });
         $(document).ready(function() {
+        	$(window).focus(function(){ window.location.reload(); });
             $('#dataCapture_table').dataTable( {
                 "bPaginate": false,
                 "bFilter": false,

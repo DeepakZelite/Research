@@ -439,6 +439,7 @@ return [
 		'search_for_companys' => "Search for companies",
 		'add_contact' => "Add Staff",
 		'add_child_company'=>'Add subsidiary',
+		'subsidiary' => 'Subsidiaries',
 		'duplicate_check'=>'Duplicate Check',
 		'staff_disposition'=>'Staff Disposition',
 		'add_child_company_details_big'=>'Add subsidiary Details',
