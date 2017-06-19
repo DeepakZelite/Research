@@ -27,6 +27,8 @@ use Vanguard\Repositories\Company\CompanyRepository;
 use Vanguard\Repositories\Company\EloquentCompany;
 use Vanguard\Repositories\Contact\ContactRepository;
 use Vanguard\Repositories\Contact\EloquentContact;
+use Vanguard\Repositories\Report\ReportRepository;
+use Vanguard\Repositories\Report\EloquentReport;
 
 
 use Illuminate\Support\ServiceProvider;
@@ -74,6 +76,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(CompanyRepository::class, EloquentCompany::class);
         $this->app->singleton(ContactRepository::class, EloquentContact::class);
         $this->app->singleton(CodeRepository::class,EloquentCode::class);
+        $this->app->singleton(ReportRepository::class,EloquentReport::class);
         
         if ($this->app->environment('local')) {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);

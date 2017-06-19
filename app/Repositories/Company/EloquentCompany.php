@@ -115,6 +115,7 @@ class EloquentCompany implements CompanyRepository
     	if ($batchId != 0) {
     		$query->where(function ($q) use($batchId) {
     			$q->where('companies.batch_id', "=", "{$batchId}");
+    			$q->where('companies.parent_id',"=",'0');
     		});
     	} else {
     		return 0;
@@ -276,7 +277,7 @@ class EloquentCompany implements CompanyRepository
     	return $result;
     }
     
-    public function getCompaniesForProductivityReport($vendorId = null,$userId = null)
+    public function getCompaniesForProductivityReport($vendorId = null,$userId = null,$start_date=null,$end_date=null)
     {
     	$query = Company::query();
     	if($vendorId)
@@ -286,6 +287,20 @@ class EloquentCompany implements CompanyRepository
     	if($userId)
     	{
     		$query->where('companies.user_id',"=","{$userId}");
+    	}
+    	if($start_date)
+    	{
+    		$query->where('companies.updated_at',">=","{$start_date}");
+    	}
+    	if($end_date == null )
+    	{
+    		$end_date=Carbon::now();//->format('Y-m-d h:M:s');//Carbon::today()
+    		$query->where('companies.updated_at',"<=","{$end_date}");
+    	}
+    	else
+    	{
+    		$end_date =$end_date . " 23:59:59";
+    		$query->where('companies.updated_at',"<=","{$end_date}");
     	}
     	if($vendorId || $userId)
     	{

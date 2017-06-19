@@ -44,11 +44,15 @@ class CreateTableCompanies extends Migration
             $table->string('number_of_beds')->nullable();
             $table->string('foundation_year')->nullable();
             $table->string('company_remark',64000)->nullable();
+            $table->string('prm',64000)->nullable();
             $table->string('additional_info1',64000)->nullable();
             $table->string('additional_info2',64000)->nullable();
             $table->string('additional_info3',64000)->nullable();
             $table->string('additional_info4',64000)->nullable();
-            $table->string('prm',64000)->nullable();
+            $table->string('additional_info5',64000)->nullable();
+            $table->string('additional_info6',64000)->nullable();
+            $table->string('additional_info7',64000)->nullable();
+            $table->string('additional_info8',64000)->nullable(); 
             $table->tinyInteger('removable')->default('1');
             $table->timestamps();
         });

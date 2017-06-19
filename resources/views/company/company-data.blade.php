@@ -213,6 +213,24 @@
 										value="{{ $editCompany ? $company->foundation_year : old('foundation_year') }}">
 								</div>
 								<div class="form-group col-lg-6">
+									<label for="annual_revenue">@lang('app.annual_revenue')</label>
+									<input type="text" class="form-control" id="annual_revenue"
+										name="annual_revenue" placeholder="@lang('app.annual_revenue')"
+										value="{{ $editCompany ? $company->annual_revenue : old('annual_revenue') }}">
+								</div>
+								<div class="form-group col-lg-6">
+									<label for="products_services">@lang('app.products_services')</label>
+									<input type="text" class="form-control" id="products_services"
+										name="products_services" placeholder="@lang('app.products_services')"
+										value="{{ $editCompany ? $company->products_services : old('products_services') }}">
+								</div>
+
+								<div class="form-group col-lg-6">
+									<label for="number_of_beds">@lang('app.number_of_beds')</label>
+									<input type="text" class="form-control" id="number_of_beds"	name="number_of_beds" placeholder="@lang('app.number_of_beds')" maxlength="255"
+										value="{{ $editCompany ? $company->number_of_beds : old('number_of_beds') }}">
+								</div>
+								<div class="form-group col-lg-6">
 									<label for="additional_info1">@lang('app.additional_info1')</label>
 									<input type="text" class="form-control" id="additional_info1"
 										name="additional_info1"
@@ -240,23 +258,34 @@
 										placeholder="@lang('app.additional_info4')"
 										value="{{ $editCompany ? $company->additional_info4 : old('additional_info4') }}">
 								</div>
+								
 								<div class="form-group col-lg-6">
-									<label for="annual_revenue">@lang('app.annual_revenue')</label>
-									<input type="text" class="form-control" id="annual_revenue"
-										name="annual_revenue" placeholder="@lang('app.annual_revenue')"
-										value="{{ $editCompany ? $company->annual_revenue : old('annual_revenue') }}">
+									<label for="additional_info4">@lang('app.additional_info5')</label>
+									<input type="text" class="form-control" id="additional_info5"
+										name="additional_info5"
+										placeholder="@lang('app.additional_info5')"
+										value="{{ $editCompany ? $company->additional_info5 : old('additional_info5') }}">
 								</div>
 								<div class="form-group col-lg-6">
-									<label for="products_services">@lang('app.products_services')</label>
-									<input type="text" class="form-control" id="products_services"
-										name="products_services" placeholder="@lang('app.products_services')"
-										value="{{ $editCompany ? $company->products_services : old('products_services') }}">
+									<label for="additional_info4">@lang('app.additional_info6')</label>
+									<input type="text" class="form-control" id="additional_info6"
+										name="additional_info6"
+										placeholder="@lang('app.additional_info6')"
+										value="{{ $editCompany ? $company->additional_info6 : old('additional_info6') }}">
 								</div>
-
 								<div class="form-group col-lg-6">
-									<label for="number_of_beds">@lang('app.number_of_beds')</label>
-									<input type="text" class="form-control" id="number_of_beds"	name="number_of_beds" placeholder="@lang('app.number_of_beds')" maxlength="255"
-										value="{{ $editCompany ? $company->number_of_beds : old('number_of_beds') }}">
+									<label for="additional_info4">@lang('app.additional_info7')</label>
+									<input type="text" class="form-control" id="additional_info7"
+										name="additional_info7"
+										placeholder="@lang('app.additional_info4')"
+										value="{{ $editCompany ? $company->additional_info7 : old('additional_info7') }}">
+								</div>
+								<div class="form-group col-lg-6">
+									<label for="additional_info4">@lang('app.additional_info8')</label>
+									<input type="text" class="form-control" id="additional_info8"
+										name="additional_info8"
+										placeholder="@lang('app.additional_info4')"
+										value="{{ $editCompany ? $company->additional_info8 : old('additional_info8') }}">
 								</div>
 							</div>
 						</div>

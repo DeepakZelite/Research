@@ -254,4 +254,16 @@ class EloquentContact implements ContactRepository
     	}
     	return $result;
     }
+    
+    public function getProcessRecordFromDate($start,$end)
+    {
+    	$query = Contact::query();
+    	
+    	$query->where(function ($q) use($start,$end) {
+    			$q->where('contacts.updated_at', ">=", "{$start}");
+    			$q->where('contacts.updated_at', "<=", "{$end}");
+    	});
+    	$result = $query->count();
+    	return $result;
+    }
 }

@@ -24,7 +24,11 @@ use Vanguard\Repositories\Country\CountryRepository;
 use Vanguard\Repositories\Code\CodeRepository;
 use Vanguard\Support\Enum\SubBatchStatus;
 use Vanguard\Http\Requests\Company\CreateCompanyRequest;
+use Vanguard\Repositories\Report\ReportRepository;
 use Vanguard\Country;
+use Vanguard\Report;
+use Carbon\Carbon;
+use DB;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -94,12 +98,27 @@ class DataCaptureController extends Controller
 	 * @param CreateContactRequest $request
 	 * @return on the same screen with newly added contact on the screen being the first record
 	 */
-	public function storeStaff(Company $company, CreateContactRequest $request) 
+	public function storeStaff(Company $company, CreateContactRequest $request,ReportRepository $reportRepository,ContactRepository $contactRepository) 
 	{
 		$data = $request->all() + ['company_id' => $company->id]
 		+ ['user_id' => $this->theUser->id];
 		
 		$contact = $this->contactRepository->create($data);
+		
+		$subBatch=Company::find($company->id);
+		Log::info("...". $subBatch->user_id);
+		$users = $reportRepository->get_id_for_stoptime($subBatch->user_id);
+		foreach($users as $user)
+		{
+			$data = Report::find($user->id);
+			$data->stop_time = Carbon::now();
+			$data->records = $contactRepository->getProcessRecordFromDate($data->start_time,Carbon::now());
+			$date=Carbon::parse($data->start_time);
+			$time=$date->diff(Carbon::now());
+			$data->time = $time->format('%i');
+			$data->save();
+			Log::info($user->id."start_time".$data->start_time."count".$time->format('%s'));
+		}
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.contact_created'));
 	}
 	
@@ -312,5 +331,33 @@ class DataCaptureController extends Controller
 		$company = Company::find($contact->company_id);
 		$contactRepository->delete($contact->id);
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.staff_deleted'));
+	}
+	
+	public function stoptimecapture($subBatchId,ReportRepository $reportRepository,ContactRepository $contactRepository)
+	{
+		$subBatch=SubBatch::find($subBatchId);
+		//$subBatch=Contact::find($subBatchId);
+		Log::info("...". $subBatch->user_id);
+		$users = $reportRepository->get_id_for_stoptime($subBatch->user_id);	
+		foreach($users as $user)
+		{
+			$data = Report::find($user->id);
+			$data->stop_time = Carbon::now();
+			$data->records = $contactRepository->getProcessRecordFromDate($data->start_time,Carbon::now());
+			$date=Carbon::parse($data->start_time);
+			$time=$date->diff(Carbon::now());
+			$data->time = $time->format('%i');
+			$data->save();
+			Log::info($user->id."start_time".$data->start_time."count".$time->format('%s'));
+		}
+		return redirect()->route('dataCapture.list');
+	}
+	public function starttimecapture($subBatchId)
+	{
+		$report = new Report;
+		$report->user_id = $this->theUser->id;
+		$report->start_time = Carbon::now();
+		$report->save();
+		return redirect()->route('dataCapture.capture',$subBatchId);
 	}
 }
