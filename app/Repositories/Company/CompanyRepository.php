@@ -171,4 +171,13 @@ interface CompanyRepository
      * @param unknown $subBatchId
      */
     public function getAssignedCompanyCountForSubBatch($subBatchId = null);
+    
+    /**
+     * get subsidiary count for report
+     * @param unknown $vendorId
+     * @param unknown $userId
+     * @param unknown $start_date
+     * @param unknown $end_date
+     */
+    public function getSubsidiaryCompaniesForProductivityReport($vendorId = null,$userId = null,$start_date=null,$end_date=null);
 }

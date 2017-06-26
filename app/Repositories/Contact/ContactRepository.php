@@ -119,4 +119,7 @@ interface ContactRepository
      */
     public function getDataForReport($vendorId = null,$userId = null,$fromDate = null, $toDate = null);
     
+    
+    public function getProcessRecordFromDate($start,$end);
+    
 }

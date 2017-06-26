@@ -115,6 +115,7 @@ class EloquentCompany implements CompanyRepository
     	if ($batchId != 0) {
     		$query->where(function ($q) use($batchId) {
     			$q->where('companies.batch_id', "=", "{$batchId}");
+    			$q->where('companies.parent_id',"=",'0');
     		});
     	} else {
     		return 0;
@@ -236,11 +237,9 @@ class EloquentCompany implements CompanyRepository
     	$query = Company::query();
     	$result = $query
     	->leftjoin('contacts', 'companies.id', '=', 'contacts.company_id')
-    	->select('companies.*','contacts.*','contacts.additional_info1 as info1','contacts.additional_info2 as info2','contacts.additional_info3 as info3','contacts.additional_info4 as info4');
+    	->select('companies.*','contacts.*','contacts.additional_info1 as info1','contacts.additional_info2 as info2','contacts.additional_info3 as info3','contacts.additional_info4 as info4','contacts.additional_info5 as info5','contacts.additional_info6 as info6','contacts.additional_info7 as info7','contacts.additional_info8 as info8');
     
     	if ($batchId != 0) {
-    
-    
     		$query->where(function ($q) use($batchId) {
     			$q->where('companies.batch_id', "=", "{$batchId}");
     
@@ -278,21 +277,80 @@ class EloquentCompany implements CompanyRepository
     	return $result;
     }
     
-    public function getCompaniesForProductivityReport($vendorId = null,$userId = null)
+    public function getCompaniesForProductivityReport($vendorId = null,$userId = null,$start_date=null,$end_date=null)
     {
     	$query = Company::query();
     	if($vendorId)
     	{
-    		$query->where('companies.vendor_id',"=","{$vendorId}");
+    		$query->where('batches.vendor_id',"=","{$vendorId}");
     	}
     	if($userId)
     	{
     		$query->where('companies.user_id',"=","{$userId}");
     	}
-    	$result=$query->where('status',"=","Submitted")
+    	if($start_date)
+    	{
+    		$query->where('companies.updated_at',">=","{$start_date}");
+    	}
+    	if($end_date == null )
+    	{
+    		$end_date=Carbon::now();//->format('Y-m-d h:M:s');//Carbon::today()
+    		$query->where('companies.updated_at',"<=","{$end_date}");
+    	}
+    	else
+    	{
+    		$end_date =$end_date . " 23:59:59";
+    		$query->where('companies.updated_at',"<=","{$end_date}");
+    	}
+    	if($vendorId || $userId)
+    	{
+    		$query->where('companies.parent_id',"=","0");
+    		$result=$query
+    			->leftjoin('batches', 'batches.id', '=', 'companies.batch_id')
+    			->where('companies.status',"=","Submitted")
     			->count();
-    	
-    	return $result;
+    			return $result;
+    	}
+    	else 
+    		return 0;
+    }
+    
+    public function getSubsidiaryCompaniesForProductivityReport($vendorId = null,$userId = null,$start_date=null,$end_date=null)
+    {
+    	$query = Company::query();
+    	if($vendorId)
+    	{
+    		$query->where('batches.vendor_id',"=","{$vendorId}");
+    	}
+    	if($userId)
+    	{
+    		$query->where('companies.user_id',"=","{$userId}");
+    	}
+    	if($start_date)
+    	{
+    		$query->where('companies.updated_at',">=","{$start_date}");
+    	}
+    	if($end_date == null )
+    	{
+    		$end_date=Carbon::now();//->format('Y-m-d h:M:s');//Carbon::today()
+    		$query->where('companies.updated_at',"<=","{$end_date}");
+    	}
+    	else
+    	{
+    		$end_date =$end_date . " 23:59:59";
+    		$query->where('companies.updated_at',"<=","{$end_date}");
+    	}
+    	if($vendorId || $userId)
+    	{
+    		$query->where('companies.parent_id',"!=","0");
+    		$result=$query
+    		->leftjoin('batches', 'batches.id', '=', 'companies.batch_id')
+    		->where('companies.status',"=","Submitted")
+    		->count();
+    		return $result;
+    	}
+    	else
+    		return 0;
     }
     
     public function getcompaniesforReport($vendorId = null,$userId = null)

@@ -28,7 +28,7 @@
 							@if(count($duplicate)) 
 							@foreach ($duplicate as $contact)
 							<tr>
-								<td>	{{ $contact->company_name }}	</td>
+								<td>	{{ $contact->updated_company_name }}	</td>
 								<td>	{{ $contact->website }}		</td>
 								<td>	{{ $contact->first_name }}	</td>
 								<td>	{{ $contact->last_name }}	</td>

@@ -27,6 +27,7 @@ return [
     'search_for_action' => 'Search for action...',
     'latest_activity' => 'Latest Activity',
     'view_all' => 'View All',
+	'all_project_name' => 'All Project Name',
 
     'user' => 'User',
     'user_sm' => 'user',
@@ -260,7 +261,7 @@ return [
     'phone_without_country_code' => 'Phone without country code',
 
     'please_confirm_your_email_first' => 'Please confirm your email address first.',
-    'your_account_is_banned' => 'Your account is banned by administrator.',
+    'your_account_is_banned' => 'Your account is InActive by administrator.',
     '2fa_token_invalid' => '2FA Token is invalid!',
     'account_create_confirm_email' => 'You account is created successfully! Please confirm your email in order to log in.',
     'account_created_login' => 'You account is created successfully! You can log in now.',
@@ -420,6 +421,7 @@ return [
 		'sub_batch_deleted'=>'Sub Batch Deleted Successfully',
 		'sub_batch_not_created'=>'No of Companies should be less that unassigned Companies',
 		'sub_batch_created'=>'Sub-Batch Successfully Created',
+		'input_type' => 'Input Type',
 
 		// Companies
 		'companys' => 'Company',
@@ -439,6 +441,7 @@ return [
 		'search_for_companys' => "Search for companies",
 		'add_contact' => "Add Staff",
 		'add_child_company'=>'Add subsidiary',
+		'subsidiary' => 'Subsidiaries',
 		'duplicate_check'=>'Duplicate Check',
 		'staff_disposition'=>'Staff Disposition',
 		'add_child_company_details_big'=>'Add subsidiary Details',
@@ -462,6 +465,7 @@ return [
 		'search_for_companys' => "Search for companies",
 		'add_contact' => "Add Staff",
 		'cancel'=>'Cancel',
+		'subsidiary_count'=>'Subsidiary Count',
 		
 		'company_instructions'=>'Company Instructions',
 		'company_id'=>'Comapny ID',
@@ -497,6 +501,10 @@ return [
 		'additional_info2'=>'Company Additional Info 2',
 		'additional_info3'=>'Company Additional Info 3',
 		'additional_info4'=>'Company Additional Info 4',
+		'additional_info5'=>'Company Additional Info 5',
+		'additional_info6'=>'Company Additional Info 6',
+		'additional_info7'=>'Company Additional Info 7',
+		'additional_info8'=>'Company Additional Info 8',
 		'staff_id'=>'Staff ID',
 		'salutation'=>'Salutation',
 		'firstname'=>'First Name',
@@ -521,6 +529,11 @@ return [
 		'contact_info2'=>'Contact Additional Info 2',
 		'contact_info3'=>'Contact Additional Info 3',
 		'contact_info4'=>'Contact Additional Info 4',
+		'contact_info5'=>'Contact Additional Info 5',
+		'contact_info6'=>'Contact Additional Info 6',
+		'contact_info7'=>'Contact Additional Info 7',
+		'contact_info8'=>'Contact Additional Info 8',
+		
 		'additional-info'=>'Additional Info',
 		'staff_info'=>'Staff Info',
 		'child_companies'=>'Child Companies',

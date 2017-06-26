@@ -173,6 +173,26 @@
 												<input type="text" class="form-control"	id="additional_info4" name="additional_info4"
 													placeholder="@lang('app.contact_info4')" value="{{ $editContact ? $contact->additional_info4 : old('additional_info4') }}">
 											</div>
+											<div class="form-group col-lg-4">
+												<label for="additional_info1">@lang('app.contact_info5')</label>
+												<input type="text" class="form-control"	id="additional_info5" name="additional_info5"
+													placeholder="@lang('app.contact_info5')" value="{{ $editContact ? $contact->additional_info5 : old('additional_info5') }}">
+											</div>
+											<div class="form-group col-lg-4">
+												<label for="additional_info2">@lang('app.contact_info6')</label>
+												<input type="text" class="form-control" id="additional_info6" name="additional_info6"
+													placeholder="@lang('app.contact_info6')" value="{{ $editContact ? $contact->additional_info6 : old('additional_info6') }}">
+											</div>
+											<div class="form-group col-lg-4">
+												<label for="additional_info3">@lang('app.contact_info7')</label>
+												<input type="text" class="form-control"	id="additional_info7" name="additional_info7"
+													placeholder="@lang('app.contact_info7')" value="{{ $editContact ? $contact->additional_info7 : old('additional_info7') }}">
+											</div>
+											<div class="form-group col-lg-4">
+												<label for="additional_info4">@lang('app.contact_info8')</label>
+												<input type="text" class="form-control"	id="additional_info8" name="additional_info8"
+													placeholder="@lang('app.contact_info8')" value="{{ $editContact ? $contact->additional_info8 : old('additional_info8') }}">
+											</div>
 										</div>
 									</div>
 								</div>

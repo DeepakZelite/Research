@@ -18,7 +18,7 @@ class UpdateProjectRequest extends Request
     	return [
     			'unique:projects,code,' . $project->id,
     			'Start_Date' => 'required|date',
-        		'Expected_date' => 'required|date|after:Start_Date',
+        		'Expected_date' => 'required|date',
         		'No_Companies'=>'required|integer|min:1',
         		'Expected_Staff'=>'required|integer|min:1',
     	];

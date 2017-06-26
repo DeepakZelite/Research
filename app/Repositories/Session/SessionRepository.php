@@ -22,8 +22,14 @@ interface SessionRepository
     public function invalidateUserSession($userId, $sessionId);
     
     /**
-     * 
+     * for restricting the same user multiple login
      * @param unknown $userId
      */
     public function getUserSessionCount($userId);
+    
+    /**
+     * for checking the last activity of perticular user with perticular session
+     * @param unknown $userId
+     */
+    public function getLastActivity($userId);
 }

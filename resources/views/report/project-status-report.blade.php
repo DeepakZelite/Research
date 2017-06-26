@@ -32,6 +32,9 @@
     	<div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
                 {!! Form::select('code', $projects, Input::get('code'), ['id'=>'code', 'class'=>'form-control'])!!}
         </div>
+        <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
+                {!! Form::select('name', $projects_name, Input::get('name'), ['id'=>'name', 'class'=>'form-control'])!!}
+        </div>
     	<div class="col-xs-2 col-sm-2 col-md-1 col-lg-1">
         	<button type="submit" class="btn btn-success">
             @lang('app.go')
@@ -45,6 +48,7 @@
         <thead>
         	<th>@lang('app.vendor_code')</th>
             <th>@lang('app.project_code')</th>
+            <th style="display:none;">@lang('app.project_name')</th>
             <th>@lang('app.batch_name')</th>
             <th>@lang('app.number_of_companies')</th>
             <th>@lang('app.staff_processed')</th>
@@ -56,10 +60,11 @@
                     <tr>
                         <td>{{ $batch->vendor_code }}</td>
                          <td>{{ $batch->code }}</td>
+                         <td style="display:none;">{{ $batch->project_name }}</td>
                          <td>{{ $batch->name }}</td>
                          <td>{{ $batch->companies }}</td>
-                         <td>{{ $batch->staff}}</td>
-                         <td class="text-center">{{$batch->status}}</td>
+                         <td>{{ $batch->staff }}</td>
+                         <td class="text-center">{{ $batch->status }}</td>
                      </tr>
                  @endforeach
              @else
@@ -84,11 +89,19 @@
 
 @section('scripts')
 <script>
+var id= {{ Auth::user()->vendor_id }};
+if(id != '' || id != 0)
+{
+	table.buttons().disable();
+}
 $(document).ready(function() {
-    $('#example').dataTable({
+    var table = $('#example').dataTable({
     "bPaginate": false,
     "bFilter": false,
-    "bInfo": false,		
+    "bInfo": false,
+    	dom: 'Bfrtip',
+        buttons: [{ extend: 'excelHtml5',
+            		text: '<i class="fa fa-file-excel-o fa-2x"></i>',titleAttr: 'Excel'}],	
 		"footerCallback": function ( row, data, start, end, display ) {
 				var api = this.api(), data;	 
 				// Remove the formatting to get integer data for summation
@@ -96,11 +109,11 @@ $(document).ready(function() {
 					return typeof i === 'string' ? i.replace(/[\$,]/g, '')*1 : typeof i === 'number' ? i : 0;
 				};
 
-				total_no_companies = api.column( 3 ).data().reduce( function (a, b) {
+				total_no_companies = api.column( 4 ).data().reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				},0 );
 				
-				total_staff_count = api.column( 4 ).data().reduce( function (a, b) {
+				total_staff_count = api.column( 5 ).data().reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				},0 );
 
@@ -108,7 +121,16 @@ $(document).ready(function() {
 				$('#totalcompany').html(total_no_companies);
 				$('#totalstaff').html(total_staff_count);		
 			},		
-	});
+	});	
 });
 </script>
+@stop
+
+@section('styles')
+<style>
+  div.dt-buttons {
+   float: right;
+   margin-left:20px;
+}
+</style>
 @stop

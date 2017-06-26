@@ -35,7 +35,7 @@
     <div class="row">
     	<div class="col-xs-4 col-sm-4 col-md-2 col-lg-2"></div>
         <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
-            <button type="submit" class="btn btn-primary btn-block">
+            <button type="submit" id="btnSubmit" class="btn btn-primary btn-block">
                 <i class="fa fa-save"></i>
                 @lang('app.create_user')
             </button>
@@ -62,6 +62,8 @@ $("#role").change(function()
 		var roleid= $( this ).val();
 		if(roleid=='1')
 		{
+			//alert($("#vendor_id").val());
+			//$("#vendor_id option:eq(1)").attr('selected','selected');
 			$("#vendor_id").attr('disabled', 'disabled');
 		}
 		else
@@ -69,6 +71,25 @@ $("#role").change(function()
 			$("#vendor_id").removeAttr('disabled');
 		}
 });
+$(document).ready(function() {
+$("#btnSubmit").click(function(event)
+{
+   if($("#vendor_id").val()==0 && $("#role").val() == 1)
+   {
+	return true;
+   }
+   else if($("#vendor_id").val()==0)
+   {
+	$("#vendor_id").css('border-color', 'red');
+	return false;
+   }
+   else
+   {
+	return true;
+    }
+});
+});
+
 </script>
     {!! HTML::script('assets/js/moment.min.js') !!}
     {!! HTML::script('assets/js/bootstrap-datetimepicker.min.js') !!}

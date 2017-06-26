@@ -15,6 +15,7 @@ use Vanguard\Repositories\Contact\ContactRepository;
 use Vanguard\Repositories\User\UserRepository;
 use Vanguard\Repositories\Vendor\VendorRepository;
 use Vanguard\Repositories\SubBatch\SubBatchRepository;
+use Vanguard\Repositories\Report\ReportRepository;
 use Illuminate\Support\Facades\Log;
 use DB;
 
@@ -58,7 +59,8 @@ class ReportsController extends Controller
 			$vendors  =	[''=>trans('app.all_vendor')] + $vendorRepository->lists1();
 		}
 		$projects =	[''=>trans('app.all_project')] + $projectRepository->lists1();
-		return view('report.project-status-report', compact('show','batches','projects', 'vendors'));
+		$projects_name = [''=>trans('app.all_project_name')]+$projectRepository->getprojectNameList();
+		return view('report.project-status-report', compact('show','batches','projects', 'vendors','projects_name'));
 	}
 	
 	/**
@@ -74,7 +76,9 @@ class ReportsController extends Controller
 	{
 		$projects =	[''=>trans('app.all_project')] + $projectRepository->lists1();
 		$vendors  =	[''=>trans('app.all_vendor')] + $vendorRepository->lists1();
+		$projects_name = [''=>trans('app.all_project_name')]+$projectRepository->getprojectNameList();
 		$project_code = Input::get('code');
+		$project_name = Input::get('name');
 		if($this->theUser->vendor_id == "0")
 		{
 			$show=true;
@@ -91,10 +95,10 @@ class ReportsController extends Controller
 		{
 			$vendor_code=null;
 			$project_code=null;
-			$batches = $batchRepository->getDataForProjectReport($vendor_code,$project_code);
+			$batches = $batchRepository->getDataForProjectReport($vendor_code,$project_code,$project_name);
 		}
 		else {
-			$batches = $batchRepository->getDataForProjectReport($vendor_code,$project_code);
+			$batches = $batchRepository->getDataForProjectReport($vendor_code,$project_code,$project_name);
 		}
 		if (sizeof($batches) > 0) {
 			foreach($batches as $datas)
@@ -112,7 +116,7 @@ class ReportsController extends Controller
 				$datas["staff"] = "$count";
 			}
 		}
-		return view('report.project-status-report',compact('show','batches','projects', 'vendors'));
+		return view('report.project-status-report',compact('show','batches','projects', 'vendors','projects_name'));
 	}
 	
 	
@@ -153,7 +157,7 @@ class ReportsController extends Controller
 	 * @param SubBatchRepository $subBatchRepository
 	 * @return unknown
 	 */
-	public function getProductivityReport(Request $request,VendorRepository $vendorRepository,CompanyRepository $companyRepository,ContactRepository $contactRepository,SubBatchRepository $subBatchRepository)
+	public function getProductivityReport(Request $request,ReportRepository $reportRepository,VendorRepository $vendorRepository,CompanyRepository $companyRepository,ContactRepository $contactRepository,SubBatchRepository $subBatchRepository)
 	{
 		$inputs = Input::all();
 		if ($this->theUser->vendor_id == "0")
@@ -168,28 +172,54 @@ class ReportsController extends Controller
 		$fromDate = $inputs['fromDate'];
 		$toDate = $inputs['toDate'];
 		//Log::info("Contact:::::". $vendorId." ".$userId." ".$fromDate." ".$toDate);
-		$datas=$contactRepository->getDataForReport($vendorId,$userId,$fromDate,$toDate);
+		//$datas=$contactRepository->getDataForReport($vendorId,$userId,$fromDate,$toDate);
+		$datas=$reportRepository->get_data_for_report($userId,$fromDate,$toDate,$vendorId);
+		//Log::info($datas);
 		foreach ($datas as $data)
 		{
+			//Log::info($data->vendor_id."     ".$data->user_id);
+			//$company_count=$companyRepository->getCompaniesForProductivityReport($data->vendor_id,$userId,$fromDate,$toDate);
+			$company_count=0;
+			if($vendorId == 0 && $userId == 0)
+			{
+				$company_count=$companyRepository->getCompaniesForProductivityReport($data->vendor_id,null,$fromDate,$toDate);
+				$SubsidiaryCount =$companyRepository->getSubsidiaryCompaniesForProductivityReport($data->vendor_id,null,$fromDate,$toDate);
+				$data['first_name']="All";
+				$data['last_name']="";
+			}
+			else
+			{
+				$company_count=$companyRepository->getCompaniesForProductivityReport($data->vendor_id,$data->id,$fromDate,$toDate);
+				$SubsidiaryCount =$companyRepository->getSubsidiaryCompaniesForProductivityReport($data->vendor_id,$data->id,$fromDate,$toDate);
+			}
+			//Log::info("company_count:".$company_count);
+			$data->comp_count=$company_count;
+			$data->subsidiary_count = $SubsidiaryCount;
 			$records=$data->no_rows;
-			$hours=$data->hrs;
-			$myArray = explode(':', $hours);
+			$minute=$data->hrs;
+			$time=gmdate("H:i", ($minute * 60));
+			$hours=gmdate("H",($minute*60));
+			//Log::info("Contact:::::". $time);
+			$data->hrs =$time;
+			/*$myArray = explode(':', $hours);
 			$h=$myArray[0];
 			foreach($myArray as $time)
 			{
 				$m=$time;
 			}
 			$m=$m/60;
-			$hours=$h+$m;
+			$hours=$h+$m;*/
 			$per_hour=0;
 			if($hours!=0)
 			{
 				$per_hour=round($records/$hours);
 			}
 			$data['per_hour']=$per_hour;
-			if($vendorId== 0 && $userId == 0)
+			if($vendorId == 0 && $userId == 0)
 			{
+				
 				$data['first_name']="All";
+				$data['last_name']="";
 			}
 		}
 		//Log::info("Contact:::::". $datas);

@@ -69,11 +69,24 @@
                          <td>{{ $subBatch->count}}	</td>
                          <td>{{ $subBatch->status }}</td>
                          <td class="text-left">
-                         @if ($subBatch->status != "Submitted")
-                            <a href="{{ route('dataCapture.capture', $subBatch->id) }}" target='_blank' class="btn btn-primary btn-circle"
-                               title="@lang('app.start')" data-toggle="tooltip" data-placement="top">
-                                <i class="glyphicon glyphicon-play"></i>
-                            </a>
+                         @if($statuscount==1)
+                         	@if ($subBatch->status != "Submitted" && $subBatch->status != "Assigned")
+                            	<a href="{{ route('dataCapture.starttimecapture', $subBatch->id) }}" id="btnStart" target='_blank' class="btn btn-primary btn-circle"
+                               			title="@lang('app.start')" data-toggle="tooltip" data-placement="top">
+                                		<i class="glyphicon glyphicon-play"></i>
+                            	</a>
+                            	<!--  <a href="{{ route('dataCapture.stoptimecapture', $subBatch->id) }}" class="btn btn-danger btn-circle" id="btnClose"
+                               			title="@lang('app.stop')" data-toggle="tooltip" data-placement="top">
+                                		<i class="glyphicon glyphicon-stop"></i>
+                            	</a> -->
+                         	@endif
+                         @else
+                         	@if ($subBatch->status != "Submitted")
+                            	<a href="{{ route('dataCapture.starttimecapture', $subBatch->id) }}" id="btnStart" target='_blank' rel="noreferrer" class="btn btn-primary btn-circle"
+                               			title="@lang('app.start')" data-toggle="tooltip" data-placement="top">
+                                		<i class="glyphicon glyphicon-play"></i>
+                            	</a>
+                         	@endif
                          @endif   
           				</td>
                      </tr>
@@ -93,10 +106,21 @@
 
 @section('scripts')
     <script>
+	//$('#btnClose').css("visibility", "hidden");
+	//$('#btnStart').click(function(){
+	//	$('#btnStart').css("visibility","hidden");
+	//	$('#btnClose').css("visibility","visible");
+	//});
+	//$("#btnClose").click(function(){
+	//		localStorage.setItem('close', Date.now());
+	//		$('#btnClose').css("visibility", "hidden");
+	//		$('#btnStart').css("visibility","visible");
+	//});
         $("#status").change(function () {
             $("#sub-batches-form").submit();
         });
         $(document).ready(function() {
+        	//$(window).focus(function(){ window.location.reload(); });
             $('#dataCapture_table').dataTable( {
                 "bPaginate": false,
                 "bFilter": false,

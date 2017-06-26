@@ -145,6 +145,10 @@ class EloquentSubBatch implements SubBatchRepository
             ->get();
     }
 
+    /**
+     *
+     * {@inheritDoc}
+     */
     public function getTimespend($vendorId = null,$userId = null)
     {
     	$query = SubBatch::query();
@@ -160,5 +164,17 @@ class EloquentSubBatch implements SubBatchRepository
     			->select(DB::raw('sum(TIMESTAMPDIFF(hour,created_at,updated_at)) as count'),'batch_id')
     			->get();
     	return $result;
+    }
+    
+	/** 
+	 * {@inheritDoc}
+	 */
+    public function getUserInProcessCount($userId)
+    {
+    	$query = SubBatch::query();
+    	$result = $query->where('status',"=",'In-process')
+    					->where('user_id',"=","{$userId}")
+    					->count();
+ 		return $result;
     }
 }

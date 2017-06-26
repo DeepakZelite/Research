@@ -144,7 +144,7 @@ class EloquentBatch implements BatchRepository
     	
     }
     
-    public function getDataForProjectReport($vendor_code = null, $project_code = null)
+    public function getDataForProjectReport($vendor_code = null, $project_code = null,$project_name=null)
     {
     	$query = Batch::query();
     	if($project_code)
@@ -155,10 +155,14 @@ class EloquentBatch implements BatchRepository
     	{
     		$query->where('vendors.vendor_code',"=","{$vendor_code}");
     	}
+    	if($project_name)
+    	{
+    		$query->where('projects.name',"=","{$project_name}");
+    	}
     	$result=$query
     	->leftjoin('projects', 'projects.id', '=', 'batches.project_id')
     	->leftjoin('vendors', 'vendors.id', '=', 'batches.vendor_id')
-    	->select('vendors.vendor_code','projects.code','projects.No_Companies as companies','batches.id','batches.name','batches.status');
+    	->select('vendors.vendor_code','projects.code','projects.name as project_name','projects.No_Companies as companies','batches.id','batches.name','batches.status');
     	$result= $query->get();
     	return $result;
     }

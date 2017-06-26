@@ -701,6 +701,16 @@ Route::post('report/searchReportList',[
 		'uses'=>'MyReportController@searchReportList'
 ]);
 
+Route::get('dataCapture/{subBatchId}/starttimecapture',[
+		'as' =>'dataCapture.starttimecapture',
+		'uses'=>'DataCaptureController@starttimecapture'
+]);
+
+Route::get('dataCapture/{subBatchId}/stoptimecapture',[
+		'as' =>'dataCapture.stoptimecapture',
+		'uses'=>'DataCaptureController@stoptimecapture'
+]);
+
 Route::delete('dataCapture/{contact}/delete', [
 		'as' => 'dataCapture.delete',
 		'uses' => 'DataCaptureController@delete'
