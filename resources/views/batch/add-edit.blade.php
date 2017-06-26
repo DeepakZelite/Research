@@ -34,6 +34,11 @@
             <div class="panel-heading">@lang('app.batch_details_big')</div>
             <div class="panel-body">
             	<div class="form-group">
+                    <label for="vendor_id">@lang('app.input_type')<i style="color:red;">*</i></label>
+                    {!! Form::select('type_id', $type,'',
+                        ['class' => 'form-control', 'id' => 'type_id']) !!}
+                </div>
+            	<div class="form-group">
                     <label for="vendor_id">@lang('app.vendor_code')<i style="color:red;">*</i></label>
                     {!! Form::select('vendor_id', $vendors, $edit ? $batch->vendor_id : '',
                         ['class' => 'form-control', 'id' => 'vendor_id']) !!}

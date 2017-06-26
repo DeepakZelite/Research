@@ -27,6 +27,7 @@ return [
     'search_for_action' => 'Search for action...',
     'latest_activity' => 'Latest Activity',
     'view_all' => 'View All',
+	'all_project_name' => 'All Project Name',
 
     'user' => 'User',
     'user_sm' => 'user',
@@ -260,7 +261,7 @@ return [
     'phone_without_country_code' => 'Phone without country code',
 
     'please_confirm_your_email_first' => 'Please confirm your email address first.',
-    'your_account_is_banned' => 'Your account is banned by administrator.',
+    'your_account_is_banned' => 'Your account is InActive by administrator.',
     '2fa_token_invalid' => '2FA Token is invalid!',
     'account_create_confirm_email' => 'You account is created successfully! Please confirm your email in order to log in.',
     'account_created_login' => 'You account is created successfully! You can log in now.',
@@ -420,6 +421,7 @@ return [
 		'sub_batch_deleted'=>'Sub Batch Deleted Successfully',
 		'sub_batch_not_created'=>'No of Companies should be less that unassigned Companies',
 		'sub_batch_created'=>'Sub-Batch Successfully Created',
+		'input_type' => 'Input Type',
 
 		// Companies
 		'companys' => 'Company',
@@ -463,6 +465,7 @@ return [
 		'search_for_companys' => "Search for companies",
 		'add_contact' => "Add Staff",
 		'cancel'=>'Cancel',
+		'subsidiary_count'=>'Subsidiary Count',
 		
 		'company_instructions'=>'Company Instructions',
 		'company_id'=>'Comapny ID',

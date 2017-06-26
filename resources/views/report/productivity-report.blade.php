@@ -67,6 +67,7 @@
             <th>@lang('app.user_name')</th>
             <th>@lang('app.hour_spend')</th>
             <th>@lang('app.companies_processed')</th>
+            <th>@lang('app.subsidiary_count')</th>
             <th>@lang('app.staff_processed')</th>
             <th class="text-center">@lang('app.record_per_hour')</th>
         </thead>
@@ -82,6 +83,12 @@
 @stop
 @section('styles')
     {!! HTML::style('assets/css/bootstrap-datetimepicker.min.css') !!}
+<style>
+  div.dt-buttons {
+   float: right;
+   margin-left:20px;
+}
+</style>
 @stop
 @section('scripts')
 <script>

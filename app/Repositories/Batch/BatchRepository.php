@@ -102,7 +102,7 @@ interface BatchRepository
      * @param unknown $vendor_code
      * @param unknown $project_code
      */
-    public function getDataForProjectReport($vendor_code = null, $project_code = null);
+    public function getDataForProjectReport($vendor_code = null, $project_code = null,$project_name=null);
     
     /**
      * for geting the batch count for perticular date

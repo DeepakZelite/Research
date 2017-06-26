@@ -4,6 +4,7 @@
             <th>@lang('app.user_name')</th>
             <th>@lang('app.hour_spend')</th>
             <th>@lang('app.companies_processed')</th>
+            <th>@lang('app.subsidiary_count')</th>
             <th>@lang('app.staff_processed')</th>
             <th class="text-center">@lang('app.record_per_hour')</th>
         </thead>
@@ -15,8 +16,9 @@
                          <td>{{ $data->first_name }}  {{ $data->last_name }}</td>
                          <td>@if($data->hrs!=""){{ $data->hrs }}@else 0 @endif</td>
                          <td>@if($data->comp_count!=""){{ $data->comp_count }}@else 0 @endif</td>
+                         <td>{{ $data->subsidiary_count }} </td>
                          <td>@if($data->no_rows!=""){{ $data->no_rows }}@else 0 @endif</td>
-                         <td>{{ $data->per_hour }}</td>
+                         <td class="text-center">{{ $data->per_hour }}</td>
                      </tr>
                  @endforeach
             @else
@@ -31,18 +33,27 @@
         		<th></th>
         		<th><span id="hourspend"></span></th>
         		<th><span id ="totalcompany"></span></th>
+        		<th><span id ="totalsubsidiary"></span></th>
         		<th><span id ="totalstaff"></span></th>
-        		<th><span id="perhour"></span></th>
+        		<th class="text-center"><span id="perhour"></span></th>
         	</tr>
         </tfoot>
     </table>
     
 <script>
+var id= {{ Auth::user()->vendor_id }};
+if(id != '' || id != 0)
+{
+	table.buttons().disable();
+}
 $(document).ready(function() {
 	   $('#productivity_table').dataTable({
 	    "bPaginate": false,
 	    "bFilter": false,
-	    "bInfo": false,		
+	    "bInfo": false,
+	    dom: 'Bfrtip',
+        buttons: [{ extend: 'excelHtml5',
+            		text: '<i class="fa fa-file-excel-o fa-2x"></i>',titleAttr: 'Excel'}],		
 			"footerCallback": function ( row, data, start, end, display ) {
 					var api = this.api(), data;	 
 					// Remove the formatting to get integer data for summation
@@ -53,7 +64,7 @@ $(document).ready(function() {
 						return intVal(a) + intVal(b);
 					},0 );
 					
-					total_staff_count = api.column( 4 ).data().reduce( function (a, b) {
+					total_staff_count = api.column( 5 ).data().reduce( function (a, b) {
 						return intVal(a) + intVal(b);
 					},0 );
 
@@ -61,12 +72,18 @@ $(document).ready(function() {
 						return intVal(a) + intVal(b);
 					},0 );
 
-					avg_per_hour = api.column( 5 ).data().reduce( function (a, b) {
+					avg_per_hour = api.column( 6 ).data().reduce( function (a, b) {
 						return intVal(a) + intVal(b);
 					},0 );
+
+					subsidiary_count = api.column( 4 ).data().reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					},0 );
+					
 					// Update footer
 					$('#totalcompany').html(total_no_companies);
 					$('#totalstaff').html(total_staff_count);	
+					$('#totalsubsidiary').html(subsidiary_count);
 					$('#hourspend').html(total_hourSpend_count);
 					$('#perhour').html(avg_per_hour);
 				},		

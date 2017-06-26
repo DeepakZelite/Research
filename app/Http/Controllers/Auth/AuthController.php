@@ -118,6 +118,12 @@ class AuthController extends Controller
                 ->withErrors(trans('app.please_confirm_your_email_first'));
         }
 
+        if($user->isInActive())
+        {
+        	return redirect()->to('login' . $to)
+        	->withErrors(trans('app.your_account_is_banned'));
+        }
+        
         if ($user->isBanned()) {
             return redirect()->to('login' . $to)
                 ->withErrors(trans('app.your_account_is_banned'));

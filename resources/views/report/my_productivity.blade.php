@@ -56,6 +56,7 @@
             <th>@lang('app.user_name')</th>
             <th>@lang('app.hour_spend')</th>
             <th>@lang('app.companies_processed')</th>
+            <th>@lang('app.subsidiary_count')</th>
             <th>@lang('app.staff_processed')</th>
             <th class="text-center">@lang('app.record_per_hour')</th>
         </thead>
@@ -66,8 +67,9 @@
                          <td>{{ $data->first_name }}  {{ $data->last_name }}</td>
                          <td>{{ $data->hrs }}</td>
                          <td>{{ $data->comp_count }}</td>
+                         <td>{{ $data->subsidiary_count }} </td>
                          <td>{{ $data->no_rows }}</td>
-                         <td>{{ $data['per_hour'] }}</td>
+                         <td class="text-center">{{ $data['per_hour'] }}</td>
                      </tr>
                  @endforeach
             @else

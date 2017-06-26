@@ -52,7 +52,8 @@
 <div class="table-responsive top-border-table" id="users-table-wrapper">
     <table class="table" id="project_table">
         <thead>
-        	<th>@sortablelink('code',trans('app.code'))</th>
+        	<th class="col-sm-2">@sortablelink('code',trans('app.code'))</th>
+        	<th class="col-sm-2">@sortablelink('name',trans('app.project_name'))</th>
             <th>@sortablelink('No_Companies',trans('app.no_of_companies'))</th>
             <th>@sortablelink('Expected_Staff',trans('app.expected_staff'))</th>
             <th class="text-center text-primary">@lang('app.action')</th>
@@ -61,8 +62,8 @@
             @if (count($projects))
                 @foreach ($projects as $project)
                     <tr>
-                    	<td>{{ $project->code }}</td>
-                     <!--    <td>{{ $project->name }}</td> -->
+                    	<td class="col-sm-2">{{ $project->code }}</td>
+                        <td class="col-sm-2">{{ $project->name }}</td> 
                         <td>{{ $project->No_Companies }}</td>
                         <td>{{ $project->Expected_Staff }}</td>                   
                          <td class="text-center">

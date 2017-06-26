@@ -45,6 +45,7 @@ class CreateTableContacts extends Migration
             $table->string('additional_info6',64000)->nullable();
             $table->string('additional_info7',64000)->nullable();
             $table->string('additional_info8',64000)->nullable();
+            $table->string('type')->nullable();
             $table->tinyInteger('removable')->default('1');
             $table->timestamps();
         });

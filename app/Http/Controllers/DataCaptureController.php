@@ -106,7 +106,7 @@ class DataCaptureController extends Controller
 		$contact = $this->contactRepository->create($data);
 		
 		$subBatch=Company::find($company->id);
-		Log::info("...". $subBatch->user_id);
+		//Log::info("...". $subBatch->user_id);
 		$users = $reportRepository->get_id_for_stoptime($subBatch->user_id);
 		foreach($users as $user)
 		{
@@ -117,7 +117,7 @@ class DataCaptureController extends Controller
 			$time=$date->diff(Carbon::now());
 			$data->time = $time->format('%i');
 			$data->save();
-			Log::info($user->id."start_time".$data->start_time."count".$time->format('%s'));
+			//Log::info($user->id."start_time".$data->start_time."count".$time->format('%s'));
 		}
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.contact_created'));
 	}
@@ -194,11 +194,32 @@ class DataCaptureController extends Controller
 	 * @param UpdateContactRequest $request
 	 * @return on the same screen with success message.
 	 */
-	public function updateStaff(Contact $contact, UpdateContactRequest $request) 
+	public function updateStaff(Contact $contact, UpdateContactRequest $request,ReportRepository $reportRepository,ContactRepository $contactRepository) 
 	{
 		$data = $request->all() + ['company_id' => $contact->company_id]
  		+ ['user_id' => $this->theUser->id];
  		$updatedContact = $this->contactRepository->update($contact->id,$data);
+ 		
+ 		$data1 = Contact::find($contact->id);
+ 		//Log::info($data1->type);
+ 		if($data1->type == 'named')
+ 		{
+ 			$subBatch=Company::find($contact->company_id);
+ 			//Log::info("...". $subBatch->user_id);
+ 			$users = $reportRepository->get_id_for_stoptime($subBatch->user_id);
+ 			foreach($users as $user)
+ 			{
+ 				$data = Report::find($user->id);
+ 				$data->stop_time = Carbon::now();
+ 				$data->records = $contactRepository->getProcessRecordFromDate($data->start_time,Carbon::now());
+ 				$date=Carbon::parse($data->start_time);
+ 				$time=$date->diff(Carbon::now());
+ 				$data->time = $time->format('%i');
+ 				$data->save();
+ 				//Log::info($user->id."start_time".$data->start_time."count".$time->format('%s'));
+ 			}
+ 		}
+ 		
 		$company = Company::find($contact->company_id);
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.contact_created'));
 	}
@@ -317,11 +338,11 @@ class DataCaptureController extends Controller
 		$specility=$inputs['specility'];
 		$phone	=$inputs['phone'];
 		$prm 	=$inputs['prm'];
-		Log::info("Contact:::::". $first." ".$last." ".$jobtitle." ".$company_name." ".$website." ".$address." ".$city." ".$state." ".$zipcode." ".$specility." ".$phone);
+		//Log::info("Contact:::::". $first." ".$last." ".$jobtitle." ".$company_name." ".$website." ".$address." ".$city." ".$state." ".$zipcode." ".$specility." ".$phone);
 		$perPage=5;
 		$duplicate = $contactRepository->duplicate($first,$last,$jobtitle,$email,$company_name,$website,$address,$city,$state,$zipcode,$specility,$phone,$prm);
 		//$duplicate = $this->companyRepository->paginate($perPage,null,null,$first);
-		Log::info("Contact:::::". $duplicate);
+		//Log::info("Contact:::::". $duplicate);
 		return view('company.partials.duplicate-list', compact('duplicate'));
 	}
 	
@@ -337,7 +358,7 @@ class DataCaptureController extends Controller
 	{
 		$subBatch=SubBatch::find($subBatchId);
 		//$subBatch=Contact::find($subBatchId);
-		Log::info("...". $subBatch->user_id);
+		//Log::info("...". $subBatch->user_id);
 		$users = $reportRepository->get_id_for_stoptime($subBatch->user_id);	
 		foreach($users as $user)
 		{
@@ -348,7 +369,7 @@ class DataCaptureController extends Controller
 			$time=$date->diff(Carbon::now());
 			$data->time = $time->format('%i');
 			$data->save();
-			Log::info($user->id."start_time".$data->start_time."count".$time->format('%s'));
+			//Log::info($user->id."start_time".$data->start_time."count".$time->format('%s'));
 		}
 		return redirect()->route('dataCapture.list');
 	}

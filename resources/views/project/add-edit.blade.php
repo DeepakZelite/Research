@@ -33,15 +33,15 @@
         <div class="panel panel-default">
             <div class="panel-heading">@lang('app.project_details_big')</div>
             <div class="panel-body">
-              <!--   <div class="form-group">
-                    <label for="name">@lang('app.name')</label>
-                    <input type="text" class="form-control" id="name"
-                           name="name" placeholder="@lang('app.project_name')" value="{{ $edit ? $project->name : old('name') }}">
-                </div> -->
                  <div class="form-group">
                     <label for="code">@lang('app.code')<i style="color:red;">*</i></label>
-                    <input type="text" class="form-control" id="code" maxlength="4"
+                    <input type="text" class="form-control" id="code" maxlength="8"
                            name="code" placeholder="@lang('app.code')" value="{{ $edit ? $project->code : old('code') }}" @if($edit) readonly="readonly" @endif>
+                </div>
+                <div class="form-group">
+                    <label for="name">@lang('app.name')</label>
+                    <input type="text" class="form-control" id="name" maxlength="60"
+                           name="name" placeholder="@lang('app.project_name')" value="{{ $edit ? $project->name : old('name') }}">
                 </div>
                 <div class="form-group">
                     <label for="No_Companies">@lang('app.number_of_companies')<i style="color:red;">*</i></label>

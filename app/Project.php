@@ -19,10 +19,10 @@ class Project extends Model
         'removable' => 'boolean'
     ];
 
-    protected $fillable = ['name', 'code','No_Companies','Expected_Staff','brief_file','Start_Date','Expected_date'];
+    protected $fillable = ['code','name','No_Companies','Expected_Staff','brief_file','Start_Date','Expected_date'];
 
     
-    protected $sortable = ['code','No_Companies','Expected_Staff'];
+    protected $sortable = ['code','name','No_Companies','Expected_Staff'];
     
 
 }

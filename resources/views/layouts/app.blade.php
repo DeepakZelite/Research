@@ -26,6 +26,7 @@
     {!! HTML::style('assets/css/bootstrap-social.css') !!}
     {!! HTML::style('assets/css/app.css') !!}
     {!! HTML::style('assets/css/bootstrapTable.min.css') !!}
+    
 
     @yield('styles')
 </head>
@@ -93,6 +94,11 @@
     {!! HTML::script('assets/plugins/js-cookie/js.cookie.js') !!}
     {!! HTML::script('assets/js/datatable.bootstrap.js') !!}
     {!! HTML::script('assets/js/jquery_datatable.js') !!}
+    {!! HTML::script('assets/js/buttons.html5.min.js') !!}
+    {!! HTML::script('assets/js/dataTables.buttons.min.js') !!}
+    {!! HTML::script('assets/js/jszip.min.js') !!}
+    {!! HTML::script('assets/js/buttons.colVis.min.js') !!}
+    
     <script type="text/javascript">
         $.ajaxSetup({
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
