@@ -103,6 +103,10 @@
         $.ajaxSetup({
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
         });
+        
+        window.location.hash="#";
+        window.location.hash="Again-No-back-button";
+        window.onhashchange=function(){window.location.hash="#";}
     </script>
     {!! HTML::script('vendor/jsvalidation/js/jsvalidation.js') !!}
     {!! HTML::script('assets/js/as/app.js') !!}

@@ -381,6 +381,7 @@
 		width: 1200px;
 	}
 	#duplicateModel .modal-dialog{width:1200px;}
+	#conform .model-dialog{width:600px;}
 	
 }
 </style>
@@ -427,7 +428,41 @@
 	</div>
 </div>
 <!-- --------------------Child compaby list end ------------------------ -->
-
+<div id="conform" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div id="newCompany" class="modal-body">
+				<div class="row">
+					<!--First Section-->
+					<div class="col-lg-12 col-md-8 col-sm-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">confirmation</div>
+							<div class="panel-body">
+								<div class="row">
+									<div class="form-group col-lg-12">
+										<label id="count">Are you sure to Submit This </label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8"></div>
+									<div class="col-md-2">
+										<button type="button" class="btn btn-primary" id="btnYes" data-dismiss="modal"> YES
+										</button>
+									</div>
+									<div class="col-md-2">
+										<button type="button" class="btn btn-default" id="btnNo" data-dismiss="modal">No
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <!-- ---------------------------------------- add subsidiary button click code start --------------------------------------------- -->
 <div id="newCompanyModal" class="modal fade" role="dialog">
 	<div class="modal-dialog">
@@ -478,9 +513,6 @@
 
 @stop @section('scripts')
 <script>
-window.location.hash="no-back-button";
-window.location.hash="Again-No-back-button";
-window.onhashchange=function(){window.location.hash="no-back-button";}
 hideMenu();
 function hideMenu() {
 	as.toggleSidebar();
@@ -689,6 +721,25 @@ function addContact(companyId) {
 }
 function submitCompany()
 {
+	var count=0;
+	@foreach ($contacts as $contact)
+		@if($contact->updated_at == '')
+			count++;
+		@endif 
+	@endforeach
+	if(count>0)
+	{
+		$("#conform").modal(function(){
+			//$('#count span').html('goes inside the span');
+			$("#count").val('abcd');
+		});
+		//		$("#count").val(count);
+		//var retVal = confirm("Do you want to continue ?"+ count);
+        //if( retVal != true ){
+        //   return false;
+        //}
+	}
+		
 	if ($('#updated_company_name').val() == '') {
 	    $('#updated_company_name').css('border-color', 'red');
 	    return false;
@@ -782,6 +833,7 @@ function submitCompany()
 	var $additional_info2 = $('#additional_info2').val();
 	var $additional_info3 = $('#additional_info3').val();
 	var $additional_info4 = $('#additional_info4').val();
+	
 	$.ajax({
 		method:"GET",
 		url:"{{ route('dataCapture.submitCompany', $company->id) }}",

@@ -122,4 +122,6 @@ interface ContactRepository
     
     public function getProcessRecordFromDate($start,$end);
     
+    public function getProcessRecordCount($vendorId = null,$userId = null,$fromDate = null, $toDate = null);
+    
 }

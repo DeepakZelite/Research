@@ -266,4 +266,33 @@ class EloquentContact implements ContactRepository
     	$result = $query->count();
     	return $result;
     }
+    
+    public function getProcessRecordCount($vendorId = null,$userId = null,$fromDate = null, $toDate = null)
+    {
+    	$query = Contact::query();
+    	if($vendorId)
+    	{
+    		$query->where('users.vendor_id',"=","{$vendorId}");
+    	}
+    	if($userId)
+    	{
+    		$query->where('contacts.user_id',"=","{$userId}");
+    	}
+    	if($fromDate)
+    	{
+    	 	$query->where('contacts.updated_at',">=", "{$fromDate}");
+    	}
+    	
+    	if($toDate)
+    	{
+    		$toDate =$toDate . " 23:59:59";
+    		$query->where('contacts.updated_at',"<=","{$toDate}");
+    	}
+    	
+    	$result=$query
+    			->leftjoin('users', 'users.id', '=', 'contacts.user_id')
+    			->count();
+    	return $result;
+
+    }
 }

@@ -89,11 +89,6 @@
 
 @section('scripts')
 <script>
-var id= {{ Auth::user()->vendor_id }};
-if(id != '' || id != 0)
-{
-	table.buttons().disable();
-}
 $(document).ready(function() {
     var table = $('#example').dataTable({
     "bPaginate": false,
