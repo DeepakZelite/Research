@@ -466,6 +466,9 @@ return [
 		'add_contact' => "Add Staff",
 		'cancel'=>'Cancel',
 		'subsidiary_count'=>'Subsidiary Count',
+		'delete_subsidiary' => 'Delete Subsidiary',
+		'are_you_sure_delete_subsidiary'=>'Are You Sure Delete Subsidiary',
+		'edit_contact' => 'Edit Contact',
 		
 		'company_instructions'=>'Company Instructions',
 		'company_id'=>'Comapny ID',

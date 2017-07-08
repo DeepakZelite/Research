@@ -250,7 +250,7 @@ class DataCaptureController extends Controller
 		$inputs = Input::all();
 		$contactId = $inputs['contactId'];
 		$data = array("Mr","Mrs","Miss","Dr","Ms","Prof");
-		$disposition = array("Verified","Not Verified","Acquired","Left and Gone Away","Retired");
+		$disposition = array("Not Attempted","Verified","Not Verified","Acquired","Left and Gone Away","Retired");
 		$contact=Contact::find($contactId);
 		$editContact = true;
 		return view('company.partials.contact-edit', compact('editContact', 'contact','data','disposition'));
@@ -265,7 +265,7 @@ class DataCaptureController extends Controller
 	{
 		$company=Company::find($companyId->id);
 		$data = array("Mr","Mrs","Miss","Dr","Ms","Prof");
-		$disposition = array("Verified","Not Verified","Acquired","Left and Gone Away","Retired");
+		$disposition = array("Not Attempted","Verified","Not Verified","Acquired","Left and Gone Away","Retired");
 		$editContact = false;
 		return view('company.partials.contact-edit', compact('editContact', 'company','data','disposition'));
 	}
@@ -380,5 +380,16 @@ class DataCaptureController extends Controller
 		$report->start_time = Carbon::now();
 		$report->save();
 		return redirect()->route('dataCapture.capture',$subBatchId);
+	}
+	
+	public function subsidiaryCompany(Company $company,CompanyRepository $companyRepository,ContactRepository $contactRepository)
+	{
+		$contact = $contactRepository->findByCompany($company->id);
+		foreach($contact as $contacts)
+		{
+			$contactRepository->delete($contacts->id);
+		} 
+		$companyRepository->delete($company->id);
+		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.subsidiary_deleted'));
 	}
 }

@@ -19,7 +19,6 @@ class CreateTableCompanies extends Migration
             $table->string('user_id')->nullable();
             $table->string('status')->nullable();
             $table->string('company_instructions',64000)->nullable();
-            $table->string('company_id')->nullable();
             $table->unsignedInteger('parent_id');
             $table->string('parent_company')->nullable();
             $table->string('company_name',64000)->nullable();

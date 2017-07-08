@@ -171,19 +171,15 @@ class ReportsController extends Controller
 		$userId = $inputs['userId'];
 		$fromDate = $inputs['fromDate'];
 		$toDate = $inputs['toDate'];
-		//Log::info("Contact:::::". $vendorId." ".$userId." ".$fromDate." ".$toDate);
-		//$datas=$contactRepository->getDataForReport($vendorId,$userId,$fromDate,$toDate);
 		$datas=$reportRepository->get_data_for_report($userId,$fromDate,$toDate,$vendorId);
-		//Log::info($datas);
 		foreach ($datas as $data)
 		{
-			//Log::info($data->vendor_id."     ".$data->user_id);
-			//$company_count=$companyRepository->getCompaniesForProductivityReport($data->vendor_id,$userId,$fromDate,$toDate);
 			$company_count=0;
 			if($vendorId == 0 && $userId == 0)
 			{
 				$company_count=$companyRepository->getCompaniesForProductivityReport($data->vendor_id,null,$fromDate,$toDate);
 				$SubsidiaryCount =$companyRepository->getSubsidiaryCompaniesForProductivityReport($data->vendor_id,null,$fromDate,$toDate);
+				$staff_process_count = $contactRepository->getProcessRecordCount($data->vendor_id,null,$fromDate,$toDate);
 				$data['first_name']="All";
 				$data['last_name']="";
 			}
@@ -191,24 +187,16 @@ class ReportsController extends Controller
 			{
 				$company_count=$companyRepository->getCompaniesForProductivityReport($data->vendor_id,$data->id,$fromDate,$toDate);
 				$SubsidiaryCount =$companyRepository->getSubsidiaryCompaniesForProductivityReport($data->vendor_id,$data->id,$fromDate,$toDate);
+				$staff_process_count = $contactRepository->getProcessRecordCount($data->vendor_id,$data->id,$fromDate,$toDate);
 			}
-			//Log::info("company_count:".$company_count);
 			$data->comp_count=$company_count;
 			$data->subsidiary_count = $SubsidiaryCount;
+			$data->no_rows = $staff_process_count;
 			$records=$data->no_rows;
 			$minute=$data->hrs;
 			$time=gmdate("H:i", ($minute * 60));
 			$hours=gmdate("H",($minute*60));
-			//Log::info("Contact:::::". $time);
 			$data->hrs =$time;
-			/*$myArray = explode(':', $hours);
-			$h=$myArray[0];
-			foreach($myArray as $time)
-			{
-				$m=$time;
-			}
-			$m=$m/60;
-			$hours=$h+$m;*/
 			$per_hour=0;
 			if($hours!=0)
 			{
@@ -222,7 +210,6 @@ class ReportsController extends Controller
 				$data['last_name']="";
 			}
 		}
-		//Log::info("Contact:::::". $datas);
 		
 		return view('report.partials.productivity-table',compact('datas'));
 	}

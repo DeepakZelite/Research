@@ -58,6 +58,11 @@
 @stop
 
 @section('scripts')
+<script>
+window.location.hash="#";
+window.location.hash="Again-No-back-button";//again because google chrome don't insert first hash into history
+window.onhashchange=function(){window.location.hash="#";}
+</script>
     {!! HTML::script('assets/js/as/login.js') !!}
     {!! JsValidator::formRequest('Vanguard\Http\Requests\Auth\LoginRequest', '#login-form') !!}
 @stop

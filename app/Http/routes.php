@@ -715,3 +715,8 @@ Route::delete('dataCapture/{contact}/delete', [
 		'as' => 'dataCapture.delete',
 		'uses' => 'DataCaptureController@delete'
 ]);
+
+Route::delete('dataCapture/{company}/subsidiaryCompany', [
+		'as' => 'dataCapture.subsidiaryCompany',
+		'uses' => 'DataCaptureController@subsidiaryCompany'
+]);

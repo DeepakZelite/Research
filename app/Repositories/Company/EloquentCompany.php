@@ -237,8 +237,11 @@ class EloquentCompany implements CompanyRepository
     	$query = Company::query();
     	$result = $query
     	->leftjoin('contacts', 'companies.id', '=', 'contacts.company_id')
-    	->select('companies.*','contacts.*','contacts.additional_info1 as info1','contacts.additional_info2 as info2','contacts.additional_info3 as info3','contacts.additional_info4 as info4','contacts.additional_info5 as info5','contacts.additional_info6 as info6','contacts.additional_info7 as info7','contacts.additional_info8 as info8');
-    
+    	->leftjoin('batches','batches.id','=', 'companies.batch_id')
+    	->leftjoin('users','users.id',"=","companies.user_id")
+    	->leftjoin('countries','countries.id',"=","companies.country")
+    	->select('companies.*','contacts.*','batches.name as batch_name','companies.id as com_id','contacts.id as contact_id','users.first_name as ufname','countries.name as country_name','users.last_name as ulname','companies.additional_info1 as com_info1','companies.additional_info2 as com_info2','companies.additional_info3 as com_info3','companies.additional_info4 as com_info4','companies.additional_info5 as com_info5','companies.additional_info6 as com_info6','companies.additional_info7 as com_info7','companies.additional_info8 as com_info8','contacts.additional_info1 as info1','contacts.additional_info2 as info2','contacts.additional_info3 as info3','contacts.additional_info4 as info4','contacts.additional_info5 as info5','contacts.additional_info6 as info6','contacts.additional_info7 as info7','contacts.additional_info8 as info8','companies.created_at as company_created_at','companies.updated_at as company_updated_at','contacts.created_at as contacts_created_at','contacts.updated_at as contact_updated_at')
+    	->orderBy('companies.company_name', 'ASC');
     	if ($batchId != 0) {
     		$query->where(function ($q) use($batchId) {
     			$q->where('companies.batch_id', "=", "{$batchId}");

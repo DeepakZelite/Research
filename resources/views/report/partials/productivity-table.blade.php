@@ -41,16 +41,12 @@
     </table>
     
 <script>
-var id= {{ Auth::user()->vendor_id }};
-if(id != '' || id != 0)
-{
-	table.buttons().disable();
-}
 $(document).ready(function() {
 	   $('#productivity_table').dataTable({
 	    "bPaginate": false,
 	    "bFilter": false,
 	    "bInfo": false,
+	    "sScrollX": false,
 	    dom: 'Bfrtip',
         buttons: [{ extend: 'excelHtml5',
             		text: '<i class="fa fa-file-excel-o fa-2x"></i>',titleAttr: 'Excel'}],		

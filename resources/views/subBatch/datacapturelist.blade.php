@@ -75,10 +75,6 @@
                                			title="@lang('app.start')" data-toggle="tooltip" data-placement="top">
                                 		<i class="glyphicon glyphicon-play"></i>
                             	</a>
-                            	<!--  <a href="{{ route('dataCapture.stoptimecapture', $subBatch->id) }}" class="btn btn-danger btn-circle" id="btnClose"
-                               			title="@lang('app.stop')" data-toggle="tooltip" data-placement="top">
-                                		<i class="glyphicon glyphicon-stop"></i>
-                            	</a> -->
                          	@endif
                          @else
                          	@if ($subBatch->status != "Submitted")
@@ -106,16 +102,6 @@
 
 @section('scripts')
     <script>
-	//$('#btnClose').css("visibility", "hidden");
-	//$('#btnStart').click(function(){
-	//	$('#btnStart').css("visibility","hidden");
-	//	$('#btnClose').css("visibility","visible");
-	//});
-	//$("#btnClose").click(function(){
-	//		localStorage.setItem('close', Date.now());
-	//		$('#btnClose').css("visibility", "hidden");
-	//		$('#btnStart').css("visibility","visible");
-	//});
         $("#status").change(function () {
             $("#sub-batches-form").submit();
         });
@@ -125,6 +111,7 @@
                 "bPaginate": false,
                 "bFilter": false,
                 "bInfo": false,
+                "order": [[ 5, "asc" ]],
                 aoColumnDefs: [
               	  {
               	     bSortable: false,

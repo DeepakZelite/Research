@@ -39,8 +39,10 @@ class MyReportController extends Controller
 		{
 			$company_count=$companyRepository->getCompaniesForProductivityReport($data->vendor_id,$userId);
 			$SubsidiaryCount =$companyRepository->getSubsidiaryCompaniesForProductivityReport($data->vendor_id,$userId);
+			$staff_process_count = $contactRepository->getProcessRecordCount($data->vendor_id,$userId);
 			$data->subsidiary_count = $SubsidiaryCount;
 			$data->comp_count=$company_count;
+			$data->no_rows = $staff_process_count;
 			$records=$data->no_rows;
 			$minute=$data->hrs;
 			$time=gmdate("H:i", ($minute * 60));
@@ -75,8 +77,10 @@ class MyReportController extends Controller
 		{
 			$company_count=$companyRepository->getCompaniesForProductivityReport($data->vendor_id,$userId,$fromDate,$toDate);
 			$SubsidiaryCount =$companyRepository->getSubsidiaryCompaniesForProductivityReport($data->vendor_id,$userId,$fromDate,$toDate);
+			$staff_process_count = $contactRepository->getProcessRecordCount($data->vendor_id,$userId,$fromDate,$toDate);
 			$data->comp_count=$company_count;
 			$data->subsidiary_count = $SubsidiaryCount;
+			$data->no_rows = $staff_process_count;
 			$records=$data->no_rows;
 			$minute=$data->hrs;
 			$time=gmdate("H:i", ($minute * 60));

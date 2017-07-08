@@ -84,24 +84,27 @@
         </tfoot>
     </table>
 </div>
+@stop
 
+@section('styles')
+<style>
+  div.dt-buttons {
+   float: right;
+   margin-left:20px;
+}
+</style>
 @stop
 
 @section('scripts')
 <script>
-var id= {{ Auth::user()->vendor_id }};
-if(id != '' || id != 0)
-{
-	table.buttons().disable();
-}
 $(document).ready(function() {
     var table = $('#example').dataTable({
     "bPaginate": false,
     "bFilter": false,
     "bInfo": false,
+    "bAutoWidth": false,
     	dom: 'Bfrtip',
-        buttons: [{ extend: 'excelHtml5',
-            		text: '<i class="fa fa-file-excel-o fa-2x"></i>',titleAttr: 'Excel'}],	
+        buttons: [{ extend: 'excelHtml5',text: '<i class="fa fa-file-excel-o fa-2x"></i>',titleAttr: 'Excel'}],	
 		"footerCallback": function ( row, data, start, end, display ) {
 				var api = this.api(), data;	 
 				// Remove the formatting to get integer data for summation
@@ -124,13 +127,4 @@ $(document).ready(function() {
 	});	
 });
 </script>
-@stop
-
-@section('styles')
-<style>
-  div.dt-buttons {
-   float: right;
-   margin-left:20px;
-}
-</style>
 @stop

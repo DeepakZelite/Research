@@ -5,7 +5,7 @@
 <br />
 
 <!-- ----------------Company-edit-details start-------------- -->
-@if ($editCompany) {!! Form::open(['route' =>['dataCapture.updateCompany', $company->id], 'method' => 'PUT', 'id' =>'company-form']) !!} 
+@if ($editCompany) {!! Form::open(['route' =>['dataCapture.updateCompany', $company->id], 'method' => 'PUT', 'id' =>'company-form','autocomplete'=>'off']) !!} 
 @else {!! Form::open(['route' =>['dataCapture.storeCompany', $company->id], 'id' => 'company-form']) !!}
 @endif
 <div class="row">
@@ -366,10 +366,6 @@
 
 	<div class="col-md-1">
 	<button type="button" id="btnSubmit" class="btn btn-primary btn-block pull-right" onclick="submitCompany();">@lang('app.submit')</button>
-			 	<!-- <a id="btnParentSubmit" href="{{ route('dataCapture.submitCompany', $company->id) }}" class="btn btn-primary btn-block pull-right" onclick="javascript:return confirm('@lang('app.are_you_sure_to_submit_parent_company')')">@lang('app.submit')
-                 </a>      
-		<a id="btnSubmit" href="{{ route('dataCapture.submitCompany', $company->id) }}" 
-			class="btn btn-primary btn-block pull-right">@lang('app.submit')</a> 	 --> 
 	</div>	
 </div>
 
@@ -381,6 +377,7 @@
 		width: 1200px;
 	}
 	#duplicateModel .modal-dialog{width:1200px;}
+	#conform .model-dialog{width:600px;}
 	
 }
 </style>
@@ -427,7 +424,37 @@
 	</div>
 </div>
 <!-- --------------------Child compaby list end ------------------------ -->
-
+<div id="conform" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div id="newCompany" class="modal-body">
+				<div class="row">
+					<!--First Section-->
+					<div class="col-lg-12 col-md-8 col-sm-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">Warning</div>
+							<div class="panel-body">
+								<div class="row">
+									<div class="form-group col-lg-12">
+										<label id="count"></label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-10"></div>
+									<div class="col-md-2">
+										<button type="button" class="btn btn-primary" id="btnNo" data-dismiss="modal">Ok
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <!-- ---------------------------------------- add subsidiary button click code start --------------------------------------------- -->
 <div id="newCompanyModal" class="modal fade" role="dialog">
 	<div class="modal-dialog">
@@ -478,9 +505,6 @@
 
 @stop @section('scripts')
 <script>
-window.location.hash="no-back-button";
-window.location.hash="Again-No-back-button";
-window.onhashchange=function(){window.location.hash="no-back-button";}
 hideMenu();
 function hideMenu() {
 	as.toggleSidebar();
@@ -608,7 +632,6 @@ $(document).ready(function() {
 function isNumberKey(evt)
 {
 		evt = (evt) ? evt : window.event;
-		//evt = evt || window.event || event;
 		var charCode = (evt.which) ? evt.which : event.keyCode
 		if (charCode > 31 && (charCode < 48 || charCode > 57 || charcode == 86))
   			return false;
@@ -687,8 +710,24 @@ function addContact(companyId) {
             }
     })	
 }
+
 function submitCompany()
 {
+	var count=0;
+	var a="";
+	var val= 0;
+	@foreach ($contacts as $contact)
+		@if($contact->updated_at == '')
+			count++;
+		@endif 
+	@endforeach
+	if(count>0)
+	{
+		$("#conform").modal();
+		$("#count").text("There are "+ count +" staff record(s) are pending to process. It is recommended to process pending staff record(s) before you submit the company.");
+        return false;
+	}
+		
 	if ($('#updated_company_name').val() == '') {
 	    $('#updated_company_name').css('border-color', 'red');
 	    return false;
@@ -782,6 +821,7 @@ function submitCompany()
 	var $additional_info2 = $('#additional_info2').val();
 	var $additional_info3 = $('#additional_info3').val();
 	var $additional_info4 = $('#additional_info4').val();
+	
 	$.ajax({
 		method:"GET",
 		url:"{{ route('dataCapture.submitCompany', $company->id) }}",

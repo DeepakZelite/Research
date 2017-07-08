@@ -110,15 +110,15 @@ class BatchesController extends Controller
 				$batch = $this->batches->create($data);
 				if($request->type_id == 1)
 				{
-					//Log::info("Named Task");
+					Log::info("Named Task");
 					$id=0;
 					for($i = 0; $i < $count; $i++)
 					{
-						if(!empty($data1[$i]->company_name) && !empty($data1[$i]->first_name))
-						{
 						if($i != 0)
 						{
 							if(!empty($data1[$i]->company_name))
+							{
+							if(!empty($data1[($i-1)]->company_name) && !empty($data1[($i-1)]->first_name))
 							{
 							if($data1[($i - 1)]->company_name == $data1[$i]->company_name)
 							{
@@ -126,43 +126,36 @@ class BatchesController extends Controller
 							}
 							else
 							{
-								$id = DB::table('companies')->insertGetId(['batch_id'=>$batch->id,'status' => 'UnAssigned','company_instructions' => $data1[$i]->company_instructions, 'company_id' => $data1[$i]->company_id,'parent_company' => $data1[$i]->parent_company, 'company_name' => $data1[$i]->company_name,'address1' => $data1[$i]->address1, 'address2' => $data1[$i]->address2,'city' => $data1[$i]->city, 'state' => $data1[$i]->state,'zipcode' => $data1[$i]->zipcode, 'country' => $data1[$i]->country,'isd_code' => $data1[$i]->international_code, 'switchboardnumber' => $data1[$i]->switchboardnumber,'branchNumber' => $data1[$i]->branch_number, 'addresscode' => $data1[$i]->addresscode,'website' => $data1[$i]->website, 'company_email' => $data1[$i]->company_email,
+								$id = DB::table('companies')->insertGetId(['batch_id'=>$batch->id,'status' => 'UnAssigned','company_instructions' => $data1[$i]->company_instructions, 'parent_company' => $data1[$i]->parent_company, 'company_name' => $data1[$i]->company_name,'address1' => $data1[$i]->address1, 'address2' => $data1[$i]->address2,'city' => $data1[$i]->city, 'state' => $data1[$i]->state,'zipcode' => $data1[$i]->zipcode, 'country' => $data1[$i]->country,'isd_code' => $data1[$i]->international_code, 'switchboardnumber' => $data1[$i]->switchboardnumber,'branchNumber' => $data1[$i]->branch_number, 'addresscode' => $data1[$i]->addresscode,'website' => $data1[$i]->website, 'company_email' => $data1[$i]->company_email,
 										'products_services' => $data1[$i]->products_services, 'industry_classfication' => $data1[$i]->industry_classfication,'employee_size' => $data1[$i]->employee_size, 'physician_size' => $data1[$i]->physician_size,'annual_revenue' => $data1[$i]->annual_revenue, 'number_of_beds' => $data1[$i]->number_of_beds,'foundation_year' => $data1[$i]->foundation_year, 'company_remark' => $data1[$i]->company_remark,'additional_info1' => $data1[$i]->additional_info1, 'additional_info2' => $data1[$i]->additional_info2,'additional_info3' => $data1[$i]->additional_info3, 'additional_info4' => $data1[$i]->additional_info4,'additional_info5' => $data1[$i]->additional_info5, 'additional_info6' => $data1[$i]->additional_info6,'additional_info7' => $data1[$i]->additional_info7, 'additional_info8' => $data1[$i]->additional_info8]);
 
-								$insert1[] = ['company_id'=>$id,'first_name'=>$data1[$i]->first_name ,'last_name'=>$data1[$i]->last_name,'middle_name'=>$data1[$i]->middle_name,'job_title'=>$data1[$i]->job_title,'specialization'=>$data1[$i]->specialization,'staff_source'=>$data1[$i]->staff_source,'staff_email'=>$data1[$i]->staff_email,'direct_phoneno'=>$data1[$i]->direct_phoneno,'email_source'=>$data1[$i]->email_source,'qualification'=>$data1[$i]->qualification,'staff_disposition'=>$data1[$i]->staff_disposition,'deparment_number'=>$data1[$i]->deparment_number,'alternate_phone'=>$data1[$i]->alternate_phone,'alternate_email'=>$data1[$i]->alternate_email,'email_type'=>$data1[$i]->email_type,'shift_timing'=>$data1[$i]->shift_timing,'working_tenure'=>$data1[$i]->working_tenure,'paternership'=>$data1[$i]->paternership,'age'=>$data1[$i]->age,'staff_remarks'=>$data1[$i]->staff_remarks,'additional_info1'=>$data1[$i]->info1,'additional_info2' => $data1[$i]->info2,'additional_info3' => $data1[$i]->info3, 'additional_info4' => $data1[$i]->info4,'additional_info5' => $data1[$i]->info5, 'additional_info6' => $data1[$i]->info6,'additional_info7' => $data1[$i]->info7, 'additional_info8' => $data1[$i]->info8, 'type' => 'named'];
-								if(!empty($insert1)){
-									DB::table('contacts')->insert($insert1);
-								}
+								DB::table('contacts')->insert(['company_id'=>$id,'first_name'=>$data1[$i]->first_name ,'last_name'=>$data1[$i]->last_name,'middle_name'=>$data1[$i]->middle_name,'job_title'=>$data1[$i]->job_title,'specialization'=>$data1[$i]->specialization,'staff_source'=>$data1[$i]->staff_source,'staff_email'=>$data1[$i]->staff_email,'direct_phoneno'=>$data1[$i]->direct_phoneno,'email_source'=>$data1[$i]->email_source,'qualification'=>$data1[$i]->qualification,'staff_disposition'=>$data1[$i]->staff_disposition,'deparment_number'=>$data1[$i]->deparment_number,'alternate_phone'=>$data1[$i]->alternate_phone,'alternate_email'=>$data1[$i]->alternate_email,'email_type'=>$data1[$i]->email_type,'shift_timing'=>$data1[$i]->shift_timing,'working_tenure'=>$data1[$i]->working_tenure,'paternership'=>$data1[$i]->paternership,'age'=>$data1[$i]->age,'staff_remarks'=>$data1[$i]->staff_remarks,'additional_info1'=>$data1[$i]->info1,'additional_info2' => $data1[$i]->info2,'additional_info3' => $data1[$i]->info3, 'additional_info4' => $data1[$i]->info4,'additional_info5' => $data1[$i]->info5, 'additional_info6' => $data1[$i]->info6,'additional_info7' => $data1[$i]->info7, 'additional_info8' => $data1[$i]->info8, 'type' => 'named' ]);
 							}
-							}
-						}else
-						{
-							$id = DB::table('companies')->insertGetId(['batch_id'=>$batch->id,'status' => 'UnAssigned','company_instructions' => $data1[$i]->company_instructions, 'company_id' => $data1[$i]->company_id,'parent_company' => $data1[$i]->parent_company, 'company_name' => $data1[$i]->company_name,'address1' => $data1[$i]->address1, 'address2' => $data1[$i]->address2,'city' => $data1[$i]->city, 'state' => $data1[$i]->state,'zipcode' => $data1[$i]->zipcode, 'country' => $data1[$i]->country,'isd_code' => $data1[$i]->international_code, 'switchboardnumber' => $data1[$i]->switchboardnumber,'branchNumber' => $data1[$i]->branch_number, 'addresscode' => $data1[$i]->addresscode,'website' => $data1[$i]->website, 'company_email' => $data1[$i]->company_email,
-									'products_services' => $data1[$i]->products_services, 'industry_classfication' => $data1[$i]->industry_classfication,'employee_size' => $data1[$i]->employee_size, 'physician_size' => $data1[$i]->physician_size,'annual_revenue' => $data1[$i]->annual_revenue, 'number_of_beds' => $data1[$i]->number_of_beds,'foundation_year' => $data1[$i]->foundation_year, 'company_remark' => $data1[$i]->company_remark,'additional_info1' => $data1[$i]->additional_info1, 'additional_info2' => $data1[$i]->additional_info2,'additional_info3' => $data1[$i]->additional_info3, 'additional_info4' => $data1[$i]->additional_info4,'additional_info5' => $data1[$i]->additional_info5, 'additional_info6' => $data1[$i]->additional_info6,'additional_info7' => $data1[$i]->additional_info7, 'additional_info8' => $data1[$i]->additional_info8]);
-
-							$insert[] = ['company_id'=>$id,'first_name'=>$data1[$i]->first_name ,'last_name'=>$data1[$i]->last_name,'middle_name'=>$data1[$i]->middle_name,'job_title'=>$data1[$i]->job_title,'specialization'=>$data1[$i]->specialization,'staff_source'=>$data1[$i]->staff_source,'staff_email'=>$data1[$i]->staff_email,'direct_phoneno'=>$data1[$i]->direct_phoneno,'email_source'=>$data1[$i]->email_source,'qualification'=>$data1[$i]->qualification,'staff_disposition'=>$data1[$i]->staff_disposition,'deparment_number'=>$data1[$i]->deparment_number,'alternate_phone'=>$data1[$i]->alternate_phone,'alternate_email'=>$data1[$i]->alternate_email,'email_type'=>$data1[$i]->email_type,'shift_timing'=>$data1[$i]->shift_timing,'working_tenure'=>$data1[$i]->working_tenure,'paternership'=>$data1[$i]->paternership,'age'=>$data1[$i]->age,'staff_remarks'=>$data1[$i]->staff_remarks,'additional_info1'=>$data1[$i]->info1,'additional_info2' => $data1[$i]->info2,'additional_info3' => $data1[$i]->info3, 'additional_info4' => $data1[$i]->info4,'additional_info5' => $data1[$i]->info5, 'additional_info6' => $data1[$i]->info6,'additional_info7' => $data1[$i]->info7, 'additional_info8' => $data1[$i]->info8, 'type' => 'named' ];
-							if(!empty($insert)){
-								DB::table('contacts')->insert($insert);
-							}
-						}
-						}
-						else 
-						{
+							}else 
+							{
 							$this->batches->delete($batch->id);
 							return redirect()->route('batch.create')->withErrors('There Is No Company Name Or First Name');
-						}
+							}
+							}	
+						}else
+						{
+							$id = DB::table('companies')->insertGetId(['batch_id'=>$batch->id,'status' => 'UnAssigned','company_instructions' => $data1[$i]->company_instructions, 'parent_company' => $data1[$i]->parent_company, 'company_name' => $data1[$i]->company_name,'address1' => $data1[$i]->address1, 'address2' => $data1[$i]->address2,'city' => $data1[$i]->city, 'state' => $data1[$i]->state,'zipcode' => $data1[$i]->zipcode, 'country' => $data1[$i]->country,'isd_code' => $data1[$i]->international_code, 'switchboardnumber' => $data1[$i]->switchboardnumber,'branchNumber' => $data1[$i]->branch_number, 'addresscode' => $data1[$i]->addresscode,'website' => $data1[$i]->website, 'company_email' => $data1[$i]->company_email,
+									'products_services' => $data1[$i]->products_services, 'industry_classfication' => $data1[$i]->industry_classfication,'employee_size' => $data1[$i]->employee_size, 'physician_size' => $data1[$i]->physician_size,'annual_revenue' => $data1[$i]->annual_revenue, 'number_of_beds' => $data1[$i]->number_of_beds,'foundation_year' => $data1[$i]->foundation_year, 'company_remark' => $data1[$i]->company_remark,'additional_info1' => $data1[$i]->additional_info1, 'additional_info2' => $data1[$i]->additional_info2,'additional_info3' => $data1[$i]->additional_info3, 'additional_info4' => $data1[$i]->additional_info4,'additional_info5' => $data1[$i]->additional_info5, 'additional_info6' => $data1[$i]->additional_info6,'additional_info7' => $data1[$i]->additional_info7, 'additional_info8' => $data1[$i]->additional_info8]);
+
+							DB::table('contacts')->insert(['company_id'=>$id,'first_name'=>$data1[$i]->first_name ,'last_name'=>$data1[$i]->last_name,'middle_name'=>$data1[$i]->middle_name,'job_title'=>$data1[$i]->job_title,'specialization'=>$data1[$i]->specialization,'staff_source'=>$data1[$i]->staff_source,'staff_email'=>$data1[$i]->staff_email,'direct_phoneno'=>$data1[$i]->direct_phoneno,'email_source'=>$data1[$i]->email_source,'qualification'=>$data1[$i]->qualification,'staff_disposition'=>$data1[$i]->staff_disposition,'deparment_number'=>$data1[$i]->deparment_number,'alternate_phone'=>$data1[$i]->alternate_phone,'alternate_email'=>$data1[$i]->alternate_email,'email_type'=>$data1[$i]->email_type,'shift_timing'=>$data1[$i]->shift_timing,'working_tenure'=>$data1[$i]->working_tenure,'paternership'=>$data1[$i]->paternership,'age'=>$data1[$i]->age,'staff_remarks'=>$data1[$i]->staff_remarks,'additional_info1'=>$data1[$i]->info1,'additional_info2' => $data1[$i]->info2,'additional_info3' => $data1[$i]->info3, 'additional_info4' => $data1[$i]->info4,'additional_info5' => $data1[$i]->info5, 'additional_info6' => $data1[$i]->info6,'additional_info7' => $data1[$i]->info7, 'additional_info8' => $data1[$i]->info8, 'type' => 'named' ]);
+						}	
 					}
 				}else{
 					if(!empty($data1) && $data1->count()){
 						foreach ($data1 as $key => $value) {
 							if(!empty($value->company_name))
 							{
-							$insert[] = ['batch_id'=>$batch->id,'status' => 'UnAssigned','company_instructions' => $value->company_instructions, 'company_id' => $value->company_id,'parent_company' => $value->parent_company, 'company_name' => $value->company_name,'address1' => $value->address1, 'address2' => $value->address2,'city' => $value->city, 'state' => $value->state,'zipcode' => $value->zipcode, 'country' => $value->country,'isd_code' => $value->international_code, 'switchboardnumber' => $value->switchboardnumber,'branchNumber' => $value->branch_number, 'addresscode' => $value->addresscode,'website' => $value->website, 'company_email' => $value->company_email,
+							$insert[] = ['batch_id'=>$batch->id,'status' => 'UnAssigned','company_instructions' => $value->company_instructions, 'parent_company' => $value->parent_company, 'company_name' => $value->company_name,'address1' => $value->address1, 'address2' => $value->address2,'city' => $value->city, 'state' => $value->state,'zipcode' => $value->zipcode, 'country' => $value->country,'isd_code' => $value->international_code, 'switchboardnumber' => $value->switchboardnumber,'branchNumber' => $value->branch_number, 'addresscode' => $value->addresscode,'website' => $value->website, 'company_email' => $value->company_email,
 								'products_services' => $value->products_services, 'industry_classfication' => $value->industry_classfication,'employee_size' => $value->employee_size, 'physician_size' => $value->physician_size,'annual_revenue' => $value->annual_revenue, 'number_of_beds' => $value->number_of_beds,'foundation_year' => $value->foundation_year, 'company_remark' => $value->company_remark,'additional_info1' => $value->additional_info1, 'additional_info2' => $value->additional_info2,'additional_info3' => $value->additional_info3, 'additional_info4' => $value->additional_info4, 'additional_info5' => $value->additional_info5, 'additional_info6' => $value->additional_info6, 'additional_info7' => $value->additional_info7, 'additional_info8' => $value->additional_info8];
 							}else 
 							{
 								$this->batches->delete($batch->id);
-								return redirect()->route('batch.create')->withErrors('There Is No Company Name Or First Name');
+								return redirect()->route('batch.create')->withErrors('There Is No Company Name');
 							}
 						}
 						if(!empty($insert)){
@@ -193,11 +186,132 @@ class BatchesController extends Controller
 	public function download(Batch $batch, CompanyRepository $companyRepository)
 	{	
 		$data = $companyRepository->getTotalCompany($batch->id); //get('$batch->id')->toArray();
-		//return $data;
+		//Log::info($data);
 		return Excel::create('Report', function($excel) use ($data) {
 			$excel->sheet('companies', function($sheet) use ($data)
 			{
-				$sheet->fromArray($data);
+				//$sheet->fromArray($data);
+				$companies= [];
+				foreach ($data as $key => $value) {
+					if($value['parent_id'] != 0)
+					{
+						$company['Record Id']= $value['parent_id']."_".$value['com_id']."_".$value['contact_id'];
+					}else{
+						$company['Record Id']= $value['com_id']."_".$value['contact_id'];
+					}
+					$company['Batch Name']= $value['batch_name'];
+					$company['User'] 	= $value['ufname']." ".$value['ulname'];
+					$company['Company Name']= $value['updated_company_name'];
+					$company['Parent Company']= $value['parent_company'];
+					$company['Address Line1']= $value['address1'];
+					$company['Address Line2']= $value['address2'];
+					$company['City']= $value['city'];
+					$company['State']= $value['state'];
+					$company['Zipcode']=$value['zipcode'];
+					$company['Country']=$value['country_name'];
+					$company['InterNational Code']=$value['international_code'];
+					$company['SwitchBoard Number']=$value['switchboardnumber'];
+					$company['Branch Number']=$value['branchNumber'];
+					$company['Address Code']=$value['addresscode'];
+					$company['Website']=$value['website'];
+					$company['Company Email']=$value['company_email'];
+					$company['Products & Services']=$value['products_services'];
+					$company['Industry Classification']=$value['industry_classfication'];
+					$company['Employee Size']=$value['employee_size'];
+					$company['Annual Revenue']=$value['annual_revenue'];
+					$company['Number Of Beds']=$value['number_of_beds'];
+					$company['Foundation Year']=$value['foundation_year'];
+					$company['Company Remark']=$value['company_remark'];
+					$company['Additional Info1']=$value['com_info1'];
+					$company['Additional Info2']=$value['com_info2'];
+					$company['Additional Info3']=$value['com_info3'];
+					$company['Additional Info4']=$value['com_info4'];
+					$company['Additional Info5']=$value['com_info5'];
+					$company['Additional Info6']=$value['com_info6'];
+					$company['Additional Info7']=$value['com_info7'];
+					$company['Additional Info8']=$value['com_info8'];
+					$company['Company Created_at']	=	$value['company_created_at'];
+					$company['Company Updated_at']	=	$value['company_updated_at'];	
+				
+					if($value['salutation'] == '0')
+					{
+						$company['Salutation']= 'Mr';
+					}
+					if($value['salutation'] == '1')
+					{
+						$company['Salutation']= 'Mrs';
+					}
+					if($value['salutation'] == '2')
+					{
+						$company['Salutation']= 'Miss';
+					}
+					if($value['salutation'] == '3')
+					{
+						$company['Salutation']= 'Dr';
+					}
+					if($value['salutation'] == '4')
+					{
+						$company['Salutation']= 'Ms';
+					}
+					if($value['salutation'] == '5')
+					{
+						$company['Salutation']= 'Prof';
+					}
+					$company['First Name']=$value['first_name'];
+					$company['Middle Name']=$value['middle_name'];
+					$company['Last Name']=$value['last_name'];
+					$company['Job Title']=$value['job_title'];
+					$company['Specialization']=$value['specialization'];
+					$company['Staff Soure']=$value['staff_source'];
+					$company['Staff Email']=$value['staff_email'];
+					$company['Direct PhoneNo']=$value['direct_phoneno'];
+					$company['Email Source']=$value['email_source'];
+					$company['Qualification']=$value['qualification'];
+					
+					if($value['staff_disposition'] == '1')
+					{
+						$company['Staff Disposition']='Verified';
+					}
+					if($value['staff_disposition'] == '2' || $value['staff_disposition'] == '')
+					{
+						$company['Staff Disposition']='Not Verified';
+					}
+					if($value['staff_disposition'] == '3')
+					{
+						$company['Staff Disposition']='Acquired';
+					}
+					if($value['staff_disposition'] == '4')
+					{
+						$company['Staff Disposition']='Left and Gone Away';
+					}
+					if($value['staff_disposition'] == '5')
+					{
+						$company['Staff Disposition']='Retired';
+					}
+					
+					$company['Department Number']=$value['deparment_number'];
+					$company['Alternate Phone']=$value['alternate_phone'];
+					$company['Alternate Email']=$value['alternate_email'];
+					$company['Email Type']=$value['email_type'];
+					$company['Shift Timing']=$value['shift_timing'];
+					$company['Working Tenure']=$value['working_tenure'];
+					$company['Paternership']=$value['paternership'];
+					$company['Age']=$value['age'];
+					$company['Staff Remarks']=$value['staff_remarks'];
+					$company['Staff Additional Info1']=$value['info1'];
+					$company['Staff Additional Info2']=$value['info2'];
+					$company['Staff Additional Info3']=$value['info3'];
+					$company['Staff Additional Info4']=$value['info4'];
+					$company['Staff Additional Info5']=$value['info5'];
+					$company['Staff Additional Info6']=$value['info6'];
+					$company['Staff Additional Info7']=$value['info7'];
+					$company['Staff Additional Info8']=$value['info8'];
+					$company['Staff Created_at'] = $value['contacts_created_at'];
+					$company['Staff Updated_at'] = $value['contact_updated_at'];
+						
+					$companies[] = $company;
+				}
+				$sheet->fromArray($companies);
 			});
 		})->download('xlsx');
 	}

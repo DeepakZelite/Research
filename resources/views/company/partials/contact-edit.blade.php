@@ -98,7 +98,7 @@
 													value="{{ $editContact ? $contact->email_source : old('email_source') }}">
 											</div>
 											<div class="form-group col-lg-4">
-												<label for="Staff_Disposition">@lang('app.staff_disposition')</label>
+												<label for="Staff_Disposition">@lang('app.staff_disposition') <i style="color: red;">*</i></label>
 												{!!Form::select('staff_disposition', $disposition, $editContact ? $contact->staff_disposition : old('staff_disposition'), ['class'=>'form-control','id'=>'staff_disposition']) !!}
 											</div>
 										</div>
@@ -242,6 +242,16 @@ $('#first_name').focus();
 		}
 		else {
 		    $('#staff_source').css('border-color', 'green');
+		}
+
+		if($('#staff_disposition').val() == 0)
+		{
+			$('#staff_disposition').css('border-color', 'red');
+		    return false;
+		}
+		else
+		{
+			$('#staff_disposition').css('border-color', 'green');
 		}
 		
 		var re = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
