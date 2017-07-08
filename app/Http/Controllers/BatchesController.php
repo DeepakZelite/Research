@@ -186,11 +186,132 @@ class BatchesController extends Controller
 	public function download(Batch $batch, CompanyRepository $companyRepository)
 	{	
 		$data = $companyRepository->getTotalCompany($batch->id); //get('$batch->id')->toArray();
-		//return $data;
+		//Log::info($data);
 		return Excel::create('Report', function($excel) use ($data) {
 			$excel->sheet('companies', function($sheet) use ($data)
 			{
-				$sheet->fromArray($data);
+				//$sheet->fromArray($data);
+				$companies= [];
+				foreach ($data as $key => $value) {
+					if($value['parent_id'] != 0)
+					{
+						$company['Record Id']= $value['parent_id']."_".$value['com_id']."_".$value['contact_id'];
+					}else{
+						$company['Record Id']= $value['com_id']."_".$value['contact_id'];
+					}
+					$company['Batch Name']= $value['batch_name'];
+					$company['User'] 	= $value['ufname']." ".$value['ulname'];
+					$company['Company Name']= $value['updated_company_name'];
+					$company['Parent Company']= $value['parent_company'];
+					$company['Address Line1']= $value['address1'];
+					$company['Address Line2']= $value['address2'];
+					$company['City']= $value['city'];
+					$company['State']= $value['state'];
+					$company['Zipcode']=$value['zipcode'];
+					$company['Country']=$value['country_name'];
+					$company['InterNational Code']=$value['international_code'];
+					$company['SwitchBoard Number']=$value['switchboardnumber'];
+					$company['Branch Number']=$value['branchNumber'];
+					$company['Address Code']=$value['addresscode'];
+					$company['Website']=$value['website'];
+					$company['Company Email']=$value['company_email'];
+					$company['Products & Services']=$value['products_services'];
+					$company['Industry Classification']=$value['industry_classfication'];
+					$company['Employee Size']=$value['employee_size'];
+					$company['Annual Revenue']=$value['annual_revenue'];
+					$company['Number Of Beds']=$value['number_of_beds'];
+					$company['Foundation Year']=$value['foundation_year'];
+					$company['Company Remark']=$value['company_remark'];
+					$company['Additional Info1']=$value['com_info1'];
+					$company['Additional Info2']=$value['com_info2'];
+					$company['Additional Info3']=$value['com_info3'];
+					$company['Additional Info4']=$value['com_info4'];
+					$company['Additional Info5']=$value['com_info5'];
+					$company['Additional Info6']=$value['com_info6'];
+					$company['Additional Info7']=$value['com_info7'];
+					$company['Additional Info8']=$value['com_info8'];
+					$company['Company Created_at']	=	$value['company_created_at'];
+					$company['Company Updated_at']	=	$value['company_updated_at'];	
+				
+					if($value['salutation'] == '0')
+					{
+						$company['Salutation']= 'Mr';
+					}
+					if($value['salutation'] == '1')
+					{
+						$company['Salutation']= 'Mrs';
+					}
+					if($value['salutation'] == '2')
+					{
+						$company['Salutation']= 'Miss';
+					}
+					if($value['salutation'] == '3')
+					{
+						$company['Salutation']= 'Dr';
+					}
+					if($value['salutation'] == '4')
+					{
+						$company['Salutation']= 'Ms';
+					}
+					if($value['salutation'] == '5')
+					{
+						$company['Salutation']= 'Prof';
+					}
+					$company['First Name']=$value['first_name'];
+					$company['Middle Name']=$value['middle_name'];
+					$company['Last Name']=$value['last_name'];
+					$company['Job Title']=$value['job_title'];
+					$company['Specialization']=$value['specialization'];
+					$company['Staff Soure']=$value['staff_source'];
+					$company['Staff Email']=$value['staff_email'];
+					$company['Direct PhoneNo']=$value['direct_phoneno'];
+					$company['Email Source']=$value['email_source'];
+					$company['Qualification']=$value['qualification'];
+					
+					if($value['staff_disposition'] == '1')
+					{
+						$company['Staff Disposition']='Verified';
+					}
+					if($value['staff_disposition'] == '2' || $value['staff_disposition'] == '')
+					{
+						$company['Staff Disposition']='Not Verified';
+					}
+					if($value['staff_disposition'] == '3')
+					{
+						$company['Staff Disposition']='Acquired';
+					}
+					if($value['staff_disposition'] == '4')
+					{
+						$company['Staff Disposition']='Left and Gone Away';
+					}
+					if($value['staff_disposition'] == '5')
+					{
+						$company['Staff Disposition']='Retired';
+					}
+					
+					$company['Department Number']=$value['deparment_number'];
+					$company['Alternate Phone']=$value['alternate_phone'];
+					$company['Alternate Email']=$value['alternate_email'];
+					$company['Email Type']=$value['email_type'];
+					$company['Shift Timing']=$value['shift_timing'];
+					$company['Working Tenure']=$value['working_tenure'];
+					$company['Paternership']=$value['paternership'];
+					$company['Age']=$value['age'];
+					$company['Staff Remarks']=$value['staff_remarks'];
+					$company['Staff Additional Info1']=$value['info1'];
+					$company['Staff Additional Info2']=$value['info2'];
+					$company['Staff Additional Info3']=$value['info3'];
+					$company['Staff Additional Info4']=$value['info4'];
+					$company['Staff Additional Info5']=$value['info5'];
+					$company['Staff Additional Info6']=$value['info6'];
+					$company['Staff Additional Info7']=$value['info7'];
+					$company['Staff Additional Info8']=$value['info8'];
+					$company['Staff Created_at'] = $value['contacts_created_at'];
+					$company['Staff Updated_at'] = $value['contact_updated_at'];
+						
+					$companies[] = $company;
+				}
+				$sheet->fromArray($companies);
 			});
 		})->download('xlsx');
 	}

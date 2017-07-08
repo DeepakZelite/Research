@@ -41,6 +41,12 @@ interface ContactRepository
      * @return null|User
      */
     public function findByName($name);
+    
+    /**
+     * find by company
+     * @param unknown $company_id
+     */
+    public function findByCompany($company_id);
 
     /**
      * Create new user.

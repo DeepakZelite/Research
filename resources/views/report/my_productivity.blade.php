@@ -84,6 +84,12 @@
 @stop
 @section('styles')
     {!! HTML::style('assets/css/bootstrap-datetimepicker.min.css') !!}
+    <style>
+  		div.dt-buttons {
+   			float: right;
+   			margin-left:20px;
+		}
+	</style>
 @stop
 @section('scripts')
 <script>
@@ -112,6 +118,15 @@ $(document).ready(function() {
 					return true;
 				}	
 	});
+
+	var table = $('#example').dataTable({
+	    "bPaginate": false,
+	    "bFilter": false,
+	    "bInfo": false,
+	    "bAutoWidth": false,
+	    	dom: 'Bfrtip',
+	        buttons: [{ extend: 'excelHtml5',text: '<i class="fa fa-file-excel-o fa-2x"></i>',titleAttr: 'Excel'}],		
+		});
 });
 </script>
 {!! HTML::script('assets/js/moment.min.js') !!}

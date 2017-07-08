@@ -33,6 +33,15 @@ class EloquentContact implements ContactRepository
     }
 
     /**
+     * find by company
+     * @param unknown $company_id
+     * @return unknown
+     */
+    public function findByCompany($company_id)
+    {
+    	return Contact::where('company_id', $company_id)->get();
+    }
+    /**
      * {@inheritdoc}
      */
     public function create(array $data)

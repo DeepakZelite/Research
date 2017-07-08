@@ -21,7 +21,16 @@
 									class="btn btn-primary btn-circle"
 									title="@lang('app.edit_contact')" data-placement="top"> <i
 										class="glyphicon glyphicon-edit"></i>
-								</a></td>
+								</a>
+								<a href="{{ route('dataCapture.subsidiaryCompany', $child->id) }}" class="btn btn-danger btn-circle" title="@lang('app.delete_subsidiary')"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    data-method="DELETE"
+                                    data-confirm-title="@lang('app.please_confirm')"
+                                    data-confirm-text="@lang('app.are_you_sure_delete_subsidiary')"
+                                    data-confirm-delete="@lang('app.yes')">
+                                <i class="glyphicon glyphicon-trash"></i></a>
+								</td>
 							</tr>
 							@endforeach @else
 							<tr>

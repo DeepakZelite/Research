@@ -46,6 +46,7 @@ $(document).ready(function() {
 	    "bPaginate": false,
 	    "bFilter": false,
 	    "bInfo": false,
+	    "sScrollX": false,
 	    dom: 'Bfrtip',
         buttons: [{ extend: 'excelHtml5',
             		text: '<i class="fa fa-file-excel-o fa-2x"></i>',titleAttr: 'Excel'}],		
