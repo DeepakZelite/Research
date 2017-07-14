@@ -245,7 +245,7 @@ class EloquentCompany implements CompanyRepository
     	if ($batchId != 0) {
     		$query->where(function ($q) use($batchId) {
     			$q->where('companies.batch_id', "=", "{$batchId}");
-    
+    			$q->where('companies.status',"=","Submitted");
     		});
     	} else {
     		return 0;

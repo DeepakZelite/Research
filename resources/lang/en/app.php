@@ -446,6 +446,7 @@ return [
 		'staff_disposition'=>'Staff Disposition',
 		'add_child_company_details_big'=>'Add subsidiary Details',
 		'updated_company_name'=>'New Company Name',
+		'no_data_found'=>'No Data Found',
 		
 		// Companies
 		'companys' => 'Company',

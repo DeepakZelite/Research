@@ -88,7 +88,7 @@
                                     data-confirm-delete="@lang('app.yes')">
                                 <i class="glyphicon glyphicon-trash"></i></a>
                           @endif
-                          @if($batch->status=="Complete")
+                          @if($batch->status!="Assigned")
                           		<a href="{{ route('batch.download',$batch->id) }}" class="btn btn-primary btn-circle"
                                		title="@lang('app.download')" data-toggle="tooltip" data-placement="top">
                                 	<i class="glyphicon glyphicon-download"></i>

@@ -187,6 +187,8 @@ class BatchesController extends Controller
 	{	
 		$data = $companyRepository->getTotalCompany($batch->id); //get('$batch->id')->toArray();
 		//Log::info($data);
+		if(count($data) != 0)
+		{
 		return Excel::create('Report', function($excel) use ($data) {
 			$excel->sheet('companies', function($sheet) use ($data)
 			{
@@ -202,6 +204,7 @@ class BatchesController extends Controller
 					$company['Batch Name']= $value['batch_name'];
 					$company['User'] 	= $value['ufname']." ".$value['ulname'];
 					$company['Company Name']= $value['updated_company_name'];
+					$company['Status']= $value['status'];
 					$company['Parent Company']= $value['parent_company'];
 					$company['Address Line1']= $value['address1'];
 					$company['Address Line2']= $value['address2'];
@@ -314,6 +317,10 @@ class BatchesController extends Controller
 				$sheet->fromArray($companies);
 			});
 		})->download('xlsx');
+		}else{
+			return redirect()->route('batch.list')
+			->withErrors(trans('app.no_data_found'));
+		}
 	}
 	
 	/**
