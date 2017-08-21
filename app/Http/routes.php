@@ -681,8 +681,8 @@ Route::post('report/getData',[
 		'uses'=>'ReportsController@getData'
 ]);
 
-Route::get('report/productivity',[
-		'as'=>'report.productivity',
+Route::get('productivity',[
+		'as'=>'productivity',
 		'uses'=>'ReportsController@productivityList'
 ]);
 
@@ -719,4 +719,34 @@ Route::delete('dataCapture/{contact}/delete', [
 Route::delete('dataCapture/{company}/subsidiaryCompany', [
 		'as' => 'dataCapture.subsidiaryCompany',
 		'uses' => 'DataCaptureController@subsidiaryCompany'
+]);
+
+Route::get('quality/create',[
+		'as' => 'quality.create',
+		'uses' => 'QualityController@create'
+]);
+
+Route::post('quality/store',[
+		'as' => 'quality.store',
+		'uses' => 'QualityController@store'
+]);
+
+Route::get('quality/list',[
+		'as' => 'quality.list',
+		'uses' => 'QualityController@list'
+]);
+
+Route::post('quality/download',[
+		'as' => 'quality.download',
+		'uses'=> 'QualityController@download'
+]);
+
+Route::get('reallocation',[
+		'as' => 'reallocation',
+		'uses' => 'ReallocationController@reallocation',
+]);
+
+Route::post('batches/reassign',[
+		'as' => 'batches.reassign',
+		'uses' => 'ReallocationController@reassign'
 ]);

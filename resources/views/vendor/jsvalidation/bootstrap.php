@@ -15,8 +15,13 @@
                 }
             },
             highlight: function(element) {
-                $(element).closest('.form-group').addClass('has-error'); // add the Bootstrap error class to the control group
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-error'); // add the Bootstrap error class to the control group
             },
+
+            <?php if (isset($validator['ignore']) && is_string($validator['ignore'])): ?>
+
+            ignore: "<?php echo $validator['ignore']; ?>",
+            <?php endif; ?>
 
             /*
              // Uncomment this to mark as validated non required fields

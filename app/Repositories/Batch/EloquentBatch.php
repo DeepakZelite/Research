@@ -5,6 +5,7 @@ namespace Vanguard\Repositories\Batch;
 use Vanguard\Batch;
 use Carbon\Carbon;
 use Kyslik\ColumnSortable\Sortable;
+use Illuminate\Support\Facades\Log;
 
 class EloquentBatch implements BatchRepository
 {
@@ -164,6 +165,7 @@ class EloquentBatch implements BatchRepository
     	->leftjoin('vendors', 'vendors.id', '=', 'batches.vendor_id')
     	->select('vendors.vendor_code','projects.code','projects.name as project_name','projects.No_Companies as companies','batches.id','batches.name','batches.status');
     	$result= $query->get();
+    	Log::debug("getDataForProjectReport Sql:". $query->toSql());
     	return $result;
     }
     
@@ -196,5 +198,14 @@ class EloquentBatch implements BatchRepository
     	}
     	$result = $query->sum('company_count');
     	return $result;
+    }
+    
+    public function getProjectBatches($project_id)
+    {
+//     	$query = Batch::query();
+//     	$query->where('project_id',"=",'{$project_id}');
+//     	$result = $query->where('status',"=",'Complete')->lists('name', 'id')->toArray();
+//     	return $result;
+    	return Batch::where('project_id', $project_id)->lists('name', 'id')->toArray();
     }
 }

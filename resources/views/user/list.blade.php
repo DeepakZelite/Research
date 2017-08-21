@@ -104,5 +104,12 @@
         $("#vendor_code").change(function(){
             $("#users-form").submit();
         });
+
+        $(document).ready(function (){
+        	$("#vendor_code").select2({
+            	placeholder: 'All Vendors',
+            	allowClear: true
+            });
+        });
     </script>
 @stop

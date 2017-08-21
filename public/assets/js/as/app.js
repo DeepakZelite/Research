@@ -81,4 +81,11 @@ as.init = function () {
     });
 };
 
+as.sidebartoggle = function(){
+	$("#sidebar-toggle").css("visibility","hidden");
+	$(".caret").css("visibility","hidden");
+	$(".dropdown-toggle").prop('disabled',true);
+	return false;
+}
+
 $(document).ready(as.init);

@@ -155,6 +155,7 @@ class DataCaptureController extends Controller
 		} else {
 			// All the company records are submitted in this sub batch.
 			// Set the status of sub-batch to Submitted and redirect to sub-batch list
+			Log::debug("Sub-Batch Assigned ".sizeof($companies));
 			$subBatch=SubBatch::find($subBatchId);
 			$subBatch->status="Submitted";
 			$subBatch->save();
@@ -181,6 +182,7 @@ class DataCaptureController extends Controller
 		/* set the status of Completed for the batch if all company of that batches are submitted  */
 		if($companyRepository->getTotalCompanyCount($comp->batch_id)==$companyRepository->getSubmittedCompanyCount($comp->batch_id))
 		{
+			Log::debug("TotalCompanyCount".$companyRepository->getTotalCompanyCount($comp->batch_id)."SubmittedCompanyCount".$companyRepository->getSubmittedCompanyCount($comp->batch_id));
 			$batch=batch::find($comp->batch_id);
 			$batch->status=SubBatchStatus::COMPLETE;
 			$batch->update();
@@ -325,24 +327,23 @@ class DataCaptureController extends Controller
 	public function getduplicateRecord(Request $request,ContactRepository $contactRepository,Contact $contact)
 	{
 		$inputs = Input::all();
-		$first	=$inputs['firstname'];
-		$last 	=$inputs['lastname'];
-		$jobtitle=$inputs['jobtitle'];
-		$email	=$inputs['email'];
-		$company_name=$inputs['company_name'];
+		$first	= trim($inputs['firstname']);
+		$last 	= trim($inputs['lastname']);
+		$jobtitle= trim($inputs['jobtitle']);
+		$email	= $inputs['email'];
+		$company_name= $inputs['company_name'];
 		$website= $inputs['website'];
 		$address= $inputs['address'];
 		$city	= $inputs['city'];
 		$state	= $inputs['state'];
 		$zipcode= $inputs['zipcode'];
-		$specility=$inputs['specility'];
-		$phone	=$inputs['phone'];
-		$prm 	=$inputs['prm'];
-		//Log::info("Contact:::::". $first." ".$last." ".$jobtitle." ".$company_name." ".$website." ".$address." ".$city." ".$state." ".$zipcode." ".$specility." ".$phone);
+		$specility= $inputs['specility'];
+		$phone	= $inputs['phone'];
+		$prm 	= $inputs['prm'];
 		$perPage=5;
 		$duplicate = $contactRepository->duplicate($first,$last,$jobtitle,$email,$company_name,$website,$address,$city,$state,$zipcode,$specility,$phone,$prm);
 		//$duplicate = $this->companyRepository->paginate($perPage,null,null,$first);
-		//Log::info("Contact:::::". $duplicate);
+		Log::info("Contact:::::". $duplicate);
 		return view('company.partials.duplicate-list', compact('duplicate'));
 	}
 	
@@ -373,6 +374,7 @@ class DataCaptureController extends Controller
 		}
 		return redirect()->route('dataCapture.list');
 	}
+	
 	public function starttimecapture($subBatchId)
 	{
 		$report = new Report;

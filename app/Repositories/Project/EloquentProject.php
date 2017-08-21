@@ -94,7 +94,7 @@ class EloquentProject implements ProjectRepository
      */
     public function lists($column = 'code', $key = 'id')
     {
-    	return Project::lists($column, $key);
+    	return Project::lists($column, $key)->toArray();
     }
 
     /**
