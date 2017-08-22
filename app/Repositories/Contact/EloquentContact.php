@@ -197,6 +197,7 @@ class EloquentContact implements ContactRepository
     	->leftjoin('companies', 'companies.id', '=', 'contacts.company_id')
     	->select('companies.*','contacts.*');
     	$result= $query->get();
+    	Log::debug("duplicate Sql:". $query->toSql());
     	return $result;
     }
 
@@ -215,6 +216,7 @@ class EloquentContact implements ContactRepository
     		return 0;
     	}
     	$result = $query->count();
+    	Log::debug("getTotalContactCount Sql:". $query->toSql());
     	return $result;
     }
     
@@ -273,6 +275,7 @@ class EloquentContact implements ContactRepository
     			$q->where('contacts.updated_at', "<=", "{$end}");
     	});
     	$result = $query->count();
+    	Log::debug("getProcessRecordFromDate Sql:". $query->toSql());
     	return $result;
     }
     
@@ -301,6 +304,8 @@ class EloquentContact implements ContactRepository
     	$result=$query
     			->leftjoin('users', 'users.id', '=', 'contacts.user_id')
     			->count();
+    	Log::debug("getProcessRecordCount Sql:". $query->toSql());
+    	Log::debug("getProcessRecordCount Count:".$result);
     	return $result;
 
     }

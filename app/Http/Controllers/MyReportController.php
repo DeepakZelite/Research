@@ -40,6 +40,7 @@ class MyReportController extends Controller
 			$company_count=$companyRepository->getCompaniesForProductivityReport($data->vendor_id,$userId);
 			$SubsidiaryCount =$companyRepository->getSubsidiaryCompaniesForProductivityReport($data->vendor_id,$userId);
 			$staff_process_count = $contactRepository->getProcessRecordCount($data->vendor_id,$userId);
+			Log::debug("Total Company Count". $company_count ."Total subsidiary count:". $SubsidiaryCount."Total Staff Process Count".$staff_process_count);
 			$data->subsidiary_count = $SubsidiaryCount;
 			$data->comp_count=$company_count;
 			$data->no_rows = $staff_process_count;
@@ -78,6 +79,7 @@ class MyReportController extends Controller
 			$company_count=$companyRepository->getCompaniesForProductivityReport($data->vendor_id,$userId,$fromDate,$toDate);
 			$SubsidiaryCount =$companyRepository->getSubsidiaryCompaniesForProductivityReport($data->vendor_id,$userId,$fromDate,$toDate);
 			$staff_process_count = $contactRepository->getProcessRecordCount($data->vendor_id,$userId,$fromDate,$toDate);
+			Log::debug("Total Company Count". $company_count ."Total subsidiary count:". $SubsidiaryCount."Total Staff Process Count".$staff_process_count);
 			$data->comp_count=$company_count;
 			$data->subsidiary_count = $SubsidiaryCount;
 			$data->no_rows = $staff_process_count;

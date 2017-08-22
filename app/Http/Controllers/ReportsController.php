@@ -36,7 +36,6 @@ class ReportsController extends Controller
 		$this->middleware('auth');
 		$this->middleware('session.database', ['only' => ['sessions', 'invalidateSession']]);
 		$this->middleware('permission:reports.manage');
-		//$this->middleware('permission:reports.user');
 		$this->theUser = Auth::user();
 	}
 	
@@ -132,18 +131,18 @@ class ReportsController extends Controller
 	public function productivityList(VendorRepository $vendorRepository,UserRepository $userRepository,CompanyRepository $companyRepository,ContactRepository $contactRepository,SubBatchRepository $subBatchRepository)
 	{
 		$vendors  = $vendorRepository->lists();
-		$vendors -> prepend('select vendor','0');
+ 		$vendors -> prepend('','');
 		if ($this->theUser->vendor_id == "0")
 		{
 			$show=true;
 			$users = $userRepository->getVendorUsers(Input::get('vendor_code'));
-			$users -> prepend('select user','0');
+			$users -> prepend('','');
 		}
 		else 
 		{ 
 			$show=false;
 			$users = $userRepository->getVendorUsers($this->theUser->vendor_id); 
-			$users -> prepend('select user','0');
+			$users -> prepend('','');
 		}
 		return view('report.productivity-report', compact('show','users', 'vendors'));
 	}
@@ -189,6 +188,7 @@ class ReportsController extends Controller
 				$SubsidiaryCount =$companyRepository->getSubsidiaryCompaniesForProductivityReport($data->vendor_id,$data->id,$fromDate,$toDate);
 				$staff_process_count = $contactRepository->getProcessRecordCount($data->vendor_id,$data->id,$fromDate,$toDate);
 			}
+			Log::debug("Total Company Count". $company_count ."  Total subsidiary count:". $SubsidiaryCount."  Total Staff Process Count".$staff_process_count);
 			$data->comp_count=$company_count;
 			$data->subsidiary_count = $SubsidiaryCount;
 			$data->no_rows = $staff_process_count;

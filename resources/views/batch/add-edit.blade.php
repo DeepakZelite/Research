@@ -75,7 +75,12 @@
     					</span>
   					</div>
 				</div>
+				<div class="form-group" >
+                    <label for="No_Companies">@lang('app.number_of_companies')<i style="color:red;">*</i></label>
+                    <input type="text" class="form-control" id="company_count" maxlength="5" onkeypress="return isNumberKey(event)"
+                           name="company_count" placeholder="@lang('Number of Companies')" value="{{ $edit ? $project->company_count : old('company_count') }}">
                 </div>
+             </div>
             </div>
         </div>
     </div>
@@ -129,6 +134,14 @@ $(function () {
 			$("#name").val(data);
        });
    });
+
+    function isNumberKey(evt)
+    {
+       var charCode = (evt.which) ? evt.which : event.keyCode
+       if (charCode > 31 && (charCode < 48 || charCode > 57))
+          return false;
+       return true;
+    }
 </script>
     @if ($edit)
         {!! JsValidator::formRequest('Vanguard\Http\Requests\Batch\UpdateBatchRequest', '#batch-form') !!}

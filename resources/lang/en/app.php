@@ -446,6 +446,7 @@ return [
 		'staff_disposition'=>'Staff Disposition',
 		'add_child_company_details_big'=>'Add subsidiary Details',
 		'updated_company_name'=>'New Company Name',
+		'no_data_found'=>'No Data Found',
 		
 		// Companies
 		'companys' => 'Company',
@@ -594,6 +595,31 @@ return [
 		'my_productivity'=>'My Productivity',
 		'from_date' => 'Date From',
 		'to_date' => 'Date To',
+		
+		//QA
+		'quality-analysis' => 'Quality Analysis',
+		'quality' => 'Quality',
+		'quality-upload'=>'Quality Upload',
+		'upload_QC_data'=>'Upload QC Data',
+		'QC_upload' => 'QC Upload',
+		'add_qc_data' => 'Add QC Data',
+		'filter_by' => 'Filter By',
+		'project_Name' => 'Project Name',
+		'download_final_data' => 'Download Final Data',
+		'download' => 'Download',
+		'quality_data_uploaded_successfully'=>'Quality Data Uploaded Successfully',
+		'qc_data' => 'QC Data',
+		'quality_assurance'=>'Quality Assurance',
+		'upload_qc_data' => 'Upload QC Data',
+		'select_file'=>'Select File',
+		'select_a_excel_file'=>'Select a Excel File',
+		'download' => 'Download',
+		'select_filter_option'=> 'Select Filter Option',
+		'no_record_found'=>'No Record Found',
+		'reallocation' => 'Re-allocation',
+		'all_batches' => 'All Batches',
+		'no_company_is_selected' => 'No Company is Selected',
+		'company_reallocation_successfully_done' => 'Company Reallocation Successfully Done',
 		
 		'months' => [
         'January' => 'January',

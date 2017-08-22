@@ -60,7 +60,7 @@ $("#vendor_id").attr('disabled','disabled');
 $("#role").change(function() 
 {
 		var roleid= $( this ).val();
-		if(roleid=='1')
+		if(roleid == '1' || roleid == '4' || roleid == '5')
 		{
 			//alert($("#vendor_id").val());
 			//$("#vendor_id option:eq(1)").attr('selected','selected');
@@ -74,7 +74,7 @@ $("#role").change(function()
 $(document).ready(function() {
 $("#btnSubmit").click(function(event)
 {
-   if($("#vendor_id").val()==0 && $("#role").val() == 1)
+   if($("#vendor_id").val()==0 && $("#role").val() == 1 || $("#role").val() == 4 || $("#role").val() == 5)
    {
 	return true;
    }

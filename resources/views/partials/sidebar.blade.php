@@ -16,6 +16,7 @@
                 </a>
             </li>
             @endif
+
             @permission('users.manage')
                 <li class="{{ Request::is('user*') || Request::is('vendor*') ? 'active open' : ''  }}">
                     <a href="#">
@@ -38,76 +39,8 @@
                     </ul>
                 </li>
             @endpermission
-			<!-- 
-            @permission('users.activity')
-                <li class="{{ Request::is('activity*') ? 'active open' : ''  }}">
-                    <a href="{{ route('activity.index') }}" class="{{ Request::is('activity*') ? 'active' : ''  }}">
-                        <i class="fa fa-list-alt fa-fw"></i> @lang('app.activity_log')
-                    </a>
-                </li>
-            @endpermission
- 			-->
-       <!-- @permission(['roles.manage', 'permissions.manage'])
-                 <li class="{{ Request::is('role*') || Request::is('permission*') ? 'active open' : ''  }}">
-                     <a href="#">
-                         <i class="fa fa-user fa-fw"></i>
-                        @lang('app.roles_and_permissions')
-                         <span class="fa arrow"></span>
-                     </a>
-                     <ul class="nav nav-second-level collapse">
-                         @permission('roles.manage')
-                             <li>
-                                <a href="{{ route('role.index') }}" class="{{ Request::is('role*') ? 'active' : ''  }}">
-                                     @lang('app.roles')
-                                 </a>
-                             </li>
-                         @endpermission
-                           @permission('permissions.manage') 
-                              <li> 
-                                  <a href="{{ route('permission.index') }}" 
-                                     class="{{ Request::is('permission*') ? 'active' : ''  }}">@lang('app.permissions')</a> 
-                              </li> 
-                          @endpermission 
-                     </ul>
-                 </li>
-             @endpermission   -->
-			<!-- 
-            @permission(['settings.general', 'settings.auth', 'settings.notifications'])
-            <li class="{{ Request::is('settings*') ? 'active open' : ''  }}">
-                <a href="#">
-                    <i class="fa fa-gear fa-fw"></i> @lang('app.settings')
-                    <span class="fa arrow"></span>
-                </a>
-                <ul class="nav nav-second-level collapse">
-                    @permission('settings.general')
-                        <li>
-                            <a href="{{ route('settings.general') }}"
-                               class="{{ Request::is('settings') ? 'active' : ''  }}">
-                                @lang('app.general')
-                            </a>
-                        </li>
-                    @endpermission
-                    @permission('settings.auth')
-                        <li>
-                            <a href="{{ route('settings.auth') }}"
-                               class="{{ Request::is('settings/auth*') ? 'active' : ''  }}">
-                                @lang('app.auth_and_registration')
-                            </a>
-                        </li>
-                    @endpermission
-                    @permission('settings.notifications')
-                        <li>
-                            <a href="{{ route('settings.notifications') }}"
-                               class="{{ Request::is('settings/notifications*') ? 'active' : ''  }}">
-                                @lang('app.notifications')
-                            </a>
-                        </li>
-                    @endpermission
-                </ul>
-            </li>
-            @endpermission
-             -->
-             
+
+
             @permission('projects.manage')
                 <li class="{{ Request::is('project*') ? 'active open' : ''  }}">
                     <a href="{{ route('project.list') }}" class="{{ Request::is('project*') ? 'active' : ''  }}">
@@ -123,7 +56,7 @@
                     </a>
                 </li>
             @endpermission
-           
+
             @permission('companys.manage')
                 <li class="{{ Request::is('dataCapture*') ? 'active open' : ''  }}">
                     <a href="{{ route('dataCapture.list') }}" class="{{ Request::is('dataCapture*') ? 'active' : ''  }}">
@@ -131,7 +64,7 @@
                     </a>
                 </li>
             @endpermission
-            
+
             @permission('batch.allocation')
                 <li class="{{ Request::is('subBatch*') ? 'active open' : ''  }}">
                     <a href="{{ route('subBatch.list') }}" class="{{ Request::is('subBatch*') ? 'active' : ''  }}">
@@ -139,7 +72,7 @@
                     </a><!-- fa-list-ul fa-1x -->
                 </li>
             @endpermission
-            
+
             @permission('reports.manage')
                 <li class="{{ Request::is('productivity*') || Request::is('report*') ? 'active open' : ''  }}">
                     <a href="#">
@@ -154,21 +87,36 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('report.productivity')}}" class="{{ Request::is('productivity*') ? 'active' : ''  }}">
+                                <a href="{{ route('productivity')}}" class="{{ Request::is('productivity*') ? 'active' : ''  }}">
                                     @lang('app.productivity_report')
                                 </a>
                             </li>
                     </ul>
                 </li>
             @endpermission
-            
+
             @permission('reports.user')
-                <li>
-                  <li class="{{ Request::is('myproductivityreport*') ? 'active open' : ''  }}">
-                       <a href="{{ route('report.myProductivity') }}" class="{{ Request::is('myproductivityreport*') ? 'active' : ''  }}">
+                  <li class="{{ Request::is('report*') ? 'active open' : ''  }}">
+                       <a href="{{ route('report.myProductivity') }}" class="{{ Request::is('report*') ? 'active' : ''  }}">
                            <i class="fa fa-flag-checkered fa-fw"></i>@lang('app.report')
                        </a>
                   </li>
+            @endpermission
+
+            @permission('quality.manage')
+                <li class="{{ Request::is('quality*') ? 'active open' : ''  }}">
+                    <a href="{{ route('quality.list') }}" class="{{ Request::is('quality*') ? 'active' : ''  }}">
+                        <i class="fa-list-ul fa-1x"></i> @lang('app.qc_data')
+                     </a>
+                </li>
+            @endpermission
+            
+            @permission('batch.reallocation')
+            	<li class="{{ Request::is('reallocation*') ? 'active open' : '' }}">
+                	<a href="{{ route('reallocation') }}" class="{{ Request::is('reallocation*') ? 'active' : '' }}">
+                		<i class="fa fa-refresh fa-1x"></i> @lang('app.reallocation')
+                	</a>
+                </li>
             @endpermission
         </ul>
     </div>

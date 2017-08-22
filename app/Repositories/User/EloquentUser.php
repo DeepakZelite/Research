@@ -11,6 +11,7 @@ use DB;
 use Illuminate\Database\SQLiteConnection;
 use Laravel\Socialite\Contracts\User as SocialUser;
 use Kyslik\ColumnSortable\Sortable;
+use Illuminate\Support\Facades\Log;
 
 class EloquentUser implements UserRepository
 {
@@ -304,6 +305,10 @@ class EloquentUser implements UserRepository
      */
     public function getVendorUsers($vendorId)
     {
+    	if($vendorId == '')
+    	{
+    		$vendorId = -1;
+    	}
     	return User::where('vendor_id', $vendorId)->lists('username', 'id');
     }
     

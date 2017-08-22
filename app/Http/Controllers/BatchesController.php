@@ -78,8 +78,7 @@ class BatchesController extends Controller
 	{
 		$type = array("Unnamed Task","Named Tasked");
 		$projects = $projectRepository->lists();
-		$projects = $projectRepository->lists();
-		$projects->prepend('Select project', '0');
+		$projects = [''=>trans('app.all_project')] + $projectRepository->lists();
 		$vendors = $vendorRepository->lists();
 		$vendors->prepend('select vendors','0');
 		$edit = false;
@@ -98,19 +97,24 @@ class BatchesController extends Controller
 			$path = $request->file('attachement')->getRealPath();
 			$data1 = Excel::load($path, function($reader) {})->get();
 		$count = $data1->count();
-		$data = $request->all()+ ['status' => SubBatchStatus::ASSIGNED]+['company_count'=>$count];
-		$companies=$projectRepository->getProjectCompanyCount($request->project_id);
-		$company_count = $companies -> No_Companies;
+		$data = $request->all()+ ['status' => SubBatchStatus::ASSIGNED];
+		$company_count = $request->company_count;
+// 		$companies=$projectRepository->getProjectCompanyCount($request->project_id);
+// 		$company_count = $companies -> No_Companies;
 		$batches = $batchRepository->getCompanyCountBasedOnProject($request->project_id);
+		$project = $projectRepository->find($request->project_id);
+		$project->No_Companies = $batches + $company_count;
+		$project->save();
 		if($data1->count())
 		{
-			$count = $batches + $data1->count();
-			if($count <= $company_count)
+			//$count = $batches + $data1->count();
+			if($count == $company_count)
 			{
 				$batch = $this->batches->create($data);
 				if($request->type_id == 1)
 				{
-					Log::info("Named Task");
+					Log::debug("Named Task");
+					Log::debug($data1);
 					$id=0;
 					for($i = 0; $i < $count; $i++)
 					{
@@ -127,7 +131,7 @@ class BatchesController extends Controller
 							else
 							{
 								$id = DB::table('companies')->insertGetId(['batch_id'=>$batch->id,'status' => 'UnAssigned','company_instructions' => $data1[$i]->company_instructions, 'parent_company' => $data1[$i]->parent_company, 'company_name' => $data1[$i]->company_name,'address1' => $data1[$i]->address1, 'address2' => $data1[$i]->address2,'city' => $data1[$i]->city, 'state' => $data1[$i]->state,'zipcode' => $data1[$i]->zipcode, 'country' => $data1[$i]->country,'isd_code' => $data1[$i]->international_code, 'switchboardnumber' => $data1[$i]->switchboardnumber,'branchNumber' => $data1[$i]->branch_number, 'addresscode' => $data1[$i]->addresscode,'website' => $data1[$i]->website, 'company_email' => $data1[$i]->company_email,
-										'products_services' => $data1[$i]->products_services, 'industry_classfication' => $data1[$i]->industry_classfication,'employee_size' => $data1[$i]->employee_size, 'physician_size' => $data1[$i]->physician_size,'annual_revenue' => $data1[$i]->annual_revenue, 'number_of_beds' => $data1[$i]->number_of_beds,'foundation_year' => $data1[$i]->foundation_year, 'company_remark' => $data1[$i]->company_remark,'additional_info1' => $data1[$i]->additional_info1, 'additional_info2' => $data1[$i]->additional_info2,'additional_info3' => $data1[$i]->additional_info3, 'additional_info4' => $data1[$i]->additional_info4,'additional_info5' => $data1[$i]->additional_info5, 'additional_info6' => $data1[$i]->additional_info6,'additional_info7' => $data1[$i]->additional_info7, 'additional_info8' => $data1[$i]->additional_info8]);
+										'products_services' => $data1[$i]->products_services, 'industry_classfication' => $data1[$i]->industry_classfication,'employee_size' => $data1[$i]->employee_size, 'physician_size' => $data1[$i]->physician_size,'annual_revenue' => $data1[$i]->annual_revenue, 'number_of_beds' => $data1[$i]->number_of_beds,'foundation_year' => $data1[$i]->foundation_year, 'company_remark' => $data1[$i]->company_remark,'prm'=> $data1[$i]->prm,'additional_info1' => $data1[$i]->additional_info1, 'additional_info2' => $data1[$i]->additional_info2,'additional_info3' => $data1[$i]->additional_info3, 'additional_info4' => $data1[$i]->additional_info4,'additional_info5' => $data1[$i]->additional_info5, 'additional_info6' => $data1[$i]->additional_info6,'additional_info7' => $data1[$i]->additional_info7, 'additional_info8' => $data1[$i]->additional_info8]);
 
 								DB::table('contacts')->insert(['company_id'=>$id,'first_name'=>$data1[$i]->first_name ,'last_name'=>$data1[$i]->last_name,'middle_name'=>$data1[$i]->middle_name,'job_title'=>$data1[$i]->job_title,'specialization'=>$data1[$i]->specialization,'staff_source'=>$data1[$i]->staff_source,'staff_email'=>$data1[$i]->staff_email,'direct_phoneno'=>$data1[$i]->direct_phoneno,'email_source'=>$data1[$i]->email_source,'qualification'=>$data1[$i]->qualification,'staff_disposition'=>$data1[$i]->staff_disposition,'deparment_number'=>$data1[$i]->deparment_number,'alternate_phone'=>$data1[$i]->alternate_phone,'alternate_email'=>$data1[$i]->alternate_email,'email_type'=>$data1[$i]->email_type,'shift_timing'=>$data1[$i]->shift_timing,'working_tenure'=>$data1[$i]->working_tenure,'paternership'=>$data1[$i]->paternership,'age'=>$data1[$i]->age,'staff_remarks'=>$data1[$i]->staff_remarks,'additional_info1'=>$data1[$i]->info1,'additional_info2' => $data1[$i]->info2,'additional_info3' => $data1[$i]->info3, 'additional_info4' => $data1[$i]->info4,'additional_info5' => $data1[$i]->info5, 'additional_info6' => $data1[$i]->info6,'additional_info7' => $data1[$i]->info7, 'additional_info8' => $data1[$i]->info8, 'type' => 'named' ]);
 							}
@@ -140,7 +144,7 @@ class BatchesController extends Controller
 						}else
 						{
 							$id = DB::table('companies')->insertGetId(['batch_id'=>$batch->id,'status' => 'UnAssigned','company_instructions' => $data1[$i]->company_instructions, 'parent_company' => $data1[$i]->parent_company, 'company_name' => $data1[$i]->company_name,'address1' => $data1[$i]->address1, 'address2' => $data1[$i]->address2,'city' => $data1[$i]->city, 'state' => $data1[$i]->state,'zipcode' => $data1[$i]->zipcode, 'country' => $data1[$i]->country,'isd_code' => $data1[$i]->international_code, 'switchboardnumber' => $data1[$i]->switchboardnumber,'branchNumber' => $data1[$i]->branch_number, 'addresscode' => $data1[$i]->addresscode,'website' => $data1[$i]->website, 'company_email' => $data1[$i]->company_email,
-									'products_services' => $data1[$i]->products_services, 'industry_classfication' => $data1[$i]->industry_classfication,'employee_size' => $data1[$i]->employee_size, 'physician_size' => $data1[$i]->physician_size,'annual_revenue' => $data1[$i]->annual_revenue, 'number_of_beds' => $data1[$i]->number_of_beds,'foundation_year' => $data1[$i]->foundation_year, 'company_remark' => $data1[$i]->company_remark,'additional_info1' => $data1[$i]->additional_info1, 'additional_info2' => $data1[$i]->additional_info2,'additional_info3' => $data1[$i]->additional_info3, 'additional_info4' => $data1[$i]->additional_info4,'additional_info5' => $data1[$i]->additional_info5, 'additional_info6' => $data1[$i]->additional_info6,'additional_info7' => $data1[$i]->additional_info7, 'additional_info8' => $data1[$i]->additional_info8]);
+									'products_services' => $data1[$i]->products_services, 'industry_classfication' => $data1[$i]->industry_classfication,'employee_size' => $data1[$i]->employee_size, 'physician_size' => $data1[$i]->physician_size,'annual_revenue' => $data1[$i]->annual_revenue, 'number_of_beds' => $data1[$i]->number_of_beds,'foundation_year' => $data1[$i]->foundation_year, 'company_remark' => $data1[$i]->company_remark,'prm'=> $data1[$i]->prm,'additional_info1' => $data1[$i]->additional_info1, 'additional_info2' => $data1[$i]->additional_info2,'additional_info3' => $data1[$i]->additional_info3, 'additional_info4' => $data1[$i]->additional_info4,'additional_info5' => $data1[$i]->additional_info5, 'additional_info6' => $data1[$i]->additional_info6,'additional_info7' => $data1[$i]->additional_info7, 'additional_info8' => $data1[$i]->additional_info8]);
 
 							DB::table('contacts')->insert(['company_id'=>$id,'first_name'=>$data1[$i]->first_name ,'last_name'=>$data1[$i]->last_name,'middle_name'=>$data1[$i]->middle_name,'job_title'=>$data1[$i]->job_title,'specialization'=>$data1[$i]->specialization,'staff_source'=>$data1[$i]->staff_source,'staff_email'=>$data1[$i]->staff_email,'direct_phoneno'=>$data1[$i]->direct_phoneno,'email_source'=>$data1[$i]->email_source,'qualification'=>$data1[$i]->qualification,'staff_disposition'=>$data1[$i]->staff_disposition,'deparment_number'=>$data1[$i]->deparment_number,'alternate_phone'=>$data1[$i]->alternate_phone,'alternate_email'=>$data1[$i]->alternate_email,'email_type'=>$data1[$i]->email_type,'shift_timing'=>$data1[$i]->shift_timing,'working_tenure'=>$data1[$i]->working_tenure,'paternership'=>$data1[$i]->paternership,'age'=>$data1[$i]->age,'staff_remarks'=>$data1[$i]->staff_remarks,'additional_info1'=>$data1[$i]->info1,'additional_info2' => $data1[$i]->info2,'additional_info3' => $data1[$i]->info3, 'additional_info4' => $data1[$i]->info4,'additional_info5' => $data1[$i]->info5, 'additional_info6' => $data1[$i]->info6,'additional_info7' => $data1[$i]->info7, 'additional_info8' => $data1[$i]->info8, 'type' => 'named' ]);
 						}	
@@ -151,7 +155,7 @@ class BatchesController extends Controller
 							if(!empty($value->company_name))
 							{
 							$insert[] = ['batch_id'=>$batch->id,'status' => 'UnAssigned','company_instructions' => $value->company_instructions, 'parent_company' => $value->parent_company, 'company_name' => $value->company_name,'address1' => $value->address1, 'address2' => $value->address2,'city' => $value->city, 'state' => $value->state,'zipcode' => $value->zipcode, 'country' => $value->country,'isd_code' => $value->international_code, 'switchboardnumber' => $value->switchboardnumber,'branchNumber' => $value->branch_number, 'addresscode' => $value->addresscode,'website' => $value->website, 'company_email' => $value->company_email,
-								'products_services' => $value->products_services, 'industry_classfication' => $value->industry_classfication,'employee_size' => $value->employee_size, 'physician_size' => $value->physician_size,'annual_revenue' => $value->annual_revenue, 'number_of_beds' => $value->number_of_beds,'foundation_year' => $value->foundation_year, 'company_remark' => $value->company_remark,'additional_info1' => $value->additional_info1, 'additional_info2' => $value->additional_info2,'additional_info3' => $value->additional_info3, 'additional_info4' => $value->additional_info4, 'additional_info5' => $value->additional_info5, 'additional_info6' => $value->additional_info6, 'additional_info7' => $value->additional_info7, 'additional_info8' => $value->additional_info8];
+								'products_services' => $value->products_services, 'industry_classfication' => $value->industry_classfication,'employee_size' => $value->employee_size, 'physician_size' => $value->physician_size,'annual_revenue' => $value->annual_revenue, 'number_of_beds' => $value->number_of_beds,'foundation_year' => $value->foundation_year, 'company_remark' => $value->company_remark,'prm'=> $value->prm,'additional_info1' => $value->additional_info1, 'additional_info2' => $value->additional_info2,'additional_info3' => $value->additional_info3, 'additional_info4' => $value->additional_info4, 'additional_info5' => $value->additional_info5, 'additional_info6' => $value->additional_info6, 'additional_info7' => $value->additional_info7, 'additional_info8' => $value->additional_info8];
 							}else 
 							{
 								$this->batches->delete($batch->id);
@@ -161,6 +165,8 @@ class BatchesController extends Controller
 						if(!empty($insert)){
 							DB::table('companies')->insert($insert);
 						}
+						
+						Log::debug($data1);
 					}
 				}
 			}
@@ -186,7 +192,9 @@ class BatchesController extends Controller
 	public function download(Batch $batch, CompanyRepository $companyRepository)
 	{	
 		$data = $companyRepository->getTotalCompany($batch->id); //get('$batch->id')->toArray();
-		//Log::info($data);
+		Log::debug($data);
+		if(count($data) != 0)
+		{
 		return Excel::create('Report', function($excel) use ($data) {
 			$excel->sheet('companies', function($sheet) use ($data)
 			{
@@ -201,7 +209,10 @@ class BatchesController extends Controller
 					}
 					$company['Batch Name']= $value['batch_name'];
 					$company['User'] 	= $value['ufname']." ".$value['ulname'];
+					$company['Project Code'] = $value['project_code'];
+					$company['Project Name'] = $value['project_name'];
 					$company['Company Name']= $value['updated_company_name'];
+					$company['Status']= $value['status'];
 					$company['Parent Company']= $value['parent_company'];
 					$company['Address Line1']= $value['address1'];
 					$company['Address Line2']= $value['address2'];
@@ -222,6 +233,7 @@ class BatchesController extends Controller
 					$company['Number Of Beds']=$value['number_of_beds'];
 					$company['Foundation Year']=$value['foundation_year'];
 					$company['Company Remark']=$value['company_remark'];
+					$company['Prm']		=	$value['prm'];
 					$company['Additional Info1']=$value['com_info1'];
 					$company['Additional Info2']=$value['com_info2'];
 					$company['Additional Info3']=$value['com_info3'];
@@ -235,27 +247,33 @@ class BatchesController extends Controller
 				
 					if($value['salutation'] == '0')
 					{
-						$company['Salutation']= 'Mr';
+						$value['salutation']= 'Mr';
+						$company['Salutation']= $value['salutation'];
 					}
 					if($value['salutation'] == '1')
 					{
-						$company['Salutation']= 'Mrs';
+						$value['salutation'] ='Mrs';
+						$company['Salutation']= $value['salutation'];
 					}
 					if($value['salutation'] == '2')
 					{
-						$company['Salutation']= 'Miss';
+						$value['salutation'] = 'Miss';
+						$company['Salutation']= $value['salutation'];
 					}
 					if($value['salutation'] == '3')
 					{
-						$company['Salutation']= 'Dr';
+						$value['salutation'] = 'Dr';
+						$company['Salutation']= $value['salutation'];
 					}
 					if($value['salutation'] == '4')
 					{
-						$company['Salutation']= 'Ms';
+						$value['salutation'] = 'Ms';
+						$company['Salutation']= $value['salutation'];
 					}
 					if($value['salutation'] == '5')
 					{
-						$company['Salutation']= 'Prof';
+						$value['salutation'] = 'Prof';
+						$company['Salutation']= $value['salutation'];
 					}
 					$company['First Name']=$value['first_name'];
 					$company['Middle Name']=$value['middle_name'];
@@ -311,9 +329,14 @@ class BatchesController extends Controller
 						
 					$companies[] = $company;
 				}
+				Log::debug("Batch Download Data",$companies);
 				$sheet->fromArray($companies);
 			});
 		})->download('xlsx');
+		}else{
+			return redirect()->route('batch.list')
+			->withErrors(trans('app.no_data_found'));
+		}
 	}
 	
 	/**

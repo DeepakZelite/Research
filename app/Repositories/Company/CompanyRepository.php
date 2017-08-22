@@ -180,4 +180,10 @@ interface CompanyRepository
      * @param unknown $end_date
      */
     public function getSubsidiaryCompaniesForProductivityReport($vendorId = null,$userId = null,$start_date=null,$end_date=null);
+    
+    /**
+     * to get all companies of perticular batch for reassigned purpose.
+     * @param unknown $batch_id
+     */
+    public function getCompaniesForBatchForReallocation($batch_id);
 }

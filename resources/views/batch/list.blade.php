@@ -24,10 +24,12 @@
 
 <div class="row tab-search">
     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+    	@if(!Auth::user()->hasRole('QA'))
         <a href="{{ route('batch.create') }}" class="btn btn-success" id="add-batch">
             <i class="glyphicon glyphicon-plus"></i>
             @lang('app.add_batch')
         </a>
+        @endif
     </div>
     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
     <form method="GET" action="" accept-charset="UTF-8" id="batches-form">
@@ -88,7 +90,7 @@
                                     data-confirm-delete="@lang('app.yes')">
                                 <i class="glyphicon glyphicon-trash"></i></a>
                           @endif
-                          @if($batch->status=="Complete")
+                          @if($batch->status!="Assigned")
                           		<a href="{{ route('batch.download',$batch->id) }}" class="btn btn-primary btn-circle"
                                		title="@lang('app.download')" data-toggle="tooltip" data-placement="top">
                                 	<i class="glyphicon glyphicon-download"></i>
@@ -120,6 +122,17 @@
         });
         $("#code").change(function (){
             $("#batches-form").submit();
+        });
+
+        $(document).ready(function() {
+            $("#code").select2({
+                placeholder: 'All Projects',
+                allowClear: true
+            });
+            $("#vendor_code").select2({
+                placeholder: 'All Vendors',
+                allowClear: true
+            });
         });
     </script>
 @stop

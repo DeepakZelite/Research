@@ -287,6 +287,7 @@
 										placeholder="@lang('app.additional_info4')"
 										value="{{ $editCompany ? $company->additional_info8 : old('additional_info8') }}">
 								</div>
+								<input type="hidden" id="openmodel" value=""/>
 							</div>
 						</div>
 					</div>
@@ -441,9 +442,13 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-md-10"></div>
+									<div class="col-md-8"></div>
 									<div class="col-md-2">
-										<button type="button" class="btn btn-primary" id="btnNo" data-dismiss="modal">Ok
+										<button type="button" class="btn btn-primary" id="btnOk" data-dismiss="modal">Ok
+										</button>
+									</div>
+									<div class="col-md-2">
+										<button type="button"  id="btnCancel" class="btn btn-secondary" data-dismiss="modal">Cancel
 										</button>
 									</div>
 								</div>
@@ -503,11 +508,13 @@
 </div>
 <!-- ---------------------------------------- add subsidiary button click code End -------------------------------------------------- -->
 
-@stop @section('scripts')
+@stop 
+@section('scripts')
 <script>
 hideMenu();
 function hideMenu() {
 	as.toggleSidebar();
+	as.sidebartoggle();
 }
 
 
@@ -530,13 +537,8 @@ $(document).ready(function() {
 	{
 		$('#add_child_record').css("visibility", "hidden");
 		$('#btn_check').css("visibility", "hidden");
-		//$('#btnParentSubmit').css("visibility", "hidden");
 	}
-	else
-	{
-		//$('#btnSubmit').css("visibility", "hidden");
-		//$('#child_cancel').css("visibility","hidden");
-	}
+	
 	
 	// <!-- ------------------------------------- Client Side validation for Add Subsidory start ----------------------------------------------- -->
 	$("#btnSave1").click(function(event)
@@ -724,9 +726,25 @@ function submitCompany()
 	if(count>0)
 	{
 		$("#conform").modal();
+		$("#btnCancel").css('visibility','hidden');
 		$("#count").text("There are "+ count +" staff record(s) are pending to process. It is recommended to process pending staff record(s) before you submit the company.");
         return false;
-	}
+	}else
+	{
+		if($('#openmodel').val() == '')
+		{
+			$("#conform").modal();
+			$("#count").text("Are you sure you want to Submit this record?");
+			$("#btnOk").click(function(){
+				$('#openmodel').val('conform');
+				submitCompany();
+			});
+		}
+	}	
+ 		
+ 	if ($('#openmodel').val() == '') {
+ 	    return false;
+ 	}
 		
 	if ($('#updated_company_name').val() == '') {
 	    $('#updated_company_name').css('border-color', 'red');

@@ -22,7 +22,7 @@
         <div class="form-group input-icon">
             <label for="username" class="sr-only">@lang('app.email_or_username')</label>
             <i class="fa fa-user"></i>
-            <input type="email" name="username" id="username" class="form-control" placeholder="@lang('app.email_or_username')">
+            <input type="text" name="username" id="username" class="form-control" placeholder="@lang('app.email_or_username')">
         </div>
         <div class="form-group password-field input-icon">
             <label for="password" class="sr-only">@lang('app.password')</label>

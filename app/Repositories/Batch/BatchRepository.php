@@ -115,4 +115,10 @@ interface BatchRepository
      * @param unknown $projectId
      */
     public function getCompanyCountBasedOnProject($projectId=null);
+    
+    /**
+     * get the list of batches of perticular projects
+     * @param unknown $project_id
+     */
+    public function getProjectBatches($project_id);
 }

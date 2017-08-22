@@ -117,6 +117,17 @@ $(document).ready(function() {
 					return true;
 				}	
 	});
+
+	$("#vendor_code").select2({
+		width: '100%',
+		placeholder:'Select a Vendor',
+		allowClear: true
+	});
+	$("#user_id").select2({
+		width: '100%',
+		placeholder:'Select a User',
+		allowClear: true
+	});
 });
 
 function getRecord()

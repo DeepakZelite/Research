@@ -98,6 +98,22 @@
 @section('scripts')
 <script>
 $(document).ready(function() {
+	$("#vendor_code").select2({
+		width: '100%',
+        placeholder:'Select a Vendor',
+        allowClear: true
+	});
+	$("#code").select2({
+        width: '100%',
+        placeholder:'Select a Project code',
+        allowClear: true
+    });
+	$("#name").select2({
+		width: '100%',
+		placeholder: 'Select a project',
+		allowClear: true
+	});
+	
     var table = $('#example').dataTable({
     "bPaginate": false,
     "bFilter": false,

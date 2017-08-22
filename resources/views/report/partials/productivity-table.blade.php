@@ -15,8 +15,8 @@
                         <td>{{ $data->vendor_code }}</td>
                          <td>{{ $data->first_name }}  {{ $data->last_name }}</td>
                          <td>@if($data->hrs!=""){{ $data->hrs }}@else 0 @endif</td>
-                         <td>@if($data->comp_count!=""){{ $data->comp_count }}@else 0 @endif</td>
-                         <td>{{ $data->subsidiary_count }} </td>
+                         <td> {{ $data->comp_count }} </td>
+                         <td> {{ $data->subsidiary_count }} </td>
                          <td>@if($data->no_rows!=""){{ $data->no_rows }}@else 0 @endif</td>
                          <td class="text-center">{{ $data->per_hour }}</td>
                      </tr>
