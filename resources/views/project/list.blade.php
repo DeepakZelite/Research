@@ -63,7 +63,7 @@
                 @foreach ($projects as $project)
                     <tr>
                     	<td class="col-sm-2">{{ $project->code }}</td>
-                        <td class="col-sm-2">{{ $project->name }}</td> 
+                        <td class="col-sm-3">{{ $project->name }}</td> 
                         <td>{{ $project->No_Companies }}</td>
                         <td>{{ $project->Expected_Staff }}</td>                   
                          <td class="text-center">

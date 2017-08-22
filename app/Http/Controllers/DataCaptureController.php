@@ -341,9 +341,121 @@ class DataCaptureController extends Controller
 		$phone	= $inputs['phone'];
 		$prm 	= $inputs['prm'];
 		$perPage=5;
-		$duplicate = $contactRepository->duplicate($first,$last,$jobtitle,$email,$company_name,$website,$address,$city,$state,$zipcode,$specility,$phone,$prm);
+		$duplicate1 = $contactRepository->duplicate($first,$last,$jobtitle,$email,$company_name,$website,$address,$city,$state,$zipcode,$specility,$phone,$prm);
 		//$duplicate = $this->companyRepository->paginate($perPage,null,null,$first);
-		Log::info("Contact:::::". $duplicate);
+		Log::info("Contact:::::". $duplicate1);
+		if($company_name != '')
+		{
+			$data = DB::table('qualities')
+				->where('company_name',"like",$company_name.'%')
+				->Where('address1',"=",$address)
+				->Where('city',"=",$city)
+				->Where('state',"=",$state)
+ 				->Where('zipcode',"=",$zipcode)
+//  			->where('website',"=",$website)
+// 				->Where('specialization',"like",$specility.'%')
+// 				->Where('branchNumber',"like",$phone.'%')
+				->Where('prm',"like",$prm.'%')
+// 				->Where('staff_email',"=",$email)
+// 				->Where('first_name',"=",$first)
+// 				->Where('last_name',"=",$last)
+// 				->Where('job_title',"=",$jobtitle.'%')
+				->get();
+		}
+		if($website)
+		{
+			$data = DB::table('qualities')
+			->where('company_name',"like",$company_name.'%')
+			->Where('address1',"=",$address)
+			->Where('city',"=",$city)
+			->Where('state',"=",$state)
+			->Where('zipcode',"=",$zipcode)
+  			->where('website',"=",$website)
+			->Where('prm',"like",$prm.'%')
+			->get();
+		}
+		if($phone)
+		{
+			$data = DB::table('qualities')
+			->where('company_name',"like",$company_name.'%')
+			->Where('address1',"=",$address)
+			->Where('city',"=",$city)
+			->Where('state',"=",$state)
+			->Where('zipcode',"=",$zipcode)
+			->where('website',"=",$website)
+			->Where('prm',"like",$prm.'%')
+			->Where('branchNumber',"like",$phone.'%')
+			->get();
+		}
+		if($first)
+		{
+			$data = DB::table('qualities')
+			->where('company_name',"like",$company_name.'%')
+			->Where('address1',"=",$address)
+			->Where('city',"=",$city)
+			->Where('state',"=",$state)
+			->Where('zipcode',"=",$zipcode)
+			->Where('prm',"like",$prm.'%')
+			->Where('first_name',"=",$first)
+			->get();
+		}
+		if($last)
+		{
+			$data = DB::table('qualities')
+			->where('company_name',"like",$company_name.'%')
+			->Where('address1',"=",$address)
+			->Where('city',"=",$city)
+			->Where('state',"=",$state)
+			->Where('zipcode',"=",$zipcode)
+			->Where('prm',"like",$prm.'%')
+			->Where('last_name',"=",$last)
+			->get();
+		}
+		if($jobtitle)
+		{
+			$data = DB::table('qualities')
+			->where('company_name',"like",$company_name.'%')
+			->Where('address1',"=",$address)
+			->Where('city',"=",$city)
+			->Where('state',"=",$state)
+			->Where('zipcode',"=",$zipcode)
+			->Where('prm',"like",$prm.'%')
+			->Where('job_title',"like",$jobtitle.'%')
+			->get();
+		}
+		if($email)
+		{
+			$data = DB::table('qualities')
+			->where('company_name',"like",$company_name.'%')
+			->Where('address1',"=",$address)
+			->Where('city',"=",$city)
+			->Where('state',"=",$state)
+			->Where('zipcode',"=",$zipcode)
+			->Where('prm',"like",$prm.'%')
+			->Where('staff_email',"=",$email)
+			->get();
+		}
+		if($first != '' && $last != '' && $jobtitle && $email != '')
+		{
+			$data = DB::table('qualities')
+			->where('company_name',"like",$company_name.'%')
+			->Where('address1',"=",$address)
+			->Where('city',"=",$city)
+			->Where('state',"=",$state)
+			->Where('zipcode',"=",$zipcode)
+			->Where('prm',"like",$prm.'%')
+			->Where('first_name',"=",$first)
+			->Where('last_name',"=",$last)
+			->Where('prm',"like",$prm.'%')
+			->Where('job_title',"like",$jobtitle.'%')
+			->get();
+		}
+		Log::info($phone);
+		Log::info($data);
+		$duplicate1 = collect($duplicate1);
+		$data = collect($data);
+		$duplicate = $duplicate1 ->merge($data);
+		Log::debug($duplicate);
 		return view('company.partials.duplicate-list', compact('duplicate'));
 	}
 	

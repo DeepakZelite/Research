@@ -97,7 +97,7 @@ class EloquentRole implements RoleRepository
      */
     public function lists($column = 'name', $key = 'id')
     {
-        return Role::lists($column, $key);
+        return Role::where('name','!=','Admin')->lists($column, $key);
     }
 
     /**

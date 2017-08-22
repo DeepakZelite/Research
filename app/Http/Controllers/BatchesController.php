@@ -97,14 +97,18 @@ class BatchesController extends Controller
 			$path = $request->file('attachement')->getRealPath();
 			$data1 = Excel::load($path, function($reader) {})->get();
 		$count = $data1->count();
-		$data = $request->all()+ ['status' => SubBatchStatus::ASSIGNED]+['company_count'=>$count];
-		$companies=$projectRepository->getProjectCompanyCount($request->project_id);
-		$company_count = $companies -> No_Companies;
+		$data = $request->all()+ ['status' => SubBatchStatus::ASSIGNED];
+		$company_count = $request->company_count;
+// 		$companies=$projectRepository->getProjectCompanyCount($request->project_id);
+// 		$company_count = $companies -> No_Companies;
 		$batches = $batchRepository->getCompanyCountBasedOnProject($request->project_id);
+		$project = $projectRepository->find($request->project_id);
+		$project->No_Companies = $batches + $company_count;
+		$project->save();
 		if($data1->count())
 		{
-			$count = $batches + $data1->count();
-			if($count <= $company_count)
+			//$count = $batches + $data1->count();
+			if($count == $company_count)
 			{
 				$batch = $this->batches->create($data);
 				if($request->type_id == 1)

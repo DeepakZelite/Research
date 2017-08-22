@@ -43,10 +43,10 @@
                     <input type="text" class="form-control" id="name" maxlength="60"
                            name="name" placeholder="@lang('app.project_name')" value="{{ $edit ? $project->name : old('name') }}">
                 </div>
-                <div class="form-group">
-                    <label for="No_Companies">@lang('app.number_of_companies')<i style="color:red;">*</i></label>
+                <div class="form-group" id="no_companies">
+                    <label for="No_Companies">@lang('app.number_of_companies')</label>
                     <input type="text" class="form-control" id="No_Companies" maxlength="5" onkeypress="return isNumberKey(event)"
-                           name="No_Companies" placeholder="@lang('Number of Companies')" value="{{ $edit ? $project->No_Companies : old('No_Companies') }}">
+                           name="No_Companies" placeholder="@lang('Number of Companies')" disabled value="{{ $edit ? $project->No_Companies : old('No_Companies') }}">
                 </div>
                 <div class="form-group">
                     <label for="staff">@lang('app.expected_staff')<i style="color:red;">*</i></label>
@@ -154,6 +154,7 @@ $(function () {
 		format: 'YYYY-MM-DD'
 			})
 });
+
 $(document).ready(function() {
 	$("#btnSubmit").click(function(event)
 			{

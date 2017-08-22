@@ -163,7 +163,7 @@ class EloquentBatch implements BatchRepository
     	$result=$query
     	->leftjoin('projects', 'projects.id', '=', 'batches.project_id')
     	->leftjoin('vendors', 'vendors.id', '=', 'batches.vendor_id')
-    	->select('vendors.vendor_code','projects.code','projects.name as project_name','projects.No_Companies as companies','batches.id','batches.name','batches.status');
+    	->select('vendors.vendor_code','projects.code','projects.name as project_name','batches.company_count as companies','batches.id','batches.name','batches.status');
     	$result= $query->get();
     	Log::debug("getDataForProjectReport Sql:". $query->toSql());
     	return $result;
