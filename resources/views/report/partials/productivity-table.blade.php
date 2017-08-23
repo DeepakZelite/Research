@@ -6,6 +6,7 @@
             <th>@lang('app.companies_processed')</th>
             <th>@lang('app.subsidiary_count')</th>
             <th>@lang('app.staff_processed')</th>
+            <th>@lang('app.email_processed')</th>
             <th class="text-center">@lang('app.record_per_hour')</th>
         </thead>
         <tbody>
@@ -17,7 +18,8 @@
                          <td>@if($data->hrs!=""){{ $data->hrs }}@else 0 @endif</td>
                          <td> {{ $data->comp_count }} </td>
                          <td> {{ $data->subsidiary_count }} </td>
-                         <td>@if($data->no_rows!=""){{ $data->no_rows }}@else 0 @endif</td>
+                         <td> {{ $data->no_rows }} </td>
+                         <td> {{ $data->email_count }}</td>
                          <td class="text-center">{{ $data->per_hour }}</td>
                      </tr>
                  @endforeach
@@ -35,6 +37,7 @@
         		<th><span id ="totalcompany"></span></th>
         		<th><span id ="totalsubsidiary"></span></th>
         		<th><span id ="totalstaff"></span></th>
+        		<th><span id ="totalEmail"></span>
         		<th class="text-center"><span id="perhour"></span></th>
         	</tr>
         </tfoot>
@@ -68,19 +71,24 @@ $(document).ready(function() {
 						return intVal(a) + intVal(b);
 					},0 );
 
-					avg_per_hour = api.column( 6 ).data().reduce( function (a, b) {
+					avg_per_hour = api.column( 7 ).data().reduce( function (a, b) {
 						return intVal(a) + intVal(b);
 					},0 );
 
 					subsidiary_count = api.column( 4 ).data().reduce( function (a, b) {
 						return intVal(a) + intVal(b);
 					},0 );
+
+					email = api.column( 6 ).data().reduce(function (a,b){
+							return intVal(a) + intVal(b);
+						}, 0);
 					
 					// Update footer
 					$('#totalcompany').html(total_no_companies);
 					$('#totalstaff').html(total_staff_count);	
 					$('#totalsubsidiary').html(subsidiary_count);
 					$('#hourspend').html(total_hourSpend_count);
+					$('#totalEmail').html(email);
 					$('#perhour').html(avg_per_hour);
 				},		
 		});
