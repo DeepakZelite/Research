@@ -128,6 +128,27 @@ interface ContactRepository
     
     public function getProcessRecordFromDate($start,$end);
     
+    /**
+     * get the count of all processed staff
+     * @param unknown $vendorId
+     * @param unknown $userId
+     * @param unknown $fromDate
+     * @param unknown $toDate
+     */
     public function getProcessRecordCount($vendorId = null,$userId = null,$fromDate = null, $toDate = null);
     
+    /**
+     * get the record count of all processed email
+     * @param unknown $vendorId
+     * @param unknown $userId
+     * @param unknown $fromDate
+     * @param unknown $toDate
+     */
+    public function getEmailRecordCount($vendorId = null,$userId = null,$fromDate = null, $toDate = null);
+    
+    /**
+     * get the email count for project status report
+     * @param unknown $companyId
+     */
+    public function getTotalEmailCount($companyId);
 }

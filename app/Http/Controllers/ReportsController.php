@@ -102,7 +102,7 @@ class ReportsController extends Controller
 		if (sizeof($batches) > 0) {
 			foreach($batches as $datas)
 			{
-				$count=0;
+				$count=0; $email=0;
 				$companies=$companyRepository->getcompanies($datas->id);
 				if(sizeof($companies)>0)
 				{
@@ -110,9 +110,12 @@ class ReportsController extends Controller
 					{
 						$abc=$contactRepository->getTotalContactCount($company->id);
 						$count=$count+$abc;
+ 						$a = $contactRepository->getTotalEmailCount($company->id);
+ 						$email = $email + $a;
 					}
 				}
 				$datas["staff"] = "$count";
+				$datas["email_count"] = "$email";
 			}
 		}
 		return view('report.project-status-report',compact('show','batches','projects', 'vendors','projects_name'));
@@ -179,6 +182,7 @@ class ReportsController extends Controller
 				$company_count=$companyRepository->getCompaniesForProductivityReport($data->vendor_id,null,$fromDate,$toDate);
 				$SubsidiaryCount =$companyRepository->getSubsidiaryCompaniesForProductivityReport($data->vendor_id,null,$fromDate,$toDate);
 				$staff_process_count = $contactRepository->getProcessRecordCount($data->vendor_id,null,$fromDate,$toDate);
+				$email_process_count = $contactRepository->getEmailRecordCount($data->vendor_id,null,$fromDate,$toDate);
 				$data['first_name']="All";
 				$data['last_name']="";
 			}
@@ -187,9 +191,11 @@ class ReportsController extends Controller
 				$company_count=$companyRepository->getCompaniesForProductivityReport($data->vendor_id,$data->id,$fromDate,$toDate);
 				$SubsidiaryCount =$companyRepository->getSubsidiaryCompaniesForProductivityReport($data->vendor_id,$data->id,$fromDate,$toDate);
 				$staff_process_count = $contactRepository->getProcessRecordCount($data->vendor_id,$data->id,$fromDate,$toDate);
+				$email_process_count = $contactRepository->getEmailRecordCount($data->vendor_id,$data->id,$fromDate,$toDate);
 			}
-			Log::debug("Total Company Count". $company_count ."  Total subsidiary count:". $SubsidiaryCount."  Total Staff Process Count".$staff_process_count);
+			Log::debug("Total Company Count". $company_count ."  Total subsidiary count:". $SubsidiaryCount."  Total Staff Process Count".$staff_process_count ."  Total Email Process Count: ".$email_process_count);
 			$data->comp_count=$company_count;
+			$data->email_count=$email_process_count;
 			$data->subsidiary_count = $SubsidiaryCount;
 			$data->no_rows = $staff_process_count;
 			$records=$data->no_rows;
@@ -209,6 +215,7 @@ class ReportsController extends Controller
 				$data['first_name']="All";
 				$data['last_name']="";
 			}
+			Log::debug("All Data For Report".$datas);
 		}
 		
 		return view('report.partials.productivity-table',compact('datas'));

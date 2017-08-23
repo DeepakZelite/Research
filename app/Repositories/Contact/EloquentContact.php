@@ -307,6 +307,57 @@ class EloquentContact implements ContactRepository
     	Log::debug("getProcessRecordCount Sql:". $query->toSql());
     	Log::debug("getProcessRecordCount Count:".$result);
     	return $result;
-
+    }
+    
+    public function getEmailRecordCount($vendorId = null,$userId = null,$fromDate = null, $toDate = null)
+    {
+    	$query = Contact::query();
+    	if($vendorId)
+    	{
+    		$query->where('users.vendor_id',"=","{$vendorId}");
+    	}
+    	if($userId)
+    	{
+    		$query->where('contacts.user_id',"=","{$userId}");
+    	}
+    	if($fromDate)
+    	{
+    		$query->where('contacts.updated_at',">=", "{$fromDate}");
+    	}
+    	 
+    	if($toDate)
+    	{
+    		$toDate =$toDate . " 23:59:59";
+    		$query->where('contacts.updated_at',"<=","{$toDate}");
+    	}
+    	 
+    	$result=$query
+    	->leftjoin('users', 'users.id', '=', 'contacts.user_id')
+    	->where('contacts.staff_email', "!=", " ")
+    	->count();
+    	Log::debug("getEmailRecordCount Sql:". $query->toSql());
+    	Log::debug("getEmailRecordCount Count:".$result);
+    	return $result;
+    }
+    
+    /**
+     * get total email for reports
+     * @param unknown $companyId
+     * @return number|unknown
+     */
+    public function getTotalEmailCount($companyId)
+    {
+    	$query = Contact::query();
+    	if ($companyId != 0) {
+    		$query->where(function ($q) use($companyId) {
+    			$q->where('contacts.company_id', "=", "{$companyId}");
+    			$q->where('contacts.staff_email',"!=", " ");
+    		});
+    	} else {
+    		return 0;
+    	}
+    	$result = $query->count();
+    	Log::debug("getTotalContactCount Sql:". $query->toSql());
+    	return $result;
     }
 }

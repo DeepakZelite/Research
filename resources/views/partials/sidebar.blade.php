@@ -73,6 +73,22 @@
                 </li>
             @endpermission
 
+			@permission('quality.manage')
+                <li class="{{ Request::is('quality*') ? 'active open' : ''  }}">
+                    <a href="{{ route('quality.list') }}" class="{{ Request::is('quality*') ? 'active' : ''  }}">
+                        <i class="fa-list-ul fa-1x"></i> @lang('app.qc_data')
+                     </a>
+                </li>
+            @endpermission
+            
+            @permission('batch.reallocation')
+            	<li class="{{ Request::is('reallocation*') ? 'active open' : '' }}">
+                	<a href="{{ route('reallocation') }}" class="{{ Request::is('reallocation*') ? 'active' : '' }}">
+                		<i class="fa fa-refresh fa-1x"></i> @lang('app.reallocation')
+                	</a>
+                </li>
+            @endpermission
+            
             @permission('reports.manage')
                 <li class="{{ Request::is('productivity*') || Request::is('report*') ? 'active open' : ''  }}">
                     <a href="#">
@@ -101,22 +117,6 @@
                            <i class="fa fa-flag-checkered fa-fw"></i>@lang('app.report')
                        </a>
                   </li>
-            @endpermission
-
-            @permission('quality.manage')
-                <li class="{{ Request::is('quality*') ? 'active open' : ''  }}">
-                    <a href="{{ route('quality.list') }}" class="{{ Request::is('quality*') ? 'active' : ''  }}">
-                        <i class="fa-list-ul fa-1x"></i> @lang('app.qc_data')
-                     </a>
-                </li>
-            @endpermission
-            
-            @permission('batch.reallocation')
-            	<li class="{{ Request::is('reallocation*') ? 'active open' : '' }}">
-                	<a href="{{ route('reallocation') }}" class="{{ Request::is('reallocation*') ? 'active' : '' }}">
-                		<i class="fa fa-refresh fa-1x"></i> @lang('app.reallocation')
-                	</a>
-                </li>
             @endpermission
         </ul>
     </div>

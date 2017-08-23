@@ -595,6 +595,7 @@ return [
 		'my_productivity'=>'My Productivity',
 		'from_date' => 'Date From',
 		'to_date' => 'Date To',
+		'email_processed' => 'Email Processed',
 		
 		//QA
 		'quality-analysis' => 'Quality Analysis',

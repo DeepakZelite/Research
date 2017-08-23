@@ -69,6 +69,7 @@
             <th>@lang('app.companies_processed')</th>
             <th>@lang('app.subsidiary_count')</th>
             <th>@lang('app.staff_processed')</th>
+            <th>@lang('app.email_processed')</th>
             <th class="text-center">@lang('app.record_per_hour')</th>
         </thead>
         <tbody>
