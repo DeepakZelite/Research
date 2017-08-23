@@ -65,6 +65,11 @@
 							</div>
 					</div>
                 </div>
+                 <div class="form-group" >
+                    <label for="No_Companies">@lang('app.number_of_companies')<i style="color:red;">*</i></label>
+                    <input type="text" class="form-control" id="company_count" maxlength="5" onkeypress="return isNumberKey(event)"
+                           name="company_count" placeholder="@lang('Number of Companies')" value="{{ $edit ? $project->company_count : old('company_count') }}">
+                </div>
                  <div class="form-group">
 				  <label class="control-label" for="upload file">@lang('app.upload')<i style="color:red;">*</i></label>
  					<div class="input-group">
@@ -75,11 +80,6 @@
     					</span>
   					</div>
 				</div>
-				<div class="form-group" >
-                    <label for="No_Companies">@lang('app.number_of_companies')<i style="color:red;">*</i></label>
-                    <input type="text" class="form-control" id="company_count" maxlength="5" onkeypress="return isNumberKey(event)"
-                           name="company_count" placeholder="@lang('Number of Companies')" value="{{ $edit ? $project->company_count : old('company_count') }}">
-                </div>
              </div>
             </div>
         </div>

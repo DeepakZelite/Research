@@ -114,7 +114,6 @@ class BatchesController extends Controller
 				if($request->type_id == 1)
 				{
 					Log::debug("Named Task");
-					Log::debug($data1);
 					$id=0;
 					for($i = 0; $i < $count; $i++)
 					{
@@ -166,7 +165,6 @@ class BatchesController extends Controller
 							DB::table('companies')->insert($insert);
 						}
 						
-						Log::debug($data1);
 					}
 				}
 			}

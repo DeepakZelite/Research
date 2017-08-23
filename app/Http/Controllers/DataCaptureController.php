@@ -352,14 +352,7 @@ class DataCaptureController extends Controller
 				->Where('city',"=",$city)
 				->Where('state',"=",$state)
  				->Where('zipcode',"=",$zipcode)
-//  			->where('website',"=",$website)
-// 				->Where('specialization',"like",$specility.'%')
-// 				->Where('branchNumber',"like",$phone.'%')
 				->Where('prm',"like",$prm.'%')
-// 				->Where('staff_email',"=",$email)
-// 				->Where('first_name',"=",$first)
-// 				->Where('last_name',"=",$last)
-// 				->Where('job_title',"=",$jobtitle.'%')
 				->get();
 		}
 		if($website)
