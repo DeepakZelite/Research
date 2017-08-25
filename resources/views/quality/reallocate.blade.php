@@ -158,7 +158,7 @@
       			 		$('#upload').css('border-color', 'green');
       				}
       		  	$("#conform").modal();
-      				$("#count").text("Are you sure to Download the data from Main Database?");
+      				$("#count").text("Are you sure to Reallocate the Records?");
       				$('#conform button').on('click', function(){
       		        var confirm= $(this).attr('value');
       		        if (confirm=='true') {   

@@ -533,6 +533,12 @@ $("#country").change(function() {
 });
 
 $(document).ready(function() {
+	$(window).focus(function(){ 
+		if(!localStorage.getItem('close'))
+		{
+			window.close();
+		}
+	});
 	if($('#parent_company').val()!='')
 	{
 		$('#add_child_record').css("visibility", "hidden");

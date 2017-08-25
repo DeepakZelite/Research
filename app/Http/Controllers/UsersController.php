@@ -87,9 +87,16 @@ class UsersController extends Controller
      */
     public function create(CountryRepository $countryRepository, RoleRepository $roleRepository, VendorRepository $vendorRepository)
     {
+    	if(Auth::user()->hasRole('TL'))
+    	{
+    		$roles = $roleRepository->lists();
+    		unset($roles[5]);
+    	}else
+    	{
+    		$roles = $roleRepository->lists();
+    	}
+    	$roles->prepend('select role','0');
         $countries = $countryRepository->lists();
-        $roles = $roleRepository->lists();
-        $roles->prepend('select role','0');
         $vendors=$vendorRepository->lists();
         $vendors->prepend('select vendor','0');
         $statuses = UserStatus::lists1();

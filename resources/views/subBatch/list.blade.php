@@ -161,6 +161,16 @@
           			return false;
         		return true;
         }
+
+        $('#batch_id').select2({
+            placeholder : 'Select Batch',
+            allowClear : true
+        });
+
+        $('#user_id').select2({
+            placeholder : 'Select User',
+            allowClear : true
+        });
     </script>
         {!! JsValidator::formRequest('Vanguard\Http\Requests\SubBatch\CreateSubBatchRequest', '#sub_batches-form') !!}
 @stop

@@ -736,6 +736,11 @@ Route::get('quality/list',[
 		'uses' => 'QualityController@list'
 ]);
 
+Route::get('quality/optionlist',[
+		'as' => 'quality.optionlist',
+		'uses' => 'QualityController@optionlist'
+]);
+
 Route::post('quality/download',[
 		'as' => 'quality.download',
 		'uses'=> 'QualityController@download'
