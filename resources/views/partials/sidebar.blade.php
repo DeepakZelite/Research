@@ -76,7 +76,7 @@
 			@permission('quality.manage')
                 <li class="{{ Request::is('quality*') ? 'active open' : ''  }}">
                     <a href="{{ route('quality.list') }}" class="{{ Request::is('quality*') ? 'active' : ''  }}">
-                        <i class="fa-list-ul fa-1x"></i> @lang('app.qc_data')
+                        <i class="fa fa-database fa-1x"></i> @lang('app.main_database')
                      </a>
                 </li>
             @endpermission

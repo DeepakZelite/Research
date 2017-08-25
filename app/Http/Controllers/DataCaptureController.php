@@ -28,6 +28,7 @@ use Vanguard\Repositories\Report\ReportRepository;
 use Vanguard\Country;
 use Vanguard\Report;
 use Carbon\Carbon;
+use Vanguard\Repositories\Mdb\MdbRepository;
 use DB;
 use Illuminate\Support\Facades\Log;
 
@@ -324,7 +325,7 @@ class DataCaptureController extends Controller
 	 * @param Contact $contact
 	 * @return the list if duplicate staff is avialable in database
 	 */
-	public function getduplicateRecord(Request $request,ContactRepository $contactRepository,Contact $contact)
+	public function getduplicateRecord(Request $request, ContactRepository $contactRepository, Contact $contact, MdbRepository $mdbRepository)
 	{
 		$inputs = Input::all();
 		$first	= trim($inputs['firstname']);
@@ -344,110 +345,11 @@ class DataCaptureController extends Controller
 		$duplicate1 = $contactRepository->duplicate($first,$last,$jobtitle,$email,$company_name,$website,$address,$city,$state,$zipcode,$specility,$phone,$prm);
 		//$duplicate = $this->companyRepository->paginate($perPage,null,null,$first);
 		Log::info("Contact:::::". $duplicate1);
-		if($company_name != '')
-		{
-			$data = DB::table('qualities')
-				->where('company_name',"like",$company_name.'%')
-				->Where('address1',"=",$address)
-				->Where('city',"=",$city)
-				->Where('state',"=",$state)
- 				->Where('zipcode',"=",$zipcode)
-				->Where('prm',"like",$prm.'%')
-				->get();
-		}
-		if($website)
-		{
-			$data = DB::table('qualities')
-			->where('company_name',"like",$company_name.'%')
-			->Where('address1',"=",$address)
-			->Where('city',"=",$city)
-			->Where('state',"=",$state)
-			->Where('zipcode',"=",$zipcode)
-  			->where('website',"=",$website)
-			->Where('prm',"like",$prm.'%')
-			->get();
-		}
-		if($phone)
-		{
-			$data = DB::table('qualities')
-			->where('company_name',"like",$company_name.'%')
-			->Where('address1',"=",$address)
-			->Where('city',"=",$city)
-			->Where('state',"=",$state)
-			->Where('zipcode',"=",$zipcode)
-			->where('website',"=",$website)
-			->Where('prm',"like",$prm.'%')
-			->Where('branchNumber',"like",$phone.'%')
-			->get();
-		}
-		if($first)
-		{
-			$data = DB::table('qualities')
-			->where('company_name',"like",$company_name.'%')
-			->Where('address1',"=",$address)
-			->Where('city',"=",$city)
-			->Where('state',"=",$state)
-			->Where('zipcode',"=",$zipcode)
-			->Where('prm',"like",$prm.'%')
-			->Where('first_name',"=",$first)
-			->get();
-		}
-		if($last)
-		{
-			$data = DB::table('qualities')
-			->where('company_name',"like",$company_name.'%')
-			->Where('address1',"=",$address)
-			->Where('city',"=",$city)
-			->Where('state',"=",$state)
-			->Where('zipcode',"=",$zipcode)
-			->Where('prm',"like",$prm.'%')
-			->Where('last_name',"=",$last)
-			->get();
-		}
-		if($jobtitle)
-		{
-			$data = DB::table('qualities')
-			->where('company_name',"like",$company_name.'%')
-			->Where('address1',"=",$address)
-			->Where('city',"=",$city)
-			->Where('state',"=",$state)
-			->Where('zipcode',"=",$zipcode)
-			->Where('prm',"like",$prm.'%')
-			->Where('job_title',"like",$jobtitle.'%')
-			->get();
-		}
-		if($email)
-		{
-			$data = DB::table('qualities')
-			->where('company_name',"like",$company_name.'%')
-			->Where('address1',"=",$address)
-			->Where('city',"=",$city)
-			->Where('state',"=",$state)
-			->Where('zipcode',"=",$zipcode)
-			->Where('prm',"like",$prm.'%')
-			->Where('staff_email',"=",$email)
-			->get();
-		}
-		if($first != '' && $last != '' && $jobtitle && $email != '')
-		{
-			$data = DB::table('qualities')
-			->where('company_name',"like",$company_name.'%')
-			->Where('address1',"=",$address)
-			->Where('city',"=",$city)
-			->Where('state',"=",$state)
-			->Where('zipcode',"=",$zipcode)
-			->Where('prm',"like",$prm.'%')
-			->Where('first_name',"=",$first)
-			->Where('last_name',"=",$last)
-			->Where('prm',"like",$prm.'%')
-			->Where('job_title',"like",$jobtitle.'%')
-			->get();
-		}
-		Log::info($phone);
-		Log::info($data);
+		$data = $mdbRepository->duplicatecheck($company_name,$website,$address,$city,$state,$zipcode,$phone,$prm,$first,$last,$jobtitle,$email,$specility);
+		Log::info("Contact:::::". $data);
 		$duplicate1 = collect($duplicate1);
 		$data = collect($data);
-		$duplicate = $duplicate1 ->merge($data);
+		$duplicate = $duplicate1->merge($data);
 		Log::debug($duplicate);
 		return view('company.partials.duplicate-list', compact('duplicate'));
 	}

@@ -63,10 +63,10 @@ class SubBatchesController extends Controller
 		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'),null,Input::get('status'),$this->theUser->vendor_id);
 		$statuses = ['' => trans('app.all')] + SubBatchStatus::lists1();
 		$vendorId = $this->theUser->vendor_id;
-		$batches = $batchRepository->getVendorBatches($vendorId);
-		$batches->prepend('Select Batch', '0');
-		$users = $userRepository->getVendorUsers($vendorId);
-		$users->prepend('Select User', '0');
+		$batches = ['' => trans('') ] + $batchRepository->getVendorBatches($vendorId)->toArray();
+		//$batches->prepend('Select Batch', '0');
+		$users = ['' => trans('')] + $userRepository->getVendorUsers($vendorId)->toArray();
+// 		$users->prepend('Select User', '0');
 		foreach($subBatches as $subBatch)
 		{
 			$subBatch['count'] = $companyRepository->getAssignedCompanyCountForSubBatch($subBatch->id);

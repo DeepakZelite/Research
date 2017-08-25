@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h1 class="page-header">
-        	@lang('app.upload_QC_data')
+        	@lang('app.upload_main_data')
             <div class="pull-right">
                 <ol class="breadcrumb">
                     <li><a href="{{ route('dashboard') }}">@lang('app.home')</a></li>
@@ -25,7 +25,7 @@
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <div class="panel panel-default">
-            <div class="panel-heading">@lang('app.upload_QC_data')</div>
+            <div class="panel-heading">@lang('app.upload_main_data')</div>
             <div class="panel-body">
                  <div class="form-group">
 				  <label class="control-label" for="upload file">@lang('app.select_file')<i style="color:red;">*</i></label>

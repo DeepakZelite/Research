@@ -75,6 +75,10 @@
                                			title="@lang('app.start')" data-toggle="tooltip" data-placement="top">
                                 		<i class="glyphicon glyphicon-play"></i>
                             	</a>
+                            	<a href="#" class="btn btn-danger btn-circle" id="btnClose"
+                               			title="@lang('app.stop')" data-toggle="tooltip" data-placement="top">
+                                 		<i class="glyphicon glyphicon-stop"></i>
+                         		</a> 
                          	@endif
                          @else
                          	@if ($subBatch->status != "Submitted")
@@ -82,8 +86,13 @@
                                			title="@lang('app.start')" data-toggle="tooltip" data-placement="top">
                                 		<i class="glyphicon glyphicon-play"></i>
                             	</a>
+                            	<a href="#" class="btn btn-danger btn-circle" id="btnClose"
+                               			title="@lang('app.stop')" data-toggle="tooltip" data-placement="top">
+                                 		<i class="glyphicon glyphicon-stop"></i>
+                         		</a> 
                          	@endif
-                         @endif   
+                         @endif  
+                         
           				</td>
                      </tr>
                 @endforeach
@@ -102,6 +111,24 @@
 
 @section('scripts')
     <script>
+	$('#btnStart').click(function(){
+		localStorage.setItem('close', Date.now());
+		$('#btnStart').css("visibility","hidden");
+		$('#btnClose').css("visibility","visible");
+	});
+	$("#btnClose").click(function(){
+		localStorage.removeItem('close');
+		$('#btnClose').css("visibility", "hidden");
+		$('#btnStart').css("visibility","visible");
+	});
+	if(!localStorage.getItem('close'))
+	{
+		$('#btnClose').css("visibility", "hidden");
+		$('#btnStart').css("visibility","visible");
+	}else{
+		$('#btnStart').css("visibility","hidden");
+		$('#btnClose').css("visibility","visible");
+	}
         $("#status").change(function () {
             $("#sub-batches-form").submit();
         });
