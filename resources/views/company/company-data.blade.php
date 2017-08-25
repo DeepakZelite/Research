@@ -136,7 +136,7 @@
 						value="{{ $editCompany ? $company->branchNumber : old('branchNumber') }}">
 				</div>
 				<div class="form-group col-lg-2">
-					<label for="addresscode">@lang('app.addresscode')</label> <input
+					<label for="addresscode">@lang('app.addresscode')<i style="color: red;">*</i></label> <input
 						type="text" class="form-control" id="addresscode"
 						name="addresscode" placeholder="@lang('app.addresscode')"
 						value="{{ $editCompany ? $company->addresscode : old('addresscode') }}">
@@ -599,6 +599,13 @@ $(document).ready(function() {
 		else {
 		    $('#zipcode').css('border-color', 'green');
 		}
+		
+		if($('#addresscode').val() == ''){
+			$('#addresscode').css('border-color', 'red');
+		    return false;
+		}else{
+			$('#addresscode').css('border-color', 'green');
+		}
 
 		if($('#website').val() != '')
 		{
@@ -789,6 +796,13 @@ function submitCompany()
 	    $('#zipcode').css('border-color', 'green');
 	}
 
+	if($('#addresscode').val() == ''){
+		$('#addresscode').css('border-color', 'red');
+	    return false;
+	}else{
+		$('#addresscode').css('border-color', 'green');
+	}
+	
 	if($('#website').val() != '')
 	{
 		var re = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
