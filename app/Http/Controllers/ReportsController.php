@@ -17,7 +17,6 @@ use Vanguard\Repositories\Vendor\VendorRepository;
 use Vanguard\Repositories\SubBatch\SubBatchRepository;
 use Vanguard\Repositories\Report\ReportRepository;
 use Illuminate\Support\Facades\Log;
-use DB;
 
 
 class ReportsController extends Controller
@@ -202,6 +201,7 @@ class ReportsController extends Controller
 			$minute=$data->hrs;
 			$time=gmdate("H:i", ($minute * 60));
 			$hours=gmdate("H",($minute*60));
+			Log::debug($time);
 			$data->hrs =$time;
 			$per_hour=0;
 			if($hours!=0)

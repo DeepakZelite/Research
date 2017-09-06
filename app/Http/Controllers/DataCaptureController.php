@@ -116,7 +116,14 @@ class DataCaptureController extends Controller
 			$data->records = $contactRepository->getProcessRecordFromDate($data->start_time,Carbon::now());
 			$date=Carbon::parse($data->start_time);
 			$time=$date->diff(Carbon::now());
-			$data->time = $time->format('%i');
+			if($time->format('%H') != 0)
+			{
+				$hour = $time->format('%H');
+				$min = ($hour * 60) + $time->format('%i');
+				$data->time = $min;
+			}else{
+				$data->time = $time->format('%i');
+			}
 			$data->save();
 			//Log::info($user->id."start_time".$data->start_time."count".$time->format('%s'));
 		}
@@ -205,8 +212,8 @@ class DataCaptureController extends Controller
  		
  		$data1 = Contact::find($contact->id);
  		//Log::info($data1->type);
- 		if($data1->type == 'named')
- 		{
+//  		if($data1->type == 'named')
+//  		{
  			$subBatch=Company::find($contact->company_id);
  			//Log::info("...". $subBatch->user_id);
  			$users = $reportRepository->get_id_for_stoptime($subBatch->user_id);
@@ -217,11 +224,18 @@ class DataCaptureController extends Controller
  				$data->records = $contactRepository->getProcessRecordFromDate($data->start_time,Carbon::now());
  				$date=Carbon::parse($data->start_time);
  				$time=$date->diff(Carbon::now());
- 				$data->time = $time->format('%i');
+ 				if($time->format('%H') != 0)
+ 				{
+ 					$hour = $time->format('%H');
+ 					$min = ($hour * 60) + $time->format('%i');
+ 					$data->time = $min;
+ 				}else{
+ 					$data->time = $time->format('%i');
+ 				}
  				$data->save();
  				//Log::info($user->id."start_time".$data->start_time."count".$time->format('%s'));
  			}
- 		}
+//  		}
  		
 		$company = Company::find($contact->company_id);
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.contact_created'));

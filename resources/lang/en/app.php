@@ -628,6 +628,11 @@ return [
 		'stop'=>'Stop',
 		'specific' => 'Specific',
 		
+		'sql_queries' => 'SQL Queries',
+		'sql' => 'SQL',
+		'raw' => 'Raw',
+		'run' => 'Run',
+		
 		'months' => [
         'January' => 'January',
         'February' => 'February',
