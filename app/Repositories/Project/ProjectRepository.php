@@ -98,4 +98,8 @@ interface ProjectRepository
     public function getprojectNameList();
     
     public function getProjectCompanyCount($projectId = null);
+    
+    public function getProjectCode($vendorId=null);
+    
+    public function getProjectName($vendorId=null);
 }

@@ -5,6 +5,7 @@ namespace Vanguard\Repositories\Project;
 use Vanguard\Project;
 use Carbon\Carbon;
 use Kyslik\ColumnSortable\Sortable;
+use Illuminate\Support\Facades\Log;
 
 class EloquentProject implements ProjectRepository
 {
@@ -135,6 +136,38 @@ class EloquentProject implements ProjectRepository
     		$query->where('id', "=", "{$projectId}");
     	}
     	$result=$query->select('No_Companies')->get()->first();
+    	return $result;
+    }
+    
+    public function getProjectCode($vendorId=null)
+    {
+    	$query = Project::query();
+    	if($vendorId)
+    	{
+    		$query->where('batches.vendor_id',"=","{$vendorId}");
+    	}
+    	$result=$query->select('projects.code')
+    				->join('batches', 'batches.project_id', '=', 'projects.id')
+    				->distinct('projects.project_id')
+    				->lists('code','code')
+    				->toArray();
+    	Log::debug("getProjectCode Sql:". $query->toSql());
+    	return $result;
+    }
+    
+    public function getProjectName($vendorId=null)
+    {
+    	$query = Project::query();
+    	if($vendorId)
+    	{
+    		$query->where('batches.vendor_id',"=","{$vendorId}");
+    	}
+    	$result=$query->select('projects.name')
+    				->join('batches', 'batches.project_id', '=', 'projects.id')
+    				->distinct('projects.project_id')
+    				->lists('name','name')
+    				->toArray();
+    	Log::debug("getProjectCode Sql:". $query->toSql());
     	return $result;
     }
 }

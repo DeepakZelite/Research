@@ -231,6 +231,7 @@ class EloquentCompany implements CompanyRepository
     		$query->where(function ($q) use($batchId) {
     			$q->where('companies.batch_id', "=", "{$batchId}");
     			$q->where('companies.status',"=","Submitted");
+    			$q->where('companies.parent_id',"=","0");
     		});
     	} else {
     		return 0;
@@ -413,6 +414,44 @@ class EloquentCompany implements CompanyRepository
     	$query = Company::query();
     	$result = $query->where('batch_id',"=","{$batch_id}")
     					->get();
+    	return $result;
+    }
+    
+    public function getSubmittedCompanyCountForReport($batchId,$userId)
+    {
+    	$query = Company::query();
+    	if($batchId)
+    	{
+    		$query->where('companies.batch_id',"=","{$batchId}");
+    	}
+    	if($userId)
+    	{
+    		$query->where('companies.user_id',"=","{$userId}");
+    	}
+    	$query->where('companies.parent_id',"=","0");
+    	$result=$query->where('companies.status',"=","Submitted")
+    				->count();
+    		Log::debug("getSubmittedCompanyCountForReport Sql:". $query->toSql());
+    		Log::debug("getSubmittedCompanyCountForReport Count:".$result);
+    	return $result;
+    }
+    
+    public function getSubmittedSubsidiaryCompanyCount($batchId=null,$userId=null)
+    {
+    	$query = Company::query();
+    	if($batchId)
+    	{
+    		$query->where('companies.batch_id',"=","{$batchId}");
+    	}
+    	if($userId)
+    	{
+    		$query->where('companies.user_id',"=","{$userId}");
+    	}
+    	$query->where('companies.parent_id',"!=","0");
+    	$result=$query->where('companies.status',"=","Submitted")
+    	->count();
+    	Log::debug("getSubmittedCompanyCountForReport Sql:". $query->toSql());
+    	Log::debug("getSubmittedCompanyCountForReport Count:".$result);
     	return $result;
     }
 }

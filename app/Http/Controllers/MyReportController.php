@@ -48,9 +48,9 @@ class MyReportController extends Controller
 			$data->no_rows = $staff_process_count;
 			$records=$data->no_rows;
 			$minute=$data->hrs;
-			$time=gmdate("H:i", ($minute * 60));
-			$hours=gmdate("H",($minute*60));
-			//Log::info("Contact:::::". $time);
+			$hours= intval($minute/60);
+			$min = $minute%60;
+			$time = $hours.":".$min;
 			$data->hrs =$time;
 			$per_hour=0;
 			if($hours!= 0)
@@ -89,10 +89,10 @@ class MyReportController extends Controller
 			$data->no_rows = $staff_process_count;
 			$records=$data->no_rows;
 			$minute=$data->hrs;
-			$time=gmdate("H:i", ($minute * 60));
-			$hours=gmdate("H",($minute*60));
-			//Log::info("Contact:::::". $time);
-			$data->hrs =$time;
+			$hours= intval($minute/60);
+			$min = $minute%60;
+			$time = $hours.":".$min;
+ 			$data->hrs =$time;
 			$per_hour=0;
 			if($hours!= 0)
 			{

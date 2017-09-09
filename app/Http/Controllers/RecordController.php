@@ -22,7 +22,7 @@ class RecordController extends Controller
 	{
 		$data = [];
 		$edit = false;
-		return view('records\list',compact('data','edit'));
+		return view('records.list',compact('data','edit'));
 	}
 	
 	public function info(Request $request)
@@ -35,6 +35,6 @@ class RecordController extends Controller
 		$edit = $request->queries;
 		Debugbar::info($data);
 		//     	$data = (array) html_entity_decode(json_encode($data),true);
-		return view('records\list',compact('data','edit'));
+		return view('records.list',compact('data','edit'));
 	}
 }

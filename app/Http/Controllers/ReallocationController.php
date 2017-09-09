@@ -48,6 +48,7 @@ class ReallocationController extends Controller
 	
 				$subBatch = $subbatchRepository->find($company->sub_batch_id);
 				$subBatch ->status = 'In-Process';
+				$subBatch ->notify = 'Reassign';
 				$subBatch ->save();
 				 
 				$batch = $batchRepository->find($company->batch_id);

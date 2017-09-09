@@ -157,7 +157,8 @@ interface CompanyRepository
      * @param unknown $vendorId
      * @param unknown $userId
      */
-    public function getCompaniesForProductivityReport($vendorId = null,$userId = null);
+    //public function getCompaniesForProductivityReport($vendorId = null,$userId = null);
+    public function getCompaniesForProductivityReport($vendorId = null,$userId = null,$start_date=null,$end_date=null);
     
     /**
      * get companies id for report
@@ -186,4 +187,8 @@ interface CompanyRepository
      * @param unknown $batch_id
      */
     public function getCompaniesForBatchForReallocation($batch_id);
+    
+    public function getSubmittedCompanyCountForReport($batchId,$userId);
+    
+    public function getSubmittedSubsidiaryCompanyCount($batchId=null,$userId=null);
 }

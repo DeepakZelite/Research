@@ -22,5 +22,5 @@ interface ReportRepository
 	 * get report of perticular user
 	 * @param unknown $user_id
 	 */
-	public function get_data_for_report($user_id=null,$start_date=null,$end_date=null,$vendorId=null);
+	public function get_data_for_report($user_id=null,$start_date=null,$end_date=null,$vendorId=null,$batchId=null);
 }

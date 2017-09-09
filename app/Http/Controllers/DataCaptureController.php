@@ -165,6 +165,7 @@ class DataCaptureController extends Controller
 			// Set the status of sub-batch to Submitted and redirect to sub-batch list
 			Log::debug("Sub-Batch Assigned ".sizeof($companies));
 			$subBatch=SubBatch::find($subBatchId);
+			$subBatch->notify=null;
 			$subBatch->status="Submitted";
 			$subBatch->save();
 			return redirect()->route('dataCapture.list')->withSuccess(trans('app.batch_submitted'));
@@ -398,9 +399,12 @@ class DataCaptureController extends Controller
 	
 	public function starttimecapture($subBatchId)
 	{
+		$subBatch=SubBatch::find($subBatchId);
+		Log::debug("subBatch: ".$subBatch);
 		$report = new Report;
 		$report->user_id = $this->theUser->id;
 		$report->start_time = Carbon::now();
+		$report->batch_id = $subBatch->batch_id;
 		$report->save();
 		return redirect()->route('dataCapture.capture',$subBatchId);
 	}
