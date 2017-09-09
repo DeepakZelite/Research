@@ -52,6 +52,9 @@
 				</div>
 			</div>
         </div>
+        <div class="col-xs-7 col-sm-7 col-md-3 col-lg-3">
+             	{!! Form::select('batch_id', $batches, Input::get('batch'), ['class' => 'form-control', 'id' => 'batch_id']) !!}
+        </div>
     	<div class="col-xs-3 col-sm-3 col-md-1 col-lg-1">
     	<input type="button" id="btn_go" class="btn btn-success" value="@lang('app.go')" onclick="getRecord();"/>
     	</div>
@@ -129,18 +132,24 @@ $(document).ready(function() {
 		placeholder:'Select a User',
 		allowClear: true
 	});
+	$("#batch_id").select2({
+		width: '100%',
+		placeholder: 'Select a Batch',
+		allowClear: true
+	});
 });
 
 function getRecord()
 {
 	var $vendorId	= $("#vendor_code").val();
 	var $userId = $("#user_id").val();
+	var $batchId = $("#batch_id").val();
 	var $startdate=$("#Start_Date").val();
 	var $enddate=$("#Expected_date").val();
 	$.ajax({
 		method:"GET",
 		url:"{{route('report.getProductivityReport')}}",
-		data:{'vendorId':$vendorId,'userId':$userId,'fromDate':$startdate,'toDate':$enddate},
+		data:{'vendorId':$vendorId,'userId':$userId,'fromDate':$startdate,'toDate':$enddate,'batchId':$batchId},
 		success:function(data){
 			$('#reportData').html(data).fadeIn();
 		}

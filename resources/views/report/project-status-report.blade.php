@@ -51,6 +51,8 @@
             <th style="display:none;">@lang('app.project_name')</th>
             <th>@lang('app.batch_name')</th>
             <th>@lang('app.number_of_companies')</th>
+            <th>@lang('app.companies_processed')</th>
+            <th>@lang('app.subsidiary_count')</th>
             <th>@lang('app.staff_processed')</th>
             <th>@lang('app.email_processed')</th>
             <th class="text-center">@lang('app.batch_status')</th>
@@ -64,6 +66,8 @@
                          <td style="display:none;">{{ $batch->project_name }}</td>
                          <td>{{ $batch->name }}</td>
                          <td>{{ $batch->companies }}</td>
+                         <td>{{ $batch->comp_process_count }}</td>
+                         <td>{{ $batch->subsidary_process_count }}</td>
                          <td>{{ $batch->staff }}</td>
                          <td>{{ $batch->email_count }} </td>
                          <td class="text-center">{{ $batch->status }}</td>
@@ -80,6 +84,8 @@
         		<th>@lang('app.total')</th>
         		<th colspan="2"></th>
         		<th><span id ="totalcompany"></span></th>
+        		<th><span id="company_processed"></span></th>
+        		<th><span id="subsidiary_count"></span></th>
         		<th><span id ="totalstaff"></span></th>
         		<th><span id="email_count"></span></th>
         		<th></th>
@@ -134,17 +140,27 @@ $(document).ready(function() {
 				total_no_companies = api.column( 4 ).data().reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				},0 );
+
+				company_processed = api.column( 5 ).data().reduce( function (a,b){
+						return intVal(a) + intVal(b);
+				},0);
+
+				subsidiary_processed = api.column( 6 ).data().reduce(function (a, b){
+					return intVal(a) + intVal(b);
+				}, 0);
 				
-				total_staff_count = api.column( 5 ).data().reduce( function (a, b) {
+				total_staff_count = api.column( 7 ).data().reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				},0 );
 
-				total_email_count = api.column( 6 ).data().reduce( function (a, b) {
+				total_email_count = api.column( 8 ).data().reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				},0 );
 
 				// Update footer
 				$('#totalcompany').html(total_no_companies);
+				$('#company_processed').html(company_processed);
+				$('#subsidiary_count').html(subsidiary_processed);
 				$('#totalstaff').html(total_staff_count);
 				$('#email_count').html(total_email_count);
 			},		

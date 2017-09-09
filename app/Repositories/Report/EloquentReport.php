@@ -32,7 +32,7 @@ class EloquentReport implements ReportRepository
 		return $result;
 	}
 	
-	public function get_data_for_report($user_id=null,$start_date=null,$end_date=null,$vendorId=null)
+	public function get_data_for_report($user_id=null,$start_date=null,$end_date=null,$vendorId=null,$batchId=null)
 	{
 		$query = Report::query();
 		if($user_id)
@@ -45,6 +45,7 @@ class EloquentReport implements ReportRepository
 		}
 		if($start_date)
 		{
+			$start_date =$start_date . " 00:00:01";
 			$query->where('report_details.start_time',">=","{$start_date}");
 		}
 		
@@ -58,7 +59,13 @@ class EloquentReport implements ReportRepository
 			$end_date =$end_date . " 23:59:59";
 			$query->where('report_details.stop_time',"<=","{$end_date}");
 		}
-		if($vendorId == 0 && $user_id == 0)
+		
+		if($batchId)
+		{
+			$query->where('report_details.batch_id',"=","{$batchId}");
+		}
+		
+		if($vendorId == 0 && $user_id == 0 && $batchId == 0)
 		{
 			$result = $query
 			->leftjoin('users', 'users.id', '=', 'report_details.user_id')
@@ -72,7 +79,7 @@ class EloquentReport implements ReportRepository
 		$result = $query
 				->leftjoin('users', 'users.id', '=', 'report_details.user_id')
 				->leftjoin('vendors','vendors.id','=','users.vendor_id')
-				->select(DB::raw('users.id,users.first_name,users.last_name,users.vendor_id,vendors.vendor_code,sum(report_details.records) as no_rows,sum(report_details.time) as hrs'))
+				->select(DB::raw('users.id,users.first_name,users.last_name,users.vendor_id,vendors.vendor_code,sum(report_details.records) as no_rows,sum(report_details.time) as hrs,min(start_time) as start_time,max(stop_time) as stop_time'))
 				->groupBy('users.id')
 				->get();
 		return $result;

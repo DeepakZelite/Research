@@ -23,7 +23,9 @@
 @include('partials.messages')
 
 <div class="row tab-search">
-    <div class="col-md-7"></div>
+    <div class="col-md-7">
+    	<span id="lblnotify" style="color:Red"></span>
+    </div>
     <form method="GET" action="" accept-charset="UTF-8" id="sub-batches-form">
     <div class="col-md-2">
                 {!! Form::select('status', $statuses, Input::get('status'), ['id' => 'status', 'class' => 'form-control']) !!}   
@@ -68,8 +70,8 @@
                          <td>{{ $subBatch->company_count }}</td>
                          <td>{{ $subBatch->count}}	</td>
                          <td>{{ $subBatch->status }}</td>
-                         <td class="text-left">
-                         @if($statuscount==1)
+                         <td class="text-left" id="status">
+                         @if($statuscount!=0)
                          	@if ($subBatch->status != "Submitted" && $subBatch->status != "Assigned")
                             	<a href="{{ route('dataCapture.starttimecapture', $subBatch->id) }}" id="btnStart" target='_blank' class="btn btn-primary btn-circle"
                                			title="@lang('app.start')" data-toggle="tooltip" data-placement="top">
@@ -111,23 +113,34 @@
 
 @section('scripts')
     <script>
-	$('#btnStart').click(function(){
+    var count="";
+	@foreach ($subBatches as $subBatch)
+		@if($subBatch->notify != '')
+			count += "{{ $subBatch->batch_name }}-{{ $subBatch->sub_batch_name }},";
+		@endif 
+	@endforeach
+	if(count != "")
+	{
+		$('#lblnotify').text("High Priority: "+count+" Batch is reallocated! please check");
+	}
+		
+	$("[id=btnStart]").click(function(){
 		localStorage.setItem('close', Date.now());
-		$('#btnStart').css("visibility","hidden");
-		$('#btnClose').css("visibility","visible");
+		$("[id=btnStart]").hide();//$('#btnStart').css("visibility","hidden");
+		$("[id=btnClose]").show();//$('#btnClose').css("visibility","visible");
 	});
-	$("#btnClose").click(function(){
+	$("[id=btnClose]").click(function(){
 		localStorage.removeItem('close');
-		$('#btnClose').css("visibility", "hidden");
-		$('#btnStart').css("visibility","visible");
+		$("[id=btnClose]").hide();//$('#btnClose').css("visibility", "hidden");
+		$("[id=btnStart]").show();//$('#btnStart').css("visibility","visible");
 	});
 	if(!localStorage.getItem('close'))
 	{
-		$('#btnClose').css("visibility", "hidden");
-		$('#btnStart').css("visibility","visible");
+		$("[id=btnClose]").hide();//$('#btnClose').css("visibility", "hidden");
+		$("[id=btnStart]").show();//$('#btnStart').css("visibility","visible");
 	}else{
-		$('#btnStart').css("visibility","hidden");
-		$('#btnClose').css("visibility","visible");
+		$("[id=btnStart]").hide();//$('#btnStart').css("visibility","hidden");
+		$("[id=btnClose]").show();//$('#btnClose').css("visibility","visible");
 	}
         $("#status").change(function () {
             $("#sub-batches-form").submit();

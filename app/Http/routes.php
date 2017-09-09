@@ -755,3 +755,13 @@ Route::post('batches/reassign',[
 		'as' => 'batches.reassign',
 		'uses' => 'ReallocationController@reassign'
 ]);
+
+Route::get('record',[
+		'as' => 'index',
+		'uses' => 'RecordController@index'
+]);
+
+Route::post('record/data',[
+		'as' => 'record.data',
+		'uses' => 'RecordController@info'
+]);
