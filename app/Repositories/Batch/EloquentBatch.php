@@ -177,7 +177,7 @@ class EloquentBatch implements BatchRepository
     	$query = Batch::query();
     	if($batch)
     	{
-    		$query->where('name',"like","{$batch}%");
+    		$query->where('name',"like","%{$batch}%");
     	}
     	else{
     		return 0;

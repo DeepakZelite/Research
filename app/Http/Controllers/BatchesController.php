@@ -99,8 +99,6 @@ class BatchesController extends Controller
 		$count = $data1->count();
 		$data = $request->all()+ ['status' => SubBatchStatus::ASSIGNED];
 		$company_count = $request->company_count;
-// 		$companies=$projectRepository->getProjectCompanyCount($request->project_id);
-// 		$company_count = $companies -> No_Companies;
 		$batches = $batchRepository->getCompanyCountBasedOnProject($request->project_id);
 		$project = $projectRepository->find($request->project_id);
 		$project->No_Companies = $batches + $company_count;
@@ -349,7 +347,14 @@ class BatchesController extends Controller
 		->withSuccess(trans('app.batch_deleted'));
 	}
 	
-
+	/**
+	 * Batch Name Logic  
+	 * @param Request $request
+	 * @param VendorRepository $vendorRepository
+	 * @param ProjectRepository $projectRepository
+	 * @param BatchRepository $batchRepository
+	 * @return string
+	 */
 	public function getbatchName(Request $request,VendorRepository $vendorRepository,ProjectRepository $projectRepository,BatchRepository $batchRepository)
 	{
 		$vendorId =$request->input('vendorId');
@@ -362,7 +367,8 @@ class BatchesController extends Controller
 		{
 			$a=$vendors->vendor_code."_".$projects->code."_".$today."_B";
 		}
-		$count=$batchRepository->getBatchNameCount($a);
+		$count=$batchRepository->getBatchNameCount($projects->code);
+		Log::debug($count);
 		$count=$count+1;
 		if($count <= 9)
 		{
