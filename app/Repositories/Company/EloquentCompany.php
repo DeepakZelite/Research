@@ -413,6 +413,7 @@ class EloquentCompany implements CompanyRepository
     {
     	$query = Company::query();
     	$result = $query->where('batch_id',"=","{$batch_id}")
+    					->where('parent_id',"=","0")
     					->get();
     	return $result;
     }

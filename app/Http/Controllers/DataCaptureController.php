@@ -316,6 +316,7 @@ class DataCaptureController extends Controller
 	public function getChildren(Company $company)
 	{
 		$perPage = 5;
+		Log::debug($company);
 		$children = $this->companyRepository->paginate($perPage, Input::get('search'), $company->id);
 		return view('company.partials.company-list', compact('company' ,'children'));
 	}
@@ -418,5 +419,30 @@ class DataCaptureController extends Controller
 		} 
 		$companyRepository->delete($company->id);
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.subsidiary_deleted'));
+	}
+	
+	public function getSubsidaryCompany(Request $request,CompanyRepository $companyRepository,Contact $contactId)
+	{
+		$inputs = Input::all();
+		$companyId = $inputs['companyId'];
+		$contactId = $inputs['contactId'];
+		Log::debug("comapny Id: ".$companyId." Contact Id: ".$contactId);
+		$company = $companyRepository->find($companyId);
+		$perPage = 5;
+		$children = $this->companyRepository->paginate($perPage, Input::get('search'), $companyId);
+		Log::debug($children);
+		return view('company.partials.subsidiaries', compact('company' ,'children','contactId'));
+	}
+	
+	public function moveContact(Request $request,ContactRepository $contactRepository)
+	{
+		$inputs = Input::all();
+		$companyId = $inputs['companyId'];
+		$contactId = $inputs['contactId'];
+		Log::debug("comapny Id: ".$companyId." Contact Id: ".$contactId);
+		$contact = $contactRepository->find($contactId);
+		$contact->company_id = $companyId;
+		$contact->save();
+		Log::debug("contact".$contact."company_id".$contact->company_id);
 	}
 }

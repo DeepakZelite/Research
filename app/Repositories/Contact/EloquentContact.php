@@ -360,4 +360,80 @@ class EloquentContact implements ContactRepository
     	Log::debug("getTotalContactCount Sql:". $query->toSql());
     	return $result;
     }
+    
+    /**
+     * get total no. of staff for perticular batch
+     * {@inheritDoc}
+     * @see \Vanguard\Repositories\Contact\ContactRepository::getProcessRecordCountForBatch()
+     */
+    public function getProcessRecordCountForBatch($batch = null,$userId = null,$fromDate = null, $toDate = null)
+    {
+    	$query = Contact::query();
+    	if($batch)
+    	{
+    		$query->where('companies.batch_id',"=","{$batch}");
+    	}
+    	if($userId)
+    	{
+    		$query->where('contacts.user_id',"=","{$userId}");
+    	}
+    	if($fromDate)
+    	{
+    		$query->where('contacts.updated_at',">=", "{$fromDate}");
+    	}
+    	 
+    	if($toDate)
+    	{
+    		$toDate =$toDate . " 23:59:59";
+    		$query->where('contacts.updated_at',"<=","{$toDate}");
+    	}
+    	 
+    	$result=$query
+    			->leftjoin('users', 'users.id', '=', 'contacts.user_id')
+    			->leftjoin('companies','companies.id',"=",'contacts.company_id')
+    			->count();
+    	Log::debug("getProcessRecordCountForBatch Sql:". $query->toSql());
+    	Log::debug("getProcessRecordCountForBatch Count:".$result);
+    	return $result;
+    }
+    
+    /**
+     * get total no of email processed for perticular batch
+     * @param unknown $batch
+     * @param unknown $userId
+     * @param unknown $fromDate
+     * @param unknown $toDate
+     * @return unknown
+     */
+    public function getEmailRecordCountForBatch($batch = null,$userId = null,$fromDate = null, $toDate = null)
+    {
+    	$query = Contact::query();
+    	if($batch)
+    	{
+    		$query->where('companies.batch_id',"=","{$batch}");
+    	}
+    	if($userId)
+    	{
+    		$query->where('contacts.user_id',"=","{$userId}");
+    	}
+    	if($fromDate)
+    	{
+    		$query->where('contacts.updated_at',">=", "{$fromDate}");
+    	}
+    
+    	if($toDate)
+    	{
+    		$toDate =$toDate . " 23:59:59";
+    		$query->where('contacts.updated_at',"<=","{$toDate}");
+    	}
+    
+    	$result=$query
+    			->leftjoin('users', 'users.id', '=', 'contacts.user_id')
+    			->leftjoin('companies','companies.id',"=",'contacts.company_id')
+    			->where('contacts.staff_email', "!=", " ")
+    			->count();
+    	Log::debug("getEmailRecordCountForBatch Sql:". $query->toSql());
+    	Log::debug("getEmailRecordCountForBatch Count:".$result);
+    	return $result;
+    }
 }

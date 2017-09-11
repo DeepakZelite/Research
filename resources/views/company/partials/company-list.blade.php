@@ -10,6 +10,7 @@
 					<table class="table">
 						<thead>
 							<th>@lang('app.company_name')</th>
+							<th>@lang('app.action')</th>
 						</thead>
 						<tbody>
 							@if (count($children)) 

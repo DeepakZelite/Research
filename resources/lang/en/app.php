@@ -632,6 +632,7 @@ return [
 		'sql' => 'SQL',
 		'raw' => 'Raw',
 		'run' => 'Run',
+		'move_staff' => 'Move Staff',
 		
 		'months' => [
         'January' => 'January',

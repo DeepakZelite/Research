@@ -344,7 +344,13 @@
                                     data-confirm-title="@lang('app.please_confirm')"
                                     data-confirm-text="@lang('app.are_you_sure_delete_staff')"
                                     data-confirm-delete="@lang('app.yes')">
-                                <i class="glyphicon glyphicon-trash"></i></a>
+                                <i class="glyphicon glyphicon-trash"></i>
+                    </a>
+                    <a href="#" class="btn btn-primary btn-circle" data-toggle="modal"
+						data-target="#moveModal" title="@lang('app.move_staff')"
+						onclick="moveContact({{ $company->id }},{{ $contact->id }});" data-toggle="tooltip"
+						data-placement="top"> <i class="glyphicon glyphicon-move"></i>
+                    </a>
 					</td>
 				</tr>
 				@endforeach @else
@@ -379,6 +385,7 @@
 	}
 	#duplicateModel .modal-dialog{width:1200px;}
 	#conform .model-dialog{width:600px;}
+	#moveModal .model-dialog{width:600px;}
 	
 }
 </style>
@@ -397,6 +404,20 @@
 	</div>
 </div>
 <!-- ---------------------------- code for opening the contact Pop-Up End ------------------------------ -->
+<!-- ---------------------------------- code for moving the staff Pop-up Start ------------------------------------ -->
+<div id="moveModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="row">
+		<div class="modal-content">
+			<div id="moveContact" class="modal-body">@lang('app.loading')
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+<!-- --------------------------------- code for moving the staff Pop-up End ------------------------------------- -->
 
 <!-- --------------------Child company list start----------------------- -->
 
@@ -678,6 +699,34 @@ function editContact(id) {
             $('#editContact').fadeOut().html($data).fadeIn();
             }
     })	
+}
+
+function moveContact(companyId,staffId){
+	var $companyId = companyId;
+	var $contactId = staffId;
+	$.ajax({
+		method: "GET",
+		url: "{{ route('dataCapture.getSubsidaryCompany') }}",
+		data: {'companyId':$companyId,'contactId':$contactId},
+		success: function(data){
+			$data = $(data);
+			$('#moveContact').html($data).fadeIn();
+		}
+	})
+}
+
+function moveContactToSubsidaries(companyId,staffId)
+{
+	var $companyId = companyId;
+	var $contactId = staffId;
+	$.ajax({
+		method: "GET",
+		url: "{{ route('dataCapture.moveContact') }}",
+		data: {'companyId':$companyId,'contactId':$contactId},
+		success: function(data){
+			window.location.reload();
+		}
+	})
 }
 
 function getChildren(id) {

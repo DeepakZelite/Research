@@ -211,8 +211,8 @@ class ReportsController extends Controller
 			{
 				$company_count = $companyRepository->getSubmittedCompanyCountForReport($batchId,$data->id);
 				$SubsidiaryCount =$companyRepository->getSubmittedSubsidiaryCompanyCount($batchId,$data->id);
-				$staff_process_count = $contactRepository->getProcessRecordCount(null,$data->id,$data->start_time,$data->stop_time);
-				$email_process_count = $contactRepository->getEmailRecordCount(null,$data->id,$data->start_time,$data->stop_time);
+				$staff_process_count = $contactRepository->getProcessRecordCountForBatch($batchId,$data->id,$data->start_time,$data->stop_time,$batchId);
+				$email_process_count = $contactRepository->getEmailRecordCountForBatch($batchId,$data->id,$data->start_time,$data->stop_time,$batchId);
 			}
 			else
 			{

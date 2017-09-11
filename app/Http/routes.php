@@ -765,3 +765,13 @@ Route::post('record/data',[
 		'as' => 'record.data',
 		'uses' => 'RecordController@info'
 ]);
+
+Route::get('dataCapture/getSubsidaryCompany', [
+		'as' => 'dataCapture.getSubsidaryCompany',
+		'uses' => 'DataCaptureController@getSubsidaryCompany'
+]);
+
+Route::get('dataCapture/moveContact',[
+		'as' => 'dataCapture.moveContact',
+		'uses' => 'DataCaptureController@moveContact'
+]);
