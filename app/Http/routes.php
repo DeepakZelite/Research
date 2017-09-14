@@ -775,3 +775,8 @@ Route::get('dataCapture/moveContact',[
 		'as' => 'dataCapture.moveContact',
 		'uses' => 'DataCaptureController@moveContact'
 ]);
+
+Route::get('dataCapture/{contact}/delete',[
+		'as' => 'dataCapture.moveContactToParent',
+		'uses' => 'DataCaptureController@moveContactToParent'
+]);

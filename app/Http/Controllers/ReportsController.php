@@ -110,7 +110,8 @@ class ReportsController extends Controller
 			{
 				$count=0; $email=0;
 				$companies=$companyRepository->getcompanies($datas->id);
-				Log::debug($companies);
+				$company = $companyRepository->getCompaniesForBatchForReallocation($datas->id);
+				$company_count = $company->count();
 				$company_processed = $companyRepository->getSubmittedCompanyCount($datas->id);
 				$subsidarycount = $companyRepository->getSubmittedSubsidiaryCompanyCount($datas->id,null);
 				Log::debug("company_count:".$company_processed."Subsidary count: ".$subsidarycount);
@@ -124,6 +125,7 @@ class ReportsController extends Controller
  						$email = $email + $a;
 					}
 				}
+				$datas["companies"] = "$company_count";
 				$datas["comp_process_count"] = "$company_processed";
 				$datas["subsidary_process_count"] = "$subsidarycount";
 				$datas["staff"] = "$count";
@@ -132,7 +134,6 @@ class ReportsController extends Controller
 		}
 		return view('report.project-status-report',compact('show','batches','projects', 'vendors','projects_name'));
 	}
-	
 	
 	/**
 	 * productivity report for all vendors by default.

@@ -633,6 +633,7 @@ return [
 		'raw' => 'Raw',
 		'run' => 'Run',
 		'move_staff' => 'Move Staff',
+		'staff_transfer_to_parent' => 'Staff Transfer To Parent Successfully',
 		
 		'months' => [
         'January' => 'January',

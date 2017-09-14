@@ -215,7 +215,9 @@ class EloquentContact implements ContactRepository
     	} else {
     		return 0;
     	}
-    	$result = $query->count();
+    	$result = $query->leftjoin('companies','companies.id',"=",'contacts.company_id')
+    				->where('companies.status',"=","Submitted")				
+    				->count();
     	Log::debug("getTotalContactCount Sql:". $query->toSql());
     	return $result;
     }
@@ -303,6 +305,8 @@ class EloquentContact implements ContactRepository
     	
     	$result=$query
     			->leftjoin('users', 'users.id', '=', 'contacts.user_id')
+    			->leftjoin('companies','companies.id',"=",'contacts.company_id')
+    			->where('companies.status',"=","Submitted")
     			->count();
     	Log::debug("getProcessRecordCount Sql:". $query->toSql());
     	Log::debug("getProcessRecordCount Count:".$result);
@@ -333,6 +337,8 @@ class EloquentContact implements ContactRepository
     	 
     	$result=$query
     	->leftjoin('users', 'users.id', '=', 'contacts.user_id')
+    	->leftjoin('companies','companies.id',"=",'contacts.company_id')
+    	->where('companies.status',"=","Submitted")
     	->where('contacts.staff_email', "!=", " ")
     	->count();
     	Log::debug("getEmailRecordCount Sql:". $query->toSql());
@@ -356,7 +362,10 @@ class EloquentContact implements ContactRepository
     	} else {
     		return 0;
     	}
-    	$result = $query->count();
+    	$result = $query
+    			->leftjoin('companies','companies.id',"=",'contacts.company_id')
+    			->where('companies.status',"=","Submitted")
+    			->count();
     	Log::debug("getTotalContactCount Sql:". $query->toSql());
     	return $result;
     }
@@ -391,6 +400,7 @@ class EloquentContact implements ContactRepository
     	$result=$query
     			->leftjoin('users', 'users.id', '=', 'contacts.user_id')
     			->leftjoin('companies','companies.id',"=",'contacts.company_id')
+    			->where('companies.status',"=","Submitted")
     			->count();
     	Log::debug("getProcessRecordCountForBatch Sql:". $query->toSql());
     	Log::debug("getProcessRecordCountForBatch Count:".$result);
@@ -431,6 +441,7 @@ class EloquentContact implements ContactRepository
     			->leftjoin('users', 'users.id', '=', 'contacts.user_id')
     			->leftjoin('companies','companies.id',"=",'contacts.company_id')
     			->where('contacts.staff_email', "!=", " ")
+    			->where('companies.status',"=","Submitted")
     			->count();
     	Log::debug("getEmailRecordCountForBatch Sql:". $query->toSql());
     	Log::debug("getEmailRecordCountForBatch Count:".$result);

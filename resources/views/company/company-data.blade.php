@@ -346,11 +346,18 @@
                                     data-confirm-delete="@lang('app.yes')">
                                 <i class="glyphicon glyphicon-trash"></i>
                     </a>
+                   	@if($company->parent_id == '0')
                     <a href="#" class="btn btn-primary btn-circle" data-toggle="modal"
 						data-target="#moveModal" title="@lang('app.move_staff')"
 						onclick="moveContact({{ $company->id }},{{ $contact->id }});" data-toggle="tooltip"
 						data-placement="top"> <i class="glyphicon glyphicon-move"></i>
                     </a>
+                    @else
+                    <a href="{{ route('dataCapture.moveContactToParent',$contact->id) }}" class="btn btn-primary btn-circle"
+                    	title="@lang('app.move_staff')" data-toggle="tooltip"
+						data-placement="top"> <i class="glyphicon glyphicon-move"></i>
+                    </a>
+                    @endif
 					</td>
 				</tr>
 				@endforeach @else
@@ -386,7 +393,7 @@
 	#duplicateModel .modal-dialog{width:1200px;}
 	#conform .model-dialog{width:600px;}
 	#moveModal .model-dialog{width:600px;}
-	
+	#company-list-wrapper{max-height: 400px; overflow-y: scroll;}
 }
 </style>
 <!-- ---------------------------- code for opening the contact Pop-Up Start------------------------------#duplicateModel .modal-content{ max-width:1300px; max-height:600px; overflow-y: auto;} -->
