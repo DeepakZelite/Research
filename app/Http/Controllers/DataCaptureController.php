@@ -183,6 +183,7 @@ class DataCaptureController extends Controller
 		$this->companyRepository->update($company->id, $request->all());
 		$comp=Company::find($company->id);
 		$comp->status="Submitted";
+		$comp->notify=null;
 		$comp->save();
 		
 		$subBatch=SubBatch::find($comp->sub_batch_id);
@@ -194,6 +195,7 @@ class DataCaptureController extends Controller
 			Log::debug("TotalCompanyCount".$companyRepository->getTotalCompanyCount($comp->batch_id)."SubmittedCompanyCount".$companyRepository->getSubmittedCompanyCount($comp->batch_id));
 			$batch=batch::find($comp->batch_id);
 			$batch->status=SubBatchStatus::COMPLETE;
+			$batch->notify=null;
 			$batch->update();
 		}
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id);
@@ -315,8 +317,9 @@ class DataCaptureController extends Controller
 	 */
 	public function getChildren(Company $company)
 	{
-		$perPage = 5;
+		$perPage = null;
 		$children = $this->companyRepository->paginate($perPage, Input::get('search'), $company->id);
+		Log::debug("Children List: ".$children);
 		return view('company.partials.company-list', compact('company' ,'children'));
 	}
 	
@@ -369,6 +372,12 @@ class DataCaptureController extends Controller
 		return view('company.partials.duplicate-list', compact('duplicate'));
 	}
 	
+	/**
+	 * For Delete the Perticular staff
+	 * @param Contact $contact
+	 * @param ContactRepository $contactRepository
+	 * @return unknown
+	 */
 	public function delete(Contact $contact,ContactRepository $contactRepository)
 	{
 		$contact = Contact::find($contact->id);
@@ -397,6 +406,11 @@ class DataCaptureController extends Controller
 		return redirect()->route('dataCapture.list');
 	}
 	
+	/**
+	 * Start Time Capture for Report Purpose 
+	 * @param unknown $subBatchId
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
 	public function starttimecapture($subBatchId)
 	{
 		$subBatch=SubBatch::find($subBatchId);
@@ -409,6 +423,13 @@ class DataCaptureController extends Controller
 		return redirect()->route('dataCapture.capture',$subBatchId);
 	}
 	
+	/**
+	 * Subsidiary company deleted purpose
+	 * @param Company $company
+	 * @param CompanyRepository $companyRepository
+	 * @param ContactRepository $contactRepository
+	 * @return unknown
+	 */
 	public function subsidiaryCompany(Company $company,CompanyRepository $companyRepository,ContactRepository $contactRepository)
 	{
 		$contact = $contactRepository->findByCompany($company->id);
@@ -418,5 +439,59 @@ class DataCaptureController extends Controller
 		} 
 		$companyRepository->delete($company->id);
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.subsidiary_deleted'));
+	}
+	
+	/**
+	 * child Companies List for Selection to move the staff
+	 * @param Request $request
+	 * @param CompanyRepository $companyRepository
+	 * @param Contact $contactId
+	 * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+	 */
+	public function getSubsidaryCompany(Request $request,CompanyRepository $companyRepository,Contact $contactId)
+	{
+		$inputs = Input::all();
+		$companyId = $inputs['companyId'];
+		$contactId = $inputs['contactId'];
+		Log::debug("comapny Id: ".$companyId." Contact Id: ".$contactId);
+		$company = $companyRepository->find($companyId);
+		$perPage = null;
+		$children = $this->companyRepository->paginate($perPage, Input::get('search'), $companyId);
+		Log::debug($children);
+		return view('company.partials.subsidiaries', compact('company' ,'children','contactId'));
+	}
+	
+	/**
+	 * move contact from parent companies to Child Companies 
+	 * @param Request $request
+	 * @param ContactRepository $contactRepository
+	 */
+	public function moveContact(Request $request,ContactRepository $contactRepository)
+	{
+		$inputs = Input::all();
+		$companyId = $inputs['companyId'];
+		$contactId = $inputs['contactId'];
+		Log::debug("comapny Id: ".$companyId." Contact Id: ".$contactId);
+		$contact = $contactRepository->find($contactId);
+		$contact->company_id = $companyId;
+		$contact->save();
+		Log::debug("contact".$contact."company_id".$contact->company_id);
+	}
+	
+	/**
+	 * move Contact from Parent Company from Child Companies
+	 * @param Contact $contact
+	 * @param CompanyRepository $comapnyRepository
+	 * @param ContactRepository $contactRepository
+	 * @return unknown
+	 */
+	public function moveContactToParent(Contact $contact,CompanyRepository $comapnyRepository,ContactRepository $contactRepository)
+	{
+		$company = $comapnyRepository->find($contact->company_id);
+		$parentId = $company->parent_id;
+		$contacts = $contactRepository->find($contact->id);
+		$contacts->company_id = $parentId;
+		$contacts->save();
+		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.staff_transfer_to_parent'));
 	}
 }

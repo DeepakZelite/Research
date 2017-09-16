@@ -6,10 +6,11 @@
 			<div class="panel-heading">@lang('app.child_company_list_big')</div>
 			<div class="panel-body">
 				<div class="table-responsive top-border-table"
-					id="users-table-wrapper">
+					id="company-list-wrapper">
 					<table class="table">
 						<thead>
 							<th>@lang('app.company_name')</th>
+							<th>@lang('app.action')</th>
 						</thead>
 						<tbody>
 							@if (count($children)) 

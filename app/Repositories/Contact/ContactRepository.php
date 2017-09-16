@@ -151,4 +151,22 @@ interface ContactRepository
      * @param unknown $companyId
      */
     public function getTotalEmailCount($companyId);
+    
+    /**
+     * get the count for process staff for Specific batch
+     * @param unknown $batch
+     * @param unknown $userId
+     * @param unknown $fromDate
+     * @param unknown $toDate
+     */
+    public function getProcessRecordCountForBatch($batch = null,$userId = null,$fromDate = null, $toDate = null);
+    
+    /**
+     * get the count of proceess email for specific batch
+     * @param unknown $batch
+     * @param unknown $userId
+     * @param unknown $fromDate
+     * @param unknown $toDate
+     */
+    public function getEmailRecordCountForBatch($batch = null,$userId = null,$fromDate = null, $toDate = null);
 }

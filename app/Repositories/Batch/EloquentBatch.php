@@ -177,7 +177,7 @@ class EloquentBatch implements BatchRepository
     	$query = Batch::query();
     	if($batch)
     	{
-    		$query->where('name',"like","{$batch}%");
+    		$query->where('name',"like","%{$batch}%");
     	}
     	else{
     		return 0;
@@ -207,5 +207,21 @@ class EloquentBatch implements BatchRepository
 //     	$result = $query->where('status',"=",'Complete')->lists('name', 'id')->toArray();
 //     	return $result;
     	return Batch::where('project_id', $project_id)->lists('name', 'id')->toArray();
+    }
+    
+    public function getBatchesForVendor($vendorId)
+    {
+    	$query = Batch::query();
+    	if($vendorId)
+    	{
+    		$query->where('vendor_id',"=","{$vendorId}");
+    	}
+    	$result = $query->get();
+    	return $result;
+    }
+    
+    public function getBatchesForReallocation($vendorId)
+    {
+    	return Batch::where('vendor_id', $vendorId)->where('notify',"Reassign")->lists('name', 'id')->toArray();
     }
 }

@@ -312,8 +312,28 @@
 <!-- ----------------Company-edit-details end-------------- -->
 
 <hr  style="width: 100%; color: black; height: 1px; background-color: black;" />
-<br />
 <!-- ------------------------------------------------- Displaying Contact information dependent on company if record are present Start ----------------------------------------------------- -->
+<div class="row tab-search">
+	<div class="col-md-9"></div>
+	<form method="GET" action="" accept-charset="UTF-8" id="projects-form">
+		<div class="col-md-3">
+            <div class="input-group custom-search-form">
+                <input type="text" class="form-control" name="search" value="{{ Input::get('search') }}" placeholder="@lang('app.search')">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit" id="search-users-btn">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                    @if (Input::has('search') && Input::get('search') != '')
+                        <a href="{{ route('dataCapture.capture', $company->sub_batch_id) }}" class="btn btn-danger" type="button" >
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    @endif
+               </span>
+          </div>
+   		</div>
+   	</form>
+</div>
+
 <div class="row">
 	<div class="table-responsive top-border-table" id="users-table-wrapper">
 		<table class="table">
@@ -344,7 +364,20 @@
                                     data-confirm-title="@lang('app.please_confirm')"
                                     data-confirm-text="@lang('app.are_you_sure_delete_staff')"
                                     data-confirm-delete="@lang('app.yes')">
-                                <i class="glyphicon glyphicon-trash"></i></a>
+                                <i class="glyphicon glyphicon-trash"></i>
+                    </a>
+                   	@if($company->parent_id == '0')
+                    <a href="#" class="btn btn-primary btn-circle" data-toggle="modal"
+						data-target="#moveModal" title="@lang('app.move_staff')"
+						onclick="moveContact({{ $company->id }},{{ $contact->id }});" data-toggle="tooltip"
+						data-placement="top"> <i class="glyphicon glyphicon-move"></i>
+                    </a>
+                    @else
+                    <a href="{{ route('dataCapture.moveContactToParent',$contact->id) }}" class="btn btn-primary btn-circle"
+                    	title="@lang('app.move_staff')" data-toggle="tooltip"
+						data-placement="top"> <i class="glyphicon glyphicon-move"></i>
+                    </a>
+                    @endif
 					</td>
 				</tr>
 				@endforeach @else
@@ -379,7 +412,8 @@
 	}
 	#duplicateModel .modal-dialog{width:1200px;}
 	#conform .model-dialog{width:600px;}
-	
+	#moveModal .model-dialog{width:600px;}
+	#company-list-wrapper{max-height: 400px; overflow-y: scroll;}
 }
 </style>
 <!-- ---------------------------- code for opening the contact Pop-Up Start------------------------------#duplicateModel .modal-content{ max-width:1300px; max-height:600px; overflow-y: auto;} -->
@@ -397,6 +431,20 @@
 	</div>
 </div>
 <!-- ---------------------------- code for opening the contact Pop-Up End ------------------------------ -->
+<!-- ---------------------------------- code for moving the staff Pop-up Start ------------------------------------ -->
+<div id="moveModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="row">
+		<div class="modal-content">
+			<div id="moveContact" class="modal-body">@lang('app.loading')
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+<!-- --------------------------------- code for moving the staff Pop-up End ------------------------------------- -->
 
 <!-- --------------------Child company list start----------------------- -->
 
@@ -678,6 +726,34 @@ function editContact(id) {
             $('#editContact').fadeOut().html($data).fadeIn();
             }
     })	
+}
+
+function moveContact(companyId,staffId){
+	var $companyId = companyId;
+	var $contactId = staffId;
+	$.ajax({
+		method: "GET",
+		url: "{{ route('dataCapture.getSubsidaryCompany') }}",
+		data: {'companyId':$companyId,'contactId':$contactId},
+		success: function(data){
+			$data = $(data);
+			$('#moveContact').html($data).fadeIn();
+		}
+	})
+}
+
+function moveContactToSubsidaries(companyId,staffId)
+{
+	var $companyId = companyId;
+	var $contactId = staffId;
+	$.ajax({
+		method: "GET",
+		url: "{{ route('dataCapture.moveContact') }}",
+		data: {'companyId':$companyId,'contactId':$contactId},
+		success: function(data){
+			window.location.reload();
+		}
+	})
 }
 
 function getChildren(id) {
