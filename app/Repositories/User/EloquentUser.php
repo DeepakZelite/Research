@@ -11,6 +11,7 @@ use DB;
 use Illuminate\Database\SQLiteConnection;
 use Laravel\Socialite\Contracts\User as SocialUser;
 use Kyslik\ColumnSortable\Sortable;
+use Illuminate\Support\Facades\Log;
 
 class EloquentUser implements UserRepository
 {
@@ -82,7 +83,7 @@ class EloquentUser implements UserRepository
     /**
      * {@inheritdoc}
      */
-    public function paginate($perPage, $search = null, $status = null,$vendor_code = null)
+    public function paginate($perPage, $search = null, $status = null,$vendor_code = null,$user = null)
     {
         $query = User::query();
 
@@ -102,14 +103,27 @@ class EloquentUser implements UserRepository
                 $q->orWhere('users.last_name', 'like', "%{$search}%");
             });
         }
-
-        //$result = $query->paginate($perPage);
-
-        $result = $query
-        ->leftjoin('vendors', 'vendors.id', '=', 'users.vendor_id')
-        ->where('users.vendor_id', '!=', '0')
-        ->select('users.*', 'vendors.vendor_code as vendor_code')
-        ->sortable()->paginate($perPage);
+        $result=null;
+        if($user == 1)
+        {
+        	$result = $query
+        	->leftjoin('vendors', 'vendors.id', '=', 'users.vendor_id')
+        	->where('users.id', '!=', '1')
+        	->select('users.*', 'vendors.vendor_code as vendor_code')
+        	->sortable()
+        	->orderBy('created_at', 'DESC')
+        	->paginate($perPage);
+        }
+        else
+        {
+        	$result = $query
+        		->leftjoin('vendors', 'vendors.id', '=', 'users.vendor_id')
+        		->where('users.vendor_id', '!=', '0')
+        		->select('users.*', 'vendors.vendor_code as vendor_code')
+        		->sortable()
+        		->orderBy('created_at', 'DESC')
+        		->paginate($perPage);
+        }
         if ($search) {
             $result->appends(['search' => $search]);
         }
@@ -291,7 +305,11 @@ class EloquentUser implements UserRepository
      */
     public function getVendorUsers($vendorId)
     {
-    	return User::where('vendor_id', $vendorId)->lists('username', 'id');
+    	if($vendorId == '')
+    	{
+    		$vendorId = -1;
+    	}
+    	return User::where('vendor_id', $vendorId)->where('status',"Active")->lists('username', 'id');
     }
     
 }

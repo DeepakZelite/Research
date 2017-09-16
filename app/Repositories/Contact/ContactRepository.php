@@ -41,6 +41,12 @@ interface ContactRepository
      * @return null|User
      */
     public function findByName($name);
+    
+    /**
+     * find by company
+     * @param unknown $company_id
+     */
+    public function findByCompany($company_id);
 
     /**
      * Create new user.
@@ -102,7 +108,7 @@ interface ContactRepository
      * @param unknown $state
      * @param unknown $zipcode
      */
-    public function duplicate($first = null, $last = null,$jobTitle = null,$email = null,$companyName = null,$website = null,$address =null,$city = null,$state = null,$zipcode =null);
+    public function duplicate($first = null, $last = null,$jobTitle = null,$email = null,$companyName = null,$website = null,$address =null,$city = null,$state = null,$zipcode =null,$prm = null);
     
     /**
      * for geting the count of perticular company.
@@ -118,4 +124,49 @@ interface ContactRepository
      * @param unknown $toDate
      */
     public function getDataForReport($vendorId = null,$userId = null,$fromDate = null, $toDate = null);
+    
+    
+    public function getProcessRecordFromDate($start,$end);
+    
+    /**
+     * get the count of all processed staff
+     * @param unknown $vendorId
+     * @param unknown $userId
+     * @param unknown $fromDate
+     * @param unknown $toDate
+     */
+    public function getProcessRecordCount($vendorId = null,$userId = null,$fromDate = null, $toDate = null);
+    
+    /**
+     * get the record count of all processed email
+     * @param unknown $vendorId
+     * @param unknown $userId
+     * @param unknown $fromDate
+     * @param unknown $toDate
+     */
+    public function getEmailRecordCount($vendorId = null,$userId = null,$fromDate = null, $toDate = null);
+    
+    /**
+     * get the email count for project status report
+     * @param unknown $companyId
+     */
+    public function getTotalEmailCount($companyId);
+    
+    /**
+     * get the count for process staff for Specific batch
+     * @param unknown $batch
+     * @param unknown $userId
+     * @param unknown $fromDate
+     * @param unknown $toDate
+     */
+    public function getProcessRecordCountForBatch($batch = null,$userId = null,$fromDate = null, $toDate = null);
+    
+    /**
+     * get the count of proceess email for specific batch
+     * @param unknown $batch
+     * @param unknown $userId
+     * @param unknown $fromDate
+     * @param unknown $toDate
+     */
+    public function getEmailRecordCountForBatch($batch = null,$userId = null,$fromDate = null, $toDate = null);
 }

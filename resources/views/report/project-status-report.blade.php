@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h1 class="page-header">
             @lang('app.project_status_report')
             <!-- <small>@lang('app.list_of_batches')</small> -->
@@ -25,14 +25,17 @@
     <!-- <form method="GET" action="" accept-charset="UTF-8" id="batches-form"> -->
     {!! Form::open(['route' => 'report.getData', 'id' => 'report-form']) !!}
     		@if($show)
-    		<div class="col-md-2">
+    		<div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
                 {!! Form::select('vendor_code', $vendors, Input::get('vendor_code'), ['id'=>'vendor_code', 'class'=>'form-control'])!!}
             </div>
             @endif
-    	<div class="col-md-2">
+    	<div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
                 {!! Form::select('code', $projects, Input::get('code'), ['id'=>'code', 'class'=>'form-control'])!!}
         </div>
-    	<div class="col-md-1">
+        <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
+                {!! Form::select('name', $projects_name, Input::get('name'), ['id'=>'name', 'class'=>'form-control'])!!}
+        </div>
+    	<div class="col-xs-2 col-sm-2 col-md-1 col-lg-1">
         	<button type="submit" class="btn btn-success">
             @lang('app.go')
         	</button>
@@ -45,9 +48,13 @@
         <thead>
         	<th>@lang('app.vendor_code')</th>
             <th>@lang('app.project_code')</th>
+            <th style="display:none;">@lang('app.project_name')</th>
             <th>@lang('app.batch_name')</th>
             <th>@lang('app.number_of_companies')</th>
-            <th>@lang('app.no_of_staff_record_processed')</th>
+            <th>@lang('app.companies_processed')</th>
+            <th>@lang('app.subsidiary_count')</th>
+            <th>@lang('app.staff_processed')</th>
+            <th>@lang('app.email_processed')</th>
             <th class="text-center">@lang('app.batch_status')</th>
         </thead>
         <tbody>
@@ -56,10 +63,14 @@
                     <tr>
                         <td>{{ $batch->vendor_code }}</td>
                          <td>{{ $batch->code }}</td>
+                         <td style="display:none;">{{ $batch->project_name }}</td>
                          <td>{{ $batch->name }}</td>
                          <td>{{ $batch->companies }}</td>
-                         <td>{{ $batch->staff}}</td>
-                         <td class="text-center">{{$batch->status}}</td>
+                         <td>{{ $batch->comp_process_count }}</td>
+                         <td>{{ $batch->subsidary_process_count }}</td>
+                         <td>{{ $batch->staff }}</td>
+                         <td>{{ $batch->email_count }} </td>
+                         <td class="text-center">{{ $batch->status }}</td>
                      </tr>
                  @endforeach
              @else
@@ -73,22 +84,52 @@
         		<th>@lang('app.total')</th>
         		<th colspan="2"></th>
         		<th><span id ="totalcompany"></span></th>
+        		<th><span id="company_processed"></span></th>
+        		<th><span id="subsidiary_count"></span></th>
         		<th><span id ="totalstaff"></span></th>
+        		<th><span id="email_count"></span></th>
         		<th></th>
         	</tr>
         </tfoot>
     </table>
 </div>
+@stop
 
+@section('styles')
+<style>
+  div.dt-buttons {
+   float: right;
+   margin-left:20px;
+}
+</style>
 @stop
 
 @section('scripts')
 <script>
 $(document).ready(function() {
-    $('#example').dataTable({
+	$("#vendor_code").select2({
+		width: '100%',
+        placeholder:'Select a Vendor',
+        allowClear: true
+	});
+	$("#code").select2({
+        width: '100%',
+        placeholder:'Select a Project code',
+        allowClear: true
+    });
+	$("#name").select2({
+		width: '100%',
+		placeholder: 'Select a project',
+		allowClear: true
+	});
+	
+    var table = $('#example').dataTable({
     "bPaginate": false,
     "bFilter": false,
-    "bInfo": false,		
+    "bInfo": false,
+    "bAutoWidth": false,
+    	dom: 'Bfrtip',
+        buttons: [{ extend: 'excelHtml5',text: '<i class="fa fa-file-excel-o fa-2x"></i>',titleAttr: 'Excel'}],	
 		"footerCallback": function ( row, data, start, end, display ) {
 				var api = this.api(), data;	 
 				// Remove the formatting to get integer data for summation
@@ -96,19 +137,34 @@ $(document).ready(function() {
 					return typeof i === 'string' ? i.replace(/[\$,]/g, '')*1 : typeof i === 'number' ? i : 0;
 				};
 
-				total_no_companies = api.column( 3 ).data().reduce( function (a, b) {
+				total_no_companies = api.column( 4 ).data().reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				},0 );
+
+				company_processed = api.column( 5 ).data().reduce( function (a,b){
+						return intVal(a) + intVal(b);
+				},0);
+
+				subsidiary_processed = api.column( 6 ).data().reduce(function (a, b){
+					return intVal(a) + intVal(b);
+				}, 0);
 				
-				total_staff_count = api.column( 4 ).data().reduce( function (a, b) {
+				total_staff_count = api.column( 7 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				},0 );
+
+				total_email_count = api.column( 8 ).data().reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				},0 );
 
 				// Update footer
 				$('#totalcompany').html(total_no_companies);
-				$('#totalstaff').html(total_staff_count);		
+				$('#company_processed').html(company_processed);
+				$('#subsidiary_count').html(subsidiary_processed);
+				$('#totalstaff').html(total_staff_count);
+				$('#email_count').html(total_email_count);
 			},		
-	});
+	});	
 });
 </script>
 @stop

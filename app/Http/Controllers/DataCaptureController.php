@@ -24,7 +24,12 @@ use Vanguard\Repositories\Country\CountryRepository;
 use Vanguard\Repositories\Code\CodeRepository;
 use Vanguard\Support\Enum\SubBatchStatus;
 use Vanguard\Http\Requests\Company\CreateCompanyRequest;
+use Vanguard\Repositories\Report\ReportRepository;
 use Vanguard\Country;
+use Vanguard\Report;
+use Carbon\Carbon;
+use Vanguard\Repositories\Mdb\MdbRepository;
+use DB;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -63,12 +68,17 @@ class DataCaptureController extends Controller
 	 * @param UserRepository $userRepository
 	 * @return the lists of assigned sub-batches to perticular user for capturing the data.
 	 */
-	public function subBatchList(BatchRepository $batchRepository, UserRepository $userRepository)
+	public function subBatchList(CompanyRepository $companyRepository)
 	{
 		$perPage = 5;
 		$statuses = ['' => trans('app.all')] + SubBatchStatus::lists1();
-		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'), $this->theUser->id,Input::get('status'));
-		return view('subBatch.datacapturelist', compact('subBatches','statuses'));
+		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'), $this->theUser->id,Input::get('status'),null);
+		$statuscount = $this->subBatches->getUserInProcessCount($this->theUser->id);
+		foreach($subBatches as $subBatch)
+		{
+			$subBatch['count'] = $companyRepository->getAssignedCompanyCountForSubBatch($subBatch->id);
+		}
+		return view('subBatch.datacapturelist', compact('subBatches','statuses','statuscount'));
 	}
 	
 	/**
@@ -89,12 +99,34 @@ class DataCaptureController extends Controller
 	 * @param CreateContactRequest $request
 	 * @return on the same screen with newly added contact on the screen being the first record
 	 */
-	public function storeStaff(Company $company, CreateContactRequest $request) 
+	public function storeStaff(Company $company, CreateContactRequest $request,ReportRepository $reportRepository,ContactRepository $contactRepository) 
 	{
 		$data = $request->all() + ['company_id' => $company->id]
 		+ ['user_id' => $this->theUser->id];
 		
 		$contact = $this->contactRepository->create($data);
+		
+		$subBatch=Company::find($company->id);
+		//Log::info("...". $subBatch->user_id);
+		$users = $reportRepository->get_id_for_stoptime($subBatch->user_id);
+		foreach($users as $user)
+		{
+			$data = Report::find($user->id);
+			$data->stop_time = Carbon::now();
+			$data->records = $contactRepository->getProcessRecordFromDate($data->start_time,Carbon::now());
+			$date=Carbon::parse($data->start_time);
+			$time=$date->diff(Carbon::now());
+			if($time->format('%H') != 0)
+			{
+				$hour = $time->format('%H');
+				$min = ($hour * 60) + $time->format('%i');
+				$data->time = $min;
+			}else{
+				$data->time = $time->format('%i');
+			}
+			$data->save();
+			//Log::info($user->id."start_time".$data->start_time."count".$time->format('%s'));
+		}
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.contact_created'));
 	}
 	
@@ -113,7 +145,7 @@ class DataCaptureController extends Controller
 		// Get the first to last saved company record from the sub batch.
 		$editChild=false;
 		$editCompany = true;
-		$perPage = 2;
+		$perPage = 10;
 		$countries = $countryRepository->lists();
 		$codes=$codeRepository->lists();
 		$codes->prepend(trans('app.none'));
@@ -127,11 +159,13 @@ class DataCaptureController extends Controller
 			$company = $companies[0];
 			$editContact = false;
 			$contacts = $this->contactRepository->paginate($perPage, Input::get('search'), $company->id);
-			return view('Company.company-data', compact('countries','codes','classication','subBatchId','childRecord', 'editCompany', 'company', 'contacts', 'editContact','projects','editChild'));
+			return view('company.company-data', compact('countries','codes','classication','subBatchId','childRecord', 'editCompany', 'company', 'contacts', 'editContact','projects','editChild'));
 		} else {
 			// All the company records are submitted in this sub batch.
 			// Set the status of sub-batch to Submitted and redirect to sub-batch list
+			Log::debug("Sub-Batch Assigned ".sizeof($companies));
 			$subBatch=SubBatch::find($subBatchId);
+			$subBatch->notify=null;
 			$subBatch->status="Submitted";
 			$subBatch->save();
 			return redirect()->route('dataCapture.list')->withSuccess(trans('app.batch_submitted'));
@@ -144,10 +178,12 @@ class DataCaptureController extends Controller
 	 * @param CompanyRepository $companyRepository
 	 * @return the next company for capturing the data.
 	 */
-	public function submitCompany(Company $company,CompanyRepository $companyRepository) 
+	public function submitCompany(Company $company,CompanyRepository $companyRepository,Request $request) 
 	{
+		$this->companyRepository->update($company->id, $request->all());
 		$comp=Company::find($company->id);
 		$comp->status="Submitted";
+		$comp->notify=null;
 		$comp->save();
 		
 		$subBatch=SubBatch::find($comp->sub_batch_id);
@@ -156,8 +192,10 @@ class DataCaptureController extends Controller
 		/* set the status of Completed for the batch if all company of that batches are submitted  */
 		if($companyRepository->getTotalCompanyCount($comp->batch_id)==$companyRepository->getSubmittedCompanyCount($comp->batch_id))
 		{
+			Log::debug("TotalCompanyCount".$companyRepository->getTotalCompanyCount($comp->batch_id)."SubmittedCompanyCount".$companyRepository->getSubmittedCompanyCount($comp->batch_id));
 			$batch=batch::find($comp->batch_id);
 			$batch->status=SubBatchStatus::COMPLETE;
+			$batch->notify=null;
 			$batch->update();
 		}
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id);
@@ -169,11 +207,39 @@ class DataCaptureController extends Controller
 	 * @param UpdateContactRequest $request
 	 * @return on the same screen with success message.
 	 */
-	public function updateStaff(Contact $contact, UpdateContactRequest $request) 
+	public function updateStaff(Contact $contact, UpdateContactRequest $request,ReportRepository $reportRepository,ContactRepository $contactRepository) 
 	{
 		$data = $request->all() + ['company_id' => $contact->company_id]
  		+ ['user_id' => $this->theUser->id];
  		$updatedContact = $this->contactRepository->update($contact->id,$data);
+ 		
+ 		$data1 = Contact::find($contact->id);
+ 		//Log::info($data1->type);
+//  		if($data1->type == 'named')
+//  		{
+ 			$subBatch=Company::find($contact->company_id);
+ 			//Log::info("...". $subBatch->user_id);
+ 			$users = $reportRepository->get_id_for_stoptime($subBatch->user_id);
+ 			foreach($users as $user)
+ 			{
+ 				$data = Report::find($user->id);
+ 				$data->stop_time = Carbon::now();
+ 				$data->records = $contactRepository->getProcessRecordFromDate($data->start_time,Carbon::now());
+ 				$date=Carbon::parse($data->start_time);
+ 				$time=$date->diff(Carbon::now());
+ 				if($time->format('%H') != 0)
+ 				{
+ 					$hour = $time->format('%H');
+ 					$min = ($hour * 60) + $time->format('%i');
+ 					$data->time = $min;
+ 				}else{
+ 					$data->time = $time->format('%i');
+ 				}
+ 				$data->save();
+ 				//Log::info($user->id."start_time".$data->start_time."count".$time->format('%s'));
+ 			}
+//  		}
+ 		
 		$company = Company::find($contact->company_id);
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.contact_created'));
 	}
@@ -203,9 +269,11 @@ class DataCaptureController extends Controller
 	{
 		$inputs = Input::all();
 		$contactId = $inputs['contactId'];
+		$data = array("Mr","Mrs","Miss","Dr","Ms","Prof");
+		$disposition = array("Not Attempted","Verified","Not Verified","Acquired","Left and Gone Away","Retired");
 		$contact=Contact::find($contactId);
 		$editContact = true;
-		return view('company.partials.contact-edit', compact('editContact', 'contact'));
+		return view('company.partials.contact-edit', compact('editContact', 'contact','data','disposition'));
 	}
 	
 	/**
@@ -216,8 +284,10 @@ class DataCaptureController extends Controller
 	public function createContact(Company $companyId)
 	{
 		$company=Company::find($companyId->id);
+		$data = array("Mr","Mrs","Miss","Dr","Ms","Prof");
+		$disposition = array("Not Attempted","Verified","Not Verified","Acquired","Left and Gone Away","Retired");
 		$editContact = false;
-		return view('company.partials.contact-edit', compact('editContact', 'company'));
+		return view('company.partials.contact-edit', compact('editContact', 'company','data','disposition'));
 	}
 	
 	/**
@@ -247,8 +317,9 @@ class DataCaptureController extends Controller
 	 */
 	public function getChildren(Company $company)
 	{
-		$perPage = 5;
+		$perPage = null;
 		$children = $this->companyRepository->paginate($perPage, Input::get('search'), $company->id);
+		Log::debug("Children List: ".$children);
 		return view('company.partials.company-list', compact('company' ,'children'));
 	}
 	
@@ -272,26 +343,155 @@ class DataCaptureController extends Controller
 	 * @param Contact $contact
 	 * @return the list if duplicate staff is avialable in database
 	 */
-	public function getduplicateRecord(Request $request,ContactRepository $contactRepository,Contact $contact)
+	public function getduplicateRecord(Request $request, ContactRepository $contactRepository, Contact $contact, MdbRepository $mdbRepository)
 	{
 		$inputs = Input::all();
-		$first	=$inputs['firstname'];
-		$last 	=$inputs['lastname'];
-		$jobtitle=$inputs['jobtitle'];
-		$email	=$inputs['email'];
-		$company_name=$inputs['company_name'];
+		$first	= trim($inputs['firstname']);
+		$last 	= trim($inputs['lastname']);
+		$jobtitle= trim($inputs['jobtitle']);
+		$email	= $inputs['email'];
+		$company_name= $inputs['company_name'];
 		$website= $inputs['website'];
 		$address= $inputs['address'];
 		$city	= $inputs['city'];
 		$state	= $inputs['state'];
 		$zipcode= $inputs['zipcode'];
-		$specility=$inputs['specility'];
-		$phone	=$inputs['specility'];
-		Log::info("Contact:::::". $first." ".$last." ".$jobtitle." ".$company_name." ".$website." ".$address." ".$city." ".$state." ".$zipcode." ".$specility." ".$phone);
+		$specility= $inputs['specility'];
+		$phone	= $inputs['phone'];
+		$prm 	= $inputs['prm'];
 		$perPage=5;
-		$duplicate = $contactRepository->duplicate($first,$last,$jobtitle,$email,$company_name,$website,$address,$city,$state,$zipcode,$specility,$phone);
+		$duplicate1 = $contactRepository->duplicate($first,$last,$jobtitle,$email,$company_name,$website,$address,$city,$state,$zipcode,$specility,$phone,$prm);
 		//$duplicate = $this->companyRepository->paginate($perPage,null,null,$first);
-		Log::info("Contact:::::". $duplicate);
+		Log::info("Contact:::::". $duplicate1);
+		$data = $mdbRepository->duplicatecheck($company_name,$website,$address,$city,$state,$zipcode,$phone,$prm,$first,$last,$jobtitle,$email,$specility);
+		Log::info("Contact:::::". $data);
+		$duplicate1 = collect($duplicate1);
+		$data = collect($data);
+		$duplicate = $duplicate1->merge($data);
+		Log::debug($duplicate);
 		return view('company.partials.duplicate-list', compact('duplicate'));
+	}
+	
+	/**
+	 * For Delete the Perticular staff
+	 * @param Contact $contact
+	 * @param ContactRepository $contactRepository
+	 * @return unknown
+	 */
+	public function delete(Contact $contact,ContactRepository $contactRepository)
+	{
+		$contact = Contact::find($contact->id);
+		$company = Company::find($contact->company_id);
+		$contactRepository->delete($contact->id);
+		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.staff_deleted'));
+	}
+	
+	public function stoptimecapture($subBatchId,ReportRepository $reportRepository,ContactRepository $contactRepository)
+	{
+		$subBatch=SubBatch::find($subBatchId);
+		//$subBatch=Contact::find($subBatchId);
+		//Log::info("...". $subBatch->user_id);
+		$users = $reportRepository->get_id_for_stoptime($subBatch->user_id);	
+		foreach($users as $user)
+		{
+			$data = Report::find($user->id);
+			$data->stop_time = Carbon::now();
+			$data->records = $contactRepository->getProcessRecordFromDate($data->start_time,Carbon::now());
+			$date=Carbon::parse($data->start_time);
+			$time=$date->diff(Carbon::now());
+			$data->time = $time->format('%i');
+			$data->save();
+			//Log::info($user->id."start_time".$data->start_time."count".$time->format('%s'));
+		}
+		return redirect()->route('dataCapture.list');
+	}
+	
+	/**
+	 * Start Time Capture for Report Purpose 
+	 * @param unknown $subBatchId
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
+	public function starttimecapture($subBatchId)
+	{
+		$subBatch=SubBatch::find($subBatchId);
+		Log::debug("subBatch: ".$subBatch);
+		$report = new Report;
+		$report->user_id = $this->theUser->id;
+		$report->start_time = Carbon::now();
+		$report->batch_id = $subBatch->batch_id;
+		$report->save();
+		return redirect()->route('dataCapture.capture',$subBatchId);
+	}
+	
+	/**
+	 * Subsidiary company deleted purpose
+	 * @param Company $company
+	 * @param CompanyRepository $companyRepository
+	 * @param ContactRepository $contactRepository
+	 * @return unknown
+	 */
+	public function subsidiaryCompany(Company $company,CompanyRepository $companyRepository,ContactRepository $contactRepository)
+	{
+		$contact = $contactRepository->findByCompany($company->id);
+		foreach($contact as $contacts)
+		{
+			$contactRepository->delete($contacts->id);
+		} 
+		$companyRepository->delete($company->id);
+		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.subsidiary_deleted'));
+	}
+	
+	/**
+	 * child Companies List for Selection to move the staff
+	 * @param Request $request
+	 * @param CompanyRepository $companyRepository
+	 * @param Contact $contactId
+	 * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+	 */
+	public function getSubsidaryCompany(Request $request,CompanyRepository $companyRepository,Contact $contactId)
+	{
+		$inputs = Input::all();
+		$companyId = $inputs['companyId'];
+		$contactId = $inputs['contactId'];
+		Log::debug("comapny Id: ".$companyId." Contact Id: ".$contactId);
+		$company = $companyRepository->find($companyId);
+		$perPage = null;
+		$children = $this->companyRepository->paginate($perPage, Input::get('search'), $companyId);
+		Log::debug($children);
+		return view('company.partials.subsidiaries', compact('company' ,'children','contactId'));
+	}
+	
+	/**
+	 * move contact from parent companies to Child Companies 
+	 * @param Request $request
+	 * @param ContactRepository $contactRepository
+	 */
+	public function moveContact(Request $request,ContactRepository $contactRepository)
+	{
+		$inputs = Input::all();
+		$companyId = $inputs['companyId'];
+		$contactId = $inputs['contactId'];
+		Log::debug("comapny Id: ".$companyId." Contact Id: ".$contactId);
+		$contact = $contactRepository->find($contactId);
+		$contact->company_id = $companyId;
+		$contact->save();
+		Log::debug("contact".$contact."company_id".$contact->company_id);
+	}
+	
+	/**
+	 * move Contact from Parent Company from Child Companies
+	 * @param Contact $contact
+	 * @param CompanyRepository $comapnyRepository
+	 * @param ContactRepository $contactRepository
+	 * @return unknown
+	 */
+	public function moveContactToParent(Contact $contact,CompanyRepository $comapnyRepository,ContactRepository $contactRepository)
+	{
+		$company = $comapnyRepository->find($contact->company_id);
+		$parentId = $company->parent_id;
+		$contacts = $contactRepository->find($contact->id);
+		$contacts->company_id = $parentId;
+		$contacts->save();
+		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.staff_transfer_to_parent'));
 	}
 }

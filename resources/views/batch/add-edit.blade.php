@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h1 class="page-header">
             {{ $edit ? $batch->name : trans('app.create_new_batch') }}
             <small>{{ $edit ? trans('app.edit_batch_details') : trans('app.batch_details') }}</small>
@@ -29,25 +29,30 @@
 @endif
 
 <div class="row">
-    <div class="col-lg-6 col-md-12 col-sm-12">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <div class="panel panel-default">
             <div class="panel-heading">@lang('app.batch_details_big')</div>
             <div class="panel-body">
             	<div class="form-group">
-                    <label for="vendor_id">@lang('app.vendor_name')<i style="color:red;">*</i></label>
+                    <label for="vendor_id">@lang('app.input_type')<i style="color:red;">*</i></label>
+                    {!! Form::select('type_id', $type,'',
+                        ['class' => 'form-control', 'id' => 'type_id']) !!}
+                </div>
+            	<div class="form-group">
+                    <label for="vendor_id">@lang('app.vendor_code')<i style="color:red;">*</i></label>
                     {!! Form::select('vendor_id', $vendors, $edit ? $batch->vendor_id : '',
                         ['class' => 'form-control', 'id' => 'vendor_id']) !!}
                 </div>
             	<div class="form-group">
-                    <label for="project_id">@lang('app.project_name')<i style="color:red;">*</i></label>
+                    <label for="project_id">@lang('app.project_code')<i style="color:red;">*</i></label>
                     {!! Form::select('project_id', $projects, $edit ? $batch->project_id : '',
                         ['class' => 'form-control', 'id' => 'project_id']) !!}
                 </div>
                 
                 <div class="form-group">
-                    <label for="name">@lang('app.name')<i style="color:red;">*</i></label>
-                    <input type="text" class="form-control" id="name" maxlength="20"
-                           name="name" placeholder="@lang('app.batch_name')" value="{{ $edit ? $batch->name : old('name') }}" @if($edit) readonly="readonly" @endif>
+                    <label for="name">@lang('app.batch_name')<i style="color:red;">*</i></label>
+                    <input type="text" class="form-control" id="name" 
+                           name="name" placeholder="@lang('app.batch_name')" value="{{ $edit ? $batch->name : old('name') }}" readonly="readonly" >
                 </div>
 		      <div class="form-group">
                     <label for="startdate">@lang('app.target_date')<i style="color:red;">*</i></label>
@@ -60,6 +65,11 @@
 							</div>
 					</div>
                 </div>
+                 <div class="form-group" >
+                    <label for="No_Companies">@lang('app.number_of_companies')<i style="color:red;">*</i></label>
+                    <input type="text" class="form-control" id="company_count" maxlength="5" onkeypress="return isNumberKey(event)"
+                           name="company_count" placeholder="@lang('Number of Companies')" value="{{ $edit ? $project->company_count : old('company_count') }}">
+                </div>
                  <div class="form-group">
 				  <label class="control-label" for="upload file">@lang('app.upload')<i style="color:red;">*</i></label>
  					<div class="input-group">
@@ -70,20 +80,20 @@
     					</span>
   					</div>
 				</div>
-                </div>
+             </div>
             </div>
         </div>
     </div>
 
 <div class="row">
-	<div class="col-md-2"></div>
-    <div class="col-md-2">
+	<div class="col-xs-4 col-sm-4 col-md-2 col-lg-2"></div>
+    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
         <button type="submit" class="btn btn-primary btn-block">
             <i class="fa fa-save"></i>
             {{ $edit ? trans('app.update_batch') : trans('app.create_batch') }}
         </button>
     </div>
-    <div class="col-md-2">
+    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
         <a href="{{ route('batch.list') }}" class="btn btn-primary btn-block" id="cancel">
             @lang('app.cancel')
         </a>
@@ -95,7 +105,7 @@
     {!! HTML::style('assets/css/bootstrap-datetimepicker.min.css') !!}
 @stop
 @section('scripts')
-    <script>
+<script>
 var date=new Date();
 date.setDate(date.getDate()-1);
 $(function () {
@@ -111,7 +121,28 @@ $(function () {
 	function fileSelected(input){
 	  document.getElementById('upload').value =input.files[0].name
 	}
-    </script>
+
+    $("#vendor_id,#project_id").change(function() {
+       var vendorId = $("#vendor_id").val();
+       var projectId = $("#project_id").val();
+       $.ajax({
+           method: "GET",
+           url: "{{ route('batch.getbatchName') }}",
+           data: {vendorId:vendorId, projectId:projectId}
+       })
+       .done(function(data) {
+			$("#name").val(data);
+       });
+   });
+
+    function isNumberKey(evt)
+    {
+       var charCode = (evt.which) ? evt.which : event.keyCode
+       if (charCode > 31 && (charCode < 48 || charCode > 57))
+          return false;
+       return true;
+    }
+</script>
     @if ($edit)
         {!! JsValidator::formRequest('Vanguard\Http\Requests\Batch\UpdateBatchRequest', '#batch-form') !!}
     @else

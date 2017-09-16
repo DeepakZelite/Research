@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h1 class="page-header">
             @lang('app.create_new_user')
             <small>@lang('app.user_details')</small>
@@ -24,23 +24,23 @@
 
 {!! Form::open(['route' => 'user.store', 'files' => true, 'id' => 'user-form']) !!}
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             @include('user.partials.details', ['edit' => false, 'profile' => false])
         </div>
-        <div class="col-md-4">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
             @include('user.partials.auth', ['edit' => false])
         </div>
     </div>
 
     <div class="row">
-    	<div class="col-md-2"></div>
-        <div class="col-md-2">
-            <button type="submit" class="btn btn-primary btn-block">
+    	<div class="col-xs-4 col-sm-4 col-md-2 col-lg-2"></div>
+        <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+            <button type="submit" id="btnSubmit" class="btn btn-primary btn-block">
                 <i class="fa fa-save"></i>
                 @lang('app.create_user')
             </button>
         </div>
-    	<div class="col-md-2">
+    	<div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
         	<a href="{{ route('user.list') }}" class="btn btn-primary btn-block" id="cancel">
             	@lang('app.cancel')
         	</a>
@@ -60,8 +60,10 @@ $("#vendor_id").attr('disabled','disabled');
 $("#role").change(function() 
 {
 		var roleid= $( this ).val();
-		if(roleid=='1')
+		if(roleid == '1' || roleid == '4' || roleid == '5')
 		{
+			//alert($("#vendor_id").val());
+			//$("#vendor_id option:eq(1)").attr('selected','selected');
 			$("#vendor_id").attr('disabled', 'disabled');
 		}
 		else
@@ -69,6 +71,25 @@ $("#role").change(function()
 			$("#vendor_id").removeAttr('disabled');
 		}
 });
+$(document).ready(function() {
+$("#btnSubmit").click(function(event)
+{
+   if($("#vendor_id").val()==0 && $("#role").val() == 1 || $("#role").val() == 4 || $("#role").val() == 5)
+   {
+	return true;
+   }
+   else if($("#vendor_id").val()==0)
+   {
+	$("#vendor_id").css('border-color', 'red');
+	return false;
+   }
+   else
+   {
+	return true;
+    }
+});
+});
+
 </script>
     {!! HTML::script('assets/js/moment.min.js') !!}
     {!! HTML::script('assets/js/bootstrap-datetimepicker.min.js') !!}

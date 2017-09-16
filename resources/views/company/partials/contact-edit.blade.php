@@ -30,22 +30,14 @@
 
 									<div class="tab-content">
 										<div id="staff_info" class="tab-pane fade in active">
-											<div class="form-group col-lg-4">
-												<label for="firstName">@lang('app.first_name')<i
-													style="color: red;">*</i></label>
+										<div class="form-group col-lg-4">										
 												<div class="row">
 													<div class="col-lg-3">
-														<select class="form-control" id="salutation"
-															name="salutation">
-															<option value="Mr.">Mr.</option>
-															<option value="Mrs.">Mrs.</option>
-															<option value="Miss">Miss</option>
-															<option value="Dr.">Dr.</option>
-															<option value="Ms.">Ms.</option>
-															<option value="Prof.">Prof.</option>
-														</select>
+													<label for="salutation">@lang('app.salutation')</label>
+													{!!Form::select('salutation', $data, $editContact ? $contact->salutation : old('salutation'), ['class'=>'form-control','id'=>'salutation']) !!}
 													</div>
 													<div class="col-lg-9">
+														<label for="firstName">@lang('app.first_name')<i style="color: red;">*</i></label>
 														<input type="text" class="form-control" id="first_name"
 															name="first_name" placeholder="@lang('app.first_name')"
  															value="{{ $editContact ? $contact->first_name : old('first_name') }}">
@@ -77,7 +69,7 @@
 
 											</div>
 											<div class="form-group col-lg-4">
-												<label for="staff_source">@lang('app.staff_source')</label>
+												<label for="staff_source">@lang('app.staff_source')<i style="color: red;">*</i></label>
 												<input type="text" class="form-control" id="staff_source"
 													name="staff_source" placeholder="@lang('app.staff_source')"
 													value="{{ $editContact ? $contact->staff_source : old('staff_source') }}">
@@ -90,8 +82,7 @@
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="direct_phoneno">@lang('app.direct_phoneno')</label>
-												<input type="text" class="form-control" id="direct_phoneno"
-													name="direct_phoneno" maxlength="10" onkeypress="return isNumberKey(event)"
+												<input type="text" class="form-control" id="direct_phoneno" name="direct_phoneno" maxlength="255"
 													placeholder="@lang('app.direct_phoneno')" value="{{ $editContact ? $contact->direct_phoneno : old('direct_phoneno') }}">
 											</div>
 											<div class="form-group col-lg-4">
@@ -107,28 +98,19 @@
 													value="{{ $editContact ? $contact->email_source : old('email_source') }}">
 											</div>
 											<div class="form-group col-lg-4">
-												<label for="Staff_Disposition">@lang('app.staff_disposition')</label>
-												<select class="form-control" id="staff_disposition"
-													name="staff_disposition">
-													<option value="Verified">Verified</option>
-													<option value="Not Verified">Not Verified</option>
-													<option value="Acquired">Acquired</option>
-													<option value="Left and Gone Away">Left and Gone Away</option>
-													<option value="Retired">Retired</option>
-												</select>
+												<label for="Staff_Disposition">@lang('app.staff_disposition') <i style="color: red;">*</i></label>
+												{!!Form::select('staff_disposition', $disposition, $editContact ? $contact->staff_disposition : old('staff_disposition'), ['class'=>'form-control','id'=>'staff_disposition']) !!}
 											</div>
 										</div>
 										<div id="additional_info" class="tab-pane fade">
 											<div class="form-group col-lg-4">
 												<label for="deparment_number">@lang('app.deparment_number')</label>
-												<input type="text" class="form-control" maxlength="10"
-													id="deparment_number" name="deparment_number" onkeypress="return isNumberKey(event)"
+												<input type="text" class="form-control" maxlength="255" id="deparment_number" name="deparment_number"
 													placeholder="@lang('app.deparment_number')" value="{{ $editContact ? $contact->deparment_number : old('deparment_number') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="alternate_phone">@lang('app.alternate_phone')</label>
-												<input type="text" class="form-control" id="alternate_phone"
-													name="alternate_phone" maxlength="10" onkeypress="return isNumberKey(event)"
+												<input type="text" class="form-control" id="alternate_phone" name="alternate_phone"
 													placeholder="@lang('app.alternate_phone')" value="{{ $editContact ? $contact->alternate_phone : old('alternate_phone') }}">
 											</div>
 											<div class="form-group col-lg-4">
@@ -151,8 +133,7 @@
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="working_tenure">@lang('app.working_tenure')</label>
-												<input type="text" class="form-control" id="working_tenure"
-													name="working_tenure"
+												<input type="text" class="form-control" id="working_tenure" name="working_tenure"
 													placeholder="@lang('app.working_tenure')" value="{{ $editContact ? $contact->working_tenure : old('working_tenure') }}">
 											</div>
 											<div class="form-group col-lg-4">
@@ -168,33 +149,49 @@
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="age">@lang('app.age')</label> <input type="text"
-													class="form-control" id="age" name="age" maxlength="2" onkeypress="return isNumberKey(event)"
+													class="form-control" id="age" name="age" maxlength="255"
 													placeholder="@lang('app.age')" value="{{ $editContact ? $contact->age : old('age') }}">
 
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="additional_info1">@lang('app.contact_info1')</label>
-												<input type="text" class="form-control"
-													id="additional_info1" name="additional_info1"
+												<input type="text" class="form-control"	id="additional_info1" name="additional_info1"
 													placeholder="@lang('app.contact_info1')" value="{{ $editContact ? $contact->additional_info1 : old('additional_info1') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="additional_info2">@lang('app.contact_info2')</label>
-												<input type="text" class="form-control"
-													id="additional_info2" name="additional_info2"
+												<input type="text" class="form-control" id="additional_info2" name="additional_info2"
 													placeholder="@lang('app.contact_info2')" value="{{ $editContact ? $contact->additional_info2 : old('additional_info2') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="additional_info3">@lang('app.contact_info3')</label>
-												<input type="text" class="form-control"
-													id="additional_info3" name="additional_info3"
+												<input type="text" class="form-control"	id="additional_info3" name="additional_info3"
 													placeholder="@lang('app.contact_info3')" value="{{ $editContact ? $contact->additional_info3 : old('additional_info3') }}">
 											</div>
 											<div class="form-group col-lg-4">
 												<label for="additional_info4">@lang('app.contact_info4')</label>
-												<input type="text" class="form-control"
-													id="additional_info4" name="additional_info4"
+												<input type="text" class="form-control"	id="additional_info4" name="additional_info4"
 													placeholder="@lang('app.contact_info4')" value="{{ $editContact ? $contact->additional_info4 : old('additional_info4') }}">
+											</div>
+											<div class="form-group col-lg-4">
+												<label for="additional_info1">@lang('app.contact_info5')</label>
+												<input type="text" class="form-control"	id="additional_info5" name="additional_info5"
+													placeholder="@lang('app.contact_info5')" value="{{ $editContact ? $contact->additional_info5 : old('additional_info5') }}">
+											</div>
+											<div class="form-group col-lg-4">
+												<label for="additional_info2">@lang('app.contact_info6')</label>
+												<input type="text" class="form-control" id="additional_info6" name="additional_info6"
+													placeholder="@lang('app.contact_info6')" value="{{ $editContact ? $contact->additional_info6 : old('additional_info6') }}">
+											</div>
+											<div class="form-group col-lg-4">
+												<label for="additional_info3">@lang('app.contact_info7')</label>
+												<input type="text" class="form-control"	id="additional_info7" name="additional_info7"
+													placeholder="@lang('app.contact_info7')" value="{{ $editContact ? $contact->additional_info7 : old('additional_info7') }}">
+											</div>
+											<div class="form-group col-lg-4">
+												<label for="additional_info4">@lang('app.contact_info8')</label>
+												<input type="text" class="form-control"	id="additional_info8" name="additional_info8"
+													placeholder="@lang('app.contact_info8')" value="{{ $editContact ? $contact->additional_info8 : old('additional_info8') }}">
 											</div>
 										</div>
 									</div>
@@ -220,8 +217,7 @@
 					</div>
 				</div>
 <script>
-$('#first_name').focus();
-
+$('#first_name').focus();	
 	$("#btnContactSave").click(function(event)
 	{
 		if ($('#first_name').val() == '') {
@@ -239,30 +235,76 @@ $('#first_name').focus();
 		else {
 		    $('#job_title').css('border-color', 'green');
 		}
-		return true;
-	});
-		$('#staff_email').on('input', function() 
+
+		if ($('#staff_source').val() == '') {
+		    $('#staff_source').css('border-color', 'red');
+		    return false;
+		}
+		else {
+		    $('#staff_source').css('border-color', 'green');
+		}
+
+		if($('#staff_disposition').val() == 0)
 		{
-			var input=$(this);
-			var re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-			var is_email=re.test(input.val());
-			if(is_email){$('#staff_email').css('border-color', 'green');}
-			else
+			$('#staff_disposition').css('border-color', 'red');
+		    return false;
+		}
+		else
+		{
+			$('#staff_disposition').css('border-color', 'green');
+		}
+		
+		var re = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+		var is_url=$('#website').val();
+		if(re.test(is_url))
+		{
+			$('#website').css('border-color', 'red');
+		    return false
+		}
+		else
+		{
+			$('#website').css('border-color', 'green');
+		}
+
+		if($('#staff_email').val() != '')
+		{
+			var regix = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+			var email= $('#staff_email').val();
+			if(!regix.test(email))
 			{
 				$('#staff_email').css('border-color', 'red');
+			    return false
 			}
-		});
-		$('#alternate_email').on('input', function() 
-		{
-			var input=$(this);
-			var re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-			var is_email=re.test(input.val());
-			if(is_email){$('#alternate_email').css('border-color', 'green');}
 			else
 			{
-				$('#alternate_email').css('border-color', 'red');
+				$('#staff_email').css('border-color', 'green');
 			}
-		});
+		}
+
+		if($('#alternate_email').val() != '')
+		{
+			var email1 = $('#alternate_email').val();
+			if(!regix.test(email1))
+			{
+				$('#alternate_email').css('border-color', 'red');
+			    return false
+			}
+			else
+			{
+				$('#alternate_email').css('border-color', 'green');
+			}
+		}
+		return true;
+	});
+			
+	var mod;
+	var numeric = $('#direct_phoneno,#deparment_number,#age').keydown(function(e){
+	  mod = e.which; 
+	  if(!((e.which >= 96 && e.which <= 105)||(e.which >= 48 && e.which <= 57)) && (e.which != 8 && e.which != 46 && e.which != 37 && e.which != 39 && e.which != 9 && e.which !=35 && e.which != 36) && (mod && (e.which == 67 || e.which != 86))){
+	      e.preventDefault();
+	  }
+	});
+		
 </script>
 {{ Form::close() }}
 

@@ -5,12 +5,12 @@
 <br />
 
 <!-- ----------------Company-edit-details start-------------- -->
-@if ($editCompany) {!! Form::open(['route' =>['dataCapture.updateCompany', $company->id], 'method' => 'PUT', 'id' =>'company-form']) !!} 
+@if ($editCompany) {!! Form::open(['route' =>['dataCapture.updateCompany', $company->id], 'method' => 'PUT', 'id' =>'company-form','autocomplete'=>'off']) !!} 
 @else {!! Form::open(['route' =>['dataCapture.storeCompany', $company->id], 'id' => 'company-form']) !!}
 @endif
 <div class="row">
 	<!--First Section-->
-	<div class="col-lg-12 col-md-12 col-sm-6">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<div class="panel panel-default">
 			<div class="panel-heading" id='pan_head'>
 				@lang('app.company_details_big')
@@ -31,7 +31,7 @@
 					<button type="button" class="btn btn-default" data-toggle="modal"
 						data-target="#childrenModal" id="btn_check"
 						onclick="getChildren({{ $company->id }});">
-						<span class="glyphicon glyphicon-search"></span> @lang('app.check')
+						<span class="glyphicon glyphicon-search"></span> @lang('app.subsidiary')
 					</button>
 				</div>
 			</div>
@@ -79,21 +79,20 @@
 				<div class="form-group col-lg-2">
 					<label for="city">@lang('app.city')<i style="color: red;">*</i></label>
 					<input type="text" class="form-control" id="city" name="city"
-						placeholder="@lang('app.city')" maxlength="20" required
+						placeholder="@lang('app.city')" maxlength="255" required
 						value="{{ $editCompany ? $company->city : old('city') }}">
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="state">@lang('app.state')<i style="color: red;">*</i></label>
 					<input type="text" class="form-control" id="state" name="state"
-						placeholder="@lang('app.state')" required
+						placeholder="@lang('app.state')" required maxlength="255"
 						value="{{ $editCompany ? $company->state : old('state') }}">
 				</div>
 
 				<div class="form-group col-lg-2">
 					<label for="zipcode">@lang('app.zipcode')<i style="color: red;">*</i></label>
 					<input type="text" class="form-control" id="zipcode" name="zipcode"
-						required placeholder="@lang('app.zipcode')"
-						onkeypress="return isNumberKey(event)" maxlength="6"
+						required placeholder="@lang('app.zipcode')" maxlength="255"
 						value="{{ $editCompany ? $company->zipcode : old('zipcode') }}">
 				</div>
 				<div class="form-group col-lg-2">
@@ -112,8 +111,7 @@
 						</div>
 						<div class="col-md-7">
 							<input type="text" class="form-control" id="switchboardnumber"
-								name="switchboardnumber" maxlength="10"
-								onkeypress="return isNumberKey(event)"
+								name="switchboardnumber"
 								placeholder="@lang('app.switchboardnumber')"
 								value="{{ $editCompany ? $company->switchboardnumber : old('switchboardnumber') }}">
 						</div>
@@ -133,32 +131,29 @@
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="branchNumber">@lang('app.branchNumber')</label> <input
-						type="text" class="form-control" id="branchNumber" maxlength="10"
+						type="text" class="form-control" id="branchNumber" 
 						name="branchNumber" placeholder="@lang('app.branchNumber')"
-						onkeypress="return isNumberKey(event)"
 						value="{{ $editCompany ? $company->branchNumber : old('branchNumber') }}">
 				</div>
 				<div class="form-group col-lg-2">
-					<label for="addresscode">@lang('app.addresscode')</label> <input
+					<label for="addresscode">@lang('app.addresscode')<i style="color: red;">*</i></label> <input
 						type="text" class="form-control" id="addresscode"
 						name="addresscode" placeholder="@lang('app.addresscode')"
-						maxlength="20"  
 						value="{{ $editCompany ? $company->addresscode : old('addresscode') }}">
 				</div>
 				<div class="form-group col-lg-2">
-					<label for="employee_size">@lang('app.employee_size')</label> {!!
-					Form::select('employee_size', $codes,$editCompany ? $company->employee_size : old('employee_size'), ['class'=>'form-control','id'=>'employee_size']) !!}
+					<label for="employee_size">@lang('app.employee_size')</label> 
+					{!!Form::select('employee_size', $codes,$editCompany ? $company->employee_size : old('employee_size'), ['class'=>'form-control','id'=>'employee_size']) !!}
 				</div>
 				<div class="form-group col-lg-2">
 					<label for="industry_classfication">@lang('app.industry_classfication')</label>
 					{!! Form::select('industry_classfication', $classication, $editCompany ? $company->industry_classfication : old('industry_classfication'), ['class'=>'form-control','id'=>'industry_classfication']) !!}
 				</div>
 				<div class="form-group col-lg-2">
-					<label for="physician_size">@lang('app.physician_size')</label> <input
-						type="text" class="form-control" id="physician_size"
-						onkeypress="return isNumberKey(event)" name="physician_size"
-						placeholder="@lang('app.physician_size')" maxlength="5"
-						value="{{ $editCompany ? $company->physician_size : old('physician_size') }}">
+					<label for="prm">@lang('app.prm')</label> <input
+						type="text" class="form-control" id="prm" name="prm"
+						placeholder="@lang('app.prm')" 
+						value="{{ $editCompany ? $company->prm : old('prm') }}">
 				</div>
 			</div>
 		</div>
@@ -199,6 +194,12 @@
 							<div class="panel-heading">@lang('app.additional-info')</div>
 							<div class="panel-body">
 								<div class="form-group col-lg-6">
+									<label for="physician_size">@lang('app.physician_size')</label> 
+									<input type="text" class="form-control" id="physician_size" name="physician_size"
+											placeholder="@lang('app.physician_size')" maxlength="255"
+											value="{{ $editCompany ? $company->physician_size : old('physician_size') }}">
+								</div>
+								<div class="form-group col-lg-6">
 									<label for="company_remark">@lang('app.company_remark')</label>
 									<input type="text" class="form-control" id="company_remark"
 										name="company_remark"
@@ -208,9 +209,26 @@
 								<div class="form-group col-lg-6">
 									<label for="foundation_year">@lang('app.foundation_year')</label>
 									<input type="text" class="form-control" id="foundation_year"
-										name="foundation_year" onkeypress="return isNumberKey(event)"
-										placeholder="@lang('app.foundation_year')" maxlength="4"
+										name="foundation_year" placeholder="@lang('app.foundation_year')" maxlength="255"
 										value="{{ $editCompany ? $company->foundation_year : old('foundation_year') }}">
+								</div>
+								<div class="form-group col-lg-6">
+									<label for="annual_revenue">@lang('app.annual_revenue')</label>
+									<input type="text" class="form-control" id="annual_revenue"
+										name="annual_revenue" placeholder="@lang('app.annual_revenue')"
+										value="{{ $editCompany ? $company->annual_revenue : old('annual_revenue') }}">
+								</div>
+								<div class="form-group col-lg-6">
+									<label for="products_services">@lang('app.products_services')</label>
+									<input type="text" class="form-control" id="products_services"
+										name="products_services" placeholder="@lang('app.products_services')"
+										value="{{ $editCompany ? $company->products_services : old('products_services') }}">
+								</div>
+
+								<div class="form-group col-lg-6">
+									<label for="number_of_beds">@lang('app.number_of_beds')</label>
+									<input type="text" class="form-control" id="number_of_beds"	name="number_of_beds" placeholder="@lang('app.number_of_beds')" maxlength="255"
+										value="{{ $editCompany ? $company->number_of_beds : old('number_of_beds') }}">
 								</div>
 								<div class="form-group col-lg-6">
 									<label for="additional_info1">@lang('app.additional_info1')</label>
@@ -240,28 +258,36 @@
 										placeholder="@lang('app.additional_info4')"
 										value="{{ $editCompany ? $company->additional_info4 : old('additional_info4') }}">
 								</div>
+								
 								<div class="form-group col-lg-6">
-									<label for="annual_revenue">@lang('app.annual_revenue')</label>
-									<input type="text" class="form-control" id="annual_revenue"
-										name="annual_revenue"
-										placeholder="@lang('app.annual_revenue')"
-										value="{{ $editCompany ? $company->annual_revenue : old('annual_revenue') }}">
+									<label for="additional_info4">@lang('app.additional_info5')</label>
+									<input type="text" class="form-control" id="additional_info5"
+										name="additional_info5"
+										placeholder="@lang('app.additional_info5')"
+										value="{{ $editCompany ? $company->additional_info5 : old('additional_info5') }}">
 								</div>
 								<div class="form-group col-lg-6">
-									<label for="products_services">@lang('app.products_services')</label>
-									<input type="text" class="form-control" id="products_services"
-										name="products_services"
-										placeholder="@lang('app.products_services')"
-										value="{{ $editCompany ? $company->products_services : old('products_services') }}">
+									<label for="additional_info4">@lang('app.additional_info6')</label>
+									<input type="text" class="form-control" id="additional_info6"
+										name="additional_info6"
+										placeholder="@lang('app.additional_info6')"
+										value="{{ $editCompany ? $company->additional_info6 : old('additional_info6') }}">
 								</div>
-
 								<div class="form-group col-lg-6">
-									<label for="number_of_beds">@lang('app.number_of_beds')</label>
-									<input type="text" class="form-control" id="number_of_beds"
-										name="number_of_beds" onkeypress="return isNumberKey(event)"
-										placeholder="@lang('app.number_of_beds')" maxlength="5"
-										value="{{ $editCompany ? $company->number_of_beds : old('number_of_beds') }}">
+									<label for="additional_info4">@lang('app.additional_info7')</label>
+									<input type="text" class="form-control" id="additional_info7"
+										name="additional_info7"
+										placeholder="@lang('app.additional_info4')"
+										value="{{ $editCompany ? $company->additional_info7 : old('additional_info7') }}">
 								</div>
+								<div class="form-group col-lg-6">
+									<label for="additional_info4">@lang('app.additional_info8')</label>
+									<input type="text" class="form-control" id="additional_info8"
+										name="additional_info8"
+										placeholder="@lang('app.additional_info4')"
+										value="{{ $editCompany ? $company->additional_info8 : old('additional_info8') }}">
+								</div>
+								<input type="hidden" id="openmodel" value=""/>
 							</div>
 						</div>
 					</div>
@@ -270,8 +296,7 @@
 						<div class="col-md-2">
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">
-								<i class=""></i> {{ $editCompany ? trans('app.close') :
-								trans('app.close') }}
+								<i class=""></i> {{ $editCompany ? trans('app.close') : trans('app.close') }}
 							</button>
 						</div>
 					</div>
@@ -287,8 +312,28 @@
 <!-- ----------------Company-edit-details end-------------- -->
 
 <hr  style="width: 100%; color: black; height: 1px; background-color: black;" />
-<br />
 <!-- ------------------------------------------------- Displaying Contact information dependent on company if record are present Start ----------------------------------------------------- -->
+<div class="row tab-search">
+	<div class="col-md-9"></div>
+	<form method="GET" action="" accept-charset="UTF-8" id="projects-form">
+		<div class="col-md-3">
+            <div class="input-group custom-search-form">
+                <input type="text" class="form-control" name="search" value="{{ Input::get('search') }}" placeholder="@lang('app.search')">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit" id="search-users-btn">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                    @if (Input::has('search') && Input::get('search') != '')
+                        <a href="{{ route('dataCapture.capture', $company->sub_batch_id) }}" class="btn btn-danger" type="button" >
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    @endif
+               </span>
+          </div>
+   		</div>
+   	</form>
+</div>
+
 <div class="row">
 	<div class="table-responsive top-border-table" id="users-table-wrapper">
 		<table class="table">
@@ -311,7 +356,29 @@
 						data-target="#myModal" title="@lang('app.edit_contact')"
 						onclick="editContact({{ $contact->id }});" data-toggle="tooltip"
 						data-placement="top"> <i class="glyphicon glyphicon-edit"></i>
-					</a></td>
+					</a>
+					<a href="{{ route('dataCapture.delete', $contact->id) }}" class="btn btn-danger btn-circle" title="@lang('app.delete_staff')"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    data-method="DELETE"
+                                    data-confirm-title="@lang('app.please_confirm')"
+                                    data-confirm-text="@lang('app.are_you_sure_delete_staff')"
+                                    data-confirm-delete="@lang('app.yes')">
+                                <i class="glyphicon glyphicon-trash"></i>
+                    </a>
+                   	@if($company->parent_id == '0')
+                    <a href="#" class="btn btn-primary btn-circle" data-toggle="modal"
+						data-target="#moveModal" title="@lang('app.move_staff')"
+						onclick="moveContact({{ $company->id }},{{ $contact->id }});" data-toggle="tooltip"
+						data-placement="top"> <i class="glyphicon glyphicon-move"></i>
+                    </a>
+                    @else
+                    <a href="{{ route('dataCapture.moveContactToParent',$contact->id) }}" class="btn btn-primary btn-circle"
+                    	title="@lang('app.move_staff')" data-toggle="tooltip"
+						data-placement="top"> <i class="glyphicon glyphicon-move"></i>
+                    </a>
+                    @endif
+					</td>
 				</tr>
 				@endforeach @else
 				<tr>
@@ -330,11 +397,9 @@
 	<div class="col-md-10"></div>
 	<div class="col-md-1">
 	</div> 
+
 	<div class="col-md-1">
-			 	<a id="btnParentSubmit" href="{{ route('dataCapture.submitCompany', $company->id) }}" class="btn btn-primary btn-block pull-right" onclick="javascript:return confirm('@lang('app.are_you_sure_to_submit_parent_company')')">@lang('app.submit')
-                 </a>       
-		<a id="btnSubmit" href="{{ route('dataCapture.submitCompany', $company->id) }}"
-			class="btn btn-primary btn-block pull-right">@lang('app.submit')</a> 	
+	<button type="button" id="btnSubmit" class="btn btn-primary btn-block pull-right" onclick="submitCompany();">@lang('app.submit')</button>
 	</div>	
 </div>
 
@@ -346,9 +411,12 @@
 		width: 1200px;
 	}
 	#duplicateModel .modal-dialog{width:1200px;}
+	#conform .model-dialog{width:600px;}
+	#moveModal .model-dialog{width:600px;}
+	#company-list-wrapper{max-height: 400px; overflow-y: scroll;}
 }
 </style>
-<!-- ---------------------------- code for opening the contact Pop-Up Start------------------------------ -->
+<!-- ---------------------------- code for opening the contact Pop-Up Start------------------------------#duplicateModel .modal-content{ max-width:1300px; max-height:600px; overflow-y: auto;} -->
 <div id="myModal" class="modal fade" role="dialog">
 	<div class="modal-dialog">
 
@@ -363,6 +431,20 @@
 	</div>
 </div>
 <!-- ---------------------------- code for opening the contact Pop-Up End ------------------------------ -->
+<!-- ---------------------------------- code for moving the staff Pop-up Start ------------------------------------ -->
+<div id="moveModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="row">
+		<div class="modal-content">
+			<div id="moveContact" class="modal-body">@lang('app.loading')
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+<!-- --------------------------------- code for moving the staff Pop-up End ------------------------------------- -->
 
 <!-- --------------------Child company list start----------------------- -->
 
@@ -391,7 +473,41 @@
 	</div>
 </div>
 <!-- --------------------Child compaby list end ------------------------ -->
-
+<div id="conform" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div id="newCompany" class="modal-body">
+				<div class="row">
+					<!--First Section-->
+					<div class="col-lg-12 col-md-8 col-sm-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">Warning</div>
+							<div class="panel-body">
+								<div class="row">
+									<div class="form-group col-lg-12">
+										<label id="count"></label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8"></div>
+									<div class="col-md-2">
+										<button type="button" class="btn btn-primary" id="btnOk" data-dismiss="modal">Ok
+										</button>
+									</div>
+									<div class="col-md-2">
+										<button type="button"  id="btnCancel" class="btn btn-secondary" data-dismiss="modal">Cancel
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <!-- ---------------------------------------- add subsidiary button click code start --------------------------------------------- -->
 <div id="newCompanyModal" class="modal fade" role="dialog">
 	<div class="modal-dialog">
@@ -440,11 +556,13 @@
 </div>
 <!-- ---------------------------------------- add subsidiary button click code End -------------------------------------------------- -->
 
-@stop @section('scripts')
+@stop 
+@section('scripts')
 <script>
 hideMenu();
 function hideMenu() {
 	as.toggleSidebar();
+	as.sidebartoggle();
 }
 
 
@@ -462,19 +580,19 @@ $("#country").change(function() {
  });
 });
 
-
 $(document).ready(function() {
+	$(window).focus(function(){ 
+		if(!localStorage.getItem('close'))
+		{
+			window.close();
+		}
+	});
 	if($('#parent_company').val()!='')
 	{
 		$('#add_child_record').css("visibility", "hidden");
 		$('#btn_check').css("visibility", "hidden");
-		$('#btnParentSubmit').css("visibility", "hidden");
 	}
-	else
-	{
-		$('#btnSubmit').css("visibility", "hidden");
-		//$('#child_cancel').css("visibility","hidden");
-	}
+	
 	
 	// <!-- ------------------------------------- Client Side validation for Add Subsidory start ----------------------------------------------- -->
 	$("#btnSave1").click(function(event)
@@ -491,7 +609,7 @@ $(document).ready(function() {
 	// <!-- ------------------------------------- Client Side validation for Add Subsidory End ----------------------------------------------- -->
 	// <!-- ------------------------------------- Client Side validation for Company Edit start ----------------------------------------------- -->
 	$('#updated_company_name').focus();
-	$("#btnSave,#btnSubmit").click(function(event)
+	$("#btnSave").click(function(event)
 	{
 		if ($('#updated_company_name').val() == '') {
 		    $('#updated_company_name').css('border-color', 'red');
@@ -528,40 +646,68 @@ $(document).ready(function() {
 		}
 		else {
 		    $('#zipcode').css('border-color', 'green');
-		}	
+		}
+		
+		if($('#addresscode').val() == ''){
+			$('#addresscode').css('border-color', 'red');
+		    return false;
+		}else{
+			$('#addresscode').css('border-color', 'green');
+		}
 
-		$('#company_email').on('input', function() 
+		if($('#website').val() != '')
 		{
-			var input=$(this);
-			var re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-			var is_email=re.test(input.val());
-			if(is_email){$('#company_email').css('border-color', 'green');}
+			var re = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+			var re1 = /.[a-zA-Z]{2,3}$/;
+			var is_url=$('#website').val();
+			if(re.test(is_url))
+			{
+				$('#website').css('border-color', 'red');
+		    	return false
+			}
 			else
 			{
-				$('#company_email').css('border-color', 'red');
+				$('#website').css('border-color', 'green');
 			}
-		});
+		}
 
-		$('#website').on('input', function() {
-			var input=$(this);
-			var re = /[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
-			var is_url=re.test(input.val());
-			if(is_url){$('#website').css('border-color', 'green');}
-			else{$('#website').css('border-color', 'red');}
-		});
+		if($('#company_email').val() != '')
+		{
+			var regix = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+			var email= $('#company_email').val();
+			if(!regix.test(email))
+			{
+				$('#company_email').css('border-color', 'red');
+				return false;
+			}
+			else
+			{
+				$('#company_email').css('border-color', 'green');
+			}
+		}
 		return true;
 	});
+
 	// <!-- ------------------------------------- Client Side validation for Company Edit End ----------------------------------------------- -->	
 });
 
 //<!-- --------------------------------------Client side validation for inputing only number Start ------------------------------------------------ -->
 function isNumberKey(evt)
 {
+		evt = (evt) ? evt : window.event;
 		var charCode = (evt.which) ? evt.which : event.keyCode
-		if (charCode > 31 && (charCode < 48 || charCode > 57))
+		if (charCode > 31 && (charCode < 48 || charCode > 57 || charcode == 86))
   			return false;
 		return true;
 }
+
+var mod;
+var numeric = $('#branchNumber,#switchboardnumber,#physician_size,#foundation_year,#number_of_beds').keydown(function(e){
+  mod = e.which; 
+  if(!((e.which >= 96 && e.which <= 105)||(e.which >= 48 && e.which <= 57)) && (e.which != 8 && e.which != 46 && e.which != 37 && e.which != 39 && e.which != 9 && e.which !=35 && e.which != 36) && (mod && (e.which == 67 || e.which != 86))){
+      e.preventDefault();
+  }
+});
 //<!-- --------------------------------------Client side validation for inputing only number End ------------------------------------------------ -->
 
 $('#myModal').on('shown.bs.modal', function() {
@@ -582,6 +728,34 @@ function editContact(id) {
     })	
 }
 
+function moveContact(companyId,staffId){
+	var $companyId = companyId;
+	var $contactId = staffId;
+	$.ajax({
+		method: "GET",
+		url: "{{ route('dataCapture.getSubsidaryCompany') }}",
+		data: {'companyId':$companyId,'contactId':$contactId},
+		success: function(data){
+			$data = $(data);
+			$('#moveContact').html($data).fadeIn();
+		}
+	})
+}
+
+function moveContactToSubsidaries(companyId,staffId)
+{
+	var $companyId = companyId;
+	var $contactId = staffId;
+	$.ajax({
+		method: "GET",
+		url: "{{ route('dataCapture.moveContact') }}",
+		data: {'companyId':$companyId,'contactId':$contactId},
+		success: function(data){
+			window.location.reload();
+		}
+	})
+}
+
 function getChildren(id) {
     $.ajax({
         method: "GET",
@@ -598,7 +772,7 @@ function getduplicateRecord()
 	var $lastname 	= $('#last_name').val();
 	var $jobtitle 	= $('#job_title').val();
 	var $email	 	= $('#staff_email').val();
-	var $company_name=$('#company_name').val();
+	var $company_name=$('#updated_company_name').val();
 	var $website= $('#website').val();
 	var $address= $('#address1').val();
 	var $city	= $('#city').val();
@@ -606,10 +780,11 @@ function getduplicateRecord()
 	var $zipcode= $('#zipcode').val();
 	var $specility=$('#specialization').val();
 	var $phone	=$('#branchNumber').val();
+	var $prm 	=$('#prm').val();
 	$.ajax({
 		method:"GET",
 		url:"{{route('dataCapture.getduplicateRecord')}}",
-		data:{'firstname':$firstname,'lastname':$lastname,'jobtitle':$jobtitle,'email':$email,'company_name':$company_name,'website':$website,'address':$address,'city':$city,'state':$state,'zipcode':$zipcode,'specility':$specility,'phone':$phone},
+		data:{'firstname':$firstname,'lastname':$lastname,'jobtitle':$jobtitle,'email':$email,'company_name':$company_name,'website':$website,'address':$address,'city':$city,'state':$state,'zipcode':$zipcode,'specility':$specility,'phone':$phone,'prm':$prm},
 		success:function(data){
 			$data=$(data);
 			$('#duplicate').html($data).fadeIn();
@@ -627,6 +802,149 @@ function addContact(companyId) {
     })	
 }
 
+function submitCompany()
+{
+	var count=0;
+	var a="";
+	var val= 0;
+	@foreach ($contacts as $contact)
+		@if($contact->updated_at == '')
+			count++;
+		@endif 
+	@endforeach
+	if(count>0)
+	{
+		$("#conform").modal();
+		$("#btnCancel").css('visibility','hidden');
+		$("#count").text("There are "+ count +" staff record(s) are pending to process. It is recommended to process pending staff record(s) before you submit the company.");
+        return false;
+	}else
+	{
+		if($('#openmodel').val() == '')
+		{
+			$("#conform").modal();
+			$("#count").text("Are you sure you want to Submit this record?");
+			$("#btnOk").click(function(){
+				$('#openmodel').val('conform');
+				submitCompany();
+			});
+		}
+	}	
+ 		
+ 	if ($('#openmodel').val() == '') {
+ 	    return false;
+ 	}
+		
+	if ($('#updated_company_name').val() == '') {
+	    $('#updated_company_name').css('border-color', 'red');
+	    return false;
+	}
+	else {
+	    $('#updated_company_name').css('border-color', 'green');
+	}
+	if ($('#address1').val() == '') {
+	    $('#address1').css('border-color', 'red');
+	    return false;
+	}
+	else {
+	    $('#address1').css('border-color', 'green');
+	}
+	if ($('#city').val() == '') {
+	    $('#city').css('border-color', 'red');
+	    return false;
+	}
+	else {
+	    $('#city').css('border-color', 'green');
+	}
+	if ($('#state').val() == '') {
+	    $('#state').css('border-color', 'red');
+	    return false;
+	}
+	else {
+	    $('#state').css('border-color', 'green');
+	}
+	
+	if ($('#zipcode').val() == '') {
+	    $('#zipcode').css('border-color', 'red');
+	    return false;
+	}
+	else {
+	    $('#zipcode').css('border-color', 'green');
+	}
+
+	if($('#addresscode').val() == ''){
+		$('#addresscode').css('border-color', 'red');
+	    return false;
+	}else{
+		$('#addresscode').css('border-color', 'green');
+	}
+	
+	if($('#website').val() != '')
+	{
+		var re = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+		var re1 = /.[a-zA-Z]{2,3}$/;
+		var is_url=$('#website').val();
+		if(re.test(is_url))
+		{
+			$('#website').css('border-color', 'red');
+	    	return false
+		}
+		else
+		{
+			$('#website').css('border-color', 'green');
+		}
+	}
+
+	if($('#company_email').val() != '')
+	{
+		var regix = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+		var email= $('#company_email').val();
+		if(!regix.test(email))
+		{
+			$('#company_email').css('border-color', 'red');
+			return false;
+		}
+		else
+		{
+			$('#company_email').css('border-color', 'green');
+		}
+	}
+	var $updated_company_name = $('#updated_company_name').val();
+	var $address1=$('#address1').val();
+	var $address2=$('#address2').val();
+	var $city=$('#city').val();
+	var $state=$('#state').val();
+	var $zipcode=$('#zipcode').val();
+	var $country=$('#country').val();
+	var $isd_code=$('#isd_code').val();
+	var $switchboardnumber=$('#switchboardnumber').val();
+	var $website = $('#website').val();
+	var $company_email = $('#company_email').val();
+	var $branchNumber = $('#branchNumber').val();
+	var $addresscode = $('#addresscode').val();
+	var $employee_size = $('#employee_size').val();
+	var $industry_classfication = $('#industry_classfication').val();
+	var $prm = $('#prm').val();
+	var $physician_size = $('#physician_size').val();
+	var $company_remark = $('#company_remark').val();
+	var $foundation_year = $('#foundation_year').val();
+	var $annual_revenue = $('#annual_revenue').val();
+	var $products_services = $('#products_services').val();
+	var $number_of_beds = $('#number_of_beds').val();
+	var $additional_info1 = $('#additional_info1').val();
+	var $additional_info2 = $('#additional_info2').val();
+	var $additional_info3 = $('#additional_info3').val();
+	var $additional_info4 = $('#additional_info4').val();
+	
+	$.ajax({
+		method:"GET",
+		url:"{{ route('dataCapture.submitCompany', $company->id) }}",
+		data:{'updated_company_name':$updated_company_name,'address1':$address1,'address2':$address2,'city':$city,'state':$state,'zipcode':$zipcode,'country':$country,'isd_code':$isd_code,'switchboardnumber':$switchboardnumber,'website':$website,'company_email':$company_email,'branchNumber':$branchNumber,'addresscode':$addresscode,'employee_size':$employee_size,'industry_classfication':$industry_classfication,'prm':$prm,'physician_size':$physician_size,'company_remark':$company_remark,'foundation_year':$foundation_year,'annual_revenue':$annual_revenue,'products_services':$products_services,'number_of_beds':$number_of_beds,'additional_info1':$additional_info1,'additional_info2':$additional_info2,'additional_info3':$additional_info3,'additional_info4':$additional_info4},
+		success:function(data){
+			 window.location.reload(); 
+			}
+	})
+}
 $('#myModal').on('shown.bs.modal', function() {
 	  $('#firstName').focus();
 	});

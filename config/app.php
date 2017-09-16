@@ -59,7 +59,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('APP_TIMEZONE','Asia/Kolkata'),
 
     /*
     |--------------------------------------------------------------------------
@@ -179,6 +179,7 @@ return [
         Vanguard\Services\Auth\TwoFactor\AuthyServiceProvider::class,
     	Vanguard\Providers\RouteServiceProvider::class,
     	Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
+		Barryvdh\Debugbar\ServiceProvider::class,
     ],
 
     /*
@@ -238,7 +239,7 @@ return [
         'Settings' => anlutro\LaravelSettings\Facade::class,
         'Authy' => Vanguard\Services\Auth\TwoFactor\Facade::class,
     	'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-
+		'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 
 ];

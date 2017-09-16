@@ -19,6 +19,7 @@ class CreateTableBatches extends Migration
             $table->string('name')->unique();
             $table->string('contactPerson')->nullable();
             $table->date('Target_Date')->nullable();
+            $table->string('company_count')->nullable();
             $table->string('status')->nullable();
             $table->tinyInteger('removable')->default('1');
             $table->timestamps();

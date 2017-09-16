@@ -10,6 +10,7 @@ use Vanguard\Http\Requests\Auth\RegisterRequest;
 use Vanguard\Mailers\UserMailer;
 use Vanguard\Repositories\Role\RoleRepository;
 use Vanguard\Repositories\User\UserRepository;
+use Vanguard\Repositories\Session\SessionRepository;
 use Vanguard\Services\Auth\TwoFactor\Contracts\Authenticatable;
 use Vanguard\Support\Enum\UserStatus;
 use Auth;
@@ -21,6 +22,8 @@ use Vanguard\Http\Controllers\Controller;
 use Lang;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Validator;
+use Config;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -59,7 +62,7 @@ class AuthController extends Controller
      * @param LoginRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function postLogin(LoginRequest $request)
+    public function postLogin(LoginRequest $request,SessionRepository $sessionRepository)
     {
         // In case that request throttling is enabled, we have to check if user can perform this request.
         // We'll key this by the username and the IP address of the client making these requests into this application.
@@ -88,12 +91,39 @@ class AuthController extends Controller
         }
 
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
-
+        
+        $datas=$sessionRepository->getUserSessionCount($user->id);
+        if($datas>=1)
+        {
+        	$val = $sessionRepository->getLastActivity($user->id);
+        	//return $val->last_activity;
+        	foreach($val as $value)
+        	{
+        		Log::info("".$value->last_activity);
+        		Log::info("".time() - $value->last_activity);
+        		if ((time() - $value->last_activity) > (Config::get('session.lifetime')*60))
+        		{
+        			Auth::logout();
+        		}
+        		else
+        		{
+        			return redirect()->to('login' . $to)
+        			->withErrors(trans('app.user_you_specified_is_already_in_use'));
+        		}
+        	}
+        }
+        
         if ($user->isUnconfirmed()) {
             return redirect()->to('login' . $to)
                 ->withErrors(trans('app.please_confirm_your_email_first'));
         }
 
+        if($user->isInActive())
+        {
+        	return redirect()->to('login' . $to)
+        	->withErrors(trans('app.your_account_is_banned'));
+        }
+        
         if ($user->isBanned()) {
             return redirect()->to('login' . $to)
                 ->withErrors(trans('app.your_account_is_banned'));
@@ -114,6 +144,13 @@ class AuthController extends Controller
      */
     protected function handleUserWasAuthenticated(Request $request, $throttles, $user)
     {
+    	/*$datas=$request->session()->all();
+    	foreach($datas as $data)
+    	{
+    		Log::info("Session::::". $data);
+    	}
+    	$previous_session =$this->getUserSession($user->id);
+    	Log::info("Session::::".$previous_session." ".$user->id );*/
         if ($throttles) {
             $this->clearLoginAttempts($request);
         }

@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h1 class="page-header">
             @lang('app.batches')
             <small>@lang('app.list_of_batches')</small>
@@ -23,24 +23,26 @@
 @include('partials.messages')
 
 <div class="row tab-search">
-    <div class="col-md-2">
+    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+    	@if(!Auth::user()->hasRole('QA'))
         <a href="{{ route('batch.create') }}" class="btn btn-success" id="add-batch">
             <i class="glyphicon glyphicon-plus"></i>
             @lang('app.add_batch')
         </a>
+        @endif
     </div>
-    <div class="col-md-1"></div>
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
     <form method="GET" action="" accept-charset="UTF-8" id="batches-form">
-    	<div class="col-md-2">
+    	<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                 {!! Form::select('code', $projects, Input::get('code'), ['id'=>'code', 'class'=>'form-control'])!!}
         </div>
-    	<div class="col-md-2">
+    	<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                 {!! Form::select('vendor_code', $vendors, Input::get('vendor_code'), ['id'=>'vendor_code', 'class'=>'form-control'])!!}
         </div>
-        <div class="col-md-2">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                {!! Form::select('status', $statuses, Input::get('status'), ['id' => 'status', 'class' => 'form-control']) !!}
         </div> 
-        <div class="col-md-3">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
             <div class="input-group custom-search-form">
                 <input type="text" class="form-control" name="search" value="{{ Input::get('search') }}" placeholder="@lang('app.search_for_batches')">
                 <span class="input-group-btn">
@@ -61,7 +63,7 @@
 <div class="table-responsive top-border-table" id="users-table-wrapper">
     <table class="table" id="batch_table">
         <thead>
-        	<th>@sortablelink('name',trans('app.name'))</th>
+        	<th>@sortablelink('name',trans('app.batch_name'))</th>
             <th>@sortablelink('code',trans('app.code'))</th>
             <th>@sortablelink('vendor_code',trans('app.vendor_code'))</th>
             <th>@sortablelink('No_Companies',trans('app.number_of_companies'))</th>
@@ -75,7 +77,7 @@
                         <td>{{ $batch->name }}</td>
                          <td>{{ $batch->project_code }}</td>
                          <td>{{ $batch->vendor_code }}</td>
-                         <td>{{ $batch->No_Companies }}</td>
+                         <td>{{ $batch->company_count }}</td>
                          <td>{{ $batch->status}}</td>
                          <td class="text-center">
                           @if($batch->status =="Assigned")
@@ -88,7 +90,7 @@
                                     data-confirm-delete="@lang('app.yes')">
                                 <i class="glyphicon glyphicon-trash"></i></a>
                           @endif
-                          @if($batch->status=="Complete")
+                          @if($batch->status!="Assigned")
                           		<a href="{{ route('batch.download',$batch->id) }}" class="btn btn-primary btn-circle"
                                		title="@lang('app.download')" data-toggle="tooltip" data-placement="top">
                                 	<i class="glyphicon glyphicon-download"></i>
@@ -120,6 +122,17 @@
         });
         $("#code").change(function (){
             $("#batches-form").submit();
+        });
+
+        $(document).ready(function() {
+            $("#code").select2({
+                placeholder: 'All Projects',
+                allowClear: true
+            });
+            $("#vendor_code").select2({
+                placeholder: 'All Vendors',
+                allowClear: true
+            });
         });
     </script>
 @stop

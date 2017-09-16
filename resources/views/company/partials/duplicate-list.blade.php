@@ -22,6 +22,7 @@
 							<th>@lang('app.zipcode')</th>
 							<th>@lang('app.phone')</th>
 							<th>@lang('app.specility')</th>
+							<th>@lang('app.prm')</th>
 						</thead>
 						<tbody>
 							@if(count($duplicate)) 
@@ -37,8 +38,9 @@
 								<td>	{{ $contact->address1 }}	</td>
 								<td>	{{ $contact->state }}		</td>
 								<td>	{{ $contact->zipcode }}		</td>
-								<td>	{{ $contact->branchnumber }}	</td>
+								<td>	{{ $contact->branchNumber }}	</td>
 								<td>	{{ $contact->specialization }}	</td>
+								<td>	{{ $contact->prm}}		</td>
 							</tr>
 							@endforeach @else
 							<tr>

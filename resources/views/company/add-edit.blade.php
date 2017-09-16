@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h1 class="page-header">
             {{ $editCompany ? $company->name : trans('app.create_new_company') }}
             <small>{{ $editCompany ? trans('app.edit_company_details') : trans('app.company_details') }}</small>
