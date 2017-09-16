@@ -472,7 +472,7 @@ return [
 		'edit_contact' => 'Edit Contact',
 		
 		'company_instructions'=>'Company Instructions',
-		'company_id'=>'Comapny ID',
+		'company_id'=>'Company ID',
 		'child_company'=>'Child Company',
 		'parent_company'=>'Parent Company',
 		'Company_name'=>'Company Name',

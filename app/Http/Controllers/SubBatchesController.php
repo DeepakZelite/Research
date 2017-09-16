@@ -71,7 +71,8 @@ class SubBatchesController extends Controller
 		{
 			$subBatch['count'] = $companyRepository->getAssignedCompanyCountForSubBatch($subBatch->id);
 		}
-		return view('subBatch.list', compact('subBatches', 'statuses', 'batches', 'users'));
+		$batchnotify = $batchRepository->getBatchesForVendor($vendorId); 
+		return view('subBatch.list', compact('subBatches', 'statuses', 'batches', 'users','batchnotify'));
 	}
 	
 	/**

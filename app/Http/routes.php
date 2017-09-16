@@ -780,3 +780,8 @@ Route::get('dataCapture/{contact}/delete',[
 		'as' => 'dataCapture.moveContactToParent',
 		'uses' => 'DataCaptureController@moveContactToParent'
 ]);
+
+Route::post('batch/reassigntouser',[
+		'as' => 'batches.reassigntouser',
+		'uses' => 'ReallocationController@reassigntouser'
+]);

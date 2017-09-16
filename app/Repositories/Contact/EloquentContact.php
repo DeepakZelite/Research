@@ -58,7 +58,10 @@ class EloquentContact implements ContactRepository
 
         if ($search) {
             $query->where(function ($q) use($search) {
-                $q->where('code', "like", "%{$search}%");
+                $q->where('first_name', "like", "%{$search}%");
+                $q->orWhere('last_name',"like","%{$search}%");
+                $q->orWhere('job_title',"like","%{$search}%");
+                $q->orWhere('staff_email',"like","%{$search}%");
             });
         }
         if($first)

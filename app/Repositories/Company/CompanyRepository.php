@@ -188,7 +188,23 @@ interface CompanyRepository
      */
     public function getCompaniesForBatchForReallocation($batch_id);
     
+    /**
+     * get Companies submitted count for report
+     * @param unknown $batchId
+     * @param unknown $userId
+     */
     public function getSubmittedCompanyCountForReport($batchId,$userId);
     
+    /**
+     * get Subsidiary Companies submitted count for report
+     * @param unknown $batchId
+     * @param unknown $userId
+     */
     public function getSubmittedSubsidiaryCompanyCount($batchId=null,$userId=null);
+    
+    /**
+     * get the reassign companies for Reallocate to perticular user
+     * @param unknown $batchId
+     */
+    public function getCompaniesForBatchForReallocatedToVendor($batchId);
 }

@@ -121,4 +121,16 @@ interface BatchRepository
      * @param unknown $project_id
      */
     public function getProjectBatches($project_id);
+    
+    /**
+     * get Batches of perticular vendor
+     * @param unknown $vendorId
+     */
+    public function getBatchesForVendor($vendorId);
+    
+    /**
+     * Get Batches which is Reallocate for Perticular Vendor
+     * @param unknown $vendorId
+     */
+    public function getBatchesForReallocation($vendorId);
 }

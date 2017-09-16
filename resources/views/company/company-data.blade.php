@@ -312,8 +312,28 @@
 <!-- ----------------Company-edit-details end-------------- -->
 
 <hr  style="width: 100%; color: black; height: 1px; background-color: black;" />
-<br />
 <!-- ------------------------------------------------- Displaying Contact information dependent on company if record are present Start ----------------------------------------------------- -->
+<div class="row tab-search">
+	<div class="col-md-9"></div>
+	<form method="GET" action="" accept-charset="UTF-8" id="projects-form">
+		<div class="col-md-3">
+            <div class="input-group custom-search-form">
+                <input type="text" class="form-control" name="search" value="{{ Input::get('search') }}" placeholder="@lang('app.search')">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit" id="search-users-btn">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                    @if (Input::has('search') && Input::get('search') != '')
+                        <a href="{{ route('dataCapture.capture', $company->sub_batch_id) }}" class="btn btn-danger" type="button" >
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    @endif
+               </span>
+          </div>
+   		</div>
+   	</form>
+</div>
+
 <div class="row">
 	<div class="table-responsive top-border-table" id="users-table-wrapper">
 		<table class="table">

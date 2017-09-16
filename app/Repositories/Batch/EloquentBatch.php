@@ -208,4 +208,20 @@ class EloquentBatch implements BatchRepository
 //     	return $result;
     	return Batch::where('project_id', $project_id)->lists('name', 'id')->toArray();
     }
+    
+    public function getBatchesForVendor($vendorId)
+    {
+    	$query = Batch::query();
+    	if($vendorId)
+    	{
+    		$query->where('vendor_id',"=","{$vendorId}");
+    	}
+    	$result = $query->get();
+    	return $result;
+    }
+    
+    public function getBatchesForReallocation($vendorId)
+    {
+    	return Batch::where('vendor_id', $vendorId)->where('notify',"Reassign")->lists('name', 'id')->toArray();
+    }
 }

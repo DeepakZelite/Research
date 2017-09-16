@@ -54,12 +54,11 @@ class EloquentCompany implements CompanyRepository
             });
         }
 
-        $result = $query->where("parent_id", "=", $parentId)->orderBy('created_at', 'DESC')->paginate($perPage);
+        $result = $query->where("parent_id", "=", $parentId)->orderBy('created_at', 'DESC')->get();
 
         if ($search) {
             $result->appends(['search' => $search]);
         }
-        $result->appends(['parent_id' => $parentId]);
         return $result;
     }
 
@@ -98,7 +97,8 @@ class EloquentCompany implements CompanyRepository
     	if ($batchId != 0) {
     		$query->where(function ($q) use($batchId) {
     			$q->where('companies.batch_id', "=", "{$batchId}")
-    				->whereNull('sub_batch_id');
+    				->where('companies.status',"=","UnAssigned");
+ //   				->whereNull('sub_batch_id');
     		});
     	} else {
     		return 0;
@@ -453,6 +453,17 @@ class EloquentCompany implements CompanyRepository
     	->count();
     	Log::debug("getSubmittedCompanyCountForReport Sql:". $query->toSql());
     	Log::debug("getSubmittedCompanyCountForReport Count:".$result);
+    	return $result;
+    }
+    
+    public function getCompaniesForBatchForReallocatedToVendor($batchId)
+    {
+    	$query = Company::query();
+    	$result = $query->leftjoin('users','users.id',"=",'companies.user_id')
+    			->where('companies.batch_id',"=","{$batchId}")
+    			->where('companies.notify',"=","Reassign")
+    			->select('companies.*','users.first_name','users.last_name','users.username')
+    			->get();
     	return $result;
     }
 }

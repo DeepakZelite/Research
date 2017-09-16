@@ -183,6 +183,7 @@ class DataCaptureController extends Controller
 		$this->companyRepository->update($company->id, $request->all());
 		$comp=Company::find($company->id);
 		$comp->status="Submitted";
+		$comp->notify=null;
 		$comp->save();
 		
 		$subBatch=SubBatch::find($comp->sub_batch_id);
@@ -194,6 +195,7 @@ class DataCaptureController extends Controller
 			Log::debug("TotalCompanyCount".$companyRepository->getTotalCompanyCount($comp->batch_id)."SubmittedCompanyCount".$companyRepository->getSubmittedCompanyCount($comp->batch_id));
 			$batch=batch::find($comp->batch_id);
 			$batch->status=SubBatchStatus::COMPLETE;
+			$batch->notify=null;
 			$batch->update();
 		}
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id);
@@ -316,8 +318,8 @@ class DataCaptureController extends Controller
 	public function getChildren(Company $company)
 	{
 		$perPage = null;
-		Log::debug($company);
 		$children = $this->companyRepository->paginate($perPage, Input::get('search'), $company->id);
+		Log::debug("Children List: ".$children);
 		return view('company.partials.company-list', compact('company' ,'children'));
 	}
 	

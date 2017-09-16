@@ -309,7 +309,7 @@ class EloquentUser implements UserRepository
     	{
     		$vendorId = -1;
     	}
-    	return User::where('vendor_id', $vendorId)->lists('username', 'id');
+    	return User::where('vendor_id', $vendorId)->where('status',"Active")->lists('username', 'id');
     }
     
 }

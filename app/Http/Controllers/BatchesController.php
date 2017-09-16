@@ -59,7 +59,7 @@ class BatchesController extends Controller
 			$batches = $this->batches->paginate($perPage, Input::get('search'), null , Input::get('status'),Input::get('vendor_code'),Input::get('code'));
 		} 
 		else {
-			$batches = $this->batches->paginate($perPage, Input::get('search'), $this->theUser->vendor_id,Input::get('status'));
+			$batches = $this->batches->paginate($perPage, Input::get('search'), $this->theUser->vendor_id,Input::get('status'),Input::get('vendor_code'),Input::get('code'));
 		}
 		
 		$statuses = ['' => trans('app.all_status')] + SubBatchStatus::lists();

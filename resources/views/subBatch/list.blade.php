@@ -58,7 +58,7 @@
     </div>
 </div><!-- Second Assign Row  -->
 <div class="row tab-search">
-    <div class="col-xs-2 col-md-7 col-lg-7"></div>
+    <div class="col-xs-2 col-md-7 col-lg-7"><span id="lblnotify" style="color:Red"></span></div>
     <form method="GET" action="" accept-charset="UTF-8" id="sub-batches-form">
         <div class="col-xs-4 col-md-2 col-lg-2">
             {!! Form::select('status', $statuses, Input::get('status'), ['id' => 'status', 'class' => 'form-control']) !!}
@@ -136,6 +136,17 @@
 
 @section('scripts')
     <script>
+	var count="";
+	@foreach($batchnotify as $batch)
+		@if($batch->notify != '')
+			count += "{{ $batch->name }}, ";
+		@endif 
+	@endforeach
+	if(count != "")
+	{
+		$('#lblnotify').text("High Priority: "+count+" Batch is reallocated! please check");
+	}
+		
         $("#status").change(function () {
             $("#sub-batches-form").submit();
         });
