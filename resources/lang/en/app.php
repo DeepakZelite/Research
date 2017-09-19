@@ -634,6 +634,8 @@ return [
 		'run' => 'Run',
 		'move_staff' => 'Move Staff',
 		'staff_transfer_to_parent' => 'Staff Transfer To Parent Successfully',
+		'user_status' =>'User Status',
+		'company_status' => 'Company Status',
 		
 		'months' => [
         'January' => 'January',

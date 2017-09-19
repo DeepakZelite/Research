@@ -462,7 +462,7 @@ class EloquentCompany implements CompanyRepository
     	$result = $query->leftjoin('users','users.id',"=",'companies.user_id')
     			->where('companies.batch_id',"=","{$batchId}")
     			->where('companies.notify',"=","Reassign")
-    			->select('companies.*','users.first_name','users.last_name','users.username')
+    			->select('companies.*','users.first_name','users.last_name','users.username','users.status as user_status')
     			->get();
     	return $result;
     }

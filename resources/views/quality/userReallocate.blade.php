@@ -37,8 +37,9 @@
         <thead>
         	<th class="col-sm-2">@lang('app.company_id')</th>
         	<th class="col-sm-3">@lang('app.company_name')</th>
-            <th class="col-sm-2">@lang('app.status')</th>
+            <th class="col-sm-2">@lang('app.company_status')</th>
             <th class="col-sm-2">@lang('app.username')</th>
+            <th class="col-sm-2">@lang('app.user_status')</th>
             <th class="text-center">@lang('app.action')</th>
         </thead>
         <tbody>
@@ -49,7 +50,7 @@
                         <td>{{ $company->company_name }}</td>
                         <td>{{ $company->status }}</td>
                         <td>{{ $company->first_name }} {{ $company->last_name }}</td>
-                        
+                        <td> {{ $company->user_status }} </td>
                         <td class="text-center">
 	                        <input name="agree[]" id="agree[]" type="checkbox" value="{{ $company->id }}">
                         	<input type="hidden" id="openModel"> 
