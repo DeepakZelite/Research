@@ -503,6 +503,14 @@ Route::get('batch/{batch}/download',[
 		'as'=>'batch.download',
 		'uses'=>'BatchesController@download'
 ]);
+
+Route::get('batch/getbatchName',[
+		'as'=>'batch.getbatchName',
+		'uses'=>'BatchesController@getbatchName'
+]);
+
+
+
 /**
  * Manage SubBatches
  */
@@ -673,8 +681,8 @@ Route::post('report/getData',[
 		'uses'=>'ReportsController@getData'
 ]);
 
-Route::get('report/productivity',[
-		'as'=>'report.productivity',
+Route::get('productivity',[
+		'as'=>'productivity',
 		'uses'=>'ReportsController@productivityList'
 ]);
 
@@ -691,4 +699,89 @@ Route::get('report/myProductivity',[
 Route::post('report/searchReportList',[
 		'as'=>'report.searchReportList',
 		'uses'=>'MyReportController@searchReportList'
+]);
+
+Route::get('dataCapture/{subBatchId}/starttimecapture',[
+		'as' =>'dataCapture.starttimecapture',
+		'uses'=>'DataCaptureController@starttimecapture'
+]);
+
+Route::get('dataCapture/{subBatchId}/stoptimecapture',[
+		'as' =>'dataCapture.stoptimecapture',
+		'uses'=>'DataCaptureController@stoptimecapture'
+]);
+
+Route::delete('dataCapture/{contact}/delete', [
+		'as' => 'dataCapture.delete',
+		'uses' => 'DataCaptureController@delete'
+]);
+
+Route::delete('dataCapture/{company}/subsidiaryCompany', [
+		'as' => 'dataCapture.subsidiaryCompany',
+		'uses' => 'DataCaptureController@subsidiaryCompany'
+]);
+
+Route::get('quality/create',[
+		'as' => 'quality.create',
+		'uses' => 'QualityController@create'
+]);
+
+Route::post('quality/store',[
+		'as' => 'quality.store',
+		'uses' => 'QualityController@store'
+]);
+
+Route::get('quality/list',[
+		'as' => 'quality.list',
+		'uses' => 'QualityController@list'
+]);
+
+Route::get('quality/optionlist',[
+		'as' => 'quality.optionlist',
+		'uses' => 'QualityController@optionlist'
+]);
+
+Route::post('quality/download',[
+		'as' => 'quality.download',
+		'uses'=> 'QualityController@download'
+]);
+
+Route::get('reallocation',[
+		'as' => 'reallocation',
+		'uses' => 'ReallocationController@reallocation',
+]);
+
+Route::post('batches/reassign',[
+		'as' => 'batches.reassign',
+		'uses' => 'ReallocationController@reassign'
+]);
+
+Route::get('record',[
+		'as' => 'index',
+		'uses' => 'RecordController@index'
+]);
+
+Route::post('record/data',[
+		'as' => 'record.data',
+		'uses' => 'RecordController@info'
+]);
+
+Route::get('dataCapture/getSubsidaryCompany', [
+		'as' => 'dataCapture.getSubsidaryCompany',
+		'uses' => 'DataCaptureController@getSubsidaryCompany'
+]);
+
+Route::get('dataCapture/moveContact',[
+		'as' => 'dataCapture.moveContact',
+		'uses' => 'DataCaptureController@moveContact'
+]);
+
+Route::get('dataCapture/{contact}/delete',[
+		'as' => 'dataCapture.moveContactToParent',
+		'uses' => 'DataCaptureController@moveContactToParent'
+]);
+
+Route::post('batch/reassigntouser',[
+		'as' => 'batches.reassigntouser',
+		'uses' => 'ReallocationController@reassigntouser'
 ]);

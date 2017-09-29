@@ -91,4 +91,15 @@ interface ProjectRepository
     
     
     public function lists1();
+    
+    /**
+     * get the dropdown list for report
+     */
+    public function getprojectNameList();
+    
+    public function getProjectCompanyCount($projectId = null);
+    
+    public function getProjectCode($vendorId=null);
+    
+    public function getProjectName($vendorId=null);
 }

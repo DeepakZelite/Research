@@ -13,6 +13,7 @@ use Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class ProjectsController - Controls all the operations for project entity
@@ -69,6 +70,7 @@ class ProjectsController extends Controller
     public function store(CreateProjectRequest $request)
     {
         $data = $request->all();
+        Log::debug($data);
         $project = $this->projects->create($data);
         	$file = Input::file('attachement');
         	$destinationPath = public_path() .'/upload/';

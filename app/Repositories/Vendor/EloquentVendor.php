@@ -73,7 +73,7 @@ class EloquentVendor implements VendorRepository
             });
         }
 
-        $result = $query->sortable()->paginate($perPage);
+        $result = $query->sortable()->orderBy('created_at', 'DESC')->paginate($perPage);
         if ($search) {
             $result->appends(['search' => $search]);
         }

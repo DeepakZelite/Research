@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="form-wrap col-md-5 auth-form" id="login">
+<div class="form-wrap col-xs-5 col-md-5 auth-form" id="login">
     <div style="text-align: center; margin-bottom: 25px;">
         <img src="{{ url('assets/img/vanguard-logo.png') }}" alt="{{ settings('app_name') }}">
     </div>
@@ -22,7 +22,7 @@
         <div class="form-group input-icon">
             <label for="username" class="sr-only">@lang('app.email_or_username')</label>
             <i class="fa fa-user"></i>
-            <input type="email" name="username" id="username" class="form-control" placeholder="@lang('app.email_or_username')">
+            <input type="text" name="username" id="username" class="form-control" placeholder="@lang('app.email_or_username')">
         </div>
         <div class="form-group password-field input-icon">
             <label for="password" class="sr-only">@lang('app.password')</label>
@@ -58,6 +58,11 @@
 @stop
 
 @section('scripts')
+<script>
+window.location.hash="#";
+window.location.hash="Again-No-back-button";//again because google chrome don't insert first hash into history
+window.onhashchange=function(){window.location.hash="#";}
+</script>
     {!! HTML::script('assets/js/as/login.js') !!}
     {!! JsValidator::formRequest('Vanguard\Http\Requests\Auth\LoginRequest', '#login-form') !!}
 @stop

@@ -16,13 +16,10 @@ class UpdateProjectRequest extends Request
     {
     	$project = $this->route('project');
     	return [
-    			//'name' => 'required|unique:projects,name,' . $project->id,
-    			'required|unique:projects,code,' . $project->id,
+    			'unique:projects,code,' . $project->id,
     			'Start_Date' => 'required|date',
-        		'Expected_date' => 'required|date|after:Start_Date',
-        		'No_Companies'=>'required|integer|min:1',
+        		'Expected_date' => 'required|date',
         		'Expected_Staff'=>'required|integer|min:1',
-    			//'attachement'=>'required|file',
     	];
     }
 }

@@ -38,7 +38,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->hasRole('Admin')) {
+        if (Auth::user()->hasRole('Admin') || Auth::user()->hasRole('QA') || Auth::user()->hasRole('TL')) {
             return $this->adminDashboard();
         }
 
@@ -82,7 +82,7 @@ class DashboardController extends Controller
             Carbon::now()
         )->toArray();
 
-        return view('dashboard.default', compact('activities'));
+        return redirect()->intended('dataCapture');
     }
 
 

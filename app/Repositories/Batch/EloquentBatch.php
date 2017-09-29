@@ -5,6 +5,7 @@ namespace Vanguard\Repositories\Batch;
 use Vanguard\Batch;
 use Carbon\Carbon;
 use Kyslik\ColumnSortable\Sortable;
+use Illuminate\Support\Facades\Log;
 
 class EloquentBatch implements BatchRepository
 {
@@ -73,7 +74,7 @@ class EloquentBatch implements BatchRepository
         	$query = $query->where('batches.status', '=', $status);
         }
         $result = $query->select('batches.*', 'projects.code as project_code', 'vendors.vendor_code as vendor_code','projects.No_Companies as No_Companies')
-        ->sortable()->paginate($perPage);
+        ->sortable()->orderBy('created_at', 'DESC')->paginate($perPage);
 
         if ($search) {
             $result->appends(['search' => $search]);
@@ -144,7 +145,7 @@ class EloquentBatch implements BatchRepository
     	
     }
     
-    public function getDataForProjectReport($vendor_code = null, $project_code = null)
+    public function getDataForProjectReport($vendor_code = null, $project_code = null,$project_name=null)
     {
     	$query = Batch::query();
     	if($project_code)
@@ -155,11 +156,72 @@ class EloquentBatch implements BatchRepository
     	{
     		$query->where('vendors.vendor_code',"=","{$vendor_code}");
     	}
+    	if($project_name)
+    	{
+    		$query->where('projects.name',"=","{$project_name}");
+    	}
     	$result=$query
     	->leftjoin('projects', 'projects.id', '=', 'batches.project_id')
     	->leftjoin('vendors', 'vendors.id', '=', 'batches.vendor_id')
-    	->select('vendors.vendor_code','projects.code','projects.No_Companies as companies','batches.id','batches.name','batches.status');
+    	->select('vendors.vendor_code','projects.code','projects.name as project_name','batches.company_count as companies','batches.id','batches.name','batches.status');
     	$result= $query->get();
+    	Log::debug("getDataForProjectReport Sql:". $query->toSql());
     	return $result;
+    }
+    
+    /**
+     * Batch Name Logic
+     */
+    public function getBatchNameCount($batch = null)
+    {
+    	$query = Batch::query();
+    	if($batch)
+    	{
+    		$query->where('name',"like","%{$batch}%");
+    	}
+    	else{
+    		return 0;
+    	}
+    	$result = $query->count();
+    	return $result;
+    }
+    
+    public function getCompanyCountBasedOnProject($projectId=null)
+    {
+    	$query = Batch::query();
+    	if($projectId)
+    	{
+    		$query->where('project_id',"=","{$projectId}");
+    	}
+    	else{
+    		return 0;
+    	}
+    	$result = $query->sum('company_count');
+    	return $result;
+    }
+    
+    public function getProjectBatches($project_id)
+    {
+//     	$query = Batch::query();
+//     	$query->where('project_id',"=",'{$project_id}');
+//     	$result = $query->where('status',"=",'Complete')->lists('name', 'id')->toArray();
+//     	return $result;
+    	return Batch::where('project_id', $project_id)->where('status','Complete')->lists('name', 'id')->toArray();
+    }
+    
+    public function getBatchesForVendor($vendorId)
+    {
+    	$query = Batch::query();
+    	if($vendorId)
+    	{
+    		$query->where('vendor_id',"=","{$vendorId}");
+    	}
+    	$result = $query->get();
+    	return $result;
+    }
+    
+    public function getBatchesForReallocation($vendorId)
+    {
+    	return Batch::where('vendor_id', $vendorId)->where('notify',"Reassign")->lists('name', 'id')->toArray();
     }
 }

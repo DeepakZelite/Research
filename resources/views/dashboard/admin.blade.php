@@ -155,6 +155,7 @@
 
 @section('scripts')
     <script>
+
         var users = {!! json_encode(array_values($usersPerMonth)) !!};
         var months = {!! json_encode(array_keys($usersPerMonth)) !!};
         var trans = {

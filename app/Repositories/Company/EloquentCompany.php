@@ -4,6 +4,7 @@ namespace Vanguard\Repositories\Company;
 
 use Vanguard\Company;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class EloquentCompany implements CompanyRepository
 {
@@ -53,12 +54,11 @@ class EloquentCompany implements CompanyRepository
             });
         }
 
-        $result = $query->where("parent_id", "=", $parentId)->paginate($perPage);
+        $result = $query->where("parent_id", "=", $parentId)->orderBy('created_at', 'DESC')->get();
 
         if ($search) {
             $result->appends(['search' => $search]);
         }
-        $result->appends(['parent_id' => $parentId]);
         return $result;
     }
 
@@ -97,12 +97,15 @@ class EloquentCompany implements CompanyRepository
     	if ($batchId != 0) {
     		$query->where(function ($q) use($batchId) {
     			$q->where('companies.batch_id', "=", "{$batchId}")
-    				->whereNull('sub_batch_id');
+    				->where('companies.status',"=","UnAssigned");
+ //   				->whereNull('sub_batch_id');
     		});
     	} else {
     		return 0;
     	}
     	$result = $query->count();
+    	Log::debug("getUnAssignedCount Sql:". $query->toSql());
+		Log::debug("GetUnAssigned Count:".$result);
     	return $result;
     }
     
@@ -115,11 +118,14 @@ class EloquentCompany implements CompanyRepository
     	if ($batchId != 0) {
     		$query->where(function ($q) use($batchId) {
     			$q->where('companies.batch_id', "=", "{$batchId}");
+    			$q->where('companies.parent_id',"=",'0');
     		});
     	} else {
     		return 0;
     	}
     	$result = $query->count();
+    	Log::debug("getTotalCompanyCount Sql:". $query->toSql());
+		Log::debug("GetUnAssigned Count:".$result);
     	return $result;
     }
     
@@ -167,6 +173,8 @@ class EloquentCompany implements CompanyRepository
     	}
     	$result = $query->orderBy('companies.updated_at', 'desc')->limit(1)->get();
     	//$result = $query->orderBy('companies.parent_id', 'desc')->limit(1)->get();
+    	Log::debug("getCompanyRecord Sql:". $query->toSql());
+		Log::debug("getCompanyRecord Output:".$result);
     	return $result;
     }
     
@@ -186,6 +194,8 @@ class EloquentCompany implements CompanyRepository
     		return 0;
     	}
     	$result = $query->limit($limit)->get();
+    	Log::debug("getCompaniesForBatch Sql:". $query->toSql());
+		Log::debug("getCompaniesForBatch Output:".$result);
     	return $result;
     }
     
@@ -206,6 +216,8 @@ class EloquentCompany implements CompanyRepository
     		return 0;
     	}
     	$result = $query->get();
+    	Log::debug("getCompaniesForSubBatchDelete Sql:". $query->toSql());
+		Log::debug("getCompaniesForSubBatchDelete Output:".$result);
     	return $result;
     }
 
@@ -219,11 +231,14 @@ class EloquentCompany implements CompanyRepository
     		$query->where(function ($q) use($batchId) {
     			$q->where('companies.batch_id', "=", "{$batchId}");
     			$q->where('companies.status',"=","Submitted");
+    			$q->where('companies.parent_id',"=","0");
     		});
     	} else {
     		return 0;
     	}
     	$result = $query->count();
+    	Log::debug("getSubmittedCompanyCount Sql:". $query->toSql());
+		Log::debug("getSubmittedCompanyCount Count:".$result);
     	return $result;
     }
     
@@ -236,20 +251,24 @@ class EloquentCompany implements CompanyRepository
     	$query = Company::query();
     	$result = $query
     	->leftjoin('contacts', 'companies.id', '=', 'contacts.company_id')
-    	->select('companies.*','contacts.*','contacts.additional_info1 as info1','contacts.additional_info2 as info2','contacts.additional_info3 as info3','contacts.additional_info4 as info4');
-    
+    	->leftjoin('batches','batches.id','=', 'companies.batch_id')
+    	->leftjoin('users','users.id',"=","companies.user_id")
+    	->leftjoin('countries','countries.id',"=","companies.country")
+    	->leftjoin('projects','projects.id',"=","batches.project_id")
+    	->select('companies.*','contacts.*','batches.name as batch_name','projects.code as project_code','projects.name as project_name','companies.id as com_id','contacts.id as contact_id','users.first_name as ufname','countries.name as country_name','users.last_name as ulname','companies.additional_info1 as com_info1','companies.additional_info2 as com_info2','companies.additional_info3 as com_info3','companies.additional_info4 as com_info4','companies.additional_info5 as com_info5','companies.additional_info6 as com_info6','companies.additional_info7 as com_info7','companies.additional_info8 as com_info8','contacts.additional_info1 as info1','contacts.additional_info2 as info2','contacts.additional_info3 as info3','contacts.additional_info4 as info4','contacts.additional_info5 as info5','contacts.additional_info6 as info6','contacts.additional_info7 as info7','contacts.additional_info8 as info8','companies.created_at as company_created_at','companies.updated_at as company_updated_at','contacts.created_at as contacts_created_at','contacts.updated_at as contact_updated_at')
+    	->orderBy('companies.company_name', 'ASC');
     	if ($batchId != 0) {
-    
-    
     		$query->where(function ($q) use($batchId) {
     			$q->where('companies.batch_id', "=", "{$batchId}");
-    
+    			$q->where('companies.status',"=","Submitted");
     		});
     	} else {
     		return 0;
     	}
     
     	$result = $query->get();
+    	Log::debug("getTotalCompany Sql:". $query->toSql());
+		Log::debug("getTotalCompany Output:".$result);
     	return $result;
     }
     
@@ -275,24 +294,89 @@ class EloquentCompany implements CompanyRepository
     		return 0;
     	}
     	$result = $query->select('id')->get();
+    	Log::debug("getcompanies Sql:". $query->toSql());
+		Log::debug("getcompanies Output:".$result);
     	return $result;
     }
     
-    public function getCompaniesForProductivityReport($vendorId = null,$userId = null)
+    public function getCompaniesForProductivityReport($vendorId = null,$userId = null,$start_date=null,$end_date=null)
     {
     	$query = Company::query();
     	if($vendorId)
     	{
-    		$query->where('companies.vendor_id',"=","{$vendorId}");
+    		$query->where('batches.vendor_id',"=","{$vendorId}");
     	}
     	if($userId)
     	{
     		$query->where('companies.user_id',"=","{$userId}");
     	}
-    	$result=$query->where('status',"=","Submitted")
+    	if($start_date)
+    	{
+    		$query->where('companies.updated_at',">=","{$start_date}");
+    	}
+    	if($end_date == null )
+    	{
+    		$end_date=Carbon::now();//->format('Y-m-d h:M:s');//Carbon::today()
+    		$query->where('companies.updated_at',"<=","{$end_date}");
+    	}
+    	else
+    	{
+    		$end_date =$end_date . " 23:59:59";
+    		$query->where('companies.updated_at',"<=","{$end_date}");
+    	}
+    	if($vendorId || $userId)
+    	{
+    		$query->where('companies.parent_id',"=","0");
+    		$result=$query
+    			->leftjoin('batches', 'batches.id', '=', 'companies.batch_id')
+    			->where('companies.status',"=","Submitted")
     			->count();
-    	
-    	return $result;
+    			Log::debug("getCompaniesForProductivityReport Sql:". $query->toSql());
+				Log::debug("getCompaniesForProductivityReport Count:".$result);
+    			return $result;
+    	}
+    	else 
+    		return 0;
+    }
+    
+    public function getSubsidiaryCompaniesForProductivityReport($vendorId = null,$userId = null,$start_date=null,$end_date=null)
+    {
+    	$query = Company::query();
+    	if($vendorId)
+    	{
+    		$query->where('batches.vendor_id',"=","{$vendorId}");
+    	}
+    	if($userId)
+    	{
+    		$query->where('companies.user_id',"=","{$userId}");
+    	}
+    	if($start_date)
+    	{
+    		$query->where('companies.updated_at',">=","{$start_date}");
+    	}
+    	if($end_date == null )
+    	{
+    		$end_date=Carbon::now();//->format('Y-m-d h:M:s');//Carbon::today()
+    		$query->where('companies.updated_at',"<=","{$end_date}");
+    	}
+    	else
+    	{
+    		$end_date =$end_date . " 23:59:59";
+    		$query->where('companies.updated_at',"<=","{$end_date}");
+    	}
+    	if($vendorId || $userId)
+    	{
+    		$query->where('companies.parent_id',"!=","0");
+    		$result=$query
+    		->leftjoin('batches', 'batches.id', '=', 'companies.batch_id')
+    		->where('companies.status',"=","Submitted")
+    		->count();
+    		Log::debug("getSubsidiaryCompaniesForProductivityReport Sql:". $query->toSql());
+			Log::debug("getSubsidiaryCompaniesForProductivityReport Count:".$result);
+    		return $result;
+    	}
+    	else
+    		return 0;
     }
     
     public function getcompaniesforReport($vendorId = null,$userId = null)
@@ -307,6 +391,79 @@ class EloquentCompany implements CompanyRepository
     		$query->where('$companies.user_id',"=","{$userId}");
     	}
     	$result = $query->select('id')->get();
+    	Log::debug("getcompaniesforReport Sql:". $query->toSql());
+		Log::debug("getcompaniesforReport output:".$result);
+    	return $result;
+    }
+    
+    public function getAssignedCompanyCountForSubBatch($subBatchId = null)
+    {
+    	$query = Company::query();
+    	if($subBatchId)
+    	{
+    		$query->where('companies.sub_batch_id',"=","{$subBatchId}");
+    	}
+    	$result = $query->where('status',"=","Assigned")->count();
+    	Log::debug("getAssignedCompanyCountForSubBatch Sql:". $query->toSql());
+		Log::debug("getAssignedCompanyCountForSubBatch Count:".$result);
+    	return $result;
+    }
+    
+    public function getCompaniesForBatchForReallocation($batch_id)
+    {
+    	$query = Company::query();
+    	$result = $query->where('batch_id',"=","{$batch_id}")
+    					->where('parent_id',"=","0")
+    					->get();
+    	return $result;
+    }
+    
+    public function getSubmittedCompanyCountForReport($batchId,$userId)
+    {
+    	$query = Company::query();
+    	if($batchId)
+    	{
+    		$query->where('companies.batch_id',"=","{$batchId}");
+    	}
+    	if($userId)
+    	{
+    		$query->where('companies.user_id',"=","{$userId}");
+    	}
+    	$query->where('companies.parent_id',"=","0");
+    	$result=$query->where('companies.status',"=","Submitted")
+    				->count();
+    		Log::debug("getSubmittedCompanyCountForReport Sql:". $query->toSql());
+    		Log::debug("getSubmittedCompanyCountForReport Count:".$result);
+    	return $result;
+    }
+    
+    public function getSubmittedSubsidiaryCompanyCount($batchId=null,$userId=null)
+    {
+    	$query = Company::query();
+    	if($batchId)
+    	{
+    		$query->where('companies.batch_id',"=","{$batchId}");
+    	}
+    	if($userId)
+    	{
+    		$query->where('companies.user_id',"=","{$userId}");
+    	}
+    	$query->where('companies.parent_id',"!=","0");
+    	$result=$query->where('companies.status',"=","Submitted")
+    	->count();
+    	Log::debug("getSubmittedCompanyCountForReport Sql:". $query->toSql());
+    	Log::debug("getSubmittedCompanyCountForReport Count:".$result);
+    	return $result;
+    }
+    
+    public function getCompaniesForBatchForReallocatedToVendor($batchId)
+    {
+    	$query = Company::query();
+    	$result = $query->leftjoin('users','users.id',"=",'companies.user_id')
+    			->where('companies.batch_id',"=","{$batchId}")
+    			->where('companies.notify',"=","Reassign")
+    			->select('companies.*','users.first_name','users.last_name','users.username','users.status as user_status')
+    			->get();
     	return $result;
     }
 }

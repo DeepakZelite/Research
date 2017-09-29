@@ -8,15 +8,15 @@ return [
     'columns' => [
         'alpha' => [
             'rows' => ['description', 'code', 'name', 'No_Companies','Expected_Staff','vendor_code','location','username','first_name'],
-            'class' => 'fa fa-sort-alpha',
+            'class' => 'fa fa-sort',
         ],
         'amount' => [
             'rows' => ['amount', 'price'],
-            'class' => 'fa fa-sort-amount'
+            'class' => 'fa fa-sort'
         ],
         'numeric' => [
             'rows' => ['created_at', 'updated_at', 'level', 'id', 'phone_number'],
-            'class' => 'fa fa-sort-numeric'
+            'class' => 'fa fa-sort'
         ],
     ],
 

@@ -14,11 +14,11 @@
         <div class="step-content">
             <h3>Installation</h3>
             <hr>
-            <p>Vanguard is ready to be installed!</p>
+            <p>ResearchCRM is ready to be installed!</p>
             <p>Before you proceed, please provide the name for your application below:</p>
             <div class="form-group">
                 <label for="app_name">App Name</label>
-                <input type="text" class="form-control" id="app_name" name="app_name" value="Vanguard">
+                <input type="text" class="form-control" id="app_name" name="app_name" value="ResearchCRM">
             </div>
             <button class="btn btn-green pull-right" data-toggle="loader" data-loading-text="Installing" type="submit">
                 <i class="fa fa-play"></i>

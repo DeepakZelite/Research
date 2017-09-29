@@ -19,7 +19,7 @@ class SubBatch extends Model
         'removable' => 'boolean'
     ];
 
-    protected $fillable = ['name', 'batch_id','project_id', 'user_id','vendor_id', 'status', 'company_count', 'seq_no'];
+    protected $fillable = ['name', 'batch_id','project_id', 'user_id','vendor_id', 'status', 'company_count', 'seq_no', 'notify'];
     
     protected $sortable=['name', 'batch_id','project_id', 'user_id','vendor_id', 'status', 'company_count', 'seq_no'];
     

@@ -81,21 +81,37 @@ class PermissionsSeeder extends Seeder
         		'description' => 'Manage batches',
         		'removable' => false
         ]);
-        $permissions[] = Permission::create([
-        		'name' => 'subBatches.manage',
-        		'display_name' => 'Manage subBatches',
-        		'description' => 'Manage subBatches',
-        		'removable' => false
-        ]);
         
         $permissions[] = Permission::create([
+        		'name' => 'reports.manage',
+        		'display_name' => 'Manage Reports',
+        		'description' => 'Manage Reports',
+        		'removable' => false
+        ]);
+        $adminRole->attachPermissions($permissions);
+        
+        $vendorRole = Role::where('name', 'Vendor Lead')->first();
+        $permissions1[] = Permission::create([
+        		'name' => 'batch.allocation',
+        		'display_name' => 'Manage Sub-Batches',
+        		'description' => 'Manage Sub-Batches',
+        		'removable' => false
+        ]);
+        $permissions1[] = Permission::create([
         		'name' => 'companys.manage',
         		'display_name' => 'Manage companys',
         		'description' => 'Manage companys',
         		'removable' => false
         ]);
+        $vendorRole->attachPermissions($permissions1);
         
-
-        $adminRole->attachPermissions($permissions);
+        $userRole = Role::where('name', 'Entry User')->first();
+        $permissions3[] = Permission::create([
+        		'name' => 'reports.user',
+        		'display_name' => 'Entry User Report',
+        		'description' => 'Entry User Report',
+        		'removable' => false
+        ]);
+        $userRole ->attachPermissions($permissions3);
     }
 }

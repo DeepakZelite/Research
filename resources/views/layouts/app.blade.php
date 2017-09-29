@@ -26,6 +26,8 @@
     {!! HTML::style('assets/css/bootstrap-social.css') !!}
     {!! HTML::style('assets/css/app.css') !!}
     {!! HTML::style('assets/css/bootstrapTable.min.css') !!}
+    {!! HTML::style('assets/css/select2.min.css') !!}
+    
 
     @yield('styles')
 </head>
@@ -33,7 +35,7 @@
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="{{ route('dashboard') }}" style="padding: 7px 0 0 0;">
+                <a class="navbar-brand" href="#" style="padding: 7px 0 0 0;">
                     <img src="{{ url('assets/img/vanguard-logo.png') }}" height="40" alt="{{ settings('app_name') }}">
                 </a>
             </div>
@@ -93,10 +95,22 @@
     {!! HTML::script('assets/plugins/js-cookie/js.cookie.js') !!}
     {!! HTML::script('assets/js/datatable.bootstrap.js') !!}
     {!! HTML::script('assets/js/jquery_datatable.js') !!}
+    {!! HTML::script('assets/js/buttons.html5.min.js') !!}
+    {!! HTML::script('assets/js/dataTables.buttons.min.js') !!}
+    {!! HTML::script('assets/js/jszip.min.js') !!}
+    {!! HTML::script('assets/js/buttons.colVis.min.js') !!}
+    {!! Html::script('assets/js/select2.min.js') !!}
     <script type="text/javascript">
         $.ajaxSetup({
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
         });
+
+        
+        javascript:window.history.forward(1);
+
+        window.location.hash="#";
+        window.location.hash="##";
+        window.onhashchange=function(){window.location.hash="#";}
     </script>
     {!! HTML::script('vendor/jsvalidation/js/jsvalidation.js') !!}
     {!! HTML::script('assets/js/as/app.js') !!}

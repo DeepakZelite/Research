@@ -43,4 +43,25 @@ class DbSession implements SessionRepository
 
         $this->users->update($userId, ['remember_token' => null]);
     }
+    
+    /**
+     * for restricting the same user multiple login
+     * {@inheritDoc} 
+     */
+    public function getUserSessionCount($userId)
+    {
+    	return DB::table('sessions')
+    	->where('user_id', $userId)
+    	->count();
+    }
+    
+    /**
+     * for checking the last activity of perticular user with perticular session
+     * {@inheritDoc}
+     */
+    public function getLastActivity($userId)
+    {
+    	return DB::table('sessions')->where('user_id',$userId)
+    	->select('last_activity')->get();
+    }
 }

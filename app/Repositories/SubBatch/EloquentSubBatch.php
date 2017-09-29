@@ -57,19 +57,19 @@ class EloquentSubBatch implements SubBatchRepository
     	
     	if ($userId) {
     		$query->where(function ($q) use($userId) {
-    			$q->where('sub_Batches.user_id', "=", "{$userId}");
+    			$q->where('sub_batches.user_id', "=", "{$userId}");
     		});
     	}
     	
     	if ($vendorId) {
     		$query->where(function ($q) use($vendorId) {
-    			$q->where('sub_Batches.vendor_id', "=", "{$vendorId}");
+    			$q->where('sub_batches.vendor_id', "=", "{$vendorId}");
     		});
     	}
     	
     	if ($status) {
     		$query->where(function ($q) use($status) {
-    			$q->where('sub_Batches.status', "=", "{$status}");
+    			$q->where('sub_batches.status', "=", "{$status}");
     		});
     	}
     
@@ -78,9 +78,11 @@ class EloquentSubBatch implements SubBatchRepository
     	->leftjoin('users', 'users.id', '=', 'sub_batches.user_id')
     	->leftjoin('projects','projects.id','=','sub_batches.project_id')
     	->select('sub_batches.*','projects.brief_file as brief_file' ,'batches.name as batch_name', 'users.username', 'sub_batches.seq_no as sub_batch_name','projects.code as project_code')
-    	->sortable()->paginate($perPage);
+    	->sortable()
+    	->orderBy('sub_batches.status')
+    	->paginate($perPage);
 
-    	$result = $query->orderBy('created_at', 'desc')->paginate($perPage);
+    	//$result = $query->orderBy('created_at', 'desc')->paginate($perPage);
     	   
     	if ($search) {
     		$result->appends(['search' => $search]);
@@ -143,6 +145,10 @@ class EloquentSubBatch implements SubBatchRepository
             ->get();
     }
 
+    /**
+     *
+     * {@inheritDoc}
+     */
     public function getTimespend($vendorId = null,$userId = null)
     {
     	$query = SubBatch::query();
@@ -158,5 +164,17 @@ class EloquentSubBatch implements SubBatchRepository
     			->select(DB::raw('sum(TIMESTAMPDIFF(hour,created_at,updated_at)) as count'),'batch_id')
     			->get();
     	return $result;
+    }
+    
+	/** 
+	 * {@inheritDoc}
+	 */
+    public function getUserInProcessCount($userId)
+    {
+    	$query = SubBatch::query();
+    	$result = $query->where('status',"=",'In-process')
+    					->where('user_id',"=","{$userId}")
+    					->count();
+ 		return $result;
     }
 }

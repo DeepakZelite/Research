@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h1 class="page-header">
             {{ $edit ? $project->name : trans('app.create_new_project') }}
             <small>{{ $edit ? trans('app.edit_project_details') : trans('app.project_details') }}</small>
@@ -29,24 +29,24 @@
 @endif
 
 <div class="row"  id="date">
-    <div class="col-lg-6 col-md-12 col-sm-12">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <div class="panel panel-default">
             <div class="panel-heading">@lang('app.project_details_big')</div>
             <div class="panel-body">
-              <!--   <div class="form-group">
-                    <label for="name">@lang('app.name')</label>
-                    <input type="text" class="form-control" id="name"
-                           name="name" placeholder="@lang('app.project_name')" value="{{ $edit ? $project->name : old('name') }}">
-                </div> -->
                  <div class="form-group">
                     <label for="code">@lang('app.code')<i style="color:red;">*</i></label>
-                    <input type="text" class="form-control" id="code"
+                    <input type="text" class="form-control" id="code" maxlength="8"
                            name="code" placeholder="@lang('app.code')" value="{{ $edit ? $project->code : old('code') }}" @if($edit) readonly="readonly" @endif>
                 </div>
                 <div class="form-group">
-                    <label for="No_Companies">@lang('app.number_of_companies')<i style="color:red;">*</i></label>
+                    <label for="name">@lang('app.name')</label>
+                    <input type="text" class="form-control" id="name" maxlength="60"
+                           name="name" placeholder="@lang('app.project_name')" value="{{ $edit ? $project->name : old('name') }}">
+                </div>
+                <div class="form-group" id="no_companies">
+                    <label for="No_Companies">@lang('app.number_of_companies')</label>
                     <input type="text" class="form-control" id="No_Companies" maxlength="5" onkeypress="return isNumberKey(event)"
-                           name="No_Companies" placeholder="@lang('Number of Companies')" value="{{ $edit ? $project->No_Companies : old('No_Companies') }}">
+                           name="No_Companies" placeholder="@lang('Number of Companies')" disabled value="{{ $edit ? $project->No_Companies : old('No_Companies') }}">
                 </div>
                 <div class="form-group">
                     <label for="staff">@lang('app.expected_staff')<i style="color:red;">*</i></label>
@@ -116,14 +116,14 @@
     </div>
 
 <div class="row">
-	<div class="col-md-2"></div>
-    <div class="col-md-2">
+	<div class="col-xs-4 col-sm-4 col-md-2 col-lg-2"></div>
+    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
         <button type="submit" class="btn btn-primary btn-block" id="btnSubmit">
             <i class="fa fa-save"></i>
             {{ $edit ? trans('app.update_project') : trans('app.create_project') }}
         </button>
     </div>
-    <div class="col-md-2">
+    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
         <a href="{{ route('project.list') }}" class="btn btn-primary btn-block" id="cancel">
             @lang('app.cancel')
         </a>
@@ -154,6 +154,7 @@ $(function () {
 		format: 'YYYY-MM-DD'
 			})
 });
+
 $(document).ready(function() {
 	$("#btnSubmit").click(function(event)
 			{

@@ -10,7 +10,7 @@ use Vanguard\Vendor;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-
+use Illuminate\Support\Facades\Log;
 
 
 /**
@@ -67,6 +67,7 @@ class VendorsController extends Controller
     public function store(CreateVendorRequest $request)
     {
         $data = $request->all() + ['status' => UserStatus::ACTIVE];
+        Log::debug($data);
         $vendor = $this->vendors->create($data);
         return redirect()->route('vendor.list') ->withSuccess(trans('app.vendor_created'));      
     }
@@ -78,9 +79,10 @@ class VendorsController extends Controller
      */
     public function edit(Vendor $vendor)
     {
+    	$user = Auth::user()->id;
     	$statuses = UserStatus::lists1();
         $edit = true;
-        return view('vendors.add-edit', compact('edit', 'vendor','statuses'));
+        return view('vendors.add-edit', compact('edit', 'vendor','statuses','user'));
     }
 
    /**

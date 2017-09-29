@@ -27,11 +27,17 @@ use Vanguard\Repositories\Company\CompanyRepository;
 use Vanguard\Repositories\Company\EloquentCompany;
 use Vanguard\Repositories\Contact\ContactRepository;
 use Vanguard\Repositories\Contact\EloquentContact;
+use Vanguard\Repositories\Report\ReportRepository;
+use Vanguard\Repositories\Report\EloquentReport;
 
 
 use Illuminate\Support\ServiceProvider;
 use Vanguard\Repositories\Code\CodeRepository;
 use Vanguard\Repositories\Code\EloquentCode;
+use Validator;
+use Vanguard\Repositories\Mdb\MdbRepository;
+use Vanguard\Repositories\Mdb\EloquentMdb;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -43,6 +49,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Carbon::setLocale(config('app.locale'));
+       
+        //Add this custom validation rule.
+        Validator::extend('alpha_spaces', function ($attribute, $value) {
+        	// This will only accept alpha and spaces.
+        	// If you want to accept hyphens use: /^[\pL\s-]+$/u.
+        	return preg_match('/^[\pL\s]+$/u', $value);
+        });
     }
 
     /**
@@ -65,6 +78,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(CompanyRepository::class, EloquentCompany::class);
         $this->app->singleton(ContactRepository::class, EloquentContact::class);
         $this->app->singleton(CodeRepository::class,EloquentCode::class);
+        $this->app->singleton(ReportRepository::class,EloquentReport::class);
+        $this->app->singleton(MdbRepository::class,EloquentMdb::class);
         
         if ($this->app->environment('local')) {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);

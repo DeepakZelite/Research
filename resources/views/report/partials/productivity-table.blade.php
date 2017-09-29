@@ -3,8 +3,10 @@
         	<th>@lang('app.vendor_code')</th>
             <th>@lang('app.user_name')</th>
             <th>@lang('app.hour_spend')</th>
-            <th>@lang('app.number_of_companies_processed')</th>
-            <th>@lang('app.no_of_record_processed')</th>
+            <th>@lang('app.companies_processed')</th>
+            <th>@lang('app.subsidiary_count')</th>
+            <th>@lang('app.staff_processed')</th>
+            <th>@lang('app.email_processed')</th>
             <th class="text-center">@lang('app.record_per_hour')</th>
         </thead>
         <tbody>
@@ -13,10 +15,12 @@
                     <tr>
                         <td>{{ $data->vendor_code }}</td>
                          <td>{{ $data->first_name }}  {{ $data->last_name }}</td>
-                         <td>{{ $data->hrs }}</td>
-                         <td>{{ $data->comp_count }}</td>
-                         <td>{{ $data->no_rows }}</td>
-                         <td>{{ $data->per_hour }}</td>
+                         <td>@if($data->hrs!=""){{ $data->hrs }}@else 0 @endif</td>
+                         <td> {{ $data->comp_count }} </td>
+                         <td> {{ $data->subsidiary_count }} </td>
+                         <td> {{ $data->no_rows }} </td>
+                         <td> {{ $data->email_count }}</td>
+                         <td class="text-center">{{ $data->per_hour }}</td>
                      </tr>
                  @endforeach
             @else
@@ -31,8 +35,10 @@
         		<th></th>
         		<th><span id="hourspend"></span></th>
         		<th><span id ="totalcompany"></span></th>
+        		<th><span id ="totalsubsidiary"></span></th>
         		<th><span id ="totalstaff"></span></th>
-        		<th><span id="perhour"></span></th>
+        		<th><span id ="totalEmail"></span>
+        		<th class="text-center"><span id="perhour"></span></th>
         	</tr>
         </tfoot>
     </table>
@@ -42,7 +48,11 @@ $(document).ready(function() {
 	   $('#productivity_table').dataTable({
 	    "bPaginate": false,
 	    "bFilter": false,
-	    "bInfo": false,		
+	    "bInfo": false,
+	    "sScrollX": false,
+	    dom: 'Bfrtip',
+        buttons: [{ extend: 'excelHtml5',
+            		text: '<i class="fa fa-file-excel-o fa-2x"></i>',titleAttr: 'Excel'}],		
 			"footerCallback": function ( row, data, start, end, display ) {
 					var api = this.api(), data;	 
 					// Remove the formatting to get integer data for summation
@@ -53,7 +63,7 @@ $(document).ready(function() {
 						return intVal(a) + intVal(b);
 					},0 );
 					
-					total_staff_count = api.column( 4 ).data().reduce( function (a, b) {
+					total_staff_count = api.column( 5 ).data().reduce( function (a, b) {
 						return intVal(a) + intVal(b);
 					},0 );
 
@@ -61,13 +71,24 @@ $(document).ready(function() {
 						return intVal(a) + intVal(b);
 					},0 );
 
-					avg_per_hour = api.column( 5 ).data().reduce( function (a, b) {
+					avg_per_hour = api.column( 7 ).data().reduce( function (a, b) {
 						return intVal(a) + intVal(b);
 					},0 );
+
+					subsidiary_count = api.column( 4 ).data().reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					},0 );
+
+					email = api.column( 6 ).data().reduce(function (a,b){
+							return intVal(a) + intVal(b);
+						}, 0);
+					
 					// Update footer
 					$('#totalcompany').html(total_no_companies);
 					$('#totalstaff').html(total_staff_count);	
+					$('#totalsubsidiary').html(subsidiary_count);
 					$('#hourspend').html(total_hourSpend_count);
+					$('#totalEmail').html(email);
 					$('#perhour').html(avg_per_hour);
 				},		
 		});

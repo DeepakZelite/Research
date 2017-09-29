@@ -102,5 +102,35 @@ interface BatchRepository
      * @param unknown $vendor_code
      * @param unknown $project_code
      */
-    public function getDataForProjectReport($vendor_code = null, $project_code = null);
+    public function getDataForProjectReport($vendor_code = null, $project_code = null,$project_name=null);
+    
+    /**
+     * for geting the batch count for perticular date
+     * @param unknown $batch
+     */
+    public function getBatchNameCount($batch = null);
+    
+    /**
+     * 
+     * @param unknown $projectId
+     */
+    public function getCompanyCountBasedOnProject($projectId=null);
+    
+    /**
+     * get the list of batches of perticular projects
+     * @param unknown $project_id
+     */
+    public function getProjectBatches($project_id);
+    
+    /**
+     * get Batches of perticular vendor
+     * @param unknown $vendorId
+     */
+    public function getBatchesForVendor($vendorId);
+    
+    /**
+     * Get Batches which is Reallocate for Perticular Vendor
+     * @param unknown $vendorId
+     */
+    public function getBatchesForReallocation($vendorId);
 }

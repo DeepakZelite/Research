@@ -15,10 +15,10 @@ class CreateVendorRequest extends Request
     public function rules()
     {
         return [
-            	'name' => 'required|alpha',
+            	'name' => 'required|alpha_spaces',
         		'vendor_code'=>'required|regex:/^[\w-]*$/|unique:vendors,vendor_code',
         		'location'=>'required',	
-        		'contactPerson'=>'required|alpha',
+        		'contactPerson'=>'required|regex:/^[\pL\s\-]+$/u',
         		'phone'=>'required|digits:10',
         		'email'=>'required|email',
         		'mobile'=>'digits:10'

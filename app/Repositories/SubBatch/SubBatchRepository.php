@@ -94,4 +94,10 @@ interface SubBatchRepository
 	 * @param unknown $useId
 	 */
 	public function getTimespend($vendorId = null,$userId = null);
+	
+	/**
+	 * retive the count of In-process Batch of perticular user
+	 * @param unknown $userId
+	 */
+	public function getUserInProcessCount($userId);
 }

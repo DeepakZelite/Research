@@ -14,6 +14,7 @@ use Vanguard\Repositories\User\UserRepository;
 use Vanguard\Repositories\Company\CompanyRepository;
 use Vanguard\Http\Requests\SubBatch\CreateSubBatchRequest;
 use Vanguard\Support\Enum\SubBatchStatus;
+use Illuminate\Support\Facades\Log;
 use Vanguard\Company;
 
 /**
@@ -56,17 +57,22 @@ class SubBatchesController extends Controller
 	 * @param ProjectRepository $projectRepository
 	 * @return list of subbatches with batches and user drop down list.
 	 */
-	public function index(BatchRepository $batchRepository, UserRepository $userRepository,ProjectRepository $projectRepository)
+	public function index(BatchRepository $batchRepository, UserRepository $userRepository,CompanyRepository $companyRepository)
 	{
 		$perPage = 5;
 		$subBatches = $this->subBatches->paginate($perPage, Input::get('search'),null,Input::get('status'),$this->theUser->vendor_id);
 		$statuses = ['' => trans('app.all')] + SubBatchStatus::lists1();
 		$vendorId = $this->theUser->vendor_id;
-		$batches = $batchRepository->getVendorBatches($vendorId);
-		$batches->prepend('Select Batch', '0');
-		$users = $userRepository->getVendorUsers($vendorId);
-		$users->prepend('Select User', '0');
-		return view('subBatch.list', compact('subBatches', 'statuses', 'batches', 'users'));
+		$batches = ['' => trans('') ] + $batchRepository->getVendorBatches($vendorId)->toArray();
+		//$batches->prepend('Select Batch', '0');
+		$users = ['' => trans('')] + $userRepository->getVendorUsers($vendorId)->toArray();
+// 		$users->prepend('Select User', '0');
+		foreach($subBatches as $subBatch)
+		{
+			$subBatch['count'] = $companyRepository->getAssignedCompanyCountForSubBatch($subBatch->id);
+		}
+		$batchnotify = $batchRepository->getBatchesForVendor($vendorId); 
+		return view('subBatch.list', compact('subBatches', 'statuses', 'batches', 'users','batchnotify'));
 	}
 	
 	/**
@@ -85,7 +91,12 @@ class SubBatchesController extends Controller
 			$newSeqNo = $this->subBatches->getMaxSeqNo($request->input('batch_id'))+1;
 			$vendorId =$this->theUser->vendor_id;// = Auth::user()->id;// $this->theUser->vendor_id;
 			//return $vendorId;
-			$data = $request->all() + ['status' => SubBatchStatus::ASSIGNED] + ['seq_no' => $newSeqNo] +['project_id' => "$batch->project_id"] + ['vendor_id'=>"$vendorId"];
+			if($batch->notify =='Reassign')
+			{
+				$data = $request->all() + ['status' => SubBatchStatus::INPROCESS] + ['seq_no' => $newSeqNo] +['project_id' => "$batch->project_id"] + ['vendor_id'=>"$vendorId"] + ['notify' => "Reassign"];
+			}else{
+				$data = $request->all() + ['status' => SubBatchStatus::ASSIGNED] + ['seq_no' => $newSeqNo] +['project_id' => "$batch->project_id"] + ['vendor_id'=>"$vendorId"];
+			}
 			$subBatch = $this->subBatches->create($data);
 			$companies = $this->companyRepository->getCompaniesForBatch($request->input('batch_id'), $request->input('company_count'));
 			if (count($companies)) {
@@ -123,6 +134,7 @@ class SubBatchesController extends Controller
 		if ($userId == "") {
 			$userId = 0;
 		}
+		Log::info('Total Company Count:'.$companyRepository->getTotalCompanyCount($batchId).' TotalUnAssignedCount:'.$companyRepository->getUnAssignedCount($batchId));
 		return $companyRepository->getTotalCompanyCount($batchId) . ',' . $companyRepository->getUnAssignedCount($batchId);		
 	}
 	

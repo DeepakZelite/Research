@@ -157,7 +157,8 @@ interface CompanyRepository
      * @param unknown $vendorId
      * @param unknown $userId
      */
-    public function getCompaniesForProductivityReport($vendorId = null,$userId = null);
+    //public function getCompaniesForProductivityReport($vendorId = null,$userId = null);
+    public function getCompaniesForProductivityReport($vendorId = null,$userId = null,$start_date=null,$end_date=null);
     
     /**
      * get companies id for report
@@ -165,4 +166,45 @@ interface CompanyRepository
      * @param unknown $userId
      */
     public function getcompaniesforReport($vendorId = null,$userId = null);
+    
+    /**
+     * for retriving the perticular sub-batch Completed Record for Displaying in dataCapture
+     * @param unknown $subBatchId
+     */
+    public function getAssignedCompanyCountForSubBatch($subBatchId = null);
+    
+    /**
+     * get subsidiary count for report
+     * @param unknown $vendorId
+     * @param unknown $userId
+     * @param unknown $start_date
+     * @param unknown $end_date
+     */
+    public function getSubsidiaryCompaniesForProductivityReport($vendorId = null,$userId = null,$start_date=null,$end_date=null);
+    
+    /**
+     * to get all companies of perticular batch for reassigned purpose.
+     * @param unknown $batch_id
+     */
+    public function getCompaniesForBatchForReallocation($batch_id);
+    
+    /**
+     * get Companies submitted count for report
+     * @param unknown $batchId
+     * @param unknown $userId
+     */
+    public function getSubmittedCompanyCountForReport($batchId,$userId);
+    
+    /**
+     * get Subsidiary Companies submitted count for report
+     * @param unknown $batchId
+     * @param unknown $userId
+     */
+    public function getSubmittedSubsidiaryCompanyCount($batchId=null,$userId=null);
+    
+    /**
+     * get the reassign companies for Reallocate to perticular user
+     * @param unknown $batchId
+     */
+    public function getCompaniesForBatchForReallocatedToVendor($batchId);
 }

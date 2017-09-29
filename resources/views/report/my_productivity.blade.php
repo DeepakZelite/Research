@@ -55,8 +55,10 @@
         <thead>
             <th>@lang('app.user_name')</th>
             <th>@lang('app.hour_spend')</th>
-            <th>@lang('app.number_of_companies_processed')</th>
-            <th>@lang('app.no_of_record_processed')</th>
+            <th>@lang('app.companies_processed')</th>
+            <th>@lang('app.subsidiary_count')</th>
+            <th>@lang('app.staff_processed')</th>
+            <th>@lang('app.email_processed')</th>
             <th class="text-center">@lang('app.record_per_hour')</th>
         </thead>
         <tbody>
@@ -66,8 +68,10 @@
                          <td>{{ $data->first_name }}  {{ $data->last_name }}</td>
                          <td>{{ $data->hrs }}</td>
                          <td>{{ $data->comp_count }}</td>
+                         <td>{{ $data->subsidiary_count }} </td>
                          <td>{{ $data->no_rows }}</td>
-                         <td>{{ $data['per_hour'] }}</td>
+                         <td> {{ $data->email_count }}</td>
+                         <td class="text-center">{{ $data['per_hour'] }}</td>
                      </tr>
                  @endforeach
             @else
@@ -82,15 +86,24 @@
 @stop
 @section('styles')
     {!! HTML::style('assets/css/bootstrap-datetimepicker.min.css') !!}
+    <style>
+  		div.dt-buttons {
+   			float: right;
+   			margin-left:20px;
+		}
+	</style>
 @stop
 @section('scripts')
 <script>
+var date=new Date();
 $(function () {
     $('#start_date').datetimepicker({
 					format: 'YYYY-MM-DD',
+					maxDate:date
 			});
     $('#expected_date').datetimepicker({
 		format: 'YYYY-MM-DD',
+		maxDate:date
 			});
 });
 $(document).ready(function() {
@@ -107,6 +120,15 @@ $(document).ready(function() {
 					return true;
 				}	
 	});
+
+	var table = $('#example').dataTable({
+	    "bPaginate": false,
+	    "bFilter": false,
+	    "bInfo": false,
+	    "bAutoWidth": false,
+	    	dom: 'Bfrtip',
+	        buttons: [{ extend: 'excelHtml5',text: '<i class="fa fa-file-excel-o fa-2x"></i>',titleAttr: 'Excel'}],		
+		});
 });
 </script>
 {!! HTML::script('assets/js/moment.min.js') !!}
