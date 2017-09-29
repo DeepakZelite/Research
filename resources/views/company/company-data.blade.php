@@ -366,7 +366,7 @@
                                     data-confirm-delete="@lang('app.yes')">
                                 <i class="glyphicon glyphicon-trash"></i>
                     </a>
-                   	@if($company->parent_id == '0')
+                   @if($company->parent_id == '0')
                     <a href="#" class="btn btn-primary btn-circle" data-toggle="modal"
 						data-target="#moveModal" title="@lang('app.move_staff')"
 						onclick="moveContact({{ $company->id }},{{ $contact->id }});" data-toggle="tooltip"

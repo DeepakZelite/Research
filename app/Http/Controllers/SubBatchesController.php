@@ -91,7 +91,12 @@ class SubBatchesController extends Controller
 			$newSeqNo = $this->subBatches->getMaxSeqNo($request->input('batch_id'))+1;
 			$vendorId =$this->theUser->vendor_id;// = Auth::user()->id;// $this->theUser->vendor_id;
 			//return $vendorId;
-			$data = $request->all() + ['status' => SubBatchStatus::ASSIGNED] + ['seq_no' => $newSeqNo] +['project_id' => "$batch->project_id"] + ['vendor_id'=>"$vendorId"];
+			if($batch->notify =='Reassign')
+			{
+				$data = $request->all() + ['status' => SubBatchStatus::INPROCESS] + ['seq_no' => $newSeqNo] +['project_id' => "$batch->project_id"] + ['vendor_id'=>"$vendorId"] + ['notify' => "Reassign"];
+			}else{
+				$data = $request->all() + ['status' => SubBatchStatus::ASSIGNED] + ['seq_no' => $newSeqNo] +['project_id' => "$batch->project_id"] + ['vendor_id'=>"$vendorId"];
+			}
 			$subBatch = $this->subBatches->create($data);
 			$companies = $this->companyRepository->getCompaniesForBatch($request->input('batch_id'), $request->input('company_count'));
 			if (count($companies)) {

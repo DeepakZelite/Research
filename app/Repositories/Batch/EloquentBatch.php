@@ -206,7 +206,7 @@ class EloquentBatch implements BatchRepository
 //     	$query->where('project_id',"=",'{$project_id}');
 //     	$result = $query->where('status',"=",'Complete')->lists('name', 'id')->toArray();
 //     	return $result;
-    	return Batch::where('project_id', $project_id)->lists('name', 'id')->toArray();
+    	return Batch::where('project_id', $project_id)->where('status','Complete')->lists('name', 'id')->toArray();
     }
     
     public function getBatchesForVendor($vendorId)

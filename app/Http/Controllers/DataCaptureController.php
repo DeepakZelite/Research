@@ -296,7 +296,7 @@ class DataCaptureController extends Controller
 	 * @param CreateCompanyRequest $request
 	 * @return datacapture scrren with child company.
 	 */
-	public function addCompany(Company $companyId, CreateCompanyRequest $request)
+	public function addCompany(Company $companyId, CreateCompanyRequest $request,ReportRepository $reportRepository)
 	{
 		$data =['parent_id' => $companyId->id] + 
 		['user_id' => $this->theUser->id] + 
@@ -307,6 +307,25 @@ class DataCaptureController extends Controller
 		['parent_company' => $companyId->company_name] +
 		['company_instructions' => $companyId->company_instructions];
  		$newCompany = $this->companyRepository->create($data);
+ 		
+ 		$users = $reportRepository->get_id_for_stoptime($this->theUser->id);
+ 		foreach($users as $user)
+ 		{
+ 			$data = Report::find($user->id);
+ 			$data->stop_time = Carbon::now();
+ 			$date=Carbon::parse($data->start_time);
+ 			$time=$date->diff(Carbon::now());
+ 			if($time->format('%H') != 0)
+ 			{
+ 				$hour = $time->format('%H');
+ 				$min = ($hour * 60) + $time->format('%i');
+ 				$data->time = $min;
+ 			}else{
+ 				$data->time = $time->format('%i');
+ 			}
+ 			$data->save();
+ 			//Log::info($user->id."start_time".$data->start_time."count".$time->format('%s'));
+ 		}
  		return redirect()->route('dataCapture.capture', $companyId->sub_batch_id)->withSuccess(trans('app.Added_Child_Company'));
 	}
 	
@@ -489,9 +508,12 @@ class DataCaptureController extends Controller
 	{
 		$company = $comapnyRepository->find($contact->company_id);
 		$parentId = $company->parent_id;
-		$contacts = $contactRepository->find($contact->id);
-		$contacts->company_id = $parentId;
-		$contacts->save();
+		if($parentId != "" || !empty($company->parent_id))
+		{
+			$contacts = $contactRepository->find($contact->id);
+			$contacts->company_id = $parentId;
+			$contacts->save();
+		}
 		return redirect()->route('dataCapture.capture', $company->sub_batch_id)->withSuccess(trans('app.staff_transfer_to_parent'));
 	}
 }
